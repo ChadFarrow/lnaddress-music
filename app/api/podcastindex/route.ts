@@ -94,15 +94,36 @@ function convertPodcastIndexToRSS(data: any): string {
   const feed = data.feed || {};
   const items = data.items || [];
 
+  // Build value tags from PodcastIndex data
+  const buildValueTags = (feed: any) => {
+    if (!feed.value || !feed.value.destinations || !Array.isArray(feed.value.destinations)) {
+      return '';
+    }
+
+    const valueRecipients = feed.value.destinations.map((dest: any) => {
+      return `      <podcast:valueRecipient 
+        type="${escapeXml(dest.type || 'node')}"
+        address="${escapeXml(dest.address || '')}"
+        split="${dest.split || 100}"${dest.name ? `\n        name="${escapeXml(dest.name)}"` : ''}${dest.customKey ? `\n        customKey="${escapeXml(dest.customKey)}"` : ''}${dest.customValue ? `\n        customValue="${escapeXml(dest.customValue)}"` : ''}${dest.fee ? `\n        fee="${dest.fee}"` : ''} />`;
+    }).join('\n');
+
+    return `    <podcast:value 
+      type="${escapeXml(feed.value.model?.type || 'lightning')}"
+      method="${escapeXml(feed.value.model?.method || 'keysend')}"${feed.value.model?.suggested ? `\n      suggested="${escapeXml(feed.value.model.suggested)}"` : ''}>
+${valueRecipients}
+    </podcast:value>`;
+  };
+
   // Build RSS XML from PodcastIndex data
   const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0">
   <channel>
     <title>${escapeXml(feed.title || 'Unknown Title')}</title>
     <description>${escapeXml(feed.description || '')}</description>
     <link>${escapeXml(feed.link || '')}</link>
     <itunes:author>${escapeXml(feed.author || feed.ownerName || '')}</itunes:author>
     <itunes:image href="${escapeXml(feed.image || feed.artwork || '')}" />
+${buildValueTags(feed)}
     ${items.map((item: any) => `
     <item>
       <title>${escapeXml(item.title || '')}</title>
@@ -111,6 +132,7 @@ function convertPodcastIndexToRSS(data: any): string {
       <pubDate>${new Date(item.datePublished * 1000).toUTCString()}</pubDate>
       <itunes:duration>${item.duration || 0}</itunes:duration>
       <itunes:image href="${escapeXml(item.image || feed.image || '')}" />
+${buildValueTags(item)}
     </item>`).join('')}
   </channel>
 </rss>`;

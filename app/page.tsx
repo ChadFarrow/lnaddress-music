@@ -10,6 +10,9 @@ import { toast } from '@/components/Toast';
 import { preloadCriticalColors } from '@/lib/performance-utils';
 import dynamic from 'next/dynamic';
 
+// Import Lightning components
+import { BitcoinConnectWallet } from '@/components/BitcoinConnect';
+
 // Optimized dynamic imports with reduced loading states
 const AlbumCard = dynamic(() => import('@/components/AlbumCardLazy'), {
   loading: () => (
@@ -477,15 +480,18 @@ export default function HomePage() {
                     />
                   </div>
                 </div>
-                <Link 
-                  href="/about" 
-                  className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
-                >
-                  <span className="text-sm">About</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </Link>
+                <div className="flex items-center gap-3">
+                  <BitcoinConnectWallet />
+                  <Link 
+                    href="/about" 
+                    className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                  >
+                    <span className="text-sm">About</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </Link>
+                </div>
               </div>
               <div className="text-center">
                 <h1 className="text-xl font-bold mb-1">Into the Doerfel-Verse</h1>
@@ -524,7 +530,8 @@ export default function HomePage() {
 
 
                 </div>
-                <div className="absolute right-0">
+                <div className="absolute right-0 flex items-center gap-4">
+                  <BitcoinConnectWallet />
                   <Link 
                     href="/about" 
                     className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
@@ -573,7 +580,18 @@ export default function HomePage() {
             <h2 className="text-lg font-bold mb-4">Menu</h2>
             
             <div className="mb-4 space-y-1">
-                            <Link 
+              <Link 
+                href="/lightning-demo" 
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <svg className="w-4 h-4 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span className="text-sm">Lightning Payments</span>
+              </Link>
+              
+              <Link 
                 href="/about" 
                 className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
                 onClick={() => setIsSidebarOpen(false)}

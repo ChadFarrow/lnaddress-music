@@ -3,7 +3,9 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Play, Pause, Music } from 'lucide-react';
+import { Play, Pause, Music, Zap } from 'lucide-react';
+import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
+import type { RSSValue, RSSValueRecipient } from '@/lib/rss-parser';
 
 interface Track {
   title: string;
@@ -23,6 +25,7 @@ interface Album {
   feedId: string;
   feedUrl?: string;
   funding?: any[];
+  value?: RSSValue;
   podroll?: any[];
   publisher?: {
     feedGuid: string;
@@ -43,6 +46,8 @@ export default function AlbumCard({ album, isPlaying = false, onPlay, className 
   const [imageError, setImageError] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [showTipSuccess, setShowTipSuccess] = useState(false);
+  const [showTipModal, setShowTipModal] = useState(false);
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -81,6 +86,52 @@ export default function AlbumCard({ album, isPlaying = false, onPlay, className 
   const handleImageError = () => {
     setImageError(true);
     setImageLoaded(false);
+  };
+
+  const handleTipSuccess = (response: any) => {
+    setShowTipSuccess(true);
+    setShowTipModal(false);
+    setTimeout(() => setShowTipSuccess(false), 3000);
+  };
+
+  const handleTipError = (error: string) => {
+    console.error('Tip failed:', error);
+  };
+
+  // Get Lightning payment recipients from RSS value data
+  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
+    console.log('🔍 Checking album for podcast:value data:', album.title, { 
+      hasValue: !!album.value,
+      valueType: album.value?.type,
+      valueMethod: album.value?.method,
+      recipients: album.value?.recipients?.length || 0
+    });
+    
+    // If album has podcast:value Lightning recipients, return all recipients
+    if (album.value && album.value.type === 'lightning' && album.value.method === 'keysend') {
+      const recipients = album.value.recipients
+        .filter(r => r.type === 'node') // Only include node recipients
+        .map(r => ({
+          address: r.address,
+          split: r.split,
+          name: r.name,
+          fee: r.fee
+        }));
+      
+      console.log('✅ Found podcast:value recipients:', recipients);
+      return recipients;
+    }
+    
+    console.log('❌ No podcast:value data found, using fallback');
+    return null; // Will use fallback single recipient
+  };
+  
+  // Get fallback recipient for backwards compatibility
+  const getFallbackRecipient = (): { address: string; amount: number } => {
+    return {
+      address: '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
+      amount: 50
+    };
   };
 
   const getAlbumUrl = (album: Album) => {
@@ -214,12 +265,32 @@ export default function AlbumCard({ album, isPlaying = false, onPlay, className 
           </button>
         </div>
 
-        {/* Track count badge */}
-        {album.tracks.length > 0 && (
-          <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-black/50 backdrop-blur-sm rounded-full px-1.5 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs text-white">
-            {album.tracks.length} {album.tracks.length !== 1 ? 'tracks' : 'track'}
-          </div>
-        )}
+        {/* Track count badge and Lightning tip */}
+        <div className="absolute top-1 right-1 sm:top-2 sm:right-2 flex items-center gap-1 sm:gap-2">
+          {showTipSuccess && (
+            <div className="bg-green-500/90 backdrop-blur-sm rounded-full px-2 py-1 text-[10px] text-white animate-pulse">
+              ⚡ Tipped!
+            </div>
+          )}
+          
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowTipModal(true);
+            }}
+            className="w-6 h-6 sm:w-7 sm:h-7 bg-yellow-500/90 hover:bg-yellow-600/90 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors z-10"
+            aria-label={`Tip ${album.artist}`}
+          >
+            <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
+          </button>
+          
+          {album.tracks.length > 0 && (
+            <div className="bg-black/50 backdrop-blur-sm rounded-full px-1.5 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs text-white">
+              {album.tracks.length} {album.tracks.length !== 1 ? 'tracks' : 'track'}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Album Info */}
@@ -246,6 +317,54 @@ export default function AlbumCard({ album, isPlaying = false, onPlay, className 
         <div className="absolute inset-0 bg-white/5 opacity-0 group-active:opacity-100 transition-opacity duration-150" />
       </div>
       </Link>
+      
+      {/* Tip Modal */}
+      {showTipModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="relative bg-gray-900 rounded-2xl shadow-2xl max-w-sm w-full">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-yellow-500" />
+                  Tip Artist
+                </h3>
+                <button
+                  onClick={() => setShowTipModal(false)}
+                  className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+                >
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 mx-auto mb-3 rounded-lg overflow-hidden">
+                  <Image
+                    src={album.coverArt}
+                    alt={album.title}
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <p className="text-white font-semibold">{album.title}</p>
+                <p className="text-gray-400 text-sm">{album.artist}</p>
+              </div>
+              
+              <BitcoinConnectPayment
+                amount={50}
+                description={`Tip for ${album.title} by ${album.artist}`}
+                onSuccess={handleTipSuccess}
+                onError={handleTipError}
+                className="w-full"
+                recipients={getPaymentRecipients()}
+                recipient={getFallbackRecipient().address}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

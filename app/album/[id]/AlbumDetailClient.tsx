@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
 import { useAudio } from '@/contexts/AudioContext';
+import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
+import type { RSSValue } from '@/lib/rss-parser';
 import dynamic from 'next/dynamic';
 import { filterPodrollItems } from '@/lib/podroll-utils';
 
@@ -60,6 +62,7 @@ interface Album {
   feedUrl?: string;
   funding?: RSSFunding[];
   podroll?: RSSPodRoll[];
+  value?: RSSValue;
   publisher?: {
     feedGuid: string;
     feedUrl: string;
@@ -89,6 +92,53 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     resume: globalResume,
     toggleShuffle
   } = useAudio();
+
+  // Lightning payment handlers
+  const handleTipSuccess = (response: any) => {
+    console.log('✅ Tip successful:', response);
+  };
+
+  const handleTipError = (error: string) => {
+    console.error('❌ Tip failed:', error);
+  };
+
+  // Get Lightning payment recipients from RSS value data
+  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
+    if (!album) return null;
+    
+    console.log('🔍 Checking album for podcast:value data:', album.title, { 
+      hasValue: !!album.value,
+      valueType: album.value?.type,
+      valueMethod: album.value?.method,
+      recipients: album.value?.recipients?.length || 0
+    });
+    
+    // If album has podcast:value Lightning recipients, return all recipients
+    if (album.value && album.value.type === 'lightning' && album.value.method === 'keysend') {
+      const recipients = album.value.recipients
+        .filter(r => r.type === 'node') // Only include node recipients
+        .map(r => ({
+          address: r.address,
+          split: r.split,
+          name: r.name,
+          fee: r.fee
+        }));
+      
+      console.log('✅ Found podcast:value recipients:', recipients);
+      return recipients;
+    }
+    
+    console.log('❌ No podcast:value data found, using fallback');
+    return null; // Will use fallback single recipient
+  };
+  
+  // Get fallback recipient for backwards compatibility
+  const getFallbackRecipient = (): { address: string; amount: number } => {
+    return {
+      address: '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
+      amount: 50
+    };
+  };
   
   // Background state
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
@@ -560,6 +610,18 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                       <p className="text-gray-300 leading-relaxed">{album.description}</p>
                     </div>
                   )}
+
+                  {/* Lightning Payment Button */}
+                  <div className="flex justify-center lg:justify-start mb-6">
+                    <BitcoinConnectPayment
+                      amount={50}
+                      description={`Tip for ${album.title} by ${album.artist}`}
+                      onSuccess={handleTipSuccess}
+                      onError={handleTipError}
+                      recipients={getPaymentRecipients()}
+                      recipient={getFallbackRecipient().address}
+                    />
+                  </div>
                 </div>
 
                 {/* Play Controls */}

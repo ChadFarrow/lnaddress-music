@@ -8,6 +8,7 @@ import ClientErrorBoundary from '@/components/ClientErrorBoundary'
 import { ToastContainer } from '@/components/Toast'
 import PerformanceMonitor from '@/components/PerformanceMonitor'
 import { AudioProvider } from '@/contexts/AudioContext'
+import { BitcoinConnectProvider } from '@/contexts/BitcoinConnectContext'
 import GlobalNowPlayingBar from '@/components/GlobalNowPlayingBar'
 
 
@@ -100,14 +101,16 @@ export default function RootLayout({
         <ClientErrorBoundary>
           <ErrorBoundary>
             <AudioProvider>
-              <div className="min-h-screen bg-gray-50 relative">
-                {/* Content overlay */}
-                <div className="relative z-10">
-                  {children}
+              <BitcoinConnectProvider>
+                <div className="min-h-screen bg-gray-50 relative">
+                  {/* Content overlay */}
+                  <div className="relative z-10">
+                    {children}
+                  </div>
                 </div>
-              </div>
-              <GlobalNowPlayingBar />
-              <ToastContainer />
+                <GlobalNowPlayingBar />
+                <ToastContainer />
+              </BitcoinConnectProvider>
             </AudioProvider>
           </ErrorBoundary>
           <ServiceWorkerRegistration />

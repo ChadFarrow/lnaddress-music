@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Zap, Wallet } from 'lucide-react';
+import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 
 declare global {
   namespace JSX {
@@ -87,58 +88,27 @@ export function BitcoinConnectPayment({
   description = 'Support the creator',
   onSuccess,
   onError,
-  className = ''
+  className = '',
+  recipient = '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
+  recipients
 }: {
   amount?: number;
   description?: string;
   onSuccess?: (response: any) => void;
   onError?: (error: string) => void;
   className?: string;
+  recipient?: string;
+  recipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>;
 }) {
   const [mounted, setMounted] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { isConnected } = useBitcoinConnect();
 
   useEffect(() => {
     const loadBitcoinConnect = async () => {
       try {
         await import('@getalby/bitcoin-connect');
         setMounted(true);
-        
-        // Check initial connection state
-        if ((window as any).webln?.enabled) {
-          setIsConnected(true);
-        }
-
-        // Listen for connection events
-        const handleConnected = () => setIsConnected(true);
-        const handleDisconnected = () => setIsConnected(false);
-
-        window.addEventListener('bc:connected', handleConnected);
-        window.addEventListener('bc:disconnected', handleDisconnected);
-
-        // Periodically check connection status
-        const checkConnection = () => {
-          const weblnEnabled = !!(window as any).webln?.enabled;
-          const bcConnected = localStorage.getItem('bc:connectorType');
-          const nwcConnected = localStorage.getItem('nwc_connection_string');
-          const anyConnection = weblnEnabled || bcConnected || nwcConnected;
-          
-          console.log('🔄 Bitcoin Connect status - webln:', weblnEnabled, 'bc:', !!bcConnected, 'nwc:', !!nwcConnected, 'enabling:', anyConnection);
-          
-          // Enable if any wallet is connected
-          if (!!anyConnection !== isConnected) {
-            setIsConnected(!!anyConnection);
-          }
-        };
-
-        const interval = setInterval(checkConnection, 1000);
-
-        return () => {
-          window.removeEventListener('bc:connected', handleConnected);
-          window.removeEventListener('bc:disconnected', handleDisconnected);
-          clearInterval(interval);
-        };
       } catch (error) {
         console.error('Failed to load Bitcoin Connect:', error);
       }
@@ -155,47 +125,116 @@ export function BitcoinConnectPayment({
     try {
       const webln = (window as any).webln;
       
+      // Determine recipients to use
+      const paymentsToMake = recipients || [{ address: recipient, split: 100, name: 'Single recipient' }];
+      console.log(`⚡ Processing payments to ${paymentsToMake.length} recipients:`, paymentsToMake);
+      
+      // Calculate total split value for proportional payments
+      const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);
+      const results: any[] = [];
+      
       // Try WebLN first if available
       if (weblnEnabled && webln.keysend) {
-        console.log(`⚡ Bitcoin Connect WebLN keysend: ${amount} sats for "${description}"`);
+        console.log(`⚡ Bitcoin Connect WebLN keysend: ${amount} sats split among recipients for "${description}"`);
         
-        const response = await webln.keysend({
-          destination: '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
-          amount: amount * 1000,
-          customRecords: {
-            7629169: description
+        const errors: string[] = [];
+        
+        for (const recipientData of paymentsToMake) {
+          // Calculate proportional amount based on split
+          const recipientAmount = Math.floor((amount * recipientData.split) / totalSplit);
+          
+          if (recipientAmount > 0) {
+            console.log(`⚡ Sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
+            
+            try {
+              const response = await webln.keysend({
+                destination: recipientData.address,
+                amount: recipientAmount * 1000,
+                customRecords: {
+                  7629169: `${description} - ${recipientData.name || 'Recipient'}`
+                }
+              });
+              
+              console.log(`✅ Payment to ${recipientData.name || recipientData.address} successful:`, response);
+              results.push({ recipient: recipientData.name || recipientData.address, amount: recipientAmount, response });
+            } catch (paymentError) {
+              console.error(`❌ Payment to ${recipientData.name || recipientData.address} threw error:`, paymentError);
+              errors.push(`Payment to ${recipientData.name || recipientData.address} error: ${paymentError instanceof Error ? paymentError.message : String(paymentError)}`);
+            }
+          } else {
+            console.log(`⏭️ Skipping ${recipientData.name || recipientData.address} - calculated amount is 0 sats`);
           }
-        });
+        }
         
-        console.log('✅ Bitcoin Connect WebLN payment successful:', response);
-        onSuccess?.(response);
+        // Report results
+        if (results.length > 0) {
+          console.log(`✅ Bitcoin Connect WebLN payments - ${results.length}/${paymentsToMake.length} successful:`, results);
+          if (errors.length > 0) {
+            console.warn(`⚠️ Some payments failed:`, errors);
+          }
+          onSuccess?.(results);
+        } else if (errors.length > 0) {
+          console.error('❌ All payments failed:', errors);
+          throw new Error(`All payments failed: ${errors.join(', ')}`);
+        }
       } else {
         // Fallback: Use NWC service for real payments
-        console.log(`⚡ Bitcoin Connect using NWC backend: ${amount} sats to test address`);
+        console.log(`⚡ Bitcoin Connect using NWC backend: ${amount} sats split among recipients`);
         
         // Import NWC service dynamically to avoid circular dependencies
         const { getNWCService } = await import('../lib/nwc-service');
         const nwcService = getNWCService();
         
         if (nwcService.isConnected()) {
-          // Make real keysend payment via NWC
-          const tlvRecords = [{
-            type: 7629169,
-            value: Buffer.from(description, 'utf8').toString('hex')
-          }];
+          const errors: string[] = [];
           
-          const response = await nwcService.payKeysend(
-            '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
-            amount,
-            tlvRecords
-          );
-          
-          if (response.error) {
-            throw new Error(response.error);
+          for (const recipientData of paymentsToMake) {
+            // Calculate proportional amount based on split
+            const recipientAmount = Math.floor((amount * recipientData.split) / totalSplit);
+            
+            if (recipientAmount > 0) {
+              console.log(`⚡ Sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
+              
+              try {
+                // Make real keysend payment via NWC
+                const tlvRecords = [{
+                  type: 7629169,
+                  value: Buffer.from(`${description} - ${recipientData.name || 'Recipient'}`, 'utf8').toString('hex')
+                }];
+                
+                const response = await nwcService.payKeysend(
+                  recipientData.address,
+                  recipientAmount,
+                  tlvRecords
+                );
+                
+                if (response.error) {
+                  console.error(`❌ Payment to ${recipientData.name || recipientData.address} failed:`, response.error);
+                  errors.push(`Payment to ${recipientData.name || recipientData.address} failed: ${response.error}`);
+                } else {
+                  console.log(`✅ Payment to ${recipientData.name || recipientData.address} successful:`, response);
+                  results.push({ recipient: recipientData.name || recipientData.address, amount: recipientAmount, response });
+                }
+              } catch (paymentError) {
+                console.error(`❌ Payment to ${recipientData.name || recipientData.address} threw error:`, paymentError);
+                errors.push(`Payment to ${recipientData.name || recipientData.address} error: ${paymentError instanceof Error ? paymentError.message : String(paymentError)}`);
+              }
+            } else {
+              console.log(`⏭️ Skipping ${recipientData.name || recipientData.address} - calculated amount is 0 sats`);
+            }
           }
           
-          console.log('✅ Bitcoin Connect NWC payment successful:', response);
-          onSuccess?.(response.preimage || 'nwc_payment_success');
+          // Report results
+          if (results.length > 0) {
+            console.log(`✅ Bitcoin Connect NWC payments - ${results.length}/${paymentsToMake.length} successful:`, results);
+            if (errors.length > 0) {
+              console.warn(`⚠️ Some payments failed:`, errors);
+            }
+            onSuccess?.(results);
+          } else if (errors.length > 0) {
+            console.error('❌ All payments failed:', errors);
+            throw new Error(`All payments failed: ${errors.join(', ')}`);
+          }
         } else {
           throw new Error('No wallet connection available');
         }

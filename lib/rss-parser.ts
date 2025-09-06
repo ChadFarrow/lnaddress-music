@@ -19,6 +19,23 @@ export interface RSSFunding {
   message?: string;
 }
 
+export interface RSSValueRecipient {
+  type: string;
+  address: string;
+  split: number;
+  name?: string;
+  customKey?: string;
+  customValue?: string;
+  fee?: boolean;
+}
+
+export interface RSSValue {
+  type: string;
+  method: string;
+  suggested?: string;
+  recipients: RSSValueRecipient[];
+}
+
 export interface RSSPodRoll {
   url: string;
   title?: string;
@@ -48,6 +65,7 @@ export interface RSSAlbum {
   duration?: string;
   link?: string;
   funding?: RSSFunding[];
+  value?: RSSValue;
   subtitle?: string;
   summary?: string;
   keywords?: string[];
@@ -534,6 +552,63 @@ export class RSSParser {
         }
       });
       
+      // Extract value information (podcast:value)
+      let value: RSSValue | undefined;
+      
+      // Try both namespaced and non-namespaced versions for value
+      const valueElements1 = Array.from(channel.getElementsByTagName('podcast:value'));
+      const valueElements2 = Array.from(channel.getElementsByTagName('value'));
+      const allValueElements = [...valueElements1, ...valueElements2];
+      
+      if (allValueElements.length > 0) {
+        const valueElement = allValueElements[0] as Element;
+        const type = valueElement.getAttribute('type');
+        const method = valueElement.getAttribute('method');
+        const suggested = valueElement.getAttribute('suggested');
+        
+        if (type && method) {
+          // Extract value recipients
+          const recipients: RSSValueRecipient[] = [];
+          const recipientElements1 = Array.from(valueElement.getElementsByTagName('podcast:valueRecipient'));
+          const recipientElements2 = Array.from(valueElement.getElementsByTagName('valueRecipient'));
+          const allRecipientElements = [...recipientElements1, ...recipientElements2];
+          
+          allRecipientElements.forEach((recipientElement: unknown) => {
+            const element = recipientElement as Element;
+            const recipientType = element.getAttribute('type');
+            const address = element.getAttribute('address');
+            const splitStr = element.getAttribute('split');
+            const split = splitStr ? parseInt(splitStr, 10) : 0;
+            const name = element.getAttribute('name');
+            const customKey = element.getAttribute('customKey');
+            const customValue = element.getAttribute('customValue');
+            const feeStr = element.getAttribute('fee');
+            const fee = feeStr ? feeStr.toLowerCase() === 'true' : false;
+            
+            if (recipientType && address && split > 0) {
+              recipients.push({
+                type: recipientType,
+                address: address,
+                split: split,
+                name: name || undefined,
+                customKey: customKey || undefined,
+                customValue: customValue || undefined,
+                fee: fee
+              });
+            }
+          });
+          
+          if (recipients.length > 0) {
+            value = {
+              type: type,
+              method: method,
+              suggested: suggested || undefined,
+              recipients: recipients
+            };
+          }
+        }
+      }
+      
       // Extract PodRoll information  
       const podroll: RSSPodRoll[] = [];
       
@@ -636,6 +711,7 @@ export class RSSParser {
         releaseDate,
         link,
         funding: funding.length > 0 ? funding : undefined,
+        value: value,
         subtitle: cleanHtmlContent(subtitle),
         summary: cleanHtmlContent(summary),
         keywords: keywords.length > 0 ? keywords : undefined,
