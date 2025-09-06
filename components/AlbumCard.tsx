@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Play, Pause, Music, Zap } from 'lucide-react';
@@ -41,7 +41,7 @@ interface AlbumCardProps {
   className?: string;
 }
 
-export default function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCardProps) {
+function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -147,13 +147,16 @@ export default function AlbumCard({ album, isPlaying = false, onPlay, className 
   const albumUrl = getAlbumUrl(album);
   
   // Only log in development mode to improve production performance
-  if (process.env.NODE_ENV === 'development') {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
-    if (isMobile) {
-      console.log(`Mobile album card for "${album.title}": coverArt=${album.coverArt}`);
+  // Log only once when component mounts (not on every render)
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+      if (isMobile) {
+        console.log(`Mobile album card for "${album.title}": coverArt=${album.coverArt}`);
+      }
+      console.log(`🎵 Album card mounted: "${album.title}" -> URL: ${albumUrl}`);
     }
-    console.log(`🎵 Album card: "${album.title}" -> URL: ${albumUrl}`);
-  }
+  }, []); // Empty dependency array = only run once on mount
 
   return (
     <div className={`group relative bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] block ${className}`}>
@@ -265,14 +268,8 @@ export default function AlbumCard({ album, isPlaying = false, onPlay, className 
           </button>
         </div>
 
-        {/* Track count badge and Lightning tip */}
-        <div className="absolute top-1 right-1 sm:top-2 sm:right-2 flex items-center gap-1 sm:gap-2">
-          {showTipSuccess && (
-            <div className="bg-green-500/90 backdrop-blur-sm rounded-full px-2 py-1 text-[10px] text-white animate-pulse">
-              ⚡ Tipped!
-            </div>
-          )}
-          
+        {/* Lightning tip button - moved to top left */}
+        <div className="absolute top-1 left-1 sm:top-2 sm:left-2 flex items-center gap-1 sm:gap-2">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -285,12 +282,19 @@ export default function AlbumCard({ album, isPlaying = false, onPlay, className 
             <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
           </button>
           
-          {album.tracks.length > 0 && (
-            <div className="bg-black/50 backdrop-blur-sm rounded-full px-1.5 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs text-white">
-              {album.tracks.length} {album.tracks.length !== 1 ? 'tracks' : 'track'}
+          {showTipSuccess && (
+            <div className="bg-green-500/90 backdrop-blur-sm rounded-full px-2 py-1 text-[10px] text-white animate-pulse">
+              ⚡ Tipped!
             </div>
           )}
         </div>
+        
+        {/* Track count badge - kept on the right */}
+        {album.tracks.length > 0 && (
+          <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-black/50 backdrop-blur-sm rounded-full px-1.5 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs text-white">
+            {album.tracks.length} {album.tracks.length !== 1 ? 'tracks' : 'track'}
+          </div>
+        )}
       </div>
 
       {/* Album Info */}
@@ -368,3 +372,6 @@ export default function AlbumCard({ album, isPlaying = false, onPlay, className 
     </div>
   );
 }
+
+// Wrap with React.memo to prevent unnecessary re-renders
+export default memo(AlbumCard);

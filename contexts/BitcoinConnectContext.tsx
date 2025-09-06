@@ -39,9 +39,13 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
       
       const anyConnection = weblnEnabled || bcConnected || nwcConnected || nwcServiceConnected;
       
-      console.log('🔄 Global Bitcoin Connect status - webln:', weblnEnabled, 'bc:', !!bcConnected, 'nwc:', !!nwcConnected, 'nwcService:', nwcServiceConnected, 'enabling:', anyConnection);
+      // Only log if connection status actually changed to reduce console spam
+      const currentStatus = !!anyConnection;
+      if (isConnected !== currentStatus) {
+        console.log('🔄 Bitcoin Connect status changed:', currentStatus ? 'connected' : 'disconnected');
+      }
       
-      setIsConnected(!!anyConnection);
+      setIsConnected(currentStatus);
       return !!anyConnection;
     } catch (error) {
       console.error('Error checking connection:', error);
@@ -67,8 +71,8 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
     window.addEventListener('bc:connected', handleConnected);
     window.addEventListener('bc:disconnected', handleDisconnected);
 
-    // Check connection status periodically
-    const interval = setInterval(checkConnection, 2000);
+    // Check connection status periodically (less frequently to avoid performance issues)
+    const interval = setInterval(checkConnection, 30000); // Every 30 seconds instead of 2
 
     return () => {
       window.removeEventListener('bc:connected', handleConnected);
