@@ -18,64 +18,24 @@ async function getAlbumData(albumId: string) {
                      ? 'https://itdv-site.vercel.app' 
                      : 'http://localhost:3000');
     
-    // Try database-free endpoint first (includes publisher data), fallback to static
-    let response = await fetch(`${baseUrl}/api/albums-no-db`, {
-      next: { revalidate: 60 }, // Cache for 1 minute
-    });
+    console.log(`🚀 Fetching single album: ${albumId}`);
+    const startTime = Date.now();
     
-    if (!response.ok) {
-      console.log('Database-free endpoint failed, falling back to static...');
-      response = await fetch(`${baseUrl}/api/albums-static`, {
-        next: { revalidate: 300 }, // Cache for 5 minutes
-      });
-    }
+    // Use the new optimized single-album endpoint
+    const response = await fetch(`${baseUrl}/api/album/${encodeURIComponent(albumId)}`, {
+      next: { revalidate: 300 }, // Cache for 5 minutes
+    });
+
+    const fetchTime = Date.now() - startTime;
+    console.log(`⏱️ Album API fetch took: ${fetchTime}ms`);
 
     if (!response.ok) {
-      console.error('Failed to fetch albums:', response.status);
+      console.error('Failed to fetch album:', response.status);
       return null;
     }
 
     const data = await response.json();
-    const albums = data.albums || [];
-    
-    // Try to find album by ID or title
-    const decodedId = decodeURIComponent(albumId);
-    
-    // Helper function to create URL slug (same as homepage)
-    const createSlug = (title: string) => 
-      title.toLowerCase()
-        .replace(/\s+/g, '-')           // Replace spaces with dashes
-        .replace(/-+/g, '-')            // Replace multiple consecutive dashes with single dash
-        .replace(/^-+|-+$/g, '');       // Remove leading/trailing dashes
-    
-    // Find all matching albums first
-    const matchingAlbums = albums.filter((a: any) => {
-      const feedMatch = a.feedId === albumId;
-      const titleMatch = a.title.toLowerCase() === decodedId.toLowerCase();
-      const slugMatch = createSlug(a.title) === decodedId.toLowerCase();
-      const compatMatch = a.title.toLowerCase().replace(/\s+/g, '-') === decodedId.toLowerCase();
-      
-      // Flexible matching: check if the album title starts with the decoded ID
-      // This handles cases like "Inside Out - Single" matching "inside-out"
-      const baseTitle = a.title.toLowerCase().split(/\s*[-–]\s*/)[0]; // Split on dash or em-dash
-      const baseTitleSlug = createSlug(baseTitle);
-      const flexibleMatch = baseTitleSlug === decodedId.toLowerCase();
-      
-      return feedMatch || titleMatch || slugMatch || compatMatch || flexibleMatch;
-    });
-    
-    // If multiple matches, prioritize albums with publisher data
-    let album = null;
-    if (matchingAlbums.length > 1) {
-      // First try to find one with publisher data
-      album = matchingAlbums.find((a: any) => a.publisher);
-      // If no publisher data found, use the first match
-      if (!album) album = matchingAlbums[0];
-    } else if (matchingAlbums.length === 1) {
-      album = matchingAlbums[0];
-    }
-
-    return album || null;
+    return data.album || null;
   } catch (error) {
     console.error('Error fetching album data:', error);
     return null;

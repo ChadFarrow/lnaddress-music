@@ -240,27 +240,35 @@ export default function HomePage() {
         }
       }
 
-      // Use fast static album data (publishers are loaded separately from static file)
-      let response = await fetch('/api/albums-static' + (loadTier === 'core' ? '?priority=high' : ''));
+      // Use static cached data for fast loading
+      console.log('🔄 Loading albums from static cache...');
+      let response = await fetch('/api/albums-static-cached');
       let data;
       
       if (response.ok) {
         data = await response.json();
-        console.log('📦 Using static album data (publishers from static file)');
+        console.log('⚡ Using static cached album data (fast loading)');
       } else {
-        // Only fallback for critical data, don't wait for enhanced data
-        if (loadTier === 'core') {
-          console.log('🔄 Static data failed, falling back to database-free parsing...');
-          response = await fetch('/api/albums-no-db');
-          
-          if (!response.ok) {
-            throw new Error(`Failed to fetch albums: ${response.status} ${response.statusText}`);
-          }
-          
+        // Fallback to dynamic data if static cache fails
+        console.log('📡 Static cache failed, falling back to dynamic data...');
+        response = await fetch('/api/albums-no-db');
+        if (response.ok) {
           data = await response.json();
-        } else {
-          throw new Error('Enhanced data unavailable');
+          console.log('⚡ Using dynamic album data (includes podcast:value for Lightning)');
         }
+      }
+      
+      if (!response.ok || !data) {
+        // Fallback to static data if database-free fails
+        console.log('🔄 Database-free failed, falling back to static data (Lightning payments will use fallback address)...');
+        response = await fetch('/api/albums-static' + (loadTier === 'core' ? '?priority=high' : ''));
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch albums: ${response.status} ${response.statusText}`);
+        }
+        
+        data = await response.json();
+        console.log('📦 Using static album data (no podcast:value data available)');
       }
       
       const albums = data.albums || [];
@@ -470,8 +478,8 @@ export default function HomePage() {
                   </button>
                   <div className="w-10 h-10 relative border border-gray-700 rounded-lg overflow-hidden">
                     <Image 
-                      src="/logo.webp" 
-                      alt="Doerfelverse Logo" 
+                      src="/ITDV-lightning-logo.jpg" 
+                      alt="ITDV Lightning Logo" 
                       width={40} 
                       height={40}
                       className="object-cover"
@@ -515,8 +523,8 @@ export default function HomePage() {
                   </button>
                   <div className="w-10 h-10 relative border border-gray-700 rounded-lg overflow-hidden">
                     <Image 
-                      src="/logo.webp" 
-                      alt="Doerfelverse Logo" 
+                      src="/ITDV-lightning-logo.jpg" 
+                      alt="ITDV Lightning Logo" 
                       width={40} 
                       height={40}
                       className="object-cover"

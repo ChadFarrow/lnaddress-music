@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .logo-element { fill: white; }
+    </style>
+  </defs>
+  
+  <!-- Black background -->
+  <rect width="400" height="400" fill="#000000"/>
+  
+  <!-- Letter "D" -->
+  <path class="logo-element" d="M 40 60 L 40 340 L 140 340 C 220 340 280 280 280 200 C 280 120 220 60 140 60 Z M 90 110 L 140 110 C 190 110 230 150 230 200 C 230 250 190 290 140 290 L 90 290 Z"/>
+  
+  <!-- Lightning bolt -->
+  <path class="logo-element" d="M 200 80 L 300 80 L 240 180 L 280 180 L 180 320 L 240 200 L 200 200 Z"/>
+  
+  <!-- Letter "V" -->  
+  <path class="logo-element" d="M 300 60 L 350 60 L 400 280 L 360 280 L 330 160 L 300 280 L 260 280 Z"/>
+</svg>

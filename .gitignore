@@ -162,6 +162,7 @@ node_modules/
 *.mcp.json 
 
 data/cache/
+data/rss-cache/
 
 # Task files
 # tasks.json

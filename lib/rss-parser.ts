@@ -1,4 +1,5 @@
 import { AppError, ErrorCodes, withRetry, createErrorLogger } from './error-utils';
+import { RSSCache } from './rss-cache';
 
 export interface RSSTrack {
   title: string;
@@ -100,6 +101,15 @@ export class RSSParser {
   private static readonly logger = createErrorLogger('RSSParser');
   
   static async parseAlbumFeed(feedUrl: string): Promise<RSSAlbum | null> {
+    // Check cache first (only on server-side for performance)
+    const isServer = typeof window === 'undefined';
+    if (isServer) {
+      const cached = RSSCache.get(feedUrl);
+      if (cached) {
+        return cached.data;
+      }
+    }
+    
     return withRetry(async () => {
       verboseLog('[RSSParser] Parsing RSS feed', { feedUrl });
       
@@ -725,6 +735,12 @@ export class RSSParser {
       };
       
       verboseLog('[RSSParser] Successfully parsed RSS feed', { feedUrl, trackCount: tracks.length });
+      
+      // Cache the result (only on server-side)
+      if (isServer) {
+        RSSCache.set(feedUrl, album, response.headers.get('etag') || undefined);
+      }
+      
       return album;
       
     }, {

@@ -13,8 +13,8 @@ export default function AboutPage() {
             <Link href="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
               <div className="w-10 h-10 relative border border-gray-700 rounded-lg overflow-hidden">
                 <Image 
-                  src="/logo.webp" 
-                  alt="Doerfelverse Logo" 
+                  src="/ITDV-lightning-logo.jpg" 
+                  alt="ITDV Lightning Logo" 
                   width={40} 
                   height={40}
                   className="object-cover"

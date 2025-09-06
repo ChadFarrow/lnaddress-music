@@ -7,7 +7,7 @@ const STATIC_FILES = [
   '/manifest.json',
   '/icon-192x192.png',
   '/icon-512x512.png',
-  '/logo.webp',
+  '/ITDV-lightning-logo.jpg',
   '/bloodshot-lies-big.png',
   '/data/albums-with-colors.json', // Critical color data
   '/publishers.json', // Publisher data
