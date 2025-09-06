@@ -1,0 +1,11 @@
+# Task ID: 52
+# Title: Create Doerfels-Only Version for TJ
+# Status: done
+# Dependencies: None
+# Priority: medium
+# Description: Create a specialized version of the site that only shows content from Doerfels, filtering out all other publishers and feeds for TJ's use
+# Details:
+Develop a Doerfels-only version of the application that filters content to show only Doerfels-related music and shows. This includes creating a separate deployment or configuration option, implementing content filtering logic, updating the UI to reflect the Doerfels-only branding, and ensuring all functionality works with the filtered content set.
+
+# Test Strategy:
+Test the Doerfels-only version to ensure it only displays Doerfels content, maintains all core functionality (playback, navigation, search), and provides a clean user experience focused on Doerfels music and shows.
