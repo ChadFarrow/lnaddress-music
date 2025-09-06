@@ -104,6 +104,52 @@ const nextConfig = {
     workerThreads: false,
     cpus: 1,
   },
+
+  // Webpack configuration for nostr-tools and crypto polyfills
+  webpack: (config, { isServer }) => {
+    // Handle Node.js modules for client-side - only when using nostr-tools
+    if (!isServer) {
+      try {
+        config.resolve.fallback = {
+          ...config.resolve.fallback,
+          crypto: require.resolve('crypto-browserify'),
+          stream: require.resolve('stream-browserify'),
+          buffer: require.resolve('buffer'),
+          util: require.resolve('util/'),
+          url: require.resolve('url/'),
+          assert: require.resolve('assert/'),
+          fs: false,
+          net: false,
+          tls: false,
+        };
+        
+        // Add global for buffer polyfill
+        config.plugins = config.plugins || [];
+        config.plugins.push(
+          new config.webpack.ProvidePlugin({
+            Buffer: ['buffer', 'Buffer'],
+            process: 'process/browser',
+          })
+        );
+      } catch (e) {
+        console.warn('Could not resolve polyfills, falling back to disabled fallbacks');
+        config.resolve.fallback = {
+          ...config.resolve.fallback,
+          crypto: false,
+          stream: false,
+          buffer: false,
+          util: false,
+          url: false,
+          assert: false,
+          fs: false,
+          net: false,
+          tls: false,
+        };
+      }
+    }
+    
+    return config;
+  },
   
   // Revert static export - doesn't work with API routes
   // output: 'export',

@@ -1,5 +1,6 @@
-import { Music, Mic, Home, TestTube } from 'lucide-react';
+import { Music, Mic, Home, TestTube, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { ClientOnlyLightningWallet } from './ClientOnlyNWC';
 
 export default function Header() {
   return (
@@ -43,6 +44,14 @@ export default function Header() {
               <TestTube className="h-4 w-4" />
               <span>Feed Tester</span>
             </Link>
+            <Link 
+              href="/lightning-demo" 
+              className="flex items-center space-x-1 text-gray-600 hover:text-primary-600 transition-colors"
+            >
+              <Zap className="h-4 w-4 text-yellow-500" />
+              <span>Lightning</span>
+            </Link>
+            <ClientOnlyLightningWallet />
           </nav>
         </div>
       </div>
