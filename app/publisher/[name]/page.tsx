@@ -16,7 +16,7 @@ async function getPublisherData(publisherName: string) {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
                    (process.env.NODE_ENV === 'production' 
                      ? 'https://itdv-site.vercel.app' 
-                     : 'http://localhost:3002');
+                     : 'http://localhost:3000');
     
     // Get albums data from database-free endpoint (includes fresh publisher data)
     let response = await fetch(`${baseUrl}/api/albums-no-db`, {
