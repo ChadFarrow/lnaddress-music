@@ -321,30 +321,15 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           <p className="text-sm text-white font-medium">{currentAlbum || 'Queue'}</p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={async () => {
-              await checkConnection();
-              setShowBoostModal(true);
-            }}
-            className="p-2 bg-yellow-500/20 hover:bg-yellow-500/30 rounded-full text-yellow-400 hover:text-yellow-300 transition-colors"
-            title="Boost this song"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
-            </svg>
-          </button>
-
-          <button
-            onClick={handleViewAlbum}
-            className="p-2 text-white/60 hover:text-white transition-colors"
-            title="View album"
-          >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-            </svg>
-          </button>
-        </div>
+        <button
+          onClick={handleViewAlbum}
+          className="p-2 text-white/60 hover:text-white transition-colors"
+          title="View album"
+        >
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+          </svg>
+        </button>
       </div>
 
       {/* Main Content */}
@@ -458,6 +443,23 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>
             </svg>
+          </button>
+        </div>
+
+        {/* Boost Button */}
+        <div className="flex justify-center mb-6">
+          <button
+            onClick={async () => {
+              await checkConnection();
+              setShowBoostModal(true);
+            }}
+            className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transition-all border border-white/20 hover:border-yellow-300/50 hover:scale-105"
+            title="Boost this song"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
+            </svg>
+            <span className="font-medium">Boost Song</span>
           </button>
         </div>
 
