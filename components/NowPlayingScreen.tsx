@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAudio } from '@/contexts/AudioContext';
 import { useSwipeGestures } from '@/hooks/useSwipeGestures';
-import { extractColorsFromImage, createAlbumBackground, createTextOverlay, ExtractedColors } from '@/lib/color-utils';
+import { extractColorsFromImage, createAlbumBackground, createTextOverlay, createButtonStyles, ExtractedColors } from '@/lib/color-utils';
 import { performanceMonitor, getMobileOptimizations, getCachedColors, debounce } from '@/lib/performance-utils';
 import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
 import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
@@ -289,6 +289,16 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     ? { background: createTextOverlay(extractedColors) }
     : { background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.3) 100%)' };
 
+  // Generate dynamic button styles that match the background
+  const buttonStyles = extractedColors 
+    ? createButtonStyles(extractedColors)
+    : {
+        background: 'rgba(255, 255, 255, 0.1)',
+        border: 'rgba(255, 255, 255, 0.2)',
+        hoverBackground: 'rgba(255, 255, 255, 0.2)',
+        hoverBorder: 'rgba(255, 255, 255, 0.3)',
+      };
+
   return (
     <div 
       ref={swipeRef}
@@ -446,10 +456,21 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
               await checkConnection();
               setShowBoostModal(true);
             }}
-            className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 border border-white/20 hover:border-yellow-300/50 transform hover:scale-105 transition-transform duration-150"
+            className="flex items-center gap-2 px-6 py-3 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transform hover:scale-105 transition-all duration-150"
             style={{
               WebkitTapHighlightColor: 'transparent',
-              touchAction: 'manipulation'
+              touchAction: 'manipulation',
+              background: buttonStyles.background,
+              borderColor: buttonStyles.border,
+              border: '1px solid'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = buttonStyles.hoverBackground;
+              e.currentTarget.style.borderColor = buttonStyles.hoverBorder;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = buttonStyles.background;
+              e.currentTarget.style.borderColor = buttonStyles.border;
             }}
             title="Boost this song"
           >

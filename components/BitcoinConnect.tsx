@@ -27,36 +27,12 @@ export function BitcoinConnectWallet() {
       try {
         const bc = await import('@getalby/bitcoin-connect');
         
-        // Initialize Bitcoin Connect with proper configuration for one-tap connections
+        // Initialize Bitcoin Connect with basic configuration
         if (bc.init && !window.bitcoinConnectInitialized) {
           bc.init({
-            appName: 'ITDV Lightning', // Your app name for one-tap connections
-            // Enable NWC with one-tap connections for Alby Hub/Go
-            filters: ['nwc'],  // Prioritize NWC connections for Alby Hub one-tap
-            showBalance: false, // Hide balance to keep UI clean
-            // NWC-specific configuration for one-tap
-            nwcRelay: 'wss://relay.getalby.com',
-            // One-tap connection configuration
-            oneTap: true, // Enable one-tap connections if supported
-            // Request all necessary permissions for superuser access
-            requestPermissions: {
-              methods: [
-                'pay_invoice',
-                'make_invoice',
-                'get_balance',
-                'get_info',
-                'pay_keysend',
-                'pay_multi_invoice',
-                'pay_multi_keysend',
-                'list_transactions',
-                'lookup_invoice',
-                'sign_message'
-              ],
-              // Request superuser scope for one-tap connections
-              budget: 100000, // 100k sats budget
-              budgetRenewal: 'monthly',
-              expiresAt: Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60) // 1 year
-            }
+            appName: 'ITDV Lightning',
+            filters: ['nwc'], // Prioritize NWC connections 
+            showBalance: false // Hide balance to keep UI clean
           });
           window.bitcoinConnectInitialized = true;
         }

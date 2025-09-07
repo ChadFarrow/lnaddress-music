@@ -292,3 +292,40 @@ export const createTextOverlay = (colors: ExtractedColors): string => {
     return 'linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 100%)';
   }
 };
+
+// Create button styles that complement the extracted colors
+export const createButtonStyles = (colors: ExtractedColors) => {
+  const { dominant, palette, isDark } = colors;
+  
+  // Extract RGB values from dominant color
+  const rgbMatch = dominant.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  if (!rgbMatch) {
+    return {
+      background: 'rgba(255, 255, 255, 0.1)',
+      border: 'rgba(255, 255, 255, 0.2)',
+      hoverBackground: 'rgba(255, 255, 255, 0.2)',
+      hoverBorder: 'rgba(255, 255, 255, 0.3)',
+    };
+  }
+  
+  const [, r, g, b] = rgbMatch.map(Number);
+  
+  // Create complementary button colors based on the dominant color
+  if (isDark) {
+    // For dark backgrounds, use lighter, semi-transparent versions
+    return {
+      background: `rgba(${Math.min(255, r + 40)}, ${Math.min(255, g + 40)}, ${Math.min(255, b + 40)}, 0.15)`,
+      border: `rgba(${Math.min(255, r + 60)}, ${Math.min(255, g + 60)}, ${Math.min(255, b + 60)}, 0.3)`,
+      hoverBackground: `rgba(${Math.min(255, r + 60)}, ${Math.min(255, g + 60)}, ${Math.min(255, b + 60)}, 0.25)`,
+      hoverBorder: `rgba(${Math.min(255, r + 80)}, ${Math.min(255, g + 80)}, ${Math.min(255, b + 80)}, 0.4)`,
+    };
+  } else {
+    // For light backgrounds, use darker, semi-transparent versions
+    return {
+      background: `rgba(${Math.max(0, r - 20)}, ${Math.max(0, g - 20)}, ${Math.max(0, b - 20)}, 0.2)`,
+      border: `rgba(${Math.max(0, r - 40)}, ${Math.max(0, g - 40)}, ${Math.max(0, b - 40)}, 0.3)`,
+      hoverBackground: `rgba(${Math.max(0, r - 30)}, ${Math.max(0, g - 30)}, ${Math.max(0, b - 30)}, 0.3)`,
+      hoverBorder: `rgba(${Math.max(0, r - 50)}, ${Math.max(0, g - 50)}, ${Math.max(0, b - 50)}, 0.4)`,
+    };
+  }
+};
