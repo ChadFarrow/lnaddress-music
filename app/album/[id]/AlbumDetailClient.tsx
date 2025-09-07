@@ -472,7 +472,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     );
   }
 
-  if (error || !album) {
+  if (error || (!album && !isLoading)) {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
         <h1 className="text-2xl font-semibold mb-4">{error || 'Album not found'}</h1>
