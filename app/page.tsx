@@ -212,8 +212,8 @@ export default function HomePage() {
     try {
       // Load all albums in background
       const allAlbums = await loadAlbumsData('all');
-      setEnhancedAlbums(allAlbums);
       setAlbums(allAlbums); // Set main albums state
+      setEnhancedAlbums(allAlbums); // Set enhanced albums for progressive loading
       
       // Publishers already loaded from static data, no need to reprocess
       setIsEnhancedLoaded(true);
