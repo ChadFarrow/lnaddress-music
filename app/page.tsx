@@ -151,6 +151,8 @@ export default function HomePage() {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('cachedAlbums');
       localStorage.removeItem('albumsCacheTimestamp');
+      localStorage.removeItem('cachedCriticalAlbums');
+      localStorage.removeItem('criticalAlbumsCacheTimestamp');
     }
     
     // Progressive loading: Load critical data first, then enhance
@@ -174,9 +176,9 @@ export default function HomePage() {
       setError(null);
       setLoadingProgress(0);
       
-      // Load critical albums first (core feeds)
-      const criticalAlbums = await loadAlbumsData('core');
-      setCriticalAlbums(criticalAlbums);
+      // Load all albums directly - no progressive loading
+      const allAlbums = await loadAlbumsData('all');
+      setCriticalAlbums(allAlbums);
       
       // Preload colors for critical albums for instant Now Playing screen
       const criticalTitles = criticalAlbums.slice(0, 10).map((album: any) => album.title);
@@ -229,13 +231,13 @@ export default function HomePage() {
 
   const loadAlbumsData = async (loadTier: 'core' | 'extended' | 'lowPriority' | 'all' = 'all') => {
     try {
-      // For critical loading, check cache first
-      if (loadTier === 'core' && typeof window !== 'undefined') {
-        const cached = localStorage.getItem('cachedCriticalAlbums');
-        const cacheTime = localStorage.getItem('criticalAlbumsCacheTimestamp');
+      // Check for cached albums first
+      if (typeof window !== 'undefined') {
+        const cached = localStorage.getItem('cachedAlbums');
+        const cacheTime = localStorage.getItem('albumsCacheTimestamp');
         
         if (cached && cacheTime && (Date.now() - parseInt(cacheTime)) < 5 * 60 * 1000) {
-          console.log('📦 Using cached critical albums');
+          console.log('📦 Using cached albums');
           return JSON.parse(cached);
         }
       }
@@ -287,20 +289,12 @@ export default function HomePage() {
       
       const uniqueAlbums = Array.from(albumMap.values());
       
-      // Cache the results based on load tier
+      // Cache all albums - no tier-based restrictions
       if (typeof window !== 'undefined') {
         try {
-          if (loadTier === 'core') {
-            // Cache first 15 albums for critical loading
-            const criticalAlbums = uniqueAlbums.slice(0, 15);
-            localStorage.setItem('cachedCriticalAlbums', JSON.stringify(criticalAlbums));
-            localStorage.setItem('criticalAlbumsCacheTimestamp', Date.now().toString());
-            console.log(`📦 Cached ${criticalAlbums.length} critical albums`);
-            return criticalAlbums;
-          } else {
-            localStorage.setItem('cachedAlbums', JSON.stringify(uniqueAlbums));
-            localStorage.setItem('albumsCacheTimestamp', Date.now().toString());
-          }
+          localStorage.setItem('cachedAlbums', JSON.stringify(uniqueAlbums));
+          localStorage.setItem('albumsCacheTimestamp', Date.now().toString());
+          console.log(`📦 Cached ${uniqueAlbums.length} albums`);
         } catch (error) {
           console.warn('⚠️ Failed to cache albums:', error);
         }
@@ -368,8 +362,8 @@ export default function HomePage() {
 
   // Helper functions for filtering and sorting
   const getFilteredAlbums = () => {
-    // Use progressive loading: show critical albums first, then enhanced
-    const albumsToUse = isEnhancedLoaded ? enhancedAlbums : (criticalAlbums.length > 0 ? criticalAlbums : albums);
+    // Use all available albums - no progressive loading restrictions
+    const albumsToUse = criticalAlbums.length > 0 ? criticalAlbums : (enhancedAlbums.length > 0 ? enhancedAlbums : albums);
     
           // Universal sorting function that implements hierarchical order: Pinned → Albums → EPs → Singles
       const sortWithHierarchy = (albums: Album[]) => {
