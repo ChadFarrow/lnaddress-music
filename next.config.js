@@ -95,7 +95,7 @@ const withPWA = require('next-pwa')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Domain configuration for re.podtards.com deployment
+  // Domain configuration for Vercel deployment
   basePath: '',
   
   // Dynamic route configuration to prevent build issues
