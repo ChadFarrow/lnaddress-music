@@ -83,9 +83,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     let albumData;
     
     // If we already parsed this feed during title matching, reuse the data
-    if (matchingFeed._parsedAlbumData) {
+    if ((matchingFeed as any)._parsedAlbumData) {
       console.log(`♻️ Reusing already parsed album data`);
-      albumData = matchingFeed._parsedAlbumData;
+      albumData = (matchingFeed as any)._parsedAlbumData;
     } else {
       albumData = await RSSParser.parseAlbumFeed(matchingFeed.originalUrl);
     }
