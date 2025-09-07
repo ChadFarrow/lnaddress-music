@@ -18,15 +18,15 @@ async function getPublisherData(publisherName: string) {
                      ? 'https://itdv-site.vercel.app' 
                      : 'http://localhost:3000');
     
-    // Get albums data from database-free endpoint (includes fresh publisher data)
-    let response = await fetch(`${baseUrl}/api/albums-no-db`, {
-      next: { revalidate: 60 }, // Cache for 1 minute
+    // Use static endpoint as primary since it has all albums
+    let response = await fetch(`${baseUrl}/api/albums-static`, {
+      next: { revalidate: 300 }, // Cache for 5 minutes
     });
     
     if (!response.ok) {
-      console.log('Database-free endpoint failed, falling back to static...');
-      response = await fetch(`${baseUrl}/api/albums-static`, {
-        next: { revalidate: 300 }, // Cache for 5 minutes
+      console.log('Static endpoint failed, trying database-free...');
+      response = await fetch(`${baseUrl}/api/albums-no-db`, {
+        next: { revalidate: 60 }, // Cache for 1 minute
       });
     }
 
