@@ -16,6 +16,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     // Helper function to create URL slug (same as homepage)
     const createSlug = (title: string) => 
       title.toLowerCase()
+        .replace(/[^\w\s-]/g, '')       // Remove punctuation except spaces and hyphens
         .replace(/\s+/g, '-')           // Replace spaces with dashes
         .replace(/-+/g, '-')            // Replace multiple consecutive dashes with single dash
         .replace(/^-+|-+$/g, '');       // Remove leading/trailing dashes

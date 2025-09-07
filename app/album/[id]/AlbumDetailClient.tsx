@@ -263,6 +263,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       // Find the album by title matching (same logic as the individual endpoint)
       const createSlug = (title: string) => 
         title.toLowerCase()
+          .replace(/[^\w\s-]/g, '')       // Remove punctuation except spaces and hyphens
           .replace(/\s+/g, '-')
           .replace(/-+/g, '-')
           .replace(/^-+|-+$/g, '');

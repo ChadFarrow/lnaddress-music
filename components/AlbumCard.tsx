@@ -176,8 +176,10 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
 
   const getAlbumUrl = (album: Album) => {
     // Create URL-friendly slug from album title
+    // Handle special characters and punctuation more carefully
     const slug = album.title
       .toLowerCase()
+      .replace(/[^\w\s-]/g, '')       // Remove punctuation except spaces and hyphens
       .replace(/\s+/g, '-')           // Replace spaces with dashes
       .replace(/-+/g, '-')            // Replace multiple consecutive dashes with single dash
       .replace(/^-+|-+$/g, '');       // Remove leading/trailing dashes

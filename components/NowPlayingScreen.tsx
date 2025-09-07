@@ -205,10 +205,12 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
 
   const handleViewAlbum = () => {
     if (currentAlbum) {
-      // Convert album title to URL-friendly slug
+      // Convert album title to URL-friendly slug (consistent with AlbumCard)
       const albumSlug = currentAlbum.toLowerCase()
-        .replace(/[^\w\s-]/g, '') // Remove special characters
-        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/[^\w\s-]/g, '') // Remove punctuation except spaces and hyphens
+        .replace(/\s+/g, '-') // Replace spaces with dashes
+        .replace(/-+/g, '-') // Replace multiple consecutive dashes with single dash
+        .replace(/^-+|-+$/g, '') // Remove leading/trailing dashes
         .trim();
       
       router.push(`/album/${albumSlug}`);
