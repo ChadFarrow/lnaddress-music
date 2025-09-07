@@ -194,8 +194,111 @@ export function BitcoinConnectPayment({
       const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);
       const results: any[] = [];
       
-      // Try WebLN first if available
-      if (weblnAvailable && webln.keysend) {
+      // Check Bitcoin Connect's preferred connection method
+      let bcConfig = null;
+      let bcConnectorType = null;
+      let nwcConnectionString = null;
+      
+      try {
+        const bcConfigRaw = localStorage.getItem('bc:config');
+        if (bcConfigRaw) {
+          bcConfig = JSON.parse(bcConfigRaw);
+          bcConnectorType = bcConfig.connectorType;
+          nwcConnectionString = bcConfig.nwcUrl;
+        }
+      } catch (error) {
+        console.warn('Failed to parse bc:config:', error);
+      }
+      
+      // Fallback to old method
+      if (!bcConnectorType) {
+        bcConnectorType = localStorage.getItem('bc:connectorType');
+      }
+      if (!nwcConnectionString) {
+        nwcConnectionString = localStorage.getItem('nwc_connection_string');
+      }
+      
+      console.log(`🔍 Bitcoin Connect state - connectorType: "${bcConnectorType}", NWC URL exists: ${!!nwcConnectionString}`);
+      
+      // Respect Bitcoin Connect's connector choice
+      let shouldUseNWC = false;
+      let nwcService = null;
+      
+      // If user selected NWC in Bitcoin Connect, prioritize that
+      if (bcConnectorType === 'nwc.generic' || bcConnectorType === 'nwc' || (bcConnectorType && nwcConnectionString)) {
+        try {
+          const { getNWCService } = await import('../lib/nwc-service');
+          nwcService = getNWCService();
+          
+          if (nwcConnectionString && !nwcService.isConnected()) {
+            await nwcService.connect(nwcConnectionString);
+          }
+          
+          shouldUseNWC = nwcService.isConnected();
+          console.log(`🔍 NWC connection attempt: ${shouldUseNWC ? 'successful' : 'failed'}`);
+        } catch (error) {
+          console.warn('NWC service failed:', error);
+          shouldUseNWC = false;
+        }
+      }
+      
+      console.log(`🔍 Payment method selection: BC connector: "${bcConnectorType}", Use NWC: ${shouldUseNWC}, WebLN available: ${weblnAvailable}`);
+      
+      // Prioritize NWC if Bitcoin Connect user selected it
+      if (shouldUseNWC && nwcService) {
+        console.log(`⚡ Bitcoin Connect using NWC (prioritized): ${amount} sats split among recipients`);
+        
+        const errors: string[] = [];
+        
+        for (const recipientData of paymentsToMake) {
+          // Calculate proportional amount based on split
+          const recipientAmount = Math.floor((amount * recipientData.split) / totalSplit);
+          
+          if (recipientAmount > 0) {
+            console.log(`⚡ NWC sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
+            
+            try {
+              // Make real keysend payment via NWC
+              const tlvRecords = [{
+                type: 7629169,
+                value: Buffer.from(`${description} - ${recipientData.name || 'Recipient'}`, 'utf8').toString('hex')
+              }];
+              
+              const response = await nwcService.payKeysend(
+                recipientData.address,
+                recipientAmount,
+                tlvRecords
+              );
+              
+              if (response.error) {
+                console.error(`❌ NWC payment to ${recipientData.name || recipientData.address} failed:`, response.error);
+                errors.push(`Payment to ${recipientData.name || recipientData.address} failed: ${response.error}`);
+              } else {
+                console.log(`✅ NWC payment to ${recipientData.name || recipientData.address} successful:`, response);
+                results.push({ recipient: recipientData.name || recipientData.address, amount: recipientAmount, response });
+              }
+            } catch (paymentError) {
+              console.error(`❌ NWC payment to ${recipientData.name || recipientData.address} threw error:`, paymentError);
+              errors.push(`Payment to ${recipientData.name || recipientData.address} error: ${paymentError instanceof Error ? paymentError.message : String(paymentError)}`);
+            }
+          } else {
+            console.log(`⏭️ Skipping ${recipientData.name || recipientData.address} - calculated amount is 0 sats`);
+          }
+        }
+        
+        // Report NWC results
+        if (results.length > 0) {
+          console.log(`✅ Bitcoin Connect NWC payments - ${results.length}/${paymentsToMake.length} successful:`, results);
+          if (errors.length > 0) {
+            console.warn(`⚠️ Some NWC payments failed:`, errors);
+          }
+          onSuccess?.(results);
+        } else if (errors.length > 0) {
+          console.error('❌ All NWC payments failed:', errors);
+          throw new Error(`All NWC payments failed: ${errors.join(', ')}`);
+        }
+        
+      } else if (weblnAvailable && webln.keysend) {
         console.log(`⚡ Bitcoin Connect WebLN keysend: ${amount} sats split among recipients for "${description}"`);
         
         const errors: string[] = [];
