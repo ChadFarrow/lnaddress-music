@@ -13,12 +13,26 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 async function getAlbumData(albumId: string) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
-                   (process.env.NODE_ENV === 'production' 
-                     ? '' // Use relative URLs in production
-                     : 'http://localhost:3000');
+    // During server-side rendering in production, we need a full URL
+    // Use VERCEL_URL if available (automatically set by Vercel)
+    let baseUrl = process.env.NEXT_PUBLIC_API_URL;
     
-    console.log(`🚀 Fetching single album: ${albumId}`);
+    if (!baseUrl) {
+      if (process.env.VERCEL_URL) {
+        // In Vercel deployments
+        baseUrl = `https://${process.env.VERCEL_URL}`;
+      } else if (process.env.NODE_ENV === 'production') {
+        // In production without VERCEL_URL, skip SSR data fetching
+        // The client will load the data
+        console.log('🔄 Skipping SSR data fetch in production, will load client-side');
+        return null;
+      } else {
+        // Local development
+        baseUrl = 'http://localhost:3000';
+      }
+    }
+    
+    console.log(`🚀 Fetching single album: ${albumId} from ${baseUrl}`);
     const startTime = Date.now();
     
     // Use the new optimized single-album endpoint
