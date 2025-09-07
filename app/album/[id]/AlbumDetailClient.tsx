@@ -486,6 +486,16 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     );
   }
 
+  // TypeScript guard: album is guaranteed to be non-null here or we're loading
+  if (!album) {
+    // Still loading, show spinner
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
       {/* Dynamic Background with Bloodshot Lies fallback */}
@@ -494,7 +504,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         {backgroundImage && backgroundLoaded ? (
           <Image
             src={backgroundImage}
-            alt={`${album?.title || 'Album'} background`}
+            alt={`${album.title} background`}
             fill
             className="object-cover w-full h-full"
             priority
