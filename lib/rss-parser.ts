@@ -12,6 +12,7 @@ export interface RSSTrack {
   explicit?: boolean;
   keywords?: string[];
   startTime?: number; // Add time segment support
+  value?: RSSValue; // Track-level podcast:value data
   endTime?: number;   // Add time segment support
 }
 
@@ -519,6 +520,61 @@ export class RSSParser {
         const trackKeywordsEl = item.getElementsByTagName('itunes:keywords')[0];
         const trackKeywords = trackKeywordsEl?.textContent?.trim().split(',').map((k: string) => k.trim()).filter((k: string) => k) || [];
         
+        // Extract track-level podcast:value information
+        let trackValue: RSSValue | undefined;
+        
+        // Try both namespaced and non-namespaced versions for track value
+        const trackValueElements1 = Array.from(item.getElementsByTagName('podcast:value'));
+        const trackValueElements2 = Array.from(item.getElementsByTagName('value'));
+        const allTrackValueElements = [...trackValueElements1, ...trackValueElements2];
+        
+        if (allTrackValueElements.length > 0) {
+          const trackValueElement = allTrackValueElements[0] as Element;
+          const trackValueType = trackValueElement.getAttribute('type');
+          const trackValueMethod = trackValueElement.getAttribute('method');
+          const trackValueSuggested = trackValueElement.getAttribute('suggested');
+          
+          if (trackValueType && trackValueMethod) {
+            // Extract track value recipients
+            const trackRecipients: RSSValueRecipient[] = [];
+            const trackRecipientElements1 = Array.from(trackValueElement.getElementsByTagName('podcast:valueRecipient'));
+            const trackRecipientElements2 = Array.from(trackValueElement.getElementsByTagName('valueRecipient'));
+            const allTrackRecipientElements = [...trackRecipientElements1, ...trackRecipientElements2];
+            
+            allTrackRecipientElements.forEach((recipientElement: unknown) => {
+              const element = recipientElement as Element;
+              const recipientType = element.getAttribute('type');
+              const address = element.getAttribute('address');
+              const splitStr = element.getAttribute('split');
+              const name = element.getAttribute('name');
+              const customKey = element.getAttribute('customKey');
+              const customValue = element.getAttribute('customValue');
+              const feeStr = element.getAttribute('fee');
+              
+              if (recipientType && address && splitStr) {
+                trackRecipients.push({
+                  type: recipientType as 'node' | 'lnaddress',
+                  address,
+                  split: parseInt(splitStr, 10),
+                  name: name || undefined,
+                  customKey: customKey || undefined,
+                  customValue: customValue || undefined,
+                  fee: feeStr === 'true'
+                });
+              }
+            });
+            
+            if (trackRecipients.length > 0) {
+              trackValue = {
+                type: trackValueType as 'lightning',
+                method: trackValueMethod as 'keysend',
+                suggested: trackValueSuggested || undefined,
+                recipients: trackRecipients
+              };
+            }
+          }
+        }
+        
         tracks.push({
           title: trackTitle,
           duration: duration,
@@ -528,7 +584,8 @@ export class RSSParser {
           summary: cleanHtmlContent(trackSummary),
           image: trackImage || undefined,
           explicit: trackExplicit,
-          keywords: trackKeywords.length > 0 ? trackKeywords : undefined
+          keywords: trackKeywords.length > 0 ? trackKeywords : undefined,
+          value: trackValue
         });
         
         // Reduced verbosity - only log missing URLs as warnings in dev

@@ -208,15 +208,37 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const loadAlbum = async () => {
     try {
       setIsLoading(true);
-      // Use the individual album endpoint to get complete data including podcast:value
-      const response = await fetch(`/api/album/${encodeURIComponent(albumTitle)}`);
+      // Use the static cached data which now includes complete podcast:value data
+      const response = await fetch('/api/albums-static');
       
       if (!response.ok) {
-        throw new Error('Failed to load album');
+        throw new Error('Failed to load albums');
       }
 
       const data = await response.json();
-      const foundAlbum = data.album;
+      const albums = data.albums || [];
+      
+      // Find the album by title matching (same logic as the individual endpoint)
+      const createSlug = (title: string) => 
+        title.toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      
+      // Try different matching strategies
+      const foundAlbum = albums.find((album: Album) => {
+        const albumDataTitle = album.title;
+        const titleMatch = albumDataTitle.toLowerCase() === albumTitle.toLowerCase();
+        const slugMatch = createSlug(albumDataTitle) === albumTitle.toLowerCase();
+        const compatMatch = albumDataTitle.toLowerCase().replace(/\s+/g, '-') === albumTitle.toLowerCase();
+        
+        // Flexible matching: check if the album title starts with the decoded ID
+        const baseTitle = albumDataTitle.toLowerCase().split(/\s*[-–]\s*/)[0];
+        const baseTitleSlug = createSlug(baseTitle);
+        const flexibleMatch = baseTitleSlug === albumTitle.toLowerCase();
+        
+        return titleMatch || slugMatch || compatMatch || flexibleMatch;
+      });
 
       if (foundAlbum) {
         setAlbum(foundAlbum);
@@ -228,10 +250,9 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         }
         
         loadRelatedAlbums();
-        // Load site albums first, then load podroll albums
-        loadSiteAlbums().then(() => {
-          loadPodrollAlbums();
-        });
+        // We already have the albums data, so set it and load podroll
+        setSiteAlbums(albums);
+        loadPodrollAlbums();
       } else {
         setError('Album not found');
       }
