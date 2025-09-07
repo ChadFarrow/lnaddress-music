@@ -208,33 +208,15 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const loadAlbum = async () => {
     try {
       setIsLoading(true);
-      // Try fast static endpoint first
-      let response = await fetch('/api/albums-static');
+      // Use the individual album endpoint to get complete data including podcast:value
+      const response = await fetch(`/api/album/${encodeURIComponent(albumTitle)}`);
       
       if (!response.ok) {
-        console.log('Static endpoint failed, falling back to RSS parsing...');
-        response = await fetch('/api/albums');
-      }
-      
-      if (!response.ok) {
-        throw new Error('Failed to load albums');
+        throw new Error('Failed to load album');
       }
 
       const data = await response.json();
-      const albums = data.albums || [];
-      
-      // Find matching album
-      const decodedTitle = decodeURIComponent(albumTitle);
-      const createSlug = (title: string) => 
-        title.toLowerCase()
-          .replace(/\s+/g, '-')
-          .replace(/-+/g, '-')
-          .replace(/^-+|-+$/g, '');
-      
-      const foundAlbum = albums.find((a: Album) => 
-        a.title.toLowerCase() === decodedTitle.toLowerCase() ||
-        createSlug(a.title) === decodedTitle.toLowerCase()
-      );
+      const foundAlbum = data.album;
 
       if (foundAlbum) {
         setAlbum(foundAlbum);
