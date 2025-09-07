@@ -25,6 +25,7 @@ A modern music streaming platform showcasing independent artists from the Doerfe
 - `npm run dev-setup` - Check environment configuration
 - `npm run test-feeds` - Test RSS feed parsing
 - `npm run auto-add-publishers` - Auto-generate publisher feeds
+- `./scripts/update-static-data.sh` - Update static album cache
 
 ## Features
 
@@ -52,12 +53,15 @@ A modern music streaming platform showcasing independent artists from the Doerfe
 
 ## Architecture
 
-- **Frontend**: Next.js 14+ with TypeScript and App Router
-- **Data Source**: RSS feeds + static JSON files (no database required)
-- **Styling**: Tailwind CSS with custom components
-- **Audio Engine**: Custom AudioContext with HLS.js support
+- **Frontend**: Next.js 15.4.3 with TypeScript and App Router
+- **Data Source**: 46 RSS feeds + static JSON files (no database required)
+- **Styling**: Tailwind CSS with custom components and dark theme
+- **Audio Engine**: Custom AudioContext with HLS.js support and playlist management
 - **Image Processing**: Next.js Image optimization with CDN fallbacks
-- **Deployment**: Vercel with automated builds
+- **Caching System**: Robust RSS cache with unique base64 keys per feed
+- **PWA Support**: Service worker with offline functionality
+- **Payment Integration**: Bitcoin Lightning payments via Bitcoin Connect
+- **Deployment**: Vercel with automated builds and edge deployment
 
 ## Content Structure
 
@@ -68,11 +72,21 @@ Publishers have consolidated RSS feeds for easy subscription and include:
 - **Middle Season** - `https://www.doerfelverse.com/artists/middleseason/mspubfeed.xml`
 - **Ryan Fonda** - `https://wavlake.com/feed/artist/d4c49f2e-0b50-4a5e-8101-7543d68e032f`
 
+### Content Statistics  
+- **40 unique albums/EPs/singles** from independent DoerfelVerse artists
+- **42 individual album feeds** for granular content access
+- **4 consolidated publisher feeds** for easy RSS subscription  
+- **Artists featured**: The Doerfels, CityBeach, Middle Season, Ryan Fonda, Kurtisdrums, Sir TJ The Wrathful, Generation Gap, Jdog, Ben Doerfel
+- **Genres**: Rock, Bluegrass, Indie, Experimental, Electronic
+- **Content model**: Value for Value (free music with optional Lightning payments)
+
 ### Data Flow
-1. RSS feeds are parsed dynamically or from static cache
-2. Album and track data is extracted and normalized
-3. Publisher information is matched and enriched
-4. Content is served via API routes with aggressive caching
+1. **RSS Feed Parsing**: 46 feeds parsed with individual caching per URL
+2. **Content Normalization**: Album and track data extracted and standardized
+3. **Static Generation**: Pre-built JSON files for optimal loading performance
+4. **API Distribution**: Content served via optimized API routes
+5. **Real-time Updates**: Dynamic parsing ensures content freshness
+6. **Error Handling**: Comprehensive retry logic and graceful fallbacks
 
 ## Development
 
@@ -96,6 +110,43 @@ The app uses a hybrid approach:
 - **Zero parsing errors** across all feeds
 - **Complete artist representation** from The Doerfels, CityBeach, Middle Season, Ryan Fonda, and more
 
+## API Endpoints
+
+### Album Data
+- `GET /api/albums-static-cached` - Cached album data (fast)
+- `GET /api/albums-no-db` - Fresh album data (dynamic parsing)
+- `GET /api/albums-static` - Static pre-generated album data
+
+### Feed Management
+- **RSS Cache Location**: `/data/rss-cache/`
+- **Feed Configuration**: `/data/feeds.json` (46 feeds total)
+- **Static Data**: `/data/static/albums.json`
+
+## Troubleshooting
+
+### Missing Albums
+If albums are not displaying:
+1. Check RSS cache: `ls -la data/rss-cache/`
+2. Clear cache: `rm -rf data/rss-cache/*`
+3. Test feeds: `npm run test-feeds`
+4. Update static data: `./scripts/update-static-data.sh`
+
+### RSS Feed Issues
+- **Cache collisions**: Fixed in `lib/rss-cache.ts` - cache keys use full base64 encoding
+- **Rate limiting**: Built-in retry logic with exponential backoff
+- **Invalid feeds**: Comprehensive error handling and logging
+
+### Performance
+- **Slow loading**: Check CDN configuration and static generation
+- **Audio issues**: Verify HLS.js and AudioContext browser support
+- **Cache problems**: Clear browser cache and RSS cache directory
+
 ## Contributing
 
 This project showcases music from independent artists in the DoerfelVerse. The platform is designed to be fast, accessible, and provide an excellent listening experience across all devices.
+
+### Adding New Content
+1. Add RSS feed URL to `/data/feeds.json`
+2. Test feed parsing with `npm run test-feeds`
+3. Update static data with `./scripts/update-static-data.sh`
+4. Verify content appears at `http://localhost:3000`

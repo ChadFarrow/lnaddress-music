@@ -15,9 +15,26 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
 
   const checkConnection = async () => {
     try {
-      const weblnEnabled = !!(window as any).webln?.enabled;
+      // Check for WebLN (Alby, etc.)
+      const weblnExists = !!(window as any).webln;
+      const weblnEnabled = weblnExists && !!(window as any).webln?.enabled;
+      
+      // Check Bitcoin Connect state
       const bcConnected = localStorage.getItem('bc:connectorType');
       const nwcConnected = localStorage.getItem('nwc_connection_string');
+      
+      // Try to enable WebLN if it exists but isn't enabled
+      if (weblnExists && !weblnEnabled) {
+        try {
+          await (window as any).webln.enable();
+          console.log('🔗 WebLN enabled successfully');
+        } catch (error) {
+          console.log('🔗 WebLN enable failed or cancelled by user');
+        }
+      }
+      
+      // Re-check after potential enable
+      const weblnEnabledAfter = !!(window as any).webln?.enabled;
       
       // Initialize NWC service if connection string exists
       let nwcServiceConnected = false;
@@ -37,7 +54,16 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         nwcServiceConnected = false;
       }
       
-      const anyConnection = weblnEnabled || bcConnected || nwcConnected || nwcServiceConnected;
+      const anyConnection = weblnEnabledAfter || bcConnected || nwcConnected || nwcServiceConnected;
+      
+      // Debug logging
+      console.log('🔍 Connection check:', {
+        webln: weblnEnabledAfter,
+        bcConnected: !!bcConnected,
+        nwcConnected: !!nwcConnected,
+        nwcServiceConnected,
+        anyConnection
+      });
       
       // Only log if connection status actually changed to reduce console spam
       const currentStatus = !!anyConnection;

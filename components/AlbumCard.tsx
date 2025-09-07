@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Play, Pause, Music, Zap } from 'lucide-react';
 import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
+import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 import type { RSSValue, RSSValueRecipient } from '@/lib/rss-parser';
 
 interface Track {
@@ -48,6 +49,8 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [showBoostSuccess, setShowBoostSuccess] = useState(false);
   const [showBoostModal, setShowBoostModal] = useState(false);
+  
+  const { checkConnection } = useBitcoinConnect();
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -271,9 +274,11 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
         {/* Lightning tip button - moved to top left */}
         <div className="absolute top-1 left-1 sm:top-2 sm:left-2 flex items-center gap-1 sm:gap-2">
           <button
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
               e.stopPropagation();
+              // Force connection check before showing modal
+              await checkConnection();
               setShowBoostModal(true);
             }}
             className="w-6 h-6 sm:w-7 sm:h-7 bg-yellow-500/90 hover:bg-yellow-600/90 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors z-10"
