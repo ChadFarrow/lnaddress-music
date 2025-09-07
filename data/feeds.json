@@ -439,8 +439,28 @@
       "status": "active",
       "addedAt": "2025-08-30T15:30:00.000Z",
       "lastUpdated": "2025-08-30T15:30:00.000Z"
+    },
+    {
+      "id": "www-doerfelverse-com-feeds-citybeach-pubfeed-xml",
+      "originalUrl": "https://www.doerfelverse.com/feeds/citybeach-pubfeed.xml",
+      "type": "publisher",
+      "title": "CityBeach Publisher Feed",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-09-07T13:15:00.000Z",
+      "lastUpdated": "2025-09-07T13:15:00.000Z"
+    },
+    {
+      "id": "www-doerfelverse-com-feeds-doerfels-pubfeed-xml",
+      "originalUrl": "https://www.doerfelverse.com/feeds/doerfels-pubfeed.xml",
+      "type": "publisher",
+      "title": "The Doerfels Publisher Feed",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-09-07T13:15:00.000Z",
+      "lastUpdated": "2025-09-07T13:15:00.000Z"
     }
   ],
-  "lastUpdated": "2025-08-30T15:30:00.000Z",
+  "lastUpdated": "2025-09-07T13:15:00.000Z",
   "version": 2
 }
