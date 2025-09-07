@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide Bitcoin Connect balance display */
+bc-button .balance,
+bc-button [class*="balance"],
+bc-button [data-balance],
+bc-balance {
+  display: none !important;
+}
+
 @layer base {
   html {
     font-family: system-ui, sans-serif;
