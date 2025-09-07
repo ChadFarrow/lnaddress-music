@@ -66,7 +66,7 @@ export function BitcoinConnectWallet() {
               }
               
               // Check regular DOM elements - preserve connection status
-              const allElements = bcButton.querySelectorAll('*');
+              const allElements = (bcButton as any).querySelectorAll('*');
               allElements.forEach(el => {
                 const text = el.textContent || '';
                 // Only hide balance numbers, preserve "Connected", "Disconnected" etc
