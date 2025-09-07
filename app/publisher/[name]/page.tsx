@@ -72,7 +72,7 @@ async function getPublisherData(publisherName: string) {
     // Get publisher info from first album
     const firstAlbum = publisherAlbums[0];
     // Find an album with publisher data, or use defaults
-    const albumWithPublisher = publisherAlbums.find(album => album.publisher) || firstAlbum;
+    const albumWithPublisher = publisherAlbums.find((album: any) => album.publisher) || firstAlbum;
     const publisherInfo = {
       name: firstAlbum.artist,
       guid: albumWithPublisher.publisher?.feedGuid || 'no-guid',
