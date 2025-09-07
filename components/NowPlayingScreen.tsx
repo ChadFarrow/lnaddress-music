@@ -274,30 +274,33 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     console.error('Boost failed:', error);
   };
 
-  // Fetch album data to get podcast:value splits
+  // Fetch album data to get podcast:value splits (fallback only)
   const fetchAlbumData = async (albumTitle: string) => {
     try {
-      console.log('🔍 Fetching album data for:', albumTitle);
-      const response = await fetch('/api/albums');
+      console.log('🔍 Fetching album data for fallback value data:', albumTitle);
+      
+      // Convert album title to URL-friendly format (same as album page)
+      const albumId = albumTitle.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+      
+      const response = await fetch(`/api/album/${albumId}`);
       const data = await response.json();
       
-      // Find the album that matches the current album title
-      const matchingAlbum = data.albums?.find((album: any) => 
-        album.title === albumTitle
-      );
-      
-      if (matchingAlbum) {
-        console.log('✅ Found album data with V4V splits:', matchingAlbum.title, {
-          hasValue: !!matchingAlbum.value,
-          recipients: matchingAlbum.value?.recipients?.length || 0
+      if (data.success && data.album) {
+        console.log('✅ Found fallback album data:', data.album.title, {
+          hasValue: !!data.album.value,
+          recipients: data.album.value?.recipients?.length || 0
         });
-        setAlbumData(matchingAlbum);
+        setAlbumData(data.album);
       } else {
-        console.log('❌ No matching album found for:', albumTitle);
+        console.log('❌ No fallback album found for:', albumTitle);
         setAlbumData(null);
       }
     } catch (error) {
-      console.error('Failed to fetch album data:', error);
+      console.error('Failed to fetch fallback album data:', error);
       setAlbumData(null);
     }
   };
