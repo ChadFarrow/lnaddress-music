@@ -530,6 +530,8 @@ export class RSSParser {
         const trackValueElements2 = Array.from(item.getElementsByTagName('value'));
         const allTrackValueElements = [...trackValueElements1, ...trackValueElements2];
         
+        console.log(`🔍 Track "${trackTitle}": Found ${trackValueElements1.length} podcast:value and ${trackValueElements2.length} value elements`);
+        
         if (allTrackValueElements.length > 0) {
           const trackValueElement = allTrackValueElements[0] as Element;
           const trackValueType = trackValueElement.getAttribute('type');
@@ -647,6 +649,8 @@ export class RSSParser {
       const valueElements1 = Array.from(channel.getElementsByTagName('podcast:value'));
       const valueElements2 = Array.from(channel.getElementsByTagName('value'));
       const allValueElements = [...valueElements1, ...valueElements2];
+      
+      console.log(`🔍 Album "${title}": Found ${valueElements1.length} podcast:value and ${valueElements2.length} value elements`);
       
       if (allValueElements.length > 0) {
         const valueElement = allValueElements[0] as Element;

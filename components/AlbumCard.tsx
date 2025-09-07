@@ -141,13 +141,15 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
   // Get Lightning payment recipients from RSS value data
   const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
     console.log('🔍 Checking album for podcast:value data:', album.title, { 
-      hasValue: !!album.value,
-      valueType: album.value?.type,
-      valueMethod: album.value?.method,
-      recipients: album.value?.recipients?.length || 0
+      hasAlbumValue: !!album.value,
+      albumValueType: album.value?.type,
+      albumValueMethod: album.value?.method,
+      albumRecipients: album.value?.recipients?.length || 0,
+      trackCount: album.tracks?.length || 0,
+      firstTrackHasValue: !!(album.tracks?.[0]?.value)
     });
     
-    // If album has podcast:value Lightning recipients, return all recipients
+    // First, check if album has podcast:value Lightning recipients
     if (album.value && album.value.type === 'lightning' && album.value.method === 'keysend') {
       const recipients = album.value.recipients
         .filter(r => r.type === 'node') // Only include node recipients
@@ -158,11 +160,27 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
           fee: r.fee
         }));
       
-      console.log('✅ Found podcast:value recipients:', recipients);
+      console.log('✅ Found album-level podcast:value recipients:', recipients);
       return recipients;
     }
     
-    console.log('❌ No podcast:value data found, using fallback');
+    // If no album-level value, check first track for podcast:value data
+    const firstTrack = album.tracks?.[0];
+    if (firstTrack?.value && firstTrack.value.type === 'lightning' && firstTrack.value.method === 'keysend') {
+      const recipients = firstTrack.value.recipients
+        .filter(r => r.type === 'node') // Only include node recipients
+        .map(r => ({
+          address: r.address,
+          split: r.split,
+          name: r.name,
+          fee: r.fee
+        }));
+      
+      console.log('✅ Found track-level podcast:value recipients from first track:', recipients);
+      return recipients;
+    }
+    
+    console.log('❌ No podcast:value data found (checked album and first track), using fallback');
     return null; // Will use fallback single recipient
   };
   

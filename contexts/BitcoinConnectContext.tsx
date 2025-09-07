@@ -19,9 +19,44 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
       const weblnExists = !!(window as any).webln;
       const weblnEnabled = weblnExists && !!(window as any).webln?.enabled;
       
-      // Check Bitcoin Connect state
+      // Check Bitcoin Connect state - enhanced for AlbyGo detection
       const bcConnected = localStorage.getItem('bc:connectorType');
-      const nwcConnected = localStorage.getItem('nwc_connection_string');
+      let bcConfig = null;
+      let nwcConnected = localStorage.getItem('nwc_connection_string');
+      
+      try {
+        const bcConfigRaw = localStorage.getItem('bc:config');
+        if (bcConfigRaw) {
+          // Clean up potential JSON formatting issues
+          const cleanConfigRaw = bcConfigRaw.trim();
+          if (cleanConfigRaw.startsWith('{') && cleanConfigRaw.endsWith('}')) {
+            bcConfig = JSON.parse(cleanConfigRaw);
+            // AlbyGo might store NWC URL in bc:config
+            if (bcConfig && bcConfig.nwcUrl && !nwcConnected) {
+              nwcConnected = bcConfig.nwcUrl;
+            }
+          } else {
+            console.warn('bc:config is not valid JSON format:', bcConfigRaw);
+            bcConfig = null;
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to parse bc:config:', error, 'Raw value:', localStorage.getItem('bc:config'));
+        bcConfig = null;
+      }
+      
+      // Debug: Log all Bitcoin Connect related localStorage items
+      console.log('🔍 Bitcoin Connect localStorage debug:', {
+        bcConnectorType: bcConnected,
+        bcConfig: bcConfig,
+        nwcConnectionString: nwcConnected,
+        allLocalStorageKeys: Object.keys(localStorage).filter(k => k.startsWith('bc') || k.includes('nwc') || k.includes('alby')),
+        allLocalStorageData: Object.fromEntries(
+          Object.keys(localStorage)
+            .filter(k => k.startsWith('bc') || k.includes('nwc') || k.includes('alby'))
+            .map(k => [k, localStorage.getItem(k)])
+        )
+      });
       
       // Try to enable WebLN if it exists but isn't enabled
       let weblnEnabledAfter = weblnEnabled;
@@ -58,16 +93,20 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         nwcServiceConnected = false;
       }
       
-      // Additional WebLN checks - sometimes enabled property isn't reliable
+      // More strict WebLN checks - methods must exist AND be enabled
       const hasWeblnMethods = weblnExists && (
         typeof (window as any).webln?.makeInvoice === 'function' ||
         typeof (window as any).webln?.sendPayment === 'function' ||
         typeof (window as any).webln?.keysend === 'function'
       );
       
-      const finalWeblnStatus = weblnEnabledAfter || hasWeblnMethods;
+      // Only consider WebLN "connected" if it's actually enabled, not just if methods exist
+      const finalWeblnStatus = weblnEnabledAfter && hasWeblnMethods;
 
-      const anyConnection = finalWeblnStatus || bcConnected || nwcConnected || nwcServiceConnected;
+      // Check if AlbyGo or other BC connectors are properly connected
+      const bcConnectorConnected = !!(bcConnected || (bcConfig && (bcConfig.connectorType || bcConfig.nwcUrl)));
+      
+      const anyConnection = finalWeblnStatus || bcConnectorConnected || nwcConnected || nwcServiceConnected;
 
       // Debug logging
       console.log('🔍 Connection check:', {
@@ -76,6 +115,7 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         hasWeblnMethods,
         finalWeblnStatus,
         bcConnected: !!bcConnected,
+        bcConnectorConnected,
         nwcConnected: !!nwcConnected,
         nwcServiceConnected,
         anyConnection
@@ -112,6 +152,15 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
 
     window.addEventListener('bc:connected', handleConnected);
     window.addEventListener('bc:disconnected', handleDisconnected);
+    
+    // Listen for storage changes (in case BC updates localStorage from another tab/component)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key && (e.key.startsWith('bc:') || e.key.includes('nwc') || e.key.includes('alby'))) {
+        console.log('🔄 Bitcoin Connect storage changed:', e.key, 'new value:', e.newValue);
+        checkConnection();
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
 
     // Check connection status periodically (less frequently to avoid performance issues)
     const interval = setInterval(checkConnection, 30000); // Every 30 seconds instead of 2
@@ -119,6 +168,7 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
     return () => {
       window.removeEventListener('bc:connected', handleConnected);
       window.removeEventListener('bc:disconnected', handleDisconnected);
+      window.removeEventListener('storage', handleStorageChange);
       clearInterval(interval);
     };
   }, []);

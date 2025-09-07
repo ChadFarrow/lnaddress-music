@@ -210,13 +210,26 @@ export default function HomePage() {
       console.log('🔄 Loading albums from static cache...');
       let response = await fetch('/api/albums-static-cached');
       let data;
+      let useStaticCache = false;
       
       if (response.ok) {
         data = await response.json();
-        console.log('⚡ Using static cached album data (fast loading)');
-      } else {
-        // Fallback to dynamic data if static cache fails
-        console.log('📡 Static cache failed, falling back to dynamic data...');
+        // Check if the data includes podcast:value information
+        const hasValueData = data.albums?.some((album: any) => 
+          album.value || album.tracks?.some((track: any) => track.value)
+        );
+        
+        if (hasValueData) {
+          console.log('⚡ Using static cached album data (fast loading, includes podcast:value)');
+          useStaticCache = true;
+        } else {
+          console.log('📦 Static cached data missing podcast:value info, falling back to dynamic data...');
+        }
+      }
+      
+      if (!useStaticCache) {
+        // Fallback to dynamic data if static cache fails or lacks podcast:value data
+        console.log('📡 Loading dynamic data to get podcast:value for Lightning...');
         response = await fetch('/api/albums-no-db');
         if (response.ok) {
           data = await response.json();
