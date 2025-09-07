@@ -164,8 +164,23 @@ export function BitcoinConnectPayment({
   }, []);
 
   const handlePayment = async () => {
-    const weblnEnabled = !!(window as any).webln?.enabled;
-    console.log('🔌 Bitcoin Connect payment attempt - isConnected:', isConnected, 'webln.enabled:', weblnEnabled);
+    // Use enhanced detection logic similar to context
+    const weblnExists = !!(window as any).webln;
+    const weblnEnabled = weblnExists && !!(window as any).webln?.enabled;
+    const hasWeblnMethods = weblnExists && (
+      typeof (window as any).webln?.makeInvoice === 'function' ||
+      typeof (window as any).webln?.sendPayment === 'function' ||
+      typeof (window as any).webln?.keysend === 'function'
+    );
+    const weblnAvailable = weblnEnabled || hasWeblnMethods;
+    
+    console.log('🔌 Bitcoin Connect payment attempt:', {
+      isConnected,
+      weblnExists,
+      weblnEnabled,
+      hasWeblnMethods,
+      weblnAvailable
+    });
     
     setLoading(true);
     try {
@@ -180,7 +195,7 @@ export function BitcoinConnectPayment({
       const results: any[] = [];
       
       // Try WebLN first if available
-      if (weblnEnabled && webln.keysend) {
+      if (weblnAvailable && webln.keysend) {
         console.log(`⚡ Bitcoin Connect WebLN keysend: ${amount} sats split among recipients for "${description}"`);
         
         const errors: string[] = [];
@@ -193,13 +208,16 @@ export function BitcoinConnectPayment({
             console.log(`⚡ Sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
             
             try {
+              // Try sending in sats first - some WebLN providers expect sats, not millisats
               const response = await webln.keysend({
                 destination: recipientData.address,
-                amount: recipientAmount * 1000,
+                amount: recipientAmount, // Send in sats - Alby might expect sats not millisats
                 customRecords: {
                   7629169: `${description} - ${recipientData.name || 'Recipient'}`
                 }
               });
+              
+              console.log(`💰 Payment sent: ${recipientAmount} sats to ${recipientData.address}`);
               
               console.log(`✅ Payment to ${recipientData.name || recipientData.address} successful:`, response);
               results.push({ recipient: recipientData.name || recipientData.address, amount: recipientAmount, response });

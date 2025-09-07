@@ -24,17 +24,21 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
       const nwcConnected = localStorage.getItem('nwc_connection_string');
       
       // Try to enable WebLN if it exists but isn't enabled
+      let weblnEnabledAfter = weblnEnabled;
       if (weblnExists && !weblnEnabled) {
         try {
           await (window as any).webln.enable();
-          console.log('🔗 WebLN enabled successfully');
+          // Wait a moment for the state to update
+          await new Promise(resolve => setTimeout(resolve, 100));
+          weblnEnabledAfter = !!(window as any).webln?.enabled;
+          console.log('🔗 WebLN enabled successfully, new state:', weblnEnabledAfter);
         } catch (error) {
-          console.log('🔗 WebLN enable failed or cancelled by user');
+          console.log('🔗 WebLN enable failed or cancelled by user:', error);
+          weblnEnabledAfter = false;
         }
+      } else {
+        weblnEnabledAfter = weblnEnabled;
       }
-      
-      // Re-check after potential enable
-      const weblnEnabledAfter = !!(window as any).webln?.enabled;
       
       // Initialize NWC service if connection string exists
       let nwcServiceConnected = false;
@@ -54,11 +58,23 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         nwcServiceConnected = false;
       }
       
-      const anyConnection = weblnEnabledAfter || bcConnected || nwcConnected || nwcServiceConnected;
+      // Additional WebLN checks - sometimes enabled property isn't reliable
+      const hasWeblnMethods = weblnExists && (
+        typeof (window as any).webln?.makeInvoice === 'function' ||
+        typeof (window as any).webln?.sendPayment === 'function' ||
+        typeof (window as any).webln?.keysend === 'function'
+      );
       
+      const finalWeblnStatus = weblnEnabledAfter || hasWeblnMethods;
+
+      const anyConnection = finalWeblnStatus || bcConnected || nwcConnected || nwcServiceConnected;
+
       // Debug logging
       console.log('🔍 Connection check:', {
-        webln: weblnEnabledAfter,
+        weblnExists,
+        weblnEnabled: weblnEnabledAfter, 
+        hasWeblnMethods,
+        finalWeblnStatus,
         bcConnected: !!bcConnected,
         nwcConnected: !!nwcConnected,
         nwcServiceConnected,
