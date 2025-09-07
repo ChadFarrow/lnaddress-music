@@ -13,17 +13,8 @@ import dynamic from 'next/dynamic';
 // Import Lightning components
 import { BitcoinConnectWallet } from '@/components/BitcoinConnect';
 
-// Optimized dynamic imports with reduced loading states
-const AlbumCard = dynamic(() => import('@/components/AlbumCardLazy'), {
-  loading: () => (
-    <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 animate-pulse h-64">
-      <div className="aspect-square bg-gray-800/50 rounded-lg mb-3"></div>
-      <div className="h-4 bg-gray-700/50 rounded mb-2"></div>
-      <div className="h-3 bg-gray-700/50 rounded w-2/3"></div>
-    </div>
-  ),
-  ssr: false // Reduce initial bundle size
-});
+// Direct import of AlbumCard to fix lazy loading issue
+import AlbumCard from '@/components/AlbumCard';
 
 const PublisherCard = dynamic(() => import('@/components/PublisherCard'), {
   loading: () => <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 h-20 animate-pulse"></div>,
@@ -86,12 +77,6 @@ export default function HomePage() {
   const [totalFeedsCount, setTotalFeedsCount] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  
-  // Progressive loading states
-  const [criticalAlbums, setCriticalAlbums] = useState<Album[]>([]);
-  const [enhancedAlbums, setEnhancedAlbums] = useState<Album[]>([]);
-  const [isCriticalLoaded, setIsCriticalLoaded] = useState(false);
-  const [isEnhancedLoaded, setIsEnhancedLoaded] = useState(false);
   
   // Global audio context
   const { playAlbumAndOpenNowPlaying: globalPlayAlbum, toggleShuffle } = useAudio();
@@ -169,20 +154,21 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Progressive loading: Load critical albums first (core feeds only)
+  // Load all albums and publishers
   const loadCriticalAlbums = async () => {
     try {
       setIsLoading(true);
       setError(null);
       setLoadingProgress(0);
       
-      // Load all albums directly - no progressive loading
-      const allAlbums = await loadAlbumsData('all');
-      setCriticalAlbums(allAlbums);
+      // Load all albums directly
+      const allAlbums = await loadAlbumsData();
+      console.log(`📦 Loaded ${allAlbums.length} albums`);
+      setAlbums(allAlbums);
       
-      // Preload colors for critical albums for instant Now Playing screen
-      const criticalTitles = criticalAlbums.slice(0, 10).map((album: any) => album.title);
-      preloadCriticalColors(criticalTitles).catch(console.warn);
+      // Preload colors for first albums for instant Now Playing screen
+      const firstAlbumTitles = allAlbums.slice(0, 10).map((album: any) => album.title);
+      preloadCriticalColors(firstAlbumTitles).catch(console.warn);
       
       // Load static publisher data
       try {
@@ -197,39 +183,17 @@ export default function HomePage() {
       } catch (error) {
         console.error('Error loading static publisher data:', error);
       }
-      setIsCriticalLoaded(true);
-      setLoadingProgress(30);
       
-      // Start loading enhanced data in background
-      loadEnhancedAlbums();
-      
-    } catch (error) {
-      setError('Failed to load critical albums');
-      setIsLoading(false);
-    }
-  };
-
-  // Progressive loading: Load enhanced albums (all feeds)
-  const loadEnhancedAlbums = async () => {
-    try {
-      // Load all albums in background
-      const allAlbums = await loadAlbumsData('all');
-      setAlbums(allAlbums); // Set main albums state
-      setEnhancedAlbums(allAlbums); // Set enhanced albums for progressive loading
-      
-      // Publishers already loaded from static data, no need to reprocess
-      setIsEnhancedLoaded(true);
       setLoadingProgress(100);
       setIsLoading(false);
       
     } catch (error) {
-      console.warn('Failed to load enhanced albums, using critical albums only');
-      setAlbums(criticalAlbums); // Fallback to critical albums
+      setError('Failed to load albums');
       setIsLoading(false);
     }
   };
 
-  const loadAlbumsData = async (loadTier: 'core' | 'extended' | 'lowPriority' | 'all' = 'all') => {
+  const loadAlbumsData = async () => {
     try {
       // Check for cached albums first
       if (typeof window !== 'undefined') {
@@ -362,8 +326,8 @@ export default function HomePage() {
 
   // Helper functions for filtering and sorting
   const getFilteredAlbums = () => {
-    // Use all available albums - no progressive loading restrictions
-    const albumsToUse = criticalAlbums.length > 0 ? criticalAlbums : (enhancedAlbums.length > 0 ? enhancedAlbums : albums);
+    // Use the main albums state directly
+    const albumsToUse = albums;
     
           // Universal sorting function that implements hierarchical order: Pinned → Albums → EPs → Singles
       const sortWithHierarchy = (albums: Album[]) => {
@@ -431,9 +395,6 @@ export default function HomePage() {
   };
 
   const filteredAlbums = getFilteredAlbums();
-  
-  // Show loading state for progressive loading
-  const showProgressiveLoading = isCriticalLoaded && !isEnhancedLoaded && filteredAlbums.length > 0;
 
 
   return (
@@ -554,15 +515,8 @@ export default function HomePage() {
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
                     <span className="text-yellow-400">
-                      {isCriticalLoaded ? 'Loading more albums...' : 'Loading albums...'}
+                      Loading albums...
                       {loadingProgress > 0 && ` (${Math.round(loadingProgress)}%)`}
-                    </span>
-                  </div>
-                ) : showProgressiveLoading ? (
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
-                    <span className="text-blue-400">
-                      Loading more albums... ({filteredAlbums.length} loaded)
                     </span>
                   </div>
                 ) : error ? (
@@ -637,7 +591,7 @@ export default function HomePage() {
         
         {/* Main Content */}
         <div className="container mx-auto px-3 sm:px-6 py-6 sm:py-8 pb-28">
-          {isLoading && !isCriticalLoaded ? (
+          {isLoading ? (
             <div className="flex flex-col items-center justify-center py-12 gap-4">
               <LoadingSpinner 
                 size="large"
@@ -675,17 +629,6 @@ export default function HomePage() {
                 className="mb-8"
               />
 
-              {/* Progressive Loading Indicator */}
-              {showProgressiveLoading && (
-                <div className="mb-6 p-4 bg-blue-600/20 border border-blue-500/30 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 bg-blue-400 rounded-full animate-pulse"></div>
-                    <span className="text-blue-300 text-sm">
-                      Loading more albums in the background... ({filteredAlbums.length} loaded so far)
-                    </span>
-                  </div>
-                </div>
-              )}
 
               {/* Albums Display */}
               {activeFilter === 'publishers' ? (
@@ -865,16 +808,14 @@ export default function HomePage() {
             <div className="text-center py-12">
               <h2 className="text-2xl font-semibold mb-4">No Albums Found</h2>
               <p className="text-gray-400">
-                {isCriticalLoaded ? 'Unable to load additional album information.' : 'Unable to load any album information from the RSS feeds.'}
+                Unable to load album information from the RSS feeds.
               </p>
-              {isCriticalLoaded && (
-                <button 
-                  onClick={() => loadEnhancedAlbums()}
-                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                >
-                  Load More Albums
-                </button>
-              )}
+              <button 
+                onClick={() => loadCriticalAlbums()}
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                Retry Loading Albums
+              </button>
             </div>
           )}
         </div>
