@@ -14,6 +14,7 @@ export interface RSSTrack {
   startTime?: number; // Add time segment support
   value?: RSSValue; // Track-level podcast:value data
   endTime?: number;   // Add time segment support
+  paymentRecipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>; // Pre-processed track payment recipients
 }
 
 export interface RSSFunding {
@@ -84,6 +85,7 @@ export interface RSSAlbum {
   feedId?: string;
   feedUrl?: string;
   lastUpdated?: string;
+  paymentRecipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>;
 }
 
 // Development logging utility
@@ -575,6 +577,24 @@ export class RSSParser {
           }
         }
         
+        // Process track-level podcast:value data server-side to create paymentRecipients
+        let trackPaymentRecipients: Array<{ address: string; split: number; name?: string; fee?: boolean }> | undefined;
+        
+        if (trackValue && trackValue.type === 'lightning' && trackValue.method === 'keysend' && trackValue.recipients && trackValue.recipients.length > 0) {
+          trackPaymentRecipients = trackValue.recipients
+            .filter(r => r.type === 'node') // Only include node recipients
+            .map(r => ({
+              address: r.address,
+              split: r.split,
+              name: r.name,
+              fee: r.fee
+            }));
+          
+          if (trackPaymentRecipients.length > 0) {
+            verboseLog(`💰 Processed ${trackPaymentRecipients.length} payment recipients for track "${trackTitle}"`);
+          }
+        }
+        
         tracks.push({
           title: trackTitle,
           duration: duration,
@@ -585,7 +605,8 @@ export class RSSParser {
           image: trackImage || undefined,
           explicit: trackExplicit,
           keywords: trackKeywords.length > 0 ? trackKeywords : undefined,
-          value: trackValue
+          value: trackValue,
+          paymentRecipients: trackPaymentRecipients
         });
         
         // Reduced verbosity - only log missing URLs as warnings in dev
@@ -769,6 +790,24 @@ export class RSSParser {
         }
       }
       
+      // Process podcast:value data server-side to create paymentRecipients
+      let paymentRecipients: Array<{ address: string; split: number; name?: string; fee?: boolean }> | undefined;
+      
+      if (value && value.type === 'lightning' && value.method === 'keysend' && value.recipients && value.recipients.length > 0) {
+        paymentRecipients = value.recipients
+          .filter(r => r.type === 'node') // Only include node recipients
+          .map(r => ({
+            address: r.address,
+            split: r.split,
+            name: r.name,
+            fee: r.fee
+          }));
+        
+        if (paymentRecipients.length > 0) {
+          verboseLog(`💰 Processed ${paymentRecipients.length} payment recipients for "${title}"`);
+        }
+      }
+      
       const album = {
         title,
         artist,
@@ -788,7 +827,8 @@ export class RSSParser {
         copyright,
         owner: owner && (owner.name || owner.email) ? owner : undefined,
         podroll: podroll.length > 0 ? podroll : undefined,
-        publisher: publisher
+        publisher: publisher,
+        paymentRecipients: paymentRecipients
       };
       
       verboseLog('[RSSParser] Successfully parsed RSS feed', { feedUrl, trackCount: tracks.length });

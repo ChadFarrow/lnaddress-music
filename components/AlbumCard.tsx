@@ -7,6 +7,7 @@ import { Play, Pause, Music, Zap } from 'lucide-react';
 import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
 import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 import type { RSSValue, RSSValueRecipient } from '@/lib/rss-parser';
+import confetti from 'canvas-confetti';
 
 interface Track {
   title: string;
@@ -95,6 +96,42 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
     setShowBoostSuccess(true);
     setShowBoostModal(false);
     setTimeout(() => setShowBoostSuccess(false), 3000);
+    
+    // Trigger multiple confetti bursts for dramatic effect
+    const count = 200;
+    const defaults = {
+      origin: { y: 0.7 },
+      colors: ['#FFD700', '#FFA500', '#FF8C00', '#FFE55C', '#FFFF00']
+    };
+
+    function fire(particleRatio: number, opts: any) {
+      confetti(Object.assign({}, defaults, opts, {
+        particleCount: Math.floor(count * particleRatio)
+      }));
+    }
+
+    fire(0.25, {
+      spread: 26,
+      startVelocity: 55,
+    });
+    fire(0.2, {
+      spread: 60,
+    });
+    fire(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 45,
+    });
   };
 
   const handleBoostError = (error: string) => {
@@ -287,11 +324,6 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
             <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
           </button>
           
-          {showBoostSuccess && (
-            <div className="bg-green-500/90 backdrop-blur-sm rounded-full px-2 py-1 text-[10px] text-white animate-pulse">
-              ⚡ Boosted!
-            </div>
-          )}
         </div>
         
         {/* Track count badge - kept on the right */}

@@ -9,6 +9,7 @@ import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
 import type { RSSValue } from '@/lib/rss-parser';
 import dynamic from 'next/dynamic';
 import { filterPodrollItems } from '@/lib/podroll-utils';
+import confetti from 'canvas-confetti';
 
 // Dynamic import for ControlsBar
 const ControlsBar = dynamic(() => import('@/components/ControlsBar'), {
@@ -31,6 +32,8 @@ interface Track {
   url: string;
   trackNumber: number;
   image?: string;
+  value?: RSSValue; // Track-level podcast:value data
+  paymentRecipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>; // Pre-processed track payment recipients
 }
 
 interface RSSFunding {
@@ -68,6 +71,7 @@ interface Album {
     feedUrl: string;
     medium: string;
   };
+  paymentRecipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>;
 }
 
 interface AlbumDetailClientProps {
@@ -96,40 +100,78 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   // Lightning payment handlers
   const handleBoostSuccess = (response: any) => {
     console.log('✅ Boost successful:', response);
+    
+    // Trigger multiple confetti bursts for dramatic effect
+    const count = 200;
+    const defaults = {
+      origin: { y: 0.7 },
+      colors: ['#FFD700', '#FFA500', '#FF8C00', '#FFE55C', '#FFFF00']
+    };
+
+    function fire(particleRatio: number, opts: any) {
+      confetti(Object.assign({}, defaults, opts, {
+        particleCount: Math.floor(count * particleRatio)
+      }));
+    }
+
+    fire(0.25, {
+      spread: 26,
+      startVelocity: 55,
+    });
+    fire(0.2, {
+      spread: 60,
+    });
+    fire(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 45,
+    });
   };
 
   const handleBoostError = (error: string) => {
     console.error('❌ Boost failed:', error);
   };
 
-  // Get Lightning payment recipients from RSS value data
+  // Get Lightning payment recipients from pre-processed server-side data
   const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
     if (!album) return null;
     
-    console.log('🔍 Checking album for podcast:value data:', album.title, { 
-      hasValue: !!album.value,
-      valueType: album.value?.type,
-      valueMethod: album.value?.method,
-      recipients: album.value?.recipients?.length || 0
+    console.log('🔍 Checking album for payment recipients:', album.title, { 
+      hasPaymentRecipients: !!album.paymentRecipients,
+      recipientCount: album.paymentRecipients?.length || 0
     });
     
-    // If album has podcast:value Lightning recipients, return all recipients
-    if (album.value && album.value.type === 'lightning' && album.value.method === 'keysend') {
-      const recipients = album.value.recipients
-        .filter(r => r.type === 'node') // Only include node recipients
-        .map(r => ({
-          address: r.address,
-          split: r.split,
-          name: r.name,
-          fee: r.fee
-        }));
-      
-      console.log('✅ Found podcast:value recipients:', recipients);
-      return recipients;
+    // Use pre-processed payment recipients from server-side parsing
+    if (album.paymentRecipients && album.paymentRecipients.length > 0) {
+      console.log('✅ Found pre-processed payment recipients:', album.paymentRecipients);
+      return album.paymentRecipients;
     }
     
-    console.log('❌ No podcast:value data found, using fallback');
+    console.log('❌ No payment recipients found, using fallback');
     return null; // Will use fallback single recipient
+  };
+
+  // Get Lightning payment recipients for a specific track
+  const getTrackPaymentRecipients = (track: Track): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
+    if (!track) return null;
+    
+    // Use pre-processed track payment recipients from server-side parsing
+    if (track.paymentRecipients && track.paymentRecipients.length > 0) {
+      return track.paymentRecipients;
+    }
+    
+    // Fallback to album-level payment recipients if track doesn't have its own
+    return getPaymentRecipients();
   };
   
   // Get fallback recipient for backwards compatibility
@@ -746,6 +788,24 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                       {/* Duration */}
                       <div className="text-sm text-gray-400 font-mono">
                         {formatDuration(track.duration)}
+                      </div>
+
+                      {/* Track Lightning Boost Button */}
+                      <div 
+                        className="flex items-center justify-center ml-2"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent track play when clicking boost
+                        }}
+                      >
+                        <BitcoinConnectPayment
+                          amount={50}
+                          description={`Boost for "${track.title}" by ${album.artist}`}
+                          onSuccess={handleBoostSuccess}
+                          onError={handleBoostError}
+                          recipients={getTrackPaymentRecipients(track) || undefined}
+                          recipient={getFallbackRecipient().address}
+                          className="scale-75"
+                        />
                       </div>
                     </div>
                   );

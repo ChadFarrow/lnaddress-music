@@ -248,43 +248,55 @@ export function BitcoinConnectPayment({
       if (shouldUseNWC && nwcService) {
         console.log(`⚡ Bitcoin Connect using NWC (prioritized): ${amount} sats split among recipients`);
         
-        const errors: string[] = [];
-        
-        for (const recipientData of paymentsToMake) {
+        // Process all payments in parallel for speed
+        const paymentPromises = paymentsToMake.map(async (recipientData) => {
           // Calculate proportional amount based on split
           const recipientAmount = Math.floor((amount * recipientData.split) / totalSplit);
           
-          if (recipientAmount > 0) {
-            console.log(`⚡ NWC sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
-            
-            try {
-              // Make real keysend payment via NWC
-              const tlvRecords = [{
-                type: 7629169,
-                value: Buffer.from(`${description} - ${recipientData.name || 'Recipient'}`, 'utf8').toString('hex')
-              }];
-              
-              const response = await nwcService.payKeysend(
-                recipientData.address,
-                recipientAmount,
-                tlvRecords
-              );
-              
-              if (response.error) {
-                console.error(`❌ NWC payment to ${recipientData.name || recipientData.address} failed:`, response.error);
-                errors.push(`Payment to ${recipientData.name || recipientData.address} failed: ${response.error}`);
-              } else {
-                console.log(`✅ NWC payment to ${recipientData.name || recipientData.address} successful:`, response);
-                results.push({ recipient: recipientData.name || recipientData.address, amount: recipientAmount, response });
-              }
-            } catch (paymentError) {
-              console.error(`❌ NWC payment to ${recipientData.name || recipientData.address} threw error:`, paymentError);
-              errors.push(`Payment to ${recipientData.name || recipientData.address} error: ${paymentError instanceof Error ? paymentError.message : String(paymentError)}`);
-            }
-          } else {
+          if (recipientAmount <= 0) {
             console.log(`⏭️ Skipping ${recipientData.name || recipientData.address} - calculated amount is 0 sats`);
+            return null;
           }
-        }
+          
+          console.log(`⚡ NWC sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
+          
+          try {
+            // Make real keysend payment via NWC
+            const tlvRecords = [{
+              type: 7629169,
+              value: Buffer.from(`${description} - ${recipientData.name || 'Recipient'}`, 'utf8').toString('hex')
+            }];
+            
+            const response = await nwcService.payKeysend(
+              recipientData.address,
+              recipientAmount,
+              tlvRecords
+            );
+            
+            if (response.error) {
+              console.error(`❌ NWC payment to ${recipientData.name || recipientData.address} failed:`, response.error);
+              throw new Error(`Payment to ${recipientData.name || recipientData.address} failed: ${response.error}`);
+            } else {
+              console.log(`✅ NWC payment to ${recipientData.name || recipientData.address} successful:`, response);
+              return { recipient: recipientData.name || recipientData.address, amount: recipientAmount, response };
+            }
+          } catch (paymentError) {
+            console.error(`❌ NWC payment to ${recipientData.name || recipientData.address} threw error:`, paymentError);
+            throw new Error(`Payment to ${recipientData.name || recipientData.address} error: ${paymentError instanceof Error ? paymentError.message : String(paymentError)}`);
+          }
+        });
+        
+        // Wait for all payments to complete (in parallel)
+        const paymentResults = await Promise.allSettled(paymentPromises);
+        const errors: string[] = [];
+        
+        paymentResults.forEach((result, index) => {
+          if (result.status === 'fulfilled' && result.value) {
+            results.push(result.value);
+          } else if (result.status === 'rejected') {
+            errors.push(result.reason.message || String(result.reason));
+          }
+        });
         
         // Report NWC results
         if (results.length > 0) {
@@ -301,37 +313,49 @@ export function BitcoinConnectPayment({
       } else if (weblnAvailable && webln.keysend) {
         console.log(`⚡ Bitcoin Connect WebLN keysend: ${amount} sats split among recipients for "${description}"`);
         
-        const errors: string[] = [];
-        
-        for (const recipientData of paymentsToMake) {
+        // Process all payments in parallel for speed
+        const paymentPromises = paymentsToMake.map(async (recipientData) => {
           // Calculate proportional amount based on split
           const recipientAmount = Math.floor((amount * recipientData.split) / totalSplit);
           
-          if (recipientAmount > 0) {
-            console.log(`⚡ Sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
-            
-            try {
-              // Try sending in sats first - some WebLN providers expect sats, not millisats
-              const response = await webln.keysend({
-                destination: recipientData.address,
-                amount: recipientAmount, // Send in sats - Alby might expect sats not millisats
-                customRecords: {
-                  7629169: `${description} - ${recipientData.name || 'Recipient'}`
-                }
-              });
-              
-              console.log(`💰 Payment sent: ${recipientAmount} sats to ${recipientData.address}`);
-              
-              console.log(`✅ Payment to ${recipientData.name || recipientData.address} successful:`, response);
-              results.push({ recipient: recipientData.name || recipientData.address, amount: recipientAmount, response });
-            } catch (paymentError) {
-              console.error(`❌ Payment to ${recipientData.name || recipientData.address} threw error:`, paymentError);
-              errors.push(`Payment to ${recipientData.name || recipientData.address} error: ${paymentError instanceof Error ? paymentError.message : String(paymentError)}`);
-            }
-          } else {
+          if (recipientAmount <= 0) {
             console.log(`⏭️ Skipping ${recipientData.name || recipientData.address} - calculated amount is 0 sats`);
+            return null;
           }
-        }
+          
+          console.log(`⚡ Sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
+          
+          try {
+            // Try sending in sats first - some WebLN providers expect sats, not millisats
+            const response = await webln.keysend({
+              destination: recipientData.address,
+              amount: recipientAmount, // Send in sats - Alby might expect sats not millisats
+              customRecords: {
+                7629169: `${description} - ${recipientData.name || 'Recipient'}`
+              }
+            });
+            
+            console.log(`💰 Payment sent: ${recipientAmount} sats to ${recipientData.address}`);
+            
+            console.log(`✅ Payment to ${recipientData.name || recipientData.address} successful:`, response);
+            return { recipient: recipientData.name || recipientData.address, amount: recipientAmount, response };
+          } catch (paymentError) {
+            console.error(`❌ Payment to ${recipientData.name || recipientData.address} threw error:`, paymentError);
+            throw new Error(`Payment to ${recipientData.name || recipientData.address} error: ${paymentError instanceof Error ? paymentError.message : String(paymentError)}`);
+          }
+        });
+        
+        // Wait for all payments to complete (in parallel)
+        const paymentResults = await Promise.allSettled(paymentPromises);
+        const errors: string[] = [];
+        
+        paymentResults.forEach((result, index) => {
+          if (result.status === 'fulfilled' && result.value) {
+            results.push(result.value);
+          } else if (result.status === 'rejected') {
+            errors.push(result.reason.message || String(result.reason));
+          }
+        });
         
         // Report results
         if (results.length > 0) {
