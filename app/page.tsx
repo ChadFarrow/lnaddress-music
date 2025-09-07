@@ -261,7 +261,7 @@ export default function HomePage() {
       if (!response.ok || !data) {
         // Fallback to static data if database-free fails
         console.log('🔄 Database-free failed, falling back to static data (Lightning payments will use fallback address)...');
-        response = await fetch('/api/albums-static' + (loadTier === 'core' ? '?priority=high' : ''));
+        response = await fetch('/api/albums-static');
         
         if (!response.ok) {
           throw new Error(`Failed to fetch albums: ${response.status} ${response.statusText}`);

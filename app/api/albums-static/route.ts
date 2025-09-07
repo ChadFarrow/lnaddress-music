@@ -91,17 +91,11 @@ export async function GET(request: Request) {
       const albums = [];
       const errors = [];
       
-      // For priority requests, only process core/high priority feeds
-      const feedsToProcess = priority === 'high' ? 
-        albumFeeds.filter(feed => 
-          feed.title.toLowerCase().includes('doerfel') || 
-          feed.title.toLowerCase().includes('bloodshot') ||
-          feed.id === 'core' || 
-          feed.priority === 'core'
-        ).slice(0, 10) : // Limit to first 10 for speed
-        albumFeeds;
+      // Process ALL album feeds - no priority filtering
+      // Show everything on the site as requested
+      const feedsToProcess = albumFeeds;
 
-      console.log(`📡 Processing ${feedsToProcess.length} ${priority === 'high' ? 'priority ' : ''}album feeds...`);
+      console.log(`📡 Processing ${feedsToProcess.length} album feeds (all priorities)...`);
 
       for (const feed of feedsToProcess) {
         try {
