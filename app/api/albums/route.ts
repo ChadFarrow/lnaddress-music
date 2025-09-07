@@ -96,9 +96,43 @@ export async function GET() {
     return response;
   } catch (error) {
     console.error('Error processing RSS feeds:', error);
+    
+    // Try to fallback to static albums data when database is unavailable
+    try {
+      console.log('🔄 Database unavailable, falling back to static albums data...');
+      const fs = require('fs');
+      const path = require('path');
+      const staticDataPath = path.join(process.cwd(), 'public', 'static-albums.json');
+      
+      if (fs.existsSync(staticDataPath)) {
+        const staticData = JSON.parse(fs.readFileSync(staticDataPath, 'utf8'));
+        console.log(`📦 Serving ${staticData.albums?.length || 0} static albums as fallback`);
+        
+        // Cache the static data
+        albumsCache = {
+          albums: staticData.albums || [],
+          count: staticData.albums?.length || 0,
+          timestamp: new Date().toISOString(),
+          fallback: true
+        };
+        cacheTimestamp = Date.now();
+        
+        const response = NextResponse.json({
+          ...albumsCache,
+          cached: false,
+          source: 'static_fallback'
+        });
+        
+        response.headers.set('Cache-Control', 'public, max-age=180, s-maxage=300');
+        return response;
+      }
+    } catch (fallbackError) {
+      console.error('Static fallback also failed:', fallbackError);
+    }
+    
     return NextResponse.json(
       { 
-        error: 'Failed to process RSS feeds',
+        error: 'Failed to process RSS feeds and static fallback unavailable',
         albums: [],
         timestamp: new Date().toISOString()
       },
