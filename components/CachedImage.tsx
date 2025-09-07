@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { FeedCache } from '@/lib/feed-cache';
 
 interface CachedImageProps {
   src: string;
