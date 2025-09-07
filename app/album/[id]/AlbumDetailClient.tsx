@@ -639,7 +639,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                     description={`Boost for ${album.title} by ${album.artist}`}
                     onSuccess={handleBoostSuccess}
                     onError={handleBoostError}
-                    recipients={getPaymentRecipients()}
+                    recipients={getPaymentRecipients() || undefined}
                     recipient={getFallbackRecipient().address}
                   />
                 </div>
