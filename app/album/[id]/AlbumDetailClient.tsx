@@ -494,7 +494,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         {backgroundImage && backgroundLoaded ? (
           <Image
             src={backgroundImage}
-            alt={`${album.title} background`}
+            alt={`${album?.title || 'Album'} background`}
             fill
             className="object-cover w-full h-full"
             priority
