@@ -18,6 +18,12 @@ export async function GET(request: NextRequest) {
     for (const feed of albumFeeds) {
       try {
         console.log(`🎵 Parsing: ${feed.title}`);
+        
+        // Add delay for Wavlake feeds to avoid rate limiting
+        if (feed.originalUrl.includes('wavlake.com')) {
+          await new Promise(resolve => setTimeout(resolve, 500)); // 500ms delay for Wavlake
+        }
+        
         const albumData = await RSSParser.parseAlbumFeed(feed.originalUrl);
         
         if (albumData) {
