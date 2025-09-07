@@ -25,6 +25,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   const [extractedColors, setExtractedColors] = useState<ExtractedColors | null>(null);
   const [isLoadingColors, setIsLoadingColors] = useState(false);
   const [showBoostModal, setShowBoostModal] = useState(false);
+  const [boostAmount, setBoostAmount] = useState(50);
+  const [albumData, setAlbumData] = useState<any>(null);
   const colorCache = useRef<Map<string, ExtractedColors>>(globalColorCache);
   
   const { checkConnection } = useBitcoinConnect();
@@ -188,6 +190,15 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     };
   }, [isOpen, onClose]);
 
+  // Load album data when album changes
+  useEffect(() => {
+    if (currentAlbum && isOpen) {
+      fetchAlbumData(currentAlbum);
+    } else {
+      setAlbumData(null);
+    }
+  }, [currentAlbum, isOpen]);
+
   if (!isOpen || !currentTrack) return null;
 
   const formatTime = (seconds: number) => {
@@ -261,6 +272,91 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
 
   const handleBoostError = (error: string) => {
     console.error('Boost failed:', error);
+  };
+
+  // Fetch album data to get podcast:value splits
+  const fetchAlbumData = async (albumTitle: string) => {
+    try {
+      console.log('🔍 Fetching album data for:', albumTitle);
+      const response = await fetch('/api/albums');
+      const data = await response.json();
+      
+      // Find the album that matches the current album title
+      const matchingAlbum = data.albums?.find((album: any) => 
+        album.title === albumTitle
+      );
+      
+      if (matchingAlbum) {
+        console.log('✅ Found album data with V4V splits:', matchingAlbum.title, {
+          hasValue: !!matchingAlbum.value,
+          recipients: matchingAlbum.value?.recipients?.length || 0
+        });
+        setAlbumData(matchingAlbum);
+      } else {
+        console.log('❌ No matching album found for:', albumTitle);
+        setAlbumData(null);
+      }
+    } catch (error) {
+      console.error('Failed to fetch album data:', error);
+      setAlbumData(null);
+    }
+  };
+
+  // Get Lightning payment recipients from RSS value data
+  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
+    // Debug: Log current track structure
+    console.log('🔍 Current track data:', currentTrack, {
+      hasCurrentTrack: !!currentTrack,
+      hasValue: !!currentTrack?.value,
+      trackTitle: currentTrack?.title
+    });
+    
+    // First, check if current track has value data
+    if (currentTrack?.value && currentTrack.value.type === 'lightning' && currentTrack.value.method === 'keysend') {
+      console.log('🔍 Checking current track for podcast:value data:', currentTrack.title, { 
+        hasValue: !!currentTrack.value,
+        valueType: currentTrack.value?.type,
+        valueMethod: currentTrack.value?.method,
+        recipients: currentTrack.value?.recipients?.length || 0
+      });
+      
+      const recipients = currentTrack.value.recipients
+        .filter((r: any) => r.type === 'node') // Only include node recipients
+        .map((r: any) => ({
+          address: r.address,
+          split: r.split,
+          name: r.name,
+          fee: r.fee
+        }));
+      
+      console.log('✅ Found podcast:value recipients from current track:', recipients);
+      return recipients;
+    }
+    
+    // Fall back to album-level value data if available
+    if (albumData?.value && albumData.value.type === 'lightning' && albumData.value.method === 'keysend') {
+      console.log('🔍 Checking album for podcast:value data:', albumData.title, { 
+        hasValue: !!albumData.value,
+        valueType: albumData.value?.type,
+        valueMethod: albumData.value?.method,
+        recipients: albumData.value?.recipients?.length || 0
+      });
+      
+      const recipients = albumData.value.recipients
+        .filter((r: any) => r.type === 'node') // Only include node recipients
+        .map((r: any) => ({
+          address: r.address,
+          split: r.split,
+          name: r.name,
+          fee: r.fee
+        }));
+      
+      console.log('✅ Found podcast:value recipients from album:', recipients);
+      return recipients;
+    }
+    
+    console.log('❌ No podcast:value data found, using fallback');
+    return null; // Will use fallback single recipient
   };
 
   // Get fallback recipient for payments (same as AlbumCard)
@@ -462,16 +558,15 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
               WebkitTapHighlightColor: 'transparent',
               touchAction: 'manipulation',
               background: buttonStyles.background,
-              borderColor: buttonStyles.border,
-              border: '1px solid'
+              border: `1px solid ${buttonStyles.border}`
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = buttonStyles.hoverBackground;
-              e.currentTarget.style.borderColor = buttonStyles.hoverBorder;
+              e.currentTarget.style.border = `1px solid ${buttonStyles.hoverBorder}`;
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = buttonStyles.background;
-              e.currentTarget.style.borderColor = buttonStyles.border;
+              e.currentTarget.style.border = `1px solid ${buttonStyles.border}`;
             }}
             title="Boost this song"
           >
@@ -514,12 +609,59 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                 </p>
               </div>
               
+              {/* Amount Selection */}
+              <div className="mb-6">
+                <p className="text-gray-300 text-xs mb-3 uppercase tracking-wide">Select Amount</p>
+                <div className="grid grid-cols-4 gap-2 mb-3">
+                  {[100, 500, 1000, 2000].map((amount) => (
+                    <button
+                      key={amount}
+                      onClick={() => setBoostAmount(amount)}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        boostAmount === amount
+                          ? 'bg-yellow-500 text-black'
+                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      }`}
+                    >
+                      {amount}
+                    </button>
+                  ))}
+                </div>
+                <div className="grid grid-cols-3 gap-2 mb-3">
+                  {[5000, 10000, 21000].map((amount) => (
+                    <button
+                      key={amount}
+                      onClick={() => setBoostAmount(amount)}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        boostAmount === amount
+                          ? 'bg-yellow-500 text-black'
+                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      }`}
+                    >
+                      {amount >= 1000 ? `${amount/1000}k` : amount}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={boostAmount}
+                    onChange={(e) => setBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
+                    className="flex-1 px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
+                    placeholder="Custom amount"
+                    min="1"
+                  />
+                  <span className="text-gray-400 text-sm">sats</span>
+                </div>
+              </div>
+              
               <BitcoinConnectPayment
-                amount={50}
+                amount={boostAmount}
                 description={`Boost for ${currentTrack?.title || 'Unknown Song'} by ${currentTrack?.artist || currentAlbum || 'Unknown Artist'}`}
                 onSuccess={handleBoostSuccess}
                 onError={handleBoostError}
                 className="w-full"
+                recipients={getPaymentRecipients() || undefined}
                 recipient={getFallbackRecipient().address}
               />
             </div>

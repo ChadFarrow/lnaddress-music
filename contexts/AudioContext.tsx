@@ -10,6 +10,20 @@ interface Track {
   image?: string;
   artist?: string;
   album?: string;
+  value?: {
+    type: string;
+    method: string;
+    suggested?: string;
+    recipients: Array<{
+      type: string;
+      address: string;
+      split: number;
+      name?: string;
+      fee?: boolean;
+      customKey?: string;
+      customValue?: string;
+    }>;
+  };
 }
 
 interface AudioContextType {

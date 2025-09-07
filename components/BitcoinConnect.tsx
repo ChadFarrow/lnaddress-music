@@ -142,19 +142,6 @@ export function BitcoinConnectWallet() {
         }}
       />
       
-      {/* One-tap Alby Hub connection option */}
-      {!isConnected && (
-        <AlbyGoConnect
-          onSuccess={() => {
-            console.log('🎉 One-tap connection successful!');
-            // The BitcoinConnectContext will automatically detect the connection
-          }}
-          onError={(error) => {
-            console.error('❌ One-tap connection failed:', error);
-          }}
-          className="ml-2"
-        />
-      )}
     </div>
   );
 }

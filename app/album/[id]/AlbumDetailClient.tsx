@@ -425,6 +425,13 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       image: track.image || album.coverArt
     }));
     
+    // Debug: Check if tracks have value data
+    console.log('🔍 Audio tracks being passed to globalPlayAlbum:', audioTracks.map(t => ({
+      title: t.title,
+      hasValue: !!t.value,
+      valueType: t.value?.type
+    })));
+    
     globalPlayAlbum(audioTracks, 0, album.title);
   };
 
@@ -437,6 +444,13 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       album: album.title,
       image: t.image || album.coverArt
     }));
+    
+    // Debug: Check if tracks have value data
+    console.log('🔍 Audio tracks being passed to globalPlayAlbum (single track):', audioTracks.map(t => ({
+      title: t.title,
+      hasValue: !!t.value,
+      valueType: t.value?.type
+    })));
     
     globalPlayAlbum(audioTracks, index, album.title);
   };
