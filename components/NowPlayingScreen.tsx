@@ -7,6 +7,9 @@ import { useAudio } from '@/contexts/AudioContext';
 import { useSwipeGestures } from '@/hooks/useSwipeGestures';
 import { extractColorsFromImage, createAlbumBackground, createTextOverlay, ExtractedColors } from '@/lib/color-utils';
 import { performanceMonitor, getMobileOptimizations, getCachedColors, debounce } from '@/lib/performance-utils';
+import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
+import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
+import confetti from 'canvas-confetti';
 
 interface NowPlayingScreenProps {
   isOpen: boolean;
@@ -21,7 +24,10 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   const router = useRouter();
   const [extractedColors, setExtractedColors] = useState<ExtractedColors | null>(null);
   const [isLoadingColors, setIsLoadingColors] = useState(false);
+  const [showBoostModal, setShowBoostModal] = useState(false);
   const colorCache = useRef<Map<string, ExtractedColors>>(globalColorCache);
+  
+  const { checkConnection } = useBitcoinConnect();
 
   const {
     currentTrack,
@@ -218,6 +224,60 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     }
   };
 
+  const handleBoostSuccess = (response: any) => {
+    setShowBoostModal(false);
+    
+    // Trigger multiple confetti bursts for dramatic effect
+    const count = 200;
+    const defaults = {
+      origin: { y: 0.7 },
+      colors: ['#FFD700', '#FFA500', '#FF8C00', '#FFE55C', '#FFFF00']
+    };
+
+    function fire(particleRatio: number, opts: any) {
+      confetti({
+        ...defaults,
+        ...opts,
+        particleCount: Math.floor(count * particleRatio),
+      });
+    }
+
+    fire(0.25, {
+      spread: 26,
+      startVelocity: 55,
+    });
+    fire(0.2, {
+      spread: 60,
+    });
+    fire(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 45,
+    });
+  };
+
+  const handleBoostError = (error: string) => {
+    console.error('Boost failed:', error);
+  };
+
+  // Get fallback recipient for payments (same as AlbumCard)
+  const getFallbackRecipient = (): { address: string; amount: number } => {
+    return {
+      address: '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
+      amount: 50
+    };
+  };
+
   // Generate mobile-optimized background styles
   const mobileOpts = getMobileOptimizations();
   const backgroundStyle = extractedColors 
@@ -261,15 +321,30 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           <p className="text-sm text-white font-medium">{currentAlbum || 'Queue'}</p>
         </div>
 
-        <button
-          onClick={handleViewAlbum}
-          className="p-2 text-white/60 hover:text-white transition-colors"
-          title="View album"
-        >
-          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-          </svg>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={async () => {
+              await checkConnection();
+              setShowBoostModal(true);
+            }}
+            className="p-2 bg-yellow-500/20 hover:bg-yellow-500/30 rounded-full text-yellow-400 hover:text-yellow-300 transition-colors"
+            title="Boost this song"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
+            </svg>
+          </button>
+
+          <button
+            onClick={handleViewAlbum}
+            className="p-2 text-white/60 hover:text-white transition-colors"
+            title="View album"
+          >
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}
@@ -405,6 +480,49 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           />
         </div>
       </div>
+
+      {/* Boost Modal */}
+      {showBoostModal && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="relative bg-gray-900 rounded-2xl shadow-2xl max-w-sm w-full">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
+                  </svg>
+                  Boost Song
+                </h3>
+                <button
+                  onClick={() => setShowBoostModal(false)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                  title="Close"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="mb-4">
+                <p className="text-gray-300 text-sm mb-2">
+                  Send sats to support <strong>{currentTrack?.title || 'this song'}</strong> 
+                  {currentTrack?.artist && ` by ${currentTrack.artist}`}
+                </p>
+              </div>
+              
+              <BitcoinConnectPayment
+                amount={50}
+                description={`Boost for ${currentTrack?.title || 'Unknown Song'} by ${currentTrack?.artist || currentAlbum || 'Unknown Artist'}`}
+                onSuccess={handleBoostSuccess}
+                onError={handleBoostError}
+                className="w-full"
+                recipient={getFallbackRecipient().address}
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       <style jsx>{`
         .slider-large::-webkit-slider-thumb {
