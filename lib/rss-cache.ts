@@ -25,8 +25,7 @@ export class RSSCache {
   static getCacheFilePath(feedUrl: string): string {
     // Create a safe filename from the URL
     const hash = Buffer.from(feedUrl).toString('base64')
-      .replace(/[/+=]/g, '_')
-      .substring(0, 50);
+      .replace(/[/+=]/g, '_');
     return path.join(this.CACHE_DIR, `${hash}.json`);
   }
 
