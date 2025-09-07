@@ -35,7 +35,6 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     isPlaying,
     currentTime,
     duration,
-    volume,
     isShuffling,
     isRepeating,
     pause,
@@ -43,7 +42,6 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     nextTrack,
     previousTrack,
     seekTo,
-    setVolume,
     toggleShuffle,
     toggleRepeat,
   } = useAudio();
@@ -204,11 +202,6 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     seekTo(newTime);
   };
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-  };
-
   const handleViewAlbum = () => {
     if (currentAlbum) {
       // Convert album title to URL-friendly slug (consistent with AlbumCard)
@@ -299,7 +292,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   return (
     <div 
       ref={swipeRef}
-      className="fixed inset-0 z-[100] flex flex-col transition-all duration-1000 ease-in-out"
+      className="fixed inset-0 z-[100] flex flex-col transition-colors duration-500 ease-in-out"
       style={backgroundStyle}
     >
       {/* Color overlay for better text readability */}
@@ -453,7 +446,11 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
               await checkConnection();
               setShowBoostModal(true);
             }}
-            className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transition-all border border-white/20 hover:border-yellow-300/50 hover:scale-105"
+            className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 border border-white/20 hover:border-yellow-300/50 transform hover:scale-105 transition-transform duration-150"
+            style={{
+              WebkitTapHighlightColor: 'transparent',
+              touchAction: 'manipulation'
+            }}
             title="Boost this song"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -461,25 +458,6 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
             </svg>
             <span className="font-medium">Boost Song</span>
           </button>
-        </div>
-
-        {/* Volume Control - Desktop Only */}
-        <div className="hidden sm:flex items-center gap-3 w-full max-w-xs">
-          <svg className="w-5 h-5 text-white/60" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-          </svg>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            value={volume}
-            onChange={handleVolumeChange}
-            className="flex-1 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer slider-large"
-            style={{
-              background: `linear-gradient(to right, #ffffff 0%, #ffffff ${volume * 100}%, rgba(255,255,255,0.2) ${volume * 100}%, rgba(255,255,255,0.2) 100%)`
-            }}
-          />
         </div>
       </div>
 
