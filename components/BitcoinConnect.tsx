@@ -43,9 +43,57 @@ export function BitcoinConnectWallet() {
           setIsConnected(true);
         }
 
+        // Hide only balance elements, preserve connection status
+        const hideBalanceElements = () => {
+          setTimeout(() => {
+            // Get all bc-button elements
+            const bcButtons = document.querySelectorAll('bc-button');
+            
+            bcButtons.forEach(bcButton => {
+              // Try to access shadow root if available
+              const shadowRoot = (bcButton as any).shadowRoot;
+              if (shadowRoot) {
+                // Hide only balance elements in shadow DOM
+                const shadowElements = shadowRoot.querySelectorAll('*');
+                shadowElements.forEach((el: any) => {
+                  const text = el.textContent || '';
+                  // Only hide if it contains balance numbers, not general connection text
+                  if (text.match(/\d+[,\d]*\s*(sats?|sat)/i)) {
+                    el.style.display = 'none';
+                    el.style.visibility = 'hidden';
+                  }
+                });
+              }
+              
+              // Check regular DOM elements - preserve connection status
+              const allElements = bcButton.querySelectorAll('*');
+              allElements.forEach(el => {
+                const text = el.textContent || '';
+                // Only hide balance numbers, preserve "Connected", "Disconnected" etc
+                if (text.match(/^\d+[,\d]*\s*(sats?|sat)$/i)) {
+                  (el as HTMLElement).style.display = 'none';
+                  (el as HTMLElement).style.visibility = 'hidden';
+                }
+              });
+            });
+            
+            // Only hide specific bc-balance elements
+            const balanceElements = document.querySelectorAll('bc-balance');
+            balanceElements.forEach(el => {
+              (el as HTMLElement).style.display = 'none';
+              (el as HTMLElement).style.visibility = 'hidden';
+            });
+          }, 500);
+        };
+
+        // Run balance hiding less frequently to avoid interfering with connection status
+        const hideInterval = setInterval(hideBalanceElements, 3000);
+        hideBalanceElements(); // Run once initially
+
         return () => {
           window.removeEventListener('bc:connected', handleConnected);
           window.removeEventListener('bc:disconnected', handleDisconnected);
+          clearInterval(hideInterval);
         };
       } catch (error) {
         console.error('Failed to load Bitcoin Connect:', error);
@@ -69,9 +117,12 @@ export function BitcoinConnectWallet() {
       <bc-button 
         disable-balance="true"
         hide-balance="true"
+        show-balance="false"
         style={{
           '--bc-color-brand': '#eab308',
           '--bc-color-brand-dark': '#ca8a04',
+          '--bc-show-balance': 'none',
+          '--bc-balance-display': 'none',
         }}
       />
     </div>

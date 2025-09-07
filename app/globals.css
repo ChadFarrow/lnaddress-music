@@ -2,12 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hide Bitcoin Connect balance display */
-bc-button .balance,
+/* Hide Bitcoin Connect balance display - targeted approach */
+bc-button {
+  --bc-show-balance: none !important;
+  --bc-balance-display: none !important;
+}
+
+/* Only hide specific balance-related elements, preserve connection status */
+bc-balance,
 bc-button [class*="balance"],
 bc-button [data-balance],
-bc-balance {
+bc-button .balance,
+bc-button .sats,
+bc-button .sat {
   display: none !important;
+  visibility: hidden !important;
 }
 
 @layer base {

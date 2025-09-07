@@ -94,12 +94,12 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   } = useAudio();
 
   // Lightning payment handlers
-  const handleTipSuccess = (response: any) => {
-    console.log('✅ Tip successful:', response);
+  const handleBoostSuccess = (response: any) => {
+    console.log('✅ Boost successful:', response);
   };
 
-  const handleTipError = (error: string) => {
-    console.error('❌ Tip failed:', error);
+  const handleBoostError = (error: string) => {
+    console.error('❌ Boost failed:', error);
   };
 
   // Get Lightning payment recipients from RSS value data
@@ -611,17 +611,6 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                     </div>
                   )}
 
-                  {/* Lightning Payment Button */}
-                  <div className="flex justify-center lg:justify-start mb-6">
-                    <BitcoinConnectPayment
-                      amount={50}
-                      description={`Tip for ${album.title} by ${album.artist}`}
-                      onSuccess={handleTipSuccess}
-                      onError={handleTipError}
-                      recipients={getPaymentRecipients()}
-                      recipient={getFallbackRecipient().address}
-                    />
-                  </div>
                 </div>
 
                 {/* Play Controls */}
@@ -643,6 +632,16 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                       <path d="M14.83 13.41L13.42 14.82L16.55 17.95L14.5 20H20V14.5L17.96 16.54L14.83 13.41M14.5 4L16.54 6.04L4 18.59L5.41 20L17.96 7.46L20 9.5V4M10.59 9.17L5.41 4L4 5.41L9.17 10.58L10.59 9.17Z"/>
                     </svg>
                   </button>
+                  
+                  {/* Lightning Payment Button */}
+                  <BitcoinConnectPayment
+                    amount={50}
+                    description={`Boost for ${album.title} by ${album.artist}`}
+                    onSuccess={handleBoostSuccess}
+                    onError={handleBoostError}
+                    recipients={getPaymentRecipients()}
+                    recipient={getFallbackRecipient().address}
+                  />
                 </div>
 
                 {/* Funding Information - Support This Artist */}

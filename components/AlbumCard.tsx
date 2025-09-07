@@ -46,8 +46,8 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
   const [imageError, setImageError] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const [showTipSuccess, setShowTipSuccess] = useState(false);
-  const [showTipModal, setShowTipModal] = useState(false);
+  const [showBoostSuccess, setShowBoostSuccess] = useState(false);
+  const [showBoostModal, setShowBoostModal] = useState(false);
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -88,14 +88,14 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
     setImageLoaded(false);
   };
 
-  const handleTipSuccess = (response: any) => {
-    setShowTipSuccess(true);
-    setShowTipModal(false);
-    setTimeout(() => setShowTipSuccess(false), 3000);
+  const handleBoostSuccess = (response: any) => {
+    setShowBoostSuccess(true);
+    setShowBoostModal(false);
+    setTimeout(() => setShowBoostSuccess(false), 3000);
   };
 
-  const handleTipError = (error: string) => {
-    console.error('Tip failed:', error);
+  const handleBoostError = (error: string) => {
+    console.error('Boost failed:', error);
   };
 
   // Get Lightning payment recipients from RSS value data
@@ -274,17 +274,17 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              setShowTipModal(true);
+              setShowBoostModal(true);
             }}
             className="w-6 h-6 sm:w-7 sm:h-7 bg-yellow-500/90 hover:bg-yellow-600/90 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors z-10"
-            aria-label={`Tip ${album.artist}`}
+            aria-label={`Boost ${album.artist}`}
           >
             <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
           </button>
           
-          {showTipSuccess && (
+          {showBoostSuccess && (
             <div className="bg-green-500/90 backdrop-blur-sm rounded-full px-2 py-1 text-[10px] text-white animate-pulse">
-              ⚡ Tipped!
+              ⚡ Boosted!
             </div>
           )}
         </div>
@@ -322,18 +322,18 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
       </div>
       </Link>
       
-      {/* Tip Modal */}
-      {showTipModal && (
+      {/* Boost Modal */}
+      {showBoostModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="relative bg-gray-900 rounded-2xl shadow-2xl max-w-sm w-full">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
                   <Zap className="w-5 h-5 text-yellow-500" />
-                  Tip Artist
+                  Boost Artist
                 </h3>
                 <button
-                  onClick={() => setShowTipModal(false)}
+                  onClick={() => setShowBoostModal(false)}
                   className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
                 >
                   <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -358,9 +358,9 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
               
               <BitcoinConnectPayment
                 amount={50}
-                description={`Tip for ${album.title} by ${album.artist}`}
-                onSuccess={handleTipSuccess}
-                onError={handleTipError}
+                description={`Boost for ${album.title} by ${album.artist}`}
+                onSuccess={handleBoostSuccess}
+                onError={handleBoostError}
                 className="w-full"
                 recipients={getPaymentRecipients()}
                 recipient={getFallbackRecipient().address}

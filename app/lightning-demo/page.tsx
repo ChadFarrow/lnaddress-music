@@ -59,7 +59,7 @@ export default function LightningDemoPage() {
                 <li>Connect your Lightning wallet using the wallet button in the header</li>
                 <li>Use any NWC-compatible wallet (Alby, Mutiny, etc.)</li>
                 <li>Make instant payments to content creators</li>
-                <li>Support podcasters with Lightning tips</li>
+                <li>Support podcasters with Lightning boosts</li>
               </ol>
             </div>
           </div>
@@ -157,10 +157,10 @@ export default function LightningDemoPage() {
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-yellow-500">
                 <Zap className="w-5 h-5" />
-                <h4 className="font-semibold">Podcast Tips</h4>
+                <h4 className="font-semibold">Podcast Boosts</h4>
               </div>
               <p className="text-gray-400 text-sm">
-                Send instant tips to your favorite podcasters while listening
+                Send instant boosts to your favorite podcasters while listening
               </p>
             </div>
             
