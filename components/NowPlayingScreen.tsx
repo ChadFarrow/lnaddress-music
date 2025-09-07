@@ -387,76 +387,77 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
         </div>
 
         {/* Main Controls */}
-        <div className="flex items-center justify-center gap-4 sm:gap-6 mb-8">
-          <button
-            onClick={toggleShuffle}
-            className={`p-2 transition-colors ${
-              isShuffling ? 'text-white' : 'text-white/40 hover:text-white/60'
-            }`}
-            title="Toggle shuffle"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
-            </svg>
-          </button>
+        <div className="flex flex-col items-center gap-4 mb-8">
+          {/* Media Controls Row */}
+          <div className="flex items-center justify-center gap-4 sm:gap-6">
+            <button
+              onClick={toggleShuffle}
+              className={`p-2 transition-colors ${
+                isShuffling ? 'text-white' : 'text-white/40 hover:text-white/60'
+              }`}
+              title="Toggle shuffle"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
+              </svg>
+            </button>
 
-          <button
-            onClick={previousTrack}
-            className="p-3 text-white hover:scale-110 transition-transform"
-            title="Previous track"
-          >
-            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
-            </svg>
-          </button>
-
-          <button
-            onClick={isPlaying ? pause : resume}
-            className="p-4 bg-white text-black rounded-full hover:scale-110 transition-transform"
-            title={isPlaying ? 'Pause' : 'Play'}
-          >
-            {isPlaying ? (
+            <button
+              onClick={previousTrack}
+              className="p-3 text-white hover:scale-110 transition-transform"
+              title="Previous track"
+            >
               <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
               </svg>
-            ) : (
-              <svg className="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
+            </button>
+
+            <button
+              onClick={isPlaying ? pause : resume}
+              className="p-4 bg-white text-black rounded-full hover:scale-110 transition-transform"
+              title={isPlaying ? 'Pause' : 'Play'}
+            >
+              {isPlaying ? (
+                <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
+              ) : (
+                <svg className="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              )}
+            </button>
+
+            <button
+              onClick={nextTrack}
+              className="p-3 text-white hover:scale-110 transition-transform"
+              title="Next track"
+            >
+              <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
               </svg>
-            )}
-          </button>
+            </button>
 
-          <button
-            onClick={nextTrack}
-            className="p-3 text-white hover:scale-110 transition-transform"
-            title="Next track"
-          >
-            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-            </svg>
-          </button>
+            <button
+              onClick={toggleRepeat}
+              className={`p-2 transition-colors ${
+                isRepeating ? 'text-white' : 'text-white/40 hover:text-white/60'
+              }`}
+              title="Toggle repeat"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>
+              </svg>
+            </button>
+          </div>
 
-          <button
-            onClick={toggleRepeat}
-            className={`p-2 transition-colors ${
-              isRepeating ? 'text-white' : 'text-white/40 hover:text-white/60'
-            }`}
-            title="Toggle repeat"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>
-            </svg>
-          </button>
-        </div>
-
-        {/* Boost Button */}
-        <div className="flex justify-center mb-6">
+          {/* Boost Button Row */}
           <button
             onClick={async () => {
               await checkConnection();
               setShowBoostModal(true);
             }}
-            className="flex items-center gap-2 px-6 py-3 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transform hover:scale-105 transition-all duration-150"
+            className="flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transform hover:scale-105 transition-all duration-150 text-sm"
             style={{
               WebkitTapHighlightColor: 'transparent',
               touchAction: 'manipulation',
@@ -474,12 +475,13 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
             }}
             title="Boost this song"
           >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
               <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
             </svg>
             <span className="font-medium">Boost Song</span>
           </button>
         </div>
+
       </div>
 
       {/* Boost Modal */}
