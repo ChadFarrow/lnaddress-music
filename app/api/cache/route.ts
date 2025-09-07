@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { FeedCache } from '@/lib/feed-cache';
+import { RSSCache } from '@/lib/rss-cache';
 
 export async function GET(request: NextRequest) {
   try {
@@ -7,31 +7,30 @@ export async function GET(request: NextRequest) {
     const action = searchParams.get('action');
     
     if (action === 'stats') {
-      // Return cache statistics
-      const stats = FeedCache.getCacheStats();
+      // Return RSS cache statistics
+      const stats = RSSCache.getCacheStats();
       return NextResponse.json({
         success: true,
         stats
       });
     }
     
-    if (action === 'cleanup') {
-      // Clean up old cache items
-      const result = await FeedCache.cleanupCache();
+    if (action === 'clear') {
+      // Clear RSS cache
+      RSSCache.clear();
       return NextResponse.json({
         success: true,
-        message: 'Cache cleanup completed',
-        result
+        message: 'RSS cache cleared'
       });
     }
     
     // Default: return basic info
-    const stats = FeedCache.getCacheStats();
+    const stats = RSSCache.getCacheStats();
     
     return NextResponse.json({
       success: true,
-      message: 'Feed Cache API',
-      availableActions: ['stats', 'cleanup', 'cache', 'clear'],
+      message: 'RSS Cache API',
+      availableActions: ['stats', 'clear'],
       currentStats: stats
     });
     
@@ -48,43 +47,28 @@ export async function POST(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
-    
-    if (action === 'cache') {
-      // Cache all feeds
-      console.log('🔄 Starting feed caching via API...');
-      
-      const result = await FeedCache.cacheAllFeeds();
-      
-      return NextResponse.json({
-        success: true,
-        message: 'Feed caching completed',
-        result
-      });
-    }
+    const feedUrl = searchParams.get('feedUrl');
     
     if (action === 'clear') {
-      // Clear entire cache
-      await FeedCache.clearCache();
-      
-      return NextResponse.json({
-        success: true,
-        message: 'Cache cleared successfully'
-      });
-    }
-    
-    if (action === 'initialize') {
-      // Initialize cache system
-      await FeedCache.initialize();
-      
-      return NextResponse.json({
-        success: true,
-        message: 'Cache system initialized'
-      });
+      // Clear RSS cache (specific feed or all)
+      if (feedUrl) {
+        RSSCache.clear(feedUrl);
+        return NextResponse.json({
+          success: true,
+          message: `RSS cache cleared for: ${feedUrl}`
+        });
+      } else {
+        RSSCache.clear();
+        return NextResponse.json({
+          success: true,
+          message: 'All RSS cache cleared'
+        });
+      }
     }
     
     return NextResponse.json({ 
       success: false, 
-      error: 'Invalid action. Use "cache", "clear", or "initialize"' 
+      error: 'Invalid action. Use "clear" with optional feedUrl parameter' 
     }, { status: 400 });
     
   } catch (error) {
