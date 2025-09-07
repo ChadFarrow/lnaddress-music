@@ -66,13 +66,6 @@ export function BitcoinConnectWallet() {
 
   return (
     <div className="flex items-center gap-2">
-      {isConnected && (
-        <div className="flex items-center gap-2 px-2 py-1 bg-gray-800 rounded text-sm text-gray-200">
-          <Zap className="w-4 h-4 text-yellow-500" />
-          <bc-balance />
-        </div>
-      )}
-      
       <bc-button 
         style={{
           '--bc-color-brand': '#eab308',
