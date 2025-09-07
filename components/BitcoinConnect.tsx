@@ -67,6 +67,8 @@ export function BitcoinConnectWallet() {
   return (
     <div className="flex items-center gap-2">
       <bc-button 
+        disable-balance="true"
+        hide-balance="true"
         style={{
           '--bc-color-brand': '#eab308',
           '--bc-color-brand-dark': '#ca8a04',
