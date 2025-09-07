@@ -15,7 +15,7 @@ async function getAlbumData(albumId: string) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
                    (process.env.NODE_ENV === 'production' 
-                     ? 'https://itdv-site.vercel.app' 
+                     ? '' // Use relative URLs in production
                      : 'http://localhost:3000');
     
     console.log(`🚀 Fetching single album: ${albumId}`);
