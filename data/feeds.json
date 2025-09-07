@@ -315,7 +315,7 @@
       "originalUrl": "https://www.doerfelverse.com/feeds/wrath-of-banjo.xml",
       "type": "album",
       "title": "Wrath Of Banjo - Sir TJ The Wrathful",
-      "priority": "extended",
+      "priority": "high",
       "status": "active",
       "addedAt": "2025-08-30T15:30:00.000Z",
       "lastUpdated": "2025-08-30T15:30:00.000Z"
