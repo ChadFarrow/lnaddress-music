@@ -128,7 +128,7 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
       if (publisherAlbums.length > 0) {
         const firstAlbum = publisherAlbums[0];
         // Find an album with publisher data, or use defaults
-        const albumWithPublisher = publisherAlbums.find(album => album.publisher) || firstAlbum;
+        const albumWithPublisher = publisherAlbums.find((album: Album) => album.publisher) || firstAlbum;
         const publisherInfo: Publisher = {
           name: firstAlbum.artist,
           guid: albumWithPublisher.publisher?.feedGuid || 'no-guid',
