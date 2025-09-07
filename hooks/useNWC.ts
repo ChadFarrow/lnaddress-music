@@ -12,7 +12,7 @@ interface UseNWCReturn {
   payInvoice: (invoice: string) => Promise<{ success: boolean; preimage?: string; error?: string }>;
   makeInvoice: (amount: number, description?: string) => Promise<{ invoice?: string; error?: string }>;
   refreshBalance: () => Promise<void>;
-  payKeysend: (pubkey: string, amount: number) => Promise<{ success: boolean; preimage?: string; error?: string }>;
+  payKeysend: (pubkey: string, amount: number, description?: string) => Promise<{ success: boolean; preimage?: string; error?: string }>;
 }
 
 const NWC_STORAGE_KEY = 'nwc_connection_string';

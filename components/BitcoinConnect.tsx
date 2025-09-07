@@ -66,7 +66,7 @@ export function BitcoinConnectWallet() {
               }
               
               // Check regular DOM elements - preserve connection status
-              const allElements = (bcButton as any).querySelectorAll('*');
+              const allElements = (bcButton as unknown as HTMLElement).querySelectorAll('*');
               allElements.forEach(el => {
                 const text = el.textContent || '';
                 // Only hide balance numbers, preserve "Connected", "Disconnected" etc
@@ -80,8 +80,8 @@ export function BitcoinConnectWallet() {
             // Only hide specific bc-balance elements
             const balanceElements = document.querySelectorAll('bc-balance');
             balanceElements.forEach(el => {
-              (el as HTMLElement).style.display = 'none';
-              (el as HTMLElement).style.visibility = 'hidden';
+              (el as unknown as HTMLElement).style.display = 'none';
+              (el as unknown as HTMLElement).style.visibility = 'hidden';
             });
           }, 500);
         };
