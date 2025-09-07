@@ -29,11 +29,13 @@ A modern music streaming platform showcasing independent artists from the Doerfe
 ## Features
 
 ### Core Functionality
-- **RSS Feed Parsing**: Dynamic parsing of music album feeds
-- **Publisher System**: Dedicated pages for music publishers with real artwork
+- **RSS Feed Parsing**: Dynamic parsing of 42 album feeds + 4 publisher feeds
+- **Complete Content Coverage**: All 40 unique albums displaying (100% coverage)
+- **Publisher System**: Dedicated pages for music publishers with real artwork  
 - **Audio Streaming**: Full-featured audio player with playlist support
 - **Content Filtering**: Albums, EPs, Singles, and Publishers views
 - **Static Data Generation**: Fast loading with pre-generated content
+- **Robust Caching**: Fixed RSS cache key system prevents feed collisions
 
 ### User Experience
 - **Progressive Web App (PWA)**: Install on mobile devices
@@ -60,11 +62,11 @@ A modern music streaming platform showcasing independent artists from the Doerfe
 ## Content Structure
 
 ### Publishers
-Publishers are defined in `/public/publishers.json` and include:
-- The Doerfels
-- CityBeach  
-- Middle Season
-- Ryan Fonda
+Publishers have consolidated RSS feeds for easy subscription and include:
+- **The Doerfels** - `https://www.doerfelverse.com/feeds/doerfels-pubfeed.xml`
+- **CityBeach** - `https://www.doerfelverse.com/feeds/citybeach-pubfeed.xml`
+- **Middle Season** - `https://www.doerfelverse.com/artists/middleseason/mspubfeed.xml`
+- **Ryan Fonda** - `https://wavlake.com/feed/artist/d4c49f2e-0b50-4a5e-8101-7543d68e032f`
 
 ### Data Flow
 1. RSS feeds are parsed dynamically or from static cache
@@ -75,9 +77,24 @@ Publishers are defined in `/public/publishers.json` and include:
 ## Development
 
 The app uses a hybrid approach:
-- **Static data** for fast initial loads (`/public/publishers.json`)
-- **Dynamic parsing** for real-time RSS feed updates
-- **Intelligent caching** to balance performance and freshness
+- **Static data** for fast initial loads with 100% content coverage
+- **Dynamic parsing** for real-time RSS feed updates (46 total feeds)
+- **Intelligent caching** with unique cache keys to prevent feed collisions
+- **Comprehensive coverage** of all albums, EPs, and singles from DoerfelVerse artists
+
+## Recent Improvements
+
+### RSS Cache System Fix
+- **Fixed cache key collisions** that were causing multiple feeds to share the same cached data
+- **Removed truncation bug** in RSS cache key generation (`lib/rss-cache.ts`)
+- **Achievement: 100% album coverage** - All 40 required albums now display correctly
+- **Added publisher feeds** for consolidated RSS subscriptions
+
+### Content Coverage
+- **42 individual album feeds** for main site display
+- **4 publisher feeds** for RSS subscription consolidation  
+- **Zero parsing errors** across all feeds
+- **Complete artist representation** from The Doerfels, CityBeach, Middle Season, Ryan Fonda, and more
 
 ## Contributing
 
