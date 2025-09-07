@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Zap, Wallet } from 'lucide-react';
 import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
+import AlbyGoConnect from './AlbyGoConnect';
 
 declare global {
   namespace JSX {
@@ -10,6 +11,9 @@ declare global {
       'bc-button': any;
       'bc-balance': any;
     }
+  }
+  interface Window {
+    bitcoinConnectInitialized?: boolean;
   }
 }
 
@@ -21,7 +25,42 @@ export function BitcoinConnectWallet() {
     // Import Bitcoin Connect dynamically to avoid SSR issues
     const loadBitcoinConnect = async () => {
       try {
-        await import('@getalby/bitcoin-connect');
+        const bc = await import('@getalby/bitcoin-connect');
+        
+        // Initialize Bitcoin Connect with proper configuration for one-tap connections
+        if (bc.init && !window.bitcoinConnectInitialized) {
+          bc.init({
+            appName: 'ITDV Lightning', // Your app name for one-tap connections
+            // Enable NWC with one-tap connections for Alby Hub/Go
+            filters: ['nwc'],  // Prioritize NWC connections for Alby Hub one-tap
+            showBalance: false, // Hide balance to keep UI clean
+            // NWC-specific configuration for one-tap
+            nwcRelay: 'wss://relay.getalby.com',
+            // One-tap connection configuration
+            oneTap: true, // Enable one-tap connections if supported
+            // Request all necessary permissions for superuser access
+            requestPermissions: {
+              methods: [
+                'pay_invoice',
+                'make_invoice',
+                'get_balance',
+                'get_info',
+                'pay_keysend',
+                'pay_multi_invoice',
+                'pay_multi_keysend',
+                'list_transactions',
+                'lookup_invoice',
+                'sign_message'
+              ],
+              // Request superuser scope for one-tap connections
+              budget: 100000, // 100k sats budget
+              budgetRenewal: 'monthly',
+              expiresAt: Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60) // 1 year
+            }
+          });
+          window.bitcoinConnectInitialized = true;
+        }
+        
         setMounted(true);
         
         // Listen for connection events
@@ -114,6 +153,7 @@ export function BitcoinConnectWallet() {
 
   return (
     <div className="flex items-center gap-2">
+      {/* Standard Bitcoin Connect button */}
       <bc-button 
         disable-balance="true"
         hide-balance="true"
@@ -125,6 +165,20 @@ export function BitcoinConnectWallet() {
           '--bc-balance-display': 'none',
         }}
       />
+      
+      {/* One-tap Alby Hub connection option */}
+      {!isConnected && (
+        <AlbyGoConnect
+          onSuccess={() => {
+            console.log('🎉 One-tap connection successful!');
+            // The BitcoinConnectContext will automatically detect the connection
+          }}
+          onError={(error) => {
+            console.error('❌ One-tap connection failed:', error);
+          }}
+          className="ml-2"
+        />
+      )}
     </div>
   );
 }
