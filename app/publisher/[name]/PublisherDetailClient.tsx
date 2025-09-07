@@ -111,19 +111,29 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
       
       // Find albums by this publisher
       const publisherAlbums = albums.filter((album: Album) => {
-        if (!album.publisher) return false;
-        
+        // Match by artist name (since publishers are usually artists)
         const artistSlug = createSlug(album.artist);
-        return artistSlug === nameSlug || album.artist.toLowerCase() === decodedName.toLowerCase();
+        const artistLower = album.artist.toLowerCase();
+        const decodedLower = decodedName.toLowerCase();
+        
+        // Exact match or slug match, but exclude if this artist is just featured
+        if (artistSlug === nameSlug || artistLower === decodedLower) {
+          return true;
+        }
+        
+        // Don't include albums where this artist is just featured (contains "feat." or "featuring")
+        return false;
       });
 
       if (publisherAlbums.length > 0) {
         const firstAlbum = publisherAlbums[0];
+        // Find an album with publisher data, or use defaults
+        const albumWithPublisher = publisherAlbums.find(album => album.publisher) || firstAlbum;
         const publisherInfo: Publisher = {
           name: firstAlbum.artist,
-          guid: firstAlbum.publisher!.feedGuid,
-          feedUrl: firstAlbum.publisher!.feedUrl,
-          medium: firstAlbum.publisher!.medium,
+          guid: albumWithPublisher.publisher?.feedGuid || 'no-guid',
+          feedUrl: albumWithPublisher.publisher?.feedUrl || '',
+          medium: albumWithPublisher.publisher?.medium || 'music',
           albums: publisherAlbums
         };
         
