@@ -362,7 +362,7 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
                 onSuccess={handleBoostSuccess}
                 onError={handleBoostError}
                 className="w-full"
-                recipients={getPaymentRecipients()}
+                recipients={getPaymentRecipients() || undefined}
                 recipient={getFallbackRecipient().address}
               />
             </div>
