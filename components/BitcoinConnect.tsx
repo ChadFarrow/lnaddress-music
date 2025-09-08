@@ -31,8 +31,10 @@ export function BitcoinConnectWallet() {
         if (bc.init && !window.bitcoinConnectInitialized) {
           bc.init({
             appName: 'ITDV Lightning',
-            filters: ['nwc'], // Prioritize NWC connections 
-            showBalance: false // Hide balance to keep UI clean
+            // No filters - show all available wallet options
+            showBalance: false, // Hide balance to keep UI clean
+            // Try to prioritize certain connectors if supported
+            priority: ['webln', 'nwc']
           });
           window.bitcoinConnectInitialized = true;
         }
