@@ -5,16 +5,16 @@
 
 echo "🚀 Updating static album data..."
 
-# Ensure static directory exists
-mkdir -p "data/static"
+# Ensure public directory exists (where API endpoint expects the file)
+mkdir -p "public"
 
-# Fetch current album data and save as static file
+# Fetch current album data and save as static file in the correct location
 echo "📡 Fetching current album data..."
-curl -s "http://localhost:3000/api/albums-no-db" > "data/static/albums.json"
+curl -s "http://localhost:3000/api/albums-no-db" > "public/static-albums.json"
 
 if [ $? -eq 0 ]; then
     echo "✅ Successfully updated static album data"
-    echo "📊 File size: $(ls -lh data/static/albums.json | awk '{print $5}')"
+    echo "📊 File size: $(ls -lh public/static-albums.json | awk '{print $5}')"
     echo "📅 Updated: $(date)"
 else
     echo "❌ Failed to update static album data"
