@@ -15,6 +15,7 @@ interface Track {
   url: string;
   trackNumber: number;
   image?: string;
+  value?: RSSValue; // Track-level podcast:value data
 }
 
 interface Album {
