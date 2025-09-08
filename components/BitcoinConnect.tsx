@@ -32,9 +32,7 @@ export function BitcoinConnectWallet() {
           bc.init({
             appName: 'ITDV Lightning',
             // No filters - show all available wallet options
-            showBalance: false, // Hide balance to keep UI clean
-            // Try to prioritize certain connectors if supported
-            priority: ['webln', 'nwc']
+            showBalance: false // Hide balance to keep UI clean
           });
           window.bitcoinConnectInitialized = true;
         }
