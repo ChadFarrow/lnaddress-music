@@ -672,7 +672,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                   album: currentAlbum || 'Unknown Album',
                   episode: currentTrack?.title,
                   url: currentAlbum ? `https://doerfelverse.com/album/${encodeURIComponent(currentAlbum)}` : 'https://doerfelverse.com',
-                  appName: 'DoerfelVerse',
+                  appName: 'ITDV Lightning',
                   timestamp: Math.floor(currentTime)
                 }}
               />

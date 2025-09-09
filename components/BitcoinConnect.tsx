@@ -190,14 +190,14 @@ export function BitcoinConnectPayment({
         podcast: boostMetadata.artist || 'Unknown Artist',
         episode: boostMetadata.title || 'Unknown Title',
         action: 'boost',
-        app_name: boostMetadata.appName || 'DoerfelVerse',
+        app_name: boostMetadata.appName || 'ITDV Lightning',
         url: boostMetadata.url || 'https://doerfelverse.com',
-        message: `⚡ ${amount} sats boost from DoerfelVerse${recipientName ? ` → ${recipientName}` : ''}`,
+        message: `⚡ ${amount} sats boost from ITDV Lightning${recipientName ? ` → ${recipientName}` : ''}`,
         ...(boostMetadata.timestamp && { ts: boostMetadata.timestamp }),
         ...(boostMetadata.podcastFeedGuid && { feedID: boostMetadata.podcastFeedGuid }),
         ...(boostMetadata.album && { album: boostMetadata.album }),
         value_msat_total: amount * 1000,
-        sender_name: 'DoerfelVerse User'
+        sender_name: 'Super Fan'
       };
       
       tlvRecords.push({
@@ -206,7 +206,7 @@ export function BitcoinConnectPayment({
       });
       
       // 7629171 - Tip note/message (Lightning spec compliant)
-      const tipMessage = `⚡ Boost from DoerfelVerse: ${amount} sats to "${boostMetadata.title}" by ${boostMetadata.artist}${recipientName ? ` → ${recipientName}` : ''}`;
+      const tipMessage = `⚡ Boost from ITDV Lightning: ${amount} sats to "${boostMetadata.title}" by ${boostMetadata.artist}${recipientName ? ` → ${recipientName}` : ''}`;
       tlvRecords.push({
         type: 7629171,
         value: Buffer.from(tipMessage, 'utf8').toString('hex')
@@ -217,10 +217,10 @@ export function BitcoinConnectPayment({
         podcast: boostMetadata.artist || 'Unknown Artist',
         episode: boostMetadata.title || 'Unknown Title', 
         action: 'boost',
-        app: boostMetadata.appName || 'DoerfelVerse',
+        app: boostMetadata.appName || 'ITDV Lightning',
         message: tipMessage,
         amount: amount,
-        sender: 'DoerfelVerse User',
+        sender: 'Super Fan',
         ...(boostMetadata.timestamp && { timestamp: boostMetadata.timestamp })
       };
       

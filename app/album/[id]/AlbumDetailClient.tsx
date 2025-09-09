@@ -716,7 +716,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                       artist: album.artist,
                       album: album.title,
                       url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
-                      appName: 'DoerfelVerse'
+                      appName: 'ITDV Lightning'
                     }}
                   />
                 </div>
@@ -833,7 +833,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                             album: album.title,
                             episode: track.title,
                             url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
-                            appName: 'DoerfelVerse'
+                            appName: 'ITDV Lightning'
                           }}
                         />
                       </div>

@@ -427,7 +427,7 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
                   artist: album.artist,
                   album: album.title,
                   url: `https://doerfelverse.com/album/${encodeURIComponent(album.title)}`,
-                  appName: 'DoerfelVerse'
+                  appName: 'ITDV Lightning'
                 }}
               />
             </div>
