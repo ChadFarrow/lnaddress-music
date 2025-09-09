@@ -153,7 +153,8 @@ export function BitcoinConnectPayment({
   onError,
   className = '',
   recipient = '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
-  recipients
+  recipients,
+  boostMetadata
 }: {
   amount?: number;
   description?: string;
@@ -162,10 +163,97 @@ export function BitcoinConnectPayment({
   className?: string;
   recipient?: string;
   recipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>;
+  boostMetadata?: {
+    title?: string;
+    artist?: string;
+    album?: string;
+    podcastFeedGuid?: string;
+    episode?: string;
+    feedUrl?: string;
+    itemGuid?: string;
+    timestamp?: number;
+    appName?: string;
+    url?: string;
+  };
 }) {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { isConnected } = useBitcoinConnect();
+
+  // Helper function to create enhanced TLV records for boosts following podcast namespace spec
+  const createBoostTLVRecords = (recipientName?: string) => {
+    const tlvRecords = [];
+    
+    if (boostMetadata) {
+      // 7629169 - Podcast metadata JSON (bLIP-10 standard - Breez/Fountain compatible)
+      const podcastMetadata = {
+        podcast: boostMetadata.artist || 'Unknown Artist',
+        episode: boostMetadata.title || 'Unknown Title',
+        action: 'boost',
+        app_name: boostMetadata.appName || 'DoerfelVerse',
+        url: boostMetadata.url || 'https://doerfelverse.com',
+        message: `⚡ ${amount} sats boost from DoerfelVerse${recipientName ? ` → ${recipientName}` : ''}`,
+        ...(boostMetadata.timestamp && { ts: boostMetadata.timestamp }),
+        ...(boostMetadata.podcastFeedGuid && { feedID: boostMetadata.podcastFeedGuid }),
+        ...(boostMetadata.album && { album: boostMetadata.album }),
+        value_msat_total: amount * 1000,
+        sender_name: 'DoerfelVerse User'
+      };
+      
+      tlvRecords.push({
+        type: 7629169,
+        value: Buffer.from(JSON.stringify(podcastMetadata), 'utf8').toString('hex')
+      });
+      
+      // 7629171 - Tip note/message (Lightning spec compliant)
+      const tipMessage = `⚡ Boost from DoerfelVerse: ${amount} sats to "${boostMetadata.title}" by ${boostMetadata.artist}${recipientName ? ` → ${recipientName}` : ''}`;
+      tlvRecords.push({
+        type: 7629171,
+        value: Buffer.from(tipMessage, 'utf8').toString('hex')
+      });
+      
+      // 133773310 - Sphinx compatibility (JSON encoded data)
+      const sphinxData = {
+        podcast: boostMetadata.artist || 'Unknown Artist',
+        episode: boostMetadata.title || 'Unknown Title', 
+        action: 'boost',
+        app: boostMetadata.appName || 'DoerfelVerse',
+        message: tipMessage,
+        amount: amount,
+        sender: 'DoerfelVerse User',
+        ...(boostMetadata.timestamp && { timestamp: boostMetadata.timestamp })
+      };
+      
+      tlvRecords.push({
+        type: 133773310,
+        value: Buffer.from(JSON.stringify(sphinxData), 'utf8').toString('hex')
+      });
+      
+    } else {
+      // Fallback for non-boost payments - simple message
+      const message = `${description}${recipientName ? ` - ${recipientName}` : ''}`;
+      tlvRecords.push({
+        type: 7629171, // Use tip note format
+        value: Buffer.from(message, 'utf8').toString('hex')
+      });
+    }
+    
+    return tlvRecords;
+  };
+
+  // Helper function to convert TLV records to WebLN customRecords format
+  const createWebLNCustomRecords = (recipientName?: string) => {
+    const tlvRecords = createBoostTLVRecords(recipientName);
+    const customRecords: { [key: number]: string } = {};
+    
+    tlvRecords.forEach(record => {
+      // Convert hex back to string for WebLN
+      const value = Buffer.from(record.value, 'hex').toString('utf8');
+      customRecords[record.type] = value;
+    });
+    
+    return customRecords;
+  };
 
   useEffect(() => {
     const loadBitcoinConnect = async () => {
@@ -278,11 +366,8 @@ export function BitcoinConnectPayment({
           console.log(`⚡ NWC sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
           
           try {
-            // Make real keysend payment via NWC
-            const tlvRecords = [{
-              type: 7629169,
-              value: Buffer.from(`${description} - ${recipientData.name || 'Recipient'}`, 'utf8').toString('hex')
-            }];
+            // Make real keysend payment via NWC with enhanced TLV records
+            const tlvRecords = createBoostTLVRecords(recipientData.name || 'Recipient');
             
             const response = await nwcService.payKeysend(
               recipientData.address,
@@ -347,9 +432,7 @@ export function BitcoinConnectPayment({
             const response = await webln.keysend({
               destination: recipientData.address,
               amount: recipientAmount, // Send in sats - Alby might expect sats not millisats
-              customRecords: {
-                7629169: `${description} - ${recipientData.name || 'Recipient'}`
-              }
+              customRecords: createWebLNCustomRecords(recipientData.name || 'Recipient')
             });
             
             console.log(`💰 Payment sent: ${recipientAmount} sats to ${recipientData.address}`);
@@ -404,11 +487,8 @@ export function BitcoinConnectPayment({
               console.log(`⚡ Sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
               
               try {
-                // Make real keysend payment via NWC
-                const tlvRecords = [{
-                  type: 7629169,
-                  value: Buffer.from(`${description} - ${recipientData.name || 'Recipient'}`, 'utf8').toString('hex')
-                }];
+                // Make real keysend payment via NWC with enhanced TLV records
+                const tlvRecords = createBoostTLVRecords(recipientData.name || 'Recipient');
                 
                 const response = await nwcService.payKeysend(
                   recipientData.address,
