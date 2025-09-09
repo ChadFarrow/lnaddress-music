@@ -711,6 +711,13 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                     onError={handleBoostError}
                     recipients={getPaymentRecipients() || undefined}
                     recipient={getFallbackRecipient().address}
+                    boostMetadata={{
+                      title: album.title,
+                      artist: album.artist,
+                      album: album.title,
+                      url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
+                      appName: 'DoerfelVerse'
+                    }}
                   />
                 </div>
 
@@ -820,6 +827,14 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                           recipients={getTrackPaymentRecipients(track) || undefined}
                           recipient={getFallbackRecipient().address}
                           className="scale-75"
+                          boostMetadata={{
+                            title: track.title,
+                            artist: album.artist,
+                            album: album.title,
+                            episode: track.title,
+                            url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
+                            appName: 'DoerfelVerse'
+                          }}
                         />
                       </div>
                     </div>

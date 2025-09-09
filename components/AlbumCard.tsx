@@ -422,6 +422,13 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
                 className="w-full"
                 recipients={getPaymentRecipients() || undefined}
                 recipient={getFallbackRecipient().address}
+                boostMetadata={{
+                  title: album.title,
+                  artist: album.artist,
+                  album: album.title,
+                  url: `https://doerfelverse.com/album/${encodeURIComponent(album.title)}`,
+                  appName: 'DoerfelVerse'
+                }}
               />
             </div>
           </div>

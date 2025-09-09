@@ -666,6 +666,15 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                 className="w-full"
                 recipients={getPaymentRecipients() || undefined}
                 recipient={getFallbackRecipient().address}
+                boostMetadata={{
+                  title: currentTrack?.title || 'Unknown Song',
+                  artist: currentTrack?.artist || currentAlbum || 'Unknown Artist',
+                  album: currentAlbum || 'Unknown Album',
+                  episode: currentTrack?.title,
+                  url: currentAlbum ? `https://doerfelverse.com/album/${encodeURIComponent(currentAlbum)}` : 'https://doerfelverse.com',
+                  appName: 'DoerfelVerse',
+                  timestamp: Math.floor(currentTime)
+                }}
               />
             </div>
           </div>
