@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Zap, Wallet } from 'lucide-react';
 import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
+import { useBoostToNostr } from '@/hooks/useBoostToNostr';
 import AlbyGoConnect from './AlbyGoConnect';
 
 declare global {
@@ -154,6 +155,7 @@ export function BitcoinConnectPayment({
   className = '',
   recipient = '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
   recipients,
+  enableBoosts = false,
   boostMetadata
 }: {
   amount?: number;
@@ -163,10 +165,12 @@ export function BitcoinConnectPayment({
   className?: string;
   recipient?: string;
   recipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>;
+  enableBoosts?: boolean;
   boostMetadata?: {
     title?: string;
     artist?: string;
     album?: string;
+    imageUrl?: string;
     podcastFeedGuid?: string;
     episode?: string;
     feedUrl?: string;
@@ -174,11 +178,18 @@ export function BitcoinConnectPayment({
     timestamp?: number;
     appName?: string;
     url?: string;
+    publisherGuid?: string;
+    publisherUrl?: string;
   };
 }) {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { isConnected } = useBitcoinConnect();
+  
+  // Initialize Nostr boost system if boosts are enabled
+  const { postBoost, generateKeys, publicKey } = useBoostToNostr({ 
+    autoGenerateKeys: enableBoosts && typeof window !== 'undefined'
+  });
 
   // Helper function to create enhanced TLV records for boosts following podcast namespace spec
   const createBoostTLVRecords = (recipientName?: string) => {
@@ -267,6 +278,56 @@ export function BitcoinConnectPayment({
 
     loadBitcoinConnect();
   }, []);
+
+  // Helper function to create Nostr boost notes after successful payments
+  const handleBoostCreation = async (paymentResults: any[], totalAmount: number) => {
+    try {
+      if (!enableBoosts || !boostMetadata || !publicKey) {
+        return;
+      }
+
+      console.log('🎵 Creating Nostr boost note for successful payments...');
+      
+      // Use the intended amount rather than actual amount paid
+      // This shows what the user intended to boost, not just what succeeded
+      
+      // Create boost note using the Nostr boost system
+      if (!postBoost) {
+        console.warn('⚠️ postBoost function not available');
+        return;
+      }
+      
+      // Create boost with intended amount and metadata
+      // Map boostMetadata to TrackMetadata format including itemGuid
+      const trackMetadata = {
+        title: boostMetadata.title,
+        artist: boostMetadata.artist,
+        album: boostMetadata.album,
+        url: boostMetadata.url,
+        imageUrl: boostMetadata.imageUrl,
+        itemGuid: boostMetadata.itemGuid,
+        podcastFeedGuid: boostMetadata.podcastFeedGuid,
+        feedUrl: boostMetadata.feedUrl,
+        publisherGuid: boostMetadata.publisherGuid,
+        publisherUrl: boostMetadata.publisherUrl
+      };
+      
+      const boostResult = await postBoost(
+        totalAmount, 
+        trackMetadata
+        // No default comment - just URL like Fountain
+      );
+      
+      if (boostResult.success) {
+        console.log('✅ Nostr boost note created:', boostResult.eventId);
+        console.log('📝 Boost note published to Nostr with podcast metadata');
+      } else {
+        console.warn('⚠️ Failed to create boost note:', boostResult.error);
+      }
+    } catch (error) {
+      console.warn('⚠️ Failed to create boost note:', error);
+    }
+  };
 
   const handlePayment = async () => {
     // Use enhanced detection logic similar to context
@@ -406,6 +467,16 @@ export function BitcoinConnectPayment({
           if (errors.length > 0) {
             console.warn(`⚠️ Some NWC payments failed:`, errors);
           }
+          
+          // Create Nostr boost note if boosts are enabled and we have successful payments
+          if (enableBoosts && boostMetadata && results.length > 0) {
+            try {
+              await handleBoostCreation(results, amount);
+            } catch (boostError) {
+              console.warn('⚠️ Boost creation failed but payments succeeded:', boostError);
+            }
+          }
+          
           onSuccess?.(results);
         } else if (errors.length > 0) {
           console.error('❌ All NWC payments failed:', errors);
@@ -463,6 +534,16 @@ export function BitcoinConnectPayment({
           if (errors.length > 0) {
             console.warn(`⚠️ Some payments failed:`, errors);
           }
+          
+          // Create Nostr boost note if boosts are enabled and we have successful payments
+          if (enableBoosts && boostMetadata && results.length > 0) {
+            try {
+              await handleBoostCreation(results, amount);
+            } catch (boostError) {
+              console.warn('⚠️ Boost creation failed but payments succeeded:', boostError);
+            }
+          }
+          
           onSuccess?.(results);
         } else if (errors.length > 0) {
           console.error('❌ All payments failed:', errors);
@@ -518,6 +599,16 @@ export function BitcoinConnectPayment({
             if (errors.length > 0) {
               console.warn(`⚠️ Some payments failed:`, errors);
             }
+            
+            // Create Nostr boost note if boosts are enabled and we have successful payments
+            if (enableBoosts && boostMetadata && results.length > 0) {
+              try {
+                await handleBoostCreation(results, amount);
+              } catch (boostError) {
+                console.warn('⚠️ Boost creation failed but payments succeeded:', boostError);
+              }
+            }
+            
             onSuccess?.(results);
           } else if (errors.length > 0) {
             console.error('❌ All payments failed:', errors);
