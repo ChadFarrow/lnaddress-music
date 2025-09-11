@@ -28,7 +28,7 @@ async function getAlbumData(albumId: string) {
         return null;
       } else {
         // Local development
-        baseUrl = 'http://localhost:3002';
+        baseUrl = 'http://localhost:3001';
       }
     }
     

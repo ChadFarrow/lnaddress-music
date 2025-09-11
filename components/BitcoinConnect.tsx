@@ -439,14 +439,30 @@ export function BitcoinConnectPayment({
           console.log(`⚡ NWC sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
           
           try {
-            // Make real keysend payment via NWC with enhanced TLV records
-            const tlvRecords = createBoostTLVRecords(recipientData.name || 'Recipient');
+            let response;
             
-            const response = await nwcService.payKeysend(
-              recipientData.address,
-              recipientAmount,
-              tlvRecords
-            );
+            // Handle different payment types for NWC
+            if (recipientData.type === 'lnaddress' || (recipientData.address && recipientData.address.includes('@'))) {
+              // For Lightning addresses, resolve to invoice and pay
+              console.log(`🔗 NWC resolving Lightning address: ${recipientData.address}`);
+              const comment = `Boost for "${description}" by ${recipientData.name || 'Unknown'}`;
+              
+              response = await nwcService.payLightningAddress(
+                recipientData.address,
+                recipientAmount,
+                comment
+              );
+            } else {
+              // For node public keys, use keysend with TLV records
+              console.log(`⚡ NWC sending keysend to node: ${recipientData.address}`);
+              const tlvRecords = createBoostTLVRecords(recipientData.name || 'Recipient');
+              
+              response = await nwcService.payKeysend(
+                recipientData.address,
+                recipientAmount,
+                tlvRecords
+              );
+            }
             
             if (response.error) {
               console.error(`❌ NWC payment to ${recipientData.name || recipientData.address} failed:`, response.error);
@@ -613,14 +629,30 @@ export function BitcoinConnectPayment({
               console.log(`⚡ Sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
               
               try {
-                // Make real keysend payment via NWC with enhanced TLV records
-                const tlvRecords = createBoostTLVRecords(recipientData.name || 'Recipient');
+                let response;
                 
-                const response = await nwcService.payKeysend(
-                  recipientData.address,
-                  recipientAmount,
-                  tlvRecords
-                );
+                // Handle different payment types for NWC
+                if (recipientData.type === 'lnaddress' || (recipientData.address && recipientData.address.includes('@'))) {
+                  // For Lightning addresses, resolve to invoice and pay
+                  console.log(`🔗 NWC fallback resolving Lightning address: ${recipientData.address}`);
+                  const comment = `Boost for "${description}" by ${recipientData.name || 'Unknown'}`;
+                  
+                  response = await nwcService.payLightningAddress(
+                    recipientData.address,
+                    recipientAmount,
+                    comment
+                  );
+                } else {
+                  // For node public keys, use keysend with TLV records
+                  console.log(`⚡ NWC fallback sending keysend to node: ${recipientData.address}`);
+                  const tlvRecords = createBoostTLVRecords(recipientData.name || 'Recipient');
+                  
+                  response = await nwcService.payKeysend(
+                    recipientData.address,
+                    recipientAmount,
+                    tlvRecords
+                  );
+                }
                 
                 if (response.error) {
                   console.error(`❌ Payment to ${recipientData.name || recipientData.address} failed:`, response.error);

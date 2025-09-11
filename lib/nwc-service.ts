@@ -265,6 +265,31 @@ export class NWCService {
   }
 
   /**
+   * Pay Lightning address by resolving to invoice first
+   */
+  async payLightningAddress(lnAddress: string, amount: number, comment?: string): Promise<PaymentResponse> {
+    try {
+      console.log(`🔗 NWC resolving Lightning address to invoice: ${lnAddress}`);
+      
+      const { LNURLService } = await import('./lnurl-service');
+      const amountMillisats = amount * 1000; // Convert sats to millisats
+      
+      const invoice = await LNURLService.getPaymentInvoice(
+        lnAddress,
+        amountMillisats,
+        comment
+      );
+      
+      console.log(`💳 NWC got invoice for ${lnAddress}, paying via NWC`);
+      
+      return await this.payInvoice(invoice);
+    } catch (error) {
+      console.error('❌ Lightning address payment failed:', error);
+      return { error: error instanceof Error ? error.message : 'Unknown error' };
+    }
+  }
+
+  /**
    * Pay keysend (direct payment without invoice)
    */
   async payKeysend(pubkey: string, amount: number, tlvRecords?: any): Promise<PaymentResponse> {
