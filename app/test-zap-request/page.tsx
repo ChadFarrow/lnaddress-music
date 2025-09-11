@@ -37,8 +37,8 @@ export default function TestZapRequestPage() {
         track: {
           title: 'Example Episode',
           artist: 'Example Podcast',
-          podcastFeedGuid: 'c90e609a-df1e-596a-bd5e-57bcc8aad6cc',
-          itemGuid: 'd98d189b-dc7b-45b1-8720-d4b98690f31f',
+          podcastGuid: 'c90e609a-df1e-596a-bd5e-57bcc8aad6cc',
+          guid: 'd98d189b-dc7b-45b1-8720-d4b98690f31f',
           feedUrl: 'https://fountain.fm/show/p8WM5xdhPOB2YrKmP1Vy',
           publisherGuid: 'publisher-123',
           publisherUrl: 'https://example.com/publisher'
