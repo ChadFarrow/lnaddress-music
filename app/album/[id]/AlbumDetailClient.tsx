@@ -34,6 +34,14 @@ interface Track {
   image?: string;
   value?: RSSValue; // Track-level podcast:value data
   paymentRecipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>; // Pre-processed track payment recipients
+  // Podcast GUIDs for Nostr boost tagging
+  guid?: string; // Standard item GUID
+  podcastGuid?: string; // podcast:guid at item level
+  feedGuid?: string; // Feed-level GUID
+  feedUrl?: string; // Feed URL for this track
+  publisherGuid?: string; // Publisher GUID
+  publisherUrl?: string; // Publisher URL
+  imageUrl?: string; // Track artwork URL
 }
 
 interface RSSFunding {
@@ -72,6 +80,11 @@ interface Album {
     medium: string;
   };
   paymentRecipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>;
+  // Podcast GUIDs for Nostr boost tagging
+  feedGuid?: string; // Feed-level GUID
+  publisherGuid?: string; // Publisher GUID
+  publisherUrl?: string; // Publisher URL
+  imageUrl?: string; // Album artwork URL
 }
 
 interface AlbumDetailClientProps {
@@ -848,14 +861,33 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                           recipient={getFallbackRecipient().address}
                           className="scale-75"
                           enableBoosts={true}
-                          boostMetadata={{
-                            title: track.title,
-                            artist: album.artist,
-                            album: album.title,
-                            episode: track.title,
-                            url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
-                            appName: 'ITDV Lightning'
-                          }}
+                          boostMetadata={(() => {
+                            console.log('🔍 AlbumDetailClient boost data:', {
+                              trackTitle: track.title,
+                              trackGuid: track.guid,
+                              trackPodcastGuid: track.podcastGuid,
+                              albumFeedGuid: album.feedGuid,
+                              albumPublisherGuid: album.publisherGuid,
+                              albumTitle: album.title
+                            });
+                            
+                            return {
+                              title: track.title,
+                              artist: album.artist,
+                              album: album.title,
+                              episode: track.title,
+                              url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
+                              appName: 'ITDV Lightning',
+                              // Include RSS podcast GUIDs for proper Nostr tagging
+                              itemGuid: track.guid, // Track-level GUID
+                              podcastGuid: track.podcastGuid, // podcast:guid at item level
+                              podcastFeedGuid: album.feedGuid, // Feed-level GUID
+                              feedUrl: album.feedUrl,
+                              publisherGuid: album.publisherGuid,
+                              publisherUrl: album.publisherUrl,
+                              imageUrl: track.imageUrl || album.imageUrl
+                            };
+                          })()}
                         />
                       </div>
                     </div>

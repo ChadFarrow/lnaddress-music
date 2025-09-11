@@ -172,6 +172,7 @@ export function BitcoinConnectPayment({
     album?: string;
     imageUrl?: string;
     podcastFeedGuid?: string;
+    podcastGuid?: string; // podcast:guid at item level
     episode?: string;
     feedUrl?: string;
     itemGuid?: string;
@@ -282,11 +283,27 @@ export function BitcoinConnectPayment({
   // Helper function to create Nostr boost notes after successful payments
   const handleBoostCreation = async (paymentResults: any[], totalAmount: number) => {
     try {
+      console.log('🔍 Boost creation conditions check:', {
+        enableBoosts: !!enableBoosts,
+        boostMetadata: !!boostMetadata,
+        publicKey: !!publicKey,
+        postBoost: !!postBoost
+      });
+      
       if (!enableBoosts || !boostMetadata || !publicKey) {
+        console.log('❌ Boost creation blocked - missing required conditions');
         return;
       }
 
       console.log('🎵 Creating Nostr boost note for successful payments...');
+      console.log('🔍 Raw boostMetadata received:', JSON.stringify(boostMetadata, null, 2));
+      console.log('🔍 boostMetadata keys:', Object.keys(boostMetadata || {}));
+      console.log('🔍 boostMetadata values:', {
+        itemGuid: boostMetadata?.itemGuid,
+        podcastFeedGuid: boostMetadata?.podcastFeedGuid,
+        podcastGuid: boostMetadata?.podcastGuid,
+        publisherGuid: boostMetadata?.publisherGuid
+      });
       
       // Use the intended amount rather than actual amount paid
       // This shows what the user intended to boost, not just what succeeded
@@ -298,19 +315,22 @@ export function BitcoinConnectPayment({
       }
       
       // Create boost with intended amount and metadata
-      // Map boostMetadata to TrackMetadata format including itemGuid
+      // Map boostMetadata to TrackMetadata format using correct property names
       const trackMetadata = {
         title: boostMetadata.title,
         artist: boostMetadata.artist,
         album: boostMetadata.album,
         url: boostMetadata.url,
         imageUrl: boostMetadata.imageUrl,
-        itemGuid: boostMetadata.itemGuid,
-        podcastFeedGuid: boostMetadata.podcastFeedGuid,
+        guid: boostMetadata.itemGuid, // Map itemGuid to guid
+        podcastGuid: boostMetadata.podcastGuid,
+        feedGuid: boostMetadata.podcastFeedGuid, // Map podcastFeedGuid to feedGuid
         feedUrl: boostMetadata.feedUrl,
         publisherGuid: boostMetadata.publisherGuid,
         publisherUrl: boostMetadata.publisherUrl
       };
+      
+      console.log('🔍 Mapped trackMetadata:', JSON.stringify(trackMetadata, null, 2));
       
       const boostResult = await postBoost(
         totalAmount, 

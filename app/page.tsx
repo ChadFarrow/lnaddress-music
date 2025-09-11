@@ -36,6 +36,14 @@ interface Track {
   url: string;
   trackNumber: number;
   image?: string;
+  // Podcast GUIDs for Nostr boost tagging
+  guid?: string; // Standard item GUID
+  podcastGuid?: string; // podcast:guid at item level
+  feedGuid?: string; // Feed-level GUID
+  feedUrl?: string; // Feed URL for this track
+  publisherGuid?: string; // Publisher GUID
+  publisherUrl?: string; // Publisher URL
+  imageUrl?: string; // Track artwork URL
 }
 
 interface RSSFunding {
@@ -65,6 +73,11 @@ interface Album {
     feedUrl: string;
     medium: string;
   };
+  // Podcast GUIDs for Nostr boost tagging
+  feedGuid?: string; // Feed-level GUID
+  publisherGuid?: string; // Publisher GUID
+  publisherUrl?: string; // Publisher URL
+  imageUrl?: string; // Album artwork URL
 }
 
 

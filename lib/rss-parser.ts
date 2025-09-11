@@ -15,6 +15,14 @@ export interface RSSTrack {
   value?: RSSValue; // Track-level podcast:value data
   endTime?: number;   // Add time segment support
   paymentRecipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>; // Pre-processed track payment recipients
+  // Podcast GUIDs for Nostr boost tagging
+  guid?: string; // Item GUID from RSS <guid> element  
+  podcastGuid?: string; // podcast:guid at item level
+  feedGuid?: string; // Feed GUID from podcast namespace
+  feedUrl?: string; // Feed URL for this track
+  publisherGuid?: string; // Publisher GUID
+  publisherUrl?: string; // Publisher URL
+  imageUrl?: string; // Track artwork URL
 }
 
 export interface RSSFunding {
@@ -86,6 +94,11 @@ export interface RSSAlbum {
   feedUrl?: string;
   lastUpdated?: string;
   paymentRecipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>;
+  // Podcast GUIDs for Nostr boost tagging
+  feedGuid?: string; // Feed-level GUID
+  publisherGuid?: string; // Publisher GUID
+  publisherUrl?: string; // Publisher URL
+  imageUrl?: string; // Album artwork URL
 }
 
 // Development logging utility
@@ -598,6 +611,46 @@ export class RSSParser {
           }
         }
         
+        // Extract GUID information for Nostr boost tagging
+        // Get the standard item guid (serves as item:guid)
+        const guidElement = item.getElementsByTagName('guid')[0];
+        const itemGuid = guidElement?.textContent?.trim();
+        
+        // Get the podcast:guid at item level if it exists
+        const podcastGuidElement = item.getElementsByTagName('podcast:guid')[0];
+        const itemPodcastGuid = podcastGuidElement?.textContent?.trim();
+        
+        // Debug GUID extraction
+        if (itemGuid || itemPodcastGuid) {
+          console.log(`🏷️ GUID extraction for "${trackTitle}":`, {
+            itemGuid: itemGuid || 'NOT FOUND',
+            podcastGuid: itemPodcastGuid || 'NOT FOUND'
+          });
+        }
+        
+        // Extract podcast namespace GUIDs from remote items
+        let itemFeedGuid: string | undefined;
+        let itemFeedUrl: string | undefined;
+        let itemPublisherGuid: string | undefined;
+        let itemPublisherUrl: string | undefined;
+        
+        // Look for remote items in this track
+        const remoteItems = Array.from(item.getElementsByTagName('podcast:remoteItem'));
+        remoteItems.forEach((remoteItemEl: unknown) => {
+          const element = remoteItemEl as Element;
+          const medium = element.getAttribute('medium');
+          const feedGuid = element.getAttribute('feedGuid');
+          const feedUrl = element.getAttribute('feedUrl');
+          
+          if (medium === 'podcast' && feedGuid) {
+            itemFeedGuid = feedGuid;
+            if (feedUrl) itemFeedUrl = feedUrl;
+          } else if (medium === 'publisher' && feedGuid) {
+            itemPublisherGuid = feedGuid;
+            if (feedUrl) itemPublisherUrl = feedUrl;
+          }
+        });
+        
         tracks.push({
           title: trackTitle,
           duration: duration,
@@ -609,7 +662,15 @@ export class RSSParser {
           explicit: trackExplicit,
           keywords: trackKeywords.length > 0 ? trackKeywords : undefined,
           value: trackValue,
-          paymentRecipients: trackPaymentRecipients
+          paymentRecipients: trackPaymentRecipients,
+          // Add GUID fields for Nostr boost tagging
+          guid: itemGuid, // Standard item guid
+          podcastGuid: itemPodcastGuid, // podcast:guid at item level
+          feedGuid: itemFeedGuid,
+          feedUrl: itemFeedUrl,
+          publisherGuid: itemPublisherGuid,
+          publisherUrl: itemPublisherUrl,
+          imageUrl: trackImage
         });
         
         // Reduced verbosity - only log missing URLs as warnings in dev
@@ -814,6 +875,17 @@ export class RSSParser {
         }
       }
       
+      // Extract main feed GUID from podcast:guid element
+      const guidElement = channel.getElementsByTagName('podcast:guid')[0];
+      const mainFeedGuid = guidElement?.textContent?.trim();
+      
+      // Debug album GUID extraction
+      if (mainFeedGuid) {
+        console.log(`🏷️ Album GUID extraction for "${title}":`, {
+          feedGuid: mainFeedGuid
+        });
+      }
+      
       const album = {
         title,
         artist,
@@ -834,7 +906,13 @@ export class RSSParser {
         owner: owner && (owner.name || owner.email) ? owner : undefined,
         podroll: podroll.length > 0 ? podroll : undefined,
         publisher: publisher,
-        paymentRecipients: paymentRecipients
+        paymentRecipients: paymentRecipients,
+        // Add feed-level GUID fields for Nostr boost tagging
+        feedGuid: mainFeedGuid || publisher?.feedGuid,
+        feedUrl: publisher?.feedUrl || feedUrl,
+        publisherGuid: publisher?.feedGuid,
+        publisherUrl: publisher?.feedUrl,
+        imageUrl: coverArt
       };
       
       verboseLog('[RSSParser] Successfully parsed RSS feed', { feedUrl, trackCount: tracks.length });

@@ -669,15 +669,35 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                 recipients={getPaymentRecipients() || undefined}
                 recipient={getFallbackRecipient().address}
                 enableBoosts={true}
-                boostMetadata={{
-                  title: currentTrack?.title || 'Unknown Song',
-                  artist: currentTrack?.artist || currentAlbum || 'Unknown Artist',
-                  album: currentAlbum || 'Unknown Album',
-                  episode: currentTrack?.title,
-                  url: currentAlbum ? `https://doerfelverse.com/album/${encodeURIComponent(currentAlbum)}` : 'https://doerfelverse.com',
-                  appName: 'ITDV Lightning',
-                  timestamp: Math.floor(currentTime)
-                }}
+                boostMetadata={(() => {
+                  console.log('🔍 NowPlayingScreen boost data:', {
+                    currentTrackTitle: currentTrack?.title,
+                    currentTrackGuid: currentTrack?.guid,
+                    currentTrackPodcastGuid: currentTrack?.podcastGuid,
+                    currentTrackFeedGuid: currentTrack?.feedGuid,
+                    albumDataFeedGuid: albumData?.feedGuid,
+                    albumDataPublisherGuid: albumData?.publisherGuid,
+                    currentAlbum: currentAlbum
+                  });
+                  
+                  return {
+                    title: currentTrack?.title || 'Unknown Song',
+                    artist: currentTrack?.artist || currentAlbum || 'Unknown Artist',
+                    album: currentAlbum || 'Unknown Album',
+                    episode: currentTrack?.title,
+                    url: currentAlbum ? `https://zaps.podtards.com/album/${encodeURIComponent(currentAlbum)}#${encodeURIComponent(currentTrack?.title || '')}` : 'https://zaps.podtards.com',
+                    appName: 'ITDV Lightning',
+                    timestamp: Math.floor(currentTime),
+                    // Include RSS podcast GUIDs for proper Nostr tagging
+                    itemGuid: currentTrack?.guid,
+                    podcastGuid: currentTrack?.podcastGuid, // podcast:guid at item level
+                    podcastFeedGuid: currentTrack?.feedGuid || albumData?.feedGuid,
+                    feedUrl: currentTrack?.feedUrl || albumData?.feedUrl,
+                    publisherGuid: currentTrack?.publisherGuid || albumData?.publisherGuid,
+                    publisherUrl: currentTrack?.publisherUrl || albumData?.publisherUrl,
+                    imageUrl: currentTrack?.imageUrl || albumData?.imageUrl
+                  };
+                })()}
               />
             </div>
           </div>

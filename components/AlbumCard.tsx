@@ -425,13 +425,37 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
                 recipients={getPaymentRecipients() || undefined}
                 recipient={getFallbackRecipient().address}
                 enableBoosts={true}
-                boostMetadata={{
-                  title: album.title,
-                  artist: album.artist,
-                  album: album.title,
-                  url: `https://doerfelverse.com/album/${encodeURIComponent(album.title)}`,
-                  appName: 'ITDV Lightning'
-                }}
+                boostMetadata={(() => {
+                  console.log('🔍 Album data for boost:', {
+                    albumTitle: album.title,
+                    albumId: album.id,
+                    feedGuid: album.feedGuid,
+                    publisherGuid: album.publisherGuid,
+                    firstTrack: album.tracks?.[0] ? {
+                      title: album.tracks[0].title,
+                      guid: album.tracks[0].guid,
+                      podcastGuid: album.tracks[0].podcastGuid,
+                      feedGuid: album.tracks[0].feedGuid
+                    } : 'NO TRACKS',
+                    allTracks: album.tracks?.length || 0
+                  });
+                  
+                  return {
+                    title: album.title,
+                    artist: album.artist,
+                    album: album.title,
+                    url: `https://zaps.podtards.com/album/${encodeURIComponent(album.id)}`,
+                    appName: 'ITDV Lightning',
+                    // Include RSS podcast GUIDs for proper Nostr tagging
+                    itemGuid: album.tracks?.[0]?.guid, // Use first track GUID as episode GUID
+                    podcastGuid: album.tracks?.[0]?.podcastGuid, // podcast:guid at item level
+                    podcastFeedGuid: album.feedGuid,
+                    feedUrl: album.feedUrl,
+                    publisherGuid: album.publisherGuid,
+                    publisherUrl: album.publisherUrl,
+                    imageUrl: album.imageUrl
+                  };
+                })()}
               />
             </div>
           </div>

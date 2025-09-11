@@ -25,9 +25,10 @@ export interface TrackMetadata {
   imageUrl?: string;
   timestamp?: number; // Current playback position in seconds
   duration?: number; // Total track duration in seconds
-  // Podcast-specific metadata
-  podcastFeedGuid?: string;
-  itemGuid?: string;
+  // Podcast-specific metadata (matching RSS parser property names)
+  guid?: string; // Standard item GUID
+  podcastGuid?: string; // podcast:guid at item level
+  feedGuid?: string; // Feed-level GUID
   feedUrl?: string;
   publisherGuid?: string;
   publisherUrl?: string;
@@ -83,7 +84,8 @@ export class BoostToNostrService {
       'wss://relay.snort.social', 
       'wss://relay.nostr.band',
       'wss://relay.fountain.fm',
-      'wss://relay.damus.io'
+      'wss://relay.damus.io',
+      'wss://chadf.nostr1.com'
     ];
 
     if (secretKey) {
@@ -143,7 +145,7 @@ export class BoostToNostrService {
    * Generate ITDV site URL for track/album
    */
   private generateITDVUrl(track: TrackMetadata): string | null {
-    const baseUrl = 'https://itdv.podtards.com';
+    const baseUrl = 'https://zaps.podtards.com';
     
     // Special case for LNURL Testing Podcast - use GitHub repo
     if (track.album && track.album.toLowerCase().includes('lnurl testing')) {
@@ -241,6 +243,26 @@ export class BoostToNostrService {
       
       content += `\n\nnostr:${announcementNevent}`;
     }
+
+    // Add structured JSON metadata when GUIDs are available
+    if (track.guid || track.feedGuid || track.publisherGuid) {
+      const podcastData: any = {
+        version: '1.0.0',
+        boostAmount: amount,
+        app: 'ITDV Lightning'
+      };
+      
+      if (track.guid) podcastData.itemGuid = track.guid;
+      if (track.feedGuid) podcastData.podcastGuid = track.feedGuid;
+      if (track.publisherGuid) podcastData.publisherGuid = track.publisherGuid;
+      if (track.feedUrl) podcastData.feedUrl = track.feedUrl;
+      if (track.publisherUrl) podcastData.publisherUrl = track.publisherUrl;
+      if (track.title) podcastData.episode = track.title;
+      if (track.artist) podcastData.podcast = track.artist;
+      if (track.timestamp) podcastData.ts = track.timestamp;
+      
+      content += `\n\n${JSON.stringify(podcastData)}`;
+    }
     
     return content;
   }
@@ -249,7 +271,17 @@ export class BoostToNostrService {
    * Post a boost to Nostr
    */
   async postBoost(options: BoostOptions): Promise<BoostResult> {
+    console.log('🚀 postBoost called directly with options:', {
+      amount: options.amount,
+      trackTitle: options.track?.title,
+      trackArtist: options.track?.artist,
+      guid: options.track?.guid,
+      feedGuid: options.track?.feedGuid,
+      publisherGuid: options.track?.publisherGuid
+    });
+    
     if (!this.secretKey || !this.publicKey) {
+      console.log('❌ postBoost failed: No keys configured');
       return {
         event: {} as Event,
         eventId: '',
@@ -273,22 +305,32 @@ export class BoostToNostrService {
       // Add Fountain-style podcast tags in k/i pairs with ITDV URLs
       const itdvUrl = this.generateITDVUrl(options.track);
       
-      if (options.track.itemGuid) {
+      console.log('🏷️ Debug track metadata for tags:', {
+        guid: options.track.guid,
+        podcastGuid: options.track.podcastGuid,
+        feedGuid: options.track.feedGuid,
+        publisherGuid: options.track.publisherGuid,
+        feedUrl: options.track.feedUrl
+      });
+      
+      if (options.track.guid) {
+        console.log('🏷️ Adding item GUID tags:', options.track.guid);
         // k tag declares the identifier type
         eventTemplate.tags.push(['k', 'podcast:item:guid']);
         // i tag contains the actual identifier with URL hint
-        const itemTag = ['i', `podcast:item:guid:${options.track.itemGuid}`];
+        const itemTag = ['i', `podcast:item:guid:${options.track.guid}`];
         if (itdvUrl) {
           itemTag.push(itdvUrl);
         }
         eventTemplate.tags.push(itemTag);
       }
 
-      if (options.track.podcastFeedGuid) {
+      if (options.track.feedGuid) {
+        console.log('🏷️ Adding podcast GUID tags:', options.track.feedGuid);
         // k tag declares the identifier type
         eventTemplate.tags.push(['k', 'podcast:guid']);
         // i tag contains the actual identifier with URL hint
-        const feedTag = ['i', `podcast:guid:${options.track.podcastFeedGuid}`];
+        const feedTag = ['i', `podcast:guid:${options.track.feedGuid}`];
         if (itdvUrl) {
           feedTag.push(itdvUrl);
         }
@@ -427,21 +469,21 @@ export class BoostToNostrService {
       // Add NIP-73 podcast metadata if provided
       if (options.track) {
         // Add podcast guid tags
-        if (options.track.podcastFeedGuid) {
+        if (options.track.feedGuid) {
           eventTemplate.tags.push(['k', 'podcast:guid']);
           eventTemplate.tags.push([
             'i',
-            `podcast:guid:${options.track.podcastFeedGuid}`,
+            `podcast:guid:${options.track.feedGuid}`,
             options.track.feedUrl || ''
           ]);
         }
 
         // Add episode/item guid tags
-        if (options.track.itemGuid) {
+        if (options.track.guid) {
           eventTemplate.tags.push(['k', 'podcast:item:guid']);
           const itemTag = [
             'i',
-            `podcast:item:guid:${options.track.itemGuid}`
+            `podcast:item:guid:${options.track.guid}`
           ];
           
           // Add URL hint if available

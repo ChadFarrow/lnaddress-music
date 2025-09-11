@@ -24,6 +24,14 @@ interface Track {
       customValue?: string;
     }>;
   };
+  // Podcast GUIDs for Nostr boost tagging
+  guid?: string;
+  podcastGuid?: string; // podcast:guid at item level
+  feedGuid?: string;
+  feedUrl?: string;
+  publisherGuid?: string;
+  publisherUrl?: string;
+  imageUrl?: string;
 }
 
 interface AudioContextType {
