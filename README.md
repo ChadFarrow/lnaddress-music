@@ -1,6 +1,6 @@
-# ITDV-Site (DoerfelVerse)
+# ITDV Lightning
 
-A modern music streaming platform showcasing independent artists from the DoerfelVerse, built with Next.js and powered by RSS feeds.
+A Lightning Network-powered Value4Value music platform showcasing independent artists from the DoerfelVerse. Built with Next.js, featuring instant Bitcoin payments, Nostr integration, and RSS feeds.
 
 ## Quick Start
 
@@ -30,6 +30,10 @@ A modern music streaming platform showcasing independent artists from the Doerfe
 ## Features
 
 ### Core Functionality
+- **Lightning Network Payments**: Instant Bitcoin payments via Bitcoin Connect
+- **Value4Value Model**: Support artists directly with Lightning zaps and value splits
+- **Nostr Integration**: NIP-57/NIP-73 compliant boost notes published to Nostr relays
+- **Multi-Payment Recipients**: Automatic splitting to multiple Lightning addresses and nodes
 - **RSS Feed Parsing**: Dynamic parsing of 42 album feeds + 4 publisher feeds
 - **Complete Content Coverage**: All 40 unique albums displaying (100% coverage)
 - **Publisher System**: Dedicated pages for music publishers with real artwork  
@@ -60,7 +64,11 @@ A modern music streaming platform showcasing independent artists from the Doerfe
 - **Image Processing**: Next.js Image optimization with CDN fallbacks
 - **Caching System**: Robust RSS cache with unique base64 keys per feed
 - **PWA Support**: Service worker with offline functionality
-- **Payment Integration**: Bitcoin Lightning payments via Bitcoin Connect
+- **Lightning Integration**: Bitcoin Connect with WebLN and NWC support
+- **Payment Methods**: Lightning addresses, node keysends, and multi-recipient splits
+- **Nostr Integration**: NIP-57/NIP-73 boost notes with automatic relay publishing
+- **Value Splits**: Lightning Network value tag parsing for payment distribution
+- **Metadata Collection**: Automatic 2 sat fee collection for platform analytics
 - **Deployment**: Vercel with automated builds and edge deployment
 
 ## Content Structure
@@ -98,11 +106,26 @@ The app uses a hybrid approach:
 
 ## Recent Improvements
 
+### Lightning Network Integration (January 2025)
+- **Bitcoin Connect Integration**: Full WebLN and NWC wallet support
+- **Multi-Recipient Payments**: Automatic value splitting to multiple Lightning addresses/nodes
+- **Nostr Boost Notes**: NIP-57/NIP-73 compliant posts to Nostr relays
+- **Lightning Address Support**: Full LNURL resolution for email-style Lightning payments
+- **Metadata Fee Collection**: Automatic 2 sat fee collection for platform development
+- **Payment Performance**: Fixed render loop causing excessive payment recipient checks
+
+### Value4Value Implementation
+- **Podcasting 2.0 Value Tags**: Full parsing and support for Lightning Network value splits
+- **LNURL Testing Album**: Special test album with multiple payment recipients
+- **GitHub Integration**: Nostr boost posts link to project repository
+- **Real-time Payments**: Instant Bitcoin payments with preimage verification
+
 ### RSS Cache System Fix
 - **Fixed cache key collisions** that were causing multiple feeds to share the same cached data
 - **Removed truncation bug** in RSS cache key generation (`lib/rss-cache.ts`)
 - **Achievement: 100% album coverage** - All 40 required albums now display correctly
 - **Added publisher feeds** for consolidated RSS subscriptions
+- **Static Album Fallback**: API routes now support static album data when RSS feeds unavailable
 
 ### Content Coverage
 - **42 individual album feeds** for main site display
@@ -110,17 +133,41 @@ The app uses a hybrid approach:
 - **Zero parsing errors** across all feeds
 - **Complete artist representation** from The Doerfels, CityBeach, Middle Season, Ryan Fonda, and more
 
+## Lightning Network & Value4Value
+
+### Payment Features
+- **Bitcoin Connect Integration**: WebLN and NWC wallet support
+- **Multi-Recipient Payments**: Automatic splitting to artists, collaborators, and platform
+- **Lightning Addresses**: Full LNURL support for email-style Lightning payments
+- **Node Keysends**: Direct payments to Lightning node public keys
+- **Value Splits**: Podcasting 2.0 value tag parsing for payment distribution
+- **Metadata Collection**: 2 sat fee per boost for platform analytics and development
+
+### Nostr Integration
+- **Boost Notes**: NIP-57/NIP-73 compliant boost posts to Nostr relays
+- **Relay Publishing**: Automatic posting to Primal, Snort, Nostr Band, Fountain, and Damus
+- **Profile Integration**: Nostr profile links and nevent generation
+- **Podcast Metadata**: Rich boost content with album art and track information
+
+### Supported Payment Methods
+- **WebLN**: Browser extension wallets (Alby, Zeus, etc.)
+- **NWC (Nostr Wallet Connect)**: Alby Hub, Mutiny, and other NWC-compatible wallets
+- **Lightning Addresses**: chadf@getalby.com, user@strike.me, etc.
+- **Node Pubkeys**: Direct keysend to Lightning node addresses
+
 ## API Endpoints
 
 ### Album Data
 - `GET /api/albums-static-cached` - Cached album data (fast)
 - `GET /api/albums-no-db` - Fresh album data (dynamic parsing)
 - `GET /api/albums-static` - Static pre-generated album data
+- `GET /api/album/[id]` - Single album endpoint with static fallback
 
 ### Feed Management
 - **RSS Cache Location**: `/data/rss-cache/`
 - **Feed Configuration**: `/data/feeds.json` (46 feeds total)
 - **Static Data**: `/data/static/albums.json`
+- **LNURL Test Data**: Special album for Lightning payment testing
 
 ## Troubleshooting
 
@@ -140,13 +187,34 @@ If albums are not displaying:
 - **Slow loading**: Check CDN configuration and static generation
 - **Audio issues**: Verify HLS.js and AudioContext browser support
 - **Cache problems**: Clear browser cache and RSS cache directory
+- **Payment render loops**: Fixed in January 2025 - payment recipients now use React useMemo
+
+### Lightning Payment Issues
+- **Wallet not connecting**: Check Bitcoin Connect status and wallet compatibility
+- **Payment failures**: Verify Lightning address validity and node connectivity
+- **NWC issues**: Confirm Nostr Wallet Connect string and relay connectivity
+- **Missing recipients**: Check album value tags and payment recipient parsing
 
 ## Contributing
 
-This project showcases music from independent artists in the DoerfelVerse. The platform is designed to be fast, accessible, and provide an excellent listening experience across all devices.
+This project showcases music from independent artists in the DoerfelVerse using the Value4Value model. The platform enables direct Lightning Network payments to artists, creating a sustainable, decentralized music economy.
 
 ### Adding New Content
 1. Add RSS feed URL to `/data/feeds.json`
 2. Test feed parsing with `npm run test-feeds`
 3. Update static data with `./scripts/update-static-data.sh`
-4. Verify content appears at `http://localhost:3000`
+4. Verify content appears at `http://localhost:3001`
+5. Test Lightning payments and value splits for new albums
+
+### Lightning Integration
+- **Wallet Testing**: Test with multiple wallet types (WebLN, NWC, Lightning addresses)
+- **Value Splits**: Verify payment recipient parsing and distribution
+- **Nostr Integration**: Confirm boost notes publish to relays correctly
+- **Performance**: Monitor payment recipient detection for render optimization
+
+## Live Demo
+
+- **Production Site**: https://zaps.podtards.com
+- **Lightning Payments**: Full Bitcoin Lightning Network support
+- **Nostr Integration**: Boost notes published to major Nostr relays
+- **Value4Value**: Direct artist support with transparent payment splits
