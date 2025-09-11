@@ -35,6 +35,11 @@ interface Album {
     feedUrl: string;
     medium: string;
   };
+  // Podcast GUIDs for Nostr boost tagging
+  feedGuid?: string; // Feed-level GUID
+  publisherGuid?: string; // Publisher GUID
+  publisherUrl?: string; // Publisher URL
+  imageUrl?: string; // Album artwork URL
 }
 
 interface AlbumCardProps {
