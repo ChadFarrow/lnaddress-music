@@ -158,7 +158,8 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
           address: r.address,
           split: r.split,
           name: r.name,
-          fee: r.fee
+          fee: r.fee,
+          type: 'node' // Include the type field for payment routing
         }));
       
       console.log('✅ Found album-level podcast:value recipients:', recipients);
@@ -174,7 +175,8 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
           address: r.address,
           split: r.split,
           name: r.name,
-          fee: r.fee
+          fee: r.fee,
+          type: 'node' // Include the type field for payment routing
         }));
       
       console.log('✅ Found track-level podcast:value recipients from first track:', recipients);

@@ -329,7 +329,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           address: r.address,
           split: r.split,
           name: r.name,
-          fee: r.fee
+          fee: r.fee,
+          type: 'node' // Include the type field for payment routing
         }));
       
       console.log('✅ Found podcast:value recipients from current track:', recipients);
@@ -351,7 +352,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           address: r.address,
           split: r.split,
           name: r.name,
-          fee: r.fee
+          fee: r.fee,
+          type: 'node' // Include the type field for payment routing
         }));
       
       console.log('✅ Found podcast:value recipients from album:', recipients);
@@ -552,8 +554,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
 
           {/* Boost Button Row */}
           <button
-            onClick={async () => {
-              await checkConnection();
+            onClick={() => {
+              checkConnection();
               setShowBoostModal(true);
             }}
             className="flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transform hover:scale-105 transition-all duration-150 text-sm"

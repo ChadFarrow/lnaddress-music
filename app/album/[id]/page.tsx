@@ -27,8 +27,10 @@ async function getAlbumData(albumId: string) {
         console.log('🔄 Skipping SSR data fetch in production, will load client-side');
         return null;
       } else {
-        // Local development
-        baseUrl = 'http://localhost:3001';
+        // Local development - check common ports
+        // Next.js uses 3000 by default, falls back to 3001, 3002, etc.
+        const port = process.env.PORT || '3002'; // Current running port
+        baseUrl = `http://localhost:${port}`;
       }
     }
     

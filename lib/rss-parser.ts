@@ -589,7 +589,8 @@ export class RSSParser {
               address: r.address,
               split: r.split,
               name: r.name,
-              fee: r.fee
+              fee: r.fee,
+              type: 'node' // Include the type field for payment routing
             }));
           
           if (trackPaymentRecipients.length > 0) {
@@ -804,7 +805,8 @@ export class RSSParser {
             address: r.address,
             split: r.split,
             name: r.name,
-            fee: r.fee
+            fee: r.fee,
+            type: 'node' // Include the type field for payment routing
           }));
         
         if (paymentRecipients.length > 0) {
