@@ -428,7 +428,7 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
                 boostMetadata={(() => {
                   console.log('🔍 Album data for boost:', {
                     albumTitle: album.title,
-                    albumId: album.id,
+                    albumId: album.feedId || album.title,
                     feedGuid: album.feedGuid,
                     publisherGuid: album.publisherGuid,
                     firstTrack: album.tracks?.[0] ? {
@@ -444,7 +444,7 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
                     title: album.title,
                     artist: album.artist,
                     album: album.title,
-                    url: `https://zaps.podtards.com/album/${encodeURIComponent(album.id)}`,
+                    url: `https://zaps.podtards.com/album/${encodeURIComponent(album.feedId || album.title)}`,
                     appName: 'ITDV Lightning',
                     // Include RSS podcast GUIDs for proper Nostr tagging
                     itemGuid: album.tracks?.[0]?.guid, // Use first track GUID as episode GUID
