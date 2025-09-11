@@ -70,8 +70,59 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       }
     }
     
+    // If no feed found, check static albums data as fallback
     if (!matchingFeed) {
-      console.log(`❌ No matching album feed found for: "${albumId}"`);
+      console.log(`🔍 No feed match, checking static albums data...`);
+      
+      try {
+        const fs = await import('fs/promises');
+        const path = await import('path');
+        const staticAlbumsPath = path.join(process.cwd(), 'public', 'static-albums.json');
+        const staticAlbumsData = await fs.readFile(staticAlbumsPath, 'utf8');
+        const staticAlbumsJson = JSON.parse(staticAlbumsData);
+        const staticAlbums = staticAlbumsJson.albums || [];
+        console.log(`📊 Static albums loaded: ${staticAlbums.length} albums found`);
+        
+        // Search static albums for matching ID
+        const matchingStaticAlbum = staticAlbums.find((album: any) => {
+          const titleMatch = album.title?.toLowerCase() === albumId.toLowerCase();
+          const slugMatch = createSlug(album.title || '') === albumId.toLowerCase();
+          const compatMatch = album.title?.toLowerCase().replace(/\s+/g, '-') === albumId.toLowerCase();
+          
+          // Flexible matching: check if the album title starts with the decoded ID
+          const baseTitle = album.title?.toLowerCase().split(/\s*[-–]\s*/)[0] || '';
+          const baseTitleSlug = createSlug(baseTitle);
+          const flexibleMatch = baseTitleSlug === albumId.toLowerCase();
+          
+          return titleMatch || slugMatch || compatMatch || flexibleMatch;
+        });
+        
+        if (matchingStaticAlbum) {
+          console.log(`✅ Found static album match: "${matchingStaticAlbum.title}"`);
+          
+          // Return static album data directly (it's already in the correct format)
+          const album = {
+            ...matchingStaticAlbum,
+            feedId: 'static-' + albumId,
+            feedUrl: 'static-data',
+            lastUpdated: new Date().toISOString()
+          };
+          
+          const parseTime = 0; // Static data doesn't need parse time
+          console.log(`✅ Successfully returned static album in ${parseTime}ms: "${album?.title || 'Unknown'}"`);
+          
+          return NextResponse.json({ 
+            album,
+            parseTime: `${parseTime}ms`,
+            timestamp: new Date().toISOString(),
+            source: 'static-data'
+          });
+        }
+      } catch (error) {
+        console.log(`⚠️ Failed to check static albums data:`, error);
+      }
+      
+      console.log(`❌ No matching album found for: "${albumId}"`);
       return NextResponse.json({ error: 'Album not found' }, { status: 404 });
     }
     

@@ -46,17 +46,5 @@
       "coverArt": "https://d12wklypp119aj.cloudfront.net/image/d4c49f2e-0b50-4a5e-8101-7543d68e032f.jpg",
       "releaseDate": "2024-01-01"
     }
-  },
-  {
-    "name": "LNURL Test Feed",
-    "feedGuid": "test-lnurl-feed-guid",
-    "feedUrl": "https://raw.githubusercontent.com/ChadFarrow/lnurl-test-feed/main/public/lnurl-test-feed.xml",
-    "medium": "publisher",
-    "albumCount": 1,
-    "latestAlbum": {
-      "title": "LNURL Test Episodes",
-      "coverArt": "https://via.placeholder.com/300x300/1f2937/ffffff?text=LNURL+Test",
-      "releaseDate": "2024-01-01"
-    }
   }
 ]

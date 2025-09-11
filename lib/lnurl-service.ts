@@ -156,6 +156,47 @@ export class LNURLService {
   }
 
   /**
+   * Get a simple payment invoice from Lightning Address (without zap request)
+   */
+  static async getPaymentInvoice(
+    lnurlOrAddress: string,
+    amountMillisats: number,
+    comment?: string
+  ): Promise<string> {
+    try {
+      // 1. Decode LNURL or Lightning Address to get URL
+      const url = this.decodeLNURL(lnurlOrAddress);
+      
+      // 2. Fetch LNURL metadata
+      const metadata = await this.fetchLNURLMetadata(url);
+      
+      // 3. Request invoice without zap request (simple payment)
+      const callbackUrl = new URL(metadata.callback);
+      callbackUrl.searchParams.set('amount', amountMillisats.toString());
+      
+      if (comment) {
+        callbackUrl.searchParams.set('comment', comment);
+      }
+      
+      const response = await fetch(callbackUrl.toString());
+      if (!response.ok) {
+        throw new Error(`Failed to get invoice: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data.pr) {
+        throw new Error('Invalid invoice response: missing pr field');
+      }
+
+      return data.pr;
+    } catch (error) {
+      console.error('Failed to get payment invoice:', error);
+      throw error;
+    }
+  }
+
+  /**
    * Extract metadata from LNURL response
    */
   static parseMetadata(metadataStr: string): { [key: string]: string } {

@@ -145,6 +145,11 @@ export class BoostToNostrService {
   private generateITDVUrl(track: TrackMetadata): string | null {
     const baseUrl = 'https://itdv.podtards.com';
     
+    // Special case for LNURL Testing Podcast - use GitHub repo
+    if (track.album && track.album.toLowerCase().includes('lnurl testing')) {
+      return 'https://github.com/ChadFarrow/lnurl-test-feed';
+    }
+    
     // For albums, use album title to create album URL with optional track hash
     if (track.album) {
       // Create album slug from title

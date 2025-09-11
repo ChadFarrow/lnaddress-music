@@ -164,7 +164,7 @@ export function BitcoinConnectPayment({
   onError?: (error: string) => void;
   className?: string;
   recipient?: string;
-  recipients?: Array<{ address: string; split: number; name?: string; fee?: boolean }>;
+  recipients?: Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string }>;
   enableBoosts?: boolean;
   boostMetadata?: {
     title?: string;
@@ -486,6 +486,12 @@ export function BitcoinConnectPayment({
       } else if (weblnAvailable && webln.keysend) {
         console.log(`⚡ Bitcoin Connect WebLN keysend: ${amount} sats split among recipients for "${description}"`);
         
+        // Separate recipients by type: node keys vs Lightning addresses
+        const nodeRecipients = paymentsToMake.filter(r => r.type === 'node' || (r.address && r.address.length === 66 && !r.address.includes('@')));
+        const lnAddressRecipients = paymentsToMake.filter(r => r.type === 'lnaddress' || (r.address && r.address.includes('@')));
+        
+        console.log(`🔍 Payment types: ${nodeRecipients.length} node keysend, ${lnAddressRecipients.length} Lightning addresses`);
+        
         // Process all payments in parallel for speed
         const paymentPromises = paymentsToMake.map(async (recipientData) => {
           // Calculate proportional amount based on split
@@ -499,17 +505,44 @@ export function BitcoinConnectPayment({
           console.log(`⚡ Sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
           
           try {
-            // Try sending in sats first - some WebLN providers expect sats, not millisats
-            const response = await webln.keysend({
-              destination: recipientData.address,
-              amount: recipientAmount, // Send in sats - Alby might expect sats not millisats
-              customRecords: createWebLNCustomRecords(recipientData.name || 'Recipient')
-            });
-            
-            console.log(`💰 Payment sent: ${recipientAmount} sats to ${recipientData.address}`);
-            
-            console.log(`✅ Payment to ${recipientData.name || recipientData.address} successful:`, response);
-            return { recipient: recipientData.name || recipientData.address, amount: recipientAmount, response };
+            // Handle different payment types
+            if (recipientData.type === 'node' || (recipientData.address && recipientData.address.length === 66 && !recipientData.address.includes('@'))) {
+              // Use keysend for node public keys
+              const response = await webln.keysend({
+                destination: recipientData.address,
+                amount: recipientAmount, // Send in sats - Alby might expect sats not millisats
+                customRecords: createWebLNCustomRecords(recipientData.name || 'Recipient')
+              });
+              
+              console.log(`💰 Payment sent: ${recipientAmount} sats to ${recipientData.address}`);
+              console.log(`✅ Payment to ${recipientData.name || recipientData.address} successful:`, response);
+              return { recipient: recipientData.name || recipientData.address, amount: recipientAmount, response };
+              
+            } else if (recipientData.type === 'lnaddress' || (recipientData.address && recipientData.address.includes('@'))) {
+              // For Lightning addresses, resolve to an invoice first, then pay
+              console.log(`🔗 Resolving Lightning address to invoice: ${recipientData.address}`);
+              
+              const { LNURLService } = await import('../lib/lnurl-service');
+              const amountMillisats = recipientAmount * 1000; // Convert sats to millisats
+              const comment = `Boost for "${description}" by ${recipientData.name || 'Unknown'}`;
+              
+              const invoice = await LNURLService.getPaymentInvoice(
+                recipientData.address,
+                amountMillisats,
+                comment
+              );
+              
+              console.log(`💳 Got invoice for ${recipientData.address}, paying with WebLN`);
+              
+              const response = await webln.sendPayment(invoice);
+              
+              console.log(`💰 Payment sent: ${recipientAmount} sats to ${recipientData.address}`);
+              console.log(`✅ Payment to ${recipientData.name || recipientData.address} successful:`, response);
+              return { recipient: recipientData.name || recipientData.address, amount: recipientAmount, response };
+              
+            } else {
+              throw new Error(`Unknown recipient type for ${recipientData.address}`);
+            }
           } catch (paymentError) {
             console.error(`❌ Payment to ${recipientData.name || recipientData.address} threw error:`, paymentError);
             throw new Error(`Payment to ${recipientData.name || recipientData.address} error: ${paymentError instanceof Error ? paymentError.message : String(paymentError)}`);

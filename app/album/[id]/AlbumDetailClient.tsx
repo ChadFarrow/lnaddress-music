@@ -143,12 +143,22 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   };
 
   // Get Lightning payment recipients from pre-processed server-side data
-  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
+  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string }> | null => {
     if (!album) return null;
+    
+    // Check for album-level value.recipients (Lightning Network value splits)
+    const valueRecipients = album.value?.recipients;
+    
+    // Check for track-level value.recipients (some albums have recipients per track)
+    const trackValueRecipients = album.tracks?.[0]?.value?.recipients;
     
     console.log('🔍 Checking album for payment recipients:', album.title, { 
       hasPaymentRecipients: !!album.paymentRecipients,
-      recipientCount: album.paymentRecipients?.length || 0
+      recipientCount: album.paymentRecipients?.length || 0,
+      hasValueRecipients: !!valueRecipients,
+      valueRecipientCount: valueRecipients?.length || 0,
+      hasTrackValueRecipients: !!trackValueRecipients,
+      trackValueRecipientCount: trackValueRecipients?.length || 0
     });
     
     // Use pre-processed payment recipients from server-side parsing
@@ -157,17 +167,38 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       return album.paymentRecipients;
     }
     
+    // Check for album-level Lightning Network value splits
+    if (valueRecipients && valueRecipients.length > 0) {
+      console.log('✅ Found Lightning Network value recipients:', valueRecipients);
+      return valueRecipients;
+    }
+    
+    // Check for track-level Lightning Network value splits
+    if (trackValueRecipients && trackValueRecipients.length > 0) {
+      console.log('✅ Found track-level Lightning Network value recipients:', trackValueRecipients);
+      return trackValueRecipients;
+    }
+    
     console.log('❌ No payment recipients found, using fallback');
     return null; // Will use fallback single recipient
   };
 
   // Get Lightning payment recipients for a specific track
-  const getTrackPaymentRecipients = (track: Track): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
+  const getTrackPaymentRecipients = (track: Track): Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string }> | null => {
     if (!track) return null;
+    
+    // Check for track-level value.recipients (Lightning Network value splits)
+    const trackValueRecipients = track.value?.recipients;
     
     // Use pre-processed track payment recipients from server-side parsing
     if (track.paymentRecipients && track.paymentRecipients.length > 0) {
       return track.paymentRecipients;
+    }
+    
+    // Check for track-level Lightning Network value splits
+    if (trackValueRecipients && trackValueRecipients.length > 0) {
+      console.log('✅ Found track-level Lightning Network value recipients:', trackValueRecipients);
+      return trackValueRecipients;
     }
     
     // Fallback to album-level payment recipients if track doesn't have its own
