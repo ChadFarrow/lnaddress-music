@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
@@ -143,7 +143,8 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   };
 
   // Get Lightning payment recipients from pre-processed server-side data
-  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string; fixedAmount?: number }> | null => {
+  // Memoize payment recipients to prevent render loop
+  const paymentRecipients = useMemo(() => {
     if (!album) return null;
     
     // Check for album-level value.recipients (Lightning Network value splits)
@@ -152,36 +153,23 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     // Check for track-level value.recipients (some albums have recipients per track)
     const trackValueRecipients = album.tracks?.[0]?.value?.recipients;
     
-    console.log('🔍 Checking album for payment recipients:', album.title, { 
-      hasPaymentRecipients: !!album.paymentRecipients,
-      recipientCount: album.paymentRecipients?.length || 0,
-      hasValueRecipients: !!valueRecipients,
-      valueRecipientCount: valueRecipients?.length || 0,
-      hasTrackValueRecipients: !!trackValueRecipients,
-      trackValueRecipientCount: trackValueRecipients?.length || 0
-    });
-    
     // Use pre-processed payment recipients from server-side parsing
     if (album.paymentRecipients && album.paymentRecipients.length > 0) {
-      console.log('✅ Found pre-processed payment recipients:', album.paymentRecipients);
       return album.paymentRecipients;
     }
     
     // Check for album-level Lightning Network value splits
     if (valueRecipients && valueRecipients.length > 0) {
-      console.log('✅ Found Lightning Network value recipients:', valueRecipients);
       return valueRecipients;
     }
     
     // Check for track-level Lightning Network value splits
     if (trackValueRecipients && trackValueRecipients.length > 0) {
-      console.log('✅ Found track-level Lightning Network value recipients:', trackValueRecipients);
       return trackValueRecipients;
     }
     
-    console.log('❌ No payment recipients found, using fallback');
     return null; // Will use fallback single recipient
-  };
+  }, [album]);
 
   // Get Lightning payment recipients for a specific track
   const getTrackPaymentRecipients = (track: Track): Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string; fixedAmount?: number }> | null => {
@@ -202,7 +190,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     }
     
     // Fallback to album-level payment recipients if track doesn't have its own
-    return getPaymentRecipients();
+    return paymentRecipients;
   };
   
   // Get fallback recipient for backwards compatibility
@@ -740,7 +728,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                     description={`Boost for ${album.title} by ${album.artist}`}
                     onSuccess={handleBoostSuccess}
                     onError={handleBoostError}
-                    recipients={getPaymentRecipients() || undefined}
+                    recipients={paymentRecipients || undefined}
                     recipient={getFallbackRecipient().address}
                     enableBoosts={true}
                     boostMetadata={{
