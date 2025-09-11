@@ -143,7 +143,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   };
 
   // Get Lightning payment recipients from pre-processed server-side data
-  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string }> | null => {
+  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string; fixedAmount?: number }> | null => {
     if (!album) return null;
     
     // Check for album-level value.recipients (Lightning Network value splits)
@@ -184,7 +184,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   };
 
   // Get Lightning payment recipients for a specific track
-  const getTrackPaymentRecipients = (track: Track): Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string }> | null => {
+  const getTrackPaymentRecipients = (track: Track): Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string; fixedAmount?: number }> | null => {
     if (!track) return null;
     
     // Check for track-level value.recipients (Lightning Network value splits)

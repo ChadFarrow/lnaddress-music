@@ -164,7 +164,7 @@ export function BitcoinConnectPayment({
   onError?: (error: string) => void;
   className?: string;
   recipient?: string;
-  recipients?: Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string }>;
+  recipients?: Array<{ address: string; split: number; name?: string; fee?: boolean; type?: string; fixedAmount?: number }>;
   enableBoosts?: boolean;
   boostMetadata?: {
     title?: string;
@@ -203,7 +203,7 @@ export function BitcoinConnectPayment({
         action: 'boost',
         app_name: boostMetadata.appName || 'ITDV Lightning',
         url: boostMetadata.url || 'https://doerfelverse.com',
-        message: `⚡ ${amount} sats boost from ITDV Lightning${recipientName ? ` → ${recipientName}` : ''}`,
+        message: `⚡ ${amount} sats boost from ITDV Lightning${recipientName ? ` → ${recipientName}` : ''} (+2 sat metadata fee)`,
         ...(boostMetadata.timestamp && { ts: boostMetadata.timestamp }),
         ...(boostMetadata.podcastFeedGuid && { feedID: boostMetadata.podcastFeedGuid }),
         ...(boostMetadata.album && { album: boostMetadata.album }),
@@ -217,7 +217,7 @@ export function BitcoinConnectPayment({
       });
       
       // 7629171 - Tip note/message (Lightning spec compliant)
-      const tipMessage = `⚡ Boost from ITDV Lightning: ${amount} sats to "${boostMetadata.title}" by ${boostMetadata.artist}${recipientName ? ` → ${recipientName}` : ''}`;
+      const tipMessage = `⚡ Boost from ITDV Lightning: ${amount} sats to "${boostMetadata.title}" by ${boostMetadata.artist}${recipientName ? ` → ${recipientName}` : ''} (+2 sat metadata fee)`;
       tlvRecords.push({
         type: 7629171,
         value: Buffer.from(tipMessage, 'utf8').toString('hex')
@@ -353,8 +353,20 @@ export function BitcoinConnectPayment({
       const webln = (window as any).webln;
       
       // Determine recipients to use
-      const paymentsToMake = recipients || [{ address: recipient, split: 100, name: 'Single recipient' }];
-      console.log(`⚡ Processing payments to ${paymentsToMake.length} recipients:`, paymentsToMake);
+      let paymentsToMake = recipients || [{ address: recipient, split: 100, name: 'Single recipient' }];
+      
+      // Always add 2 sat payment to site owner for metadata collection
+      const siteOwnerRecipient = {
+        address: '032870511bfa0309bab3ca1832ead69eed848a4abddbc4d50e55bb2157f9525e51',
+        split: 0, // Will be handled separately as fixed 2 sats
+        name: 'ITDV Site Metadata',
+        fee: false,
+        type: 'node',
+        fixedAmount: 2 // Fixed 2 sat payment
+      };
+      
+      paymentsToMake = [...paymentsToMake, siteOwnerRecipient];
+      console.log(`⚡ Processing payments to ${paymentsToMake.length} recipients (including 2 sat metadata fee):`, paymentsToMake);
       
       // Calculate total split value for proportional payments
       const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);
@@ -416,8 +428,8 @@ export function BitcoinConnectPayment({
         
         // Process all payments in parallel for speed
         const paymentPromises = paymentsToMake.map(async (recipientData) => {
-          // Calculate proportional amount based on split
-          const recipientAmount = Math.floor((amount * recipientData.split) / totalSplit);
+          // Calculate amount: use fixed amount if specified, otherwise proportional split
+          const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
           
           if (recipientAmount <= 0) {
             console.log(`⏭️ Skipping ${recipientData.name || recipientData.address} - calculated amount is 0 sats`);
@@ -494,8 +506,8 @@ export function BitcoinConnectPayment({
         
         // Process all payments in parallel for speed
         const paymentPromises = paymentsToMake.map(async (recipientData) => {
-          // Calculate proportional amount based on split
-          const recipientAmount = Math.floor((amount * recipientData.split) / totalSplit);
+          // Calculate amount: use fixed amount if specified, otherwise proportional split
+          const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
           
           if (recipientAmount <= 0) {
             console.log(`⏭️ Skipping ${recipientData.name || recipientData.address} - calculated amount is 0 sats`);
