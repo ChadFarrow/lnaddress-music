@@ -188,11 +188,11 @@ export class NWCService {
       // Publish request
       this.pool.publish(this.relays, requestEvent);
 
-      // Timeout after 30 seconds
+      // Timeout after 15 seconds for faster failed payments
       setTimeout(() => {
         sub.close();
         resolve(null);
-      }, 30000);
+      }, 15000);
     });
   }
 

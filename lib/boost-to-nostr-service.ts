@@ -84,8 +84,7 @@ export class BoostToNostrService {
       'wss://relay.snort.social', 
       'wss://relay.nostr.band',
       'wss://relay.fountain.fm',
-      'wss://relay.damus.io',
-      'wss://chadf.nostr1.com'
+      'wss://relay.damus.io'
     ];
 
     if (secretKey) {
@@ -191,6 +190,46 @@ export class BoostToNostrService {
     }
     
     return null;
+  }
+
+  /**
+   * Publish boost note to Nostr relays asynchronously
+   */
+  private async publishBoostNoteAsync(event: Event, nevent: string): Promise<void> {
+    try {
+      const publishPromises = this.pool.publish(this.relays, event);
+      
+      // Wait for publish results with detailed logging
+      const results = await Promise.allSettled(publishPromises);
+      
+      let successCount = 0;
+      let failureCount = 0;
+      
+      results.forEach((result, index) => {
+        if (result.status === 'fulfilled') {
+          console.log(`✅ Published to ${this.relays[index]}`);
+          successCount++;
+        } else {
+          console.warn(`❌ Failed to publish to ${this.relays[index]}:`, result.reason);
+          failureCount++;
+        }
+      });
+      
+      console.log(`📊 Publish results: ${successCount} successful, ${failureCount} failed`);
+      
+      if (successCount > 0) {
+        console.log('🎵 Boost note published successfully to Nostr relays');
+        console.log(`🔗 View your boost: https://primal.net/e/${event.id}`);
+        console.log(`🔗 Alternative: https://snort.social/e/${event.id}`);
+        console.log(`🔗 Nostr reference: nostr:${nevent}`);
+        console.log(`👤 Your Nostr profile: https://primal.net/p/${getPublicKey(this.secretKey!)}`);
+      } else {
+        console.error('❌ Failed to publish to any relays');
+      }
+    } catch (publishError) {
+      console.warn('⚠️ Failed to publish boost note:', publishError);
+      throw publishError;
+    }
   }
 
   /**
@@ -361,8 +400,8 @@ export class BoostToNostrService {
         tagsCount: event.tags.length
       });
 
-      // Publish to relays with detailed logging
-      console.log('📡 Publishing boost note to relays:', this.relays);
+      // Publish to relays asynchronously to avoid blocking payment flow
+      console.log('📡 Publishing boost note to relays asynchronously:', this.relays);
       console.log('📝 Event details:', {
         id: event.id,
         kind: event.kind,
@@ -372,41 +411,10 @@ export class BoostToNostrService {
         nevent: `nostr:${nevent}`
       });
       
-      try {
-        const publishPromises = this.pool.publish(this.relays, event);
-        
-        // Wait for publish results with detailed logging
-        const results = await Promise.allSettled(publishPromises);
-        
-        let successCount = 0;
-        let failureCount = 0;
-        
-        results.forEach((result, index) => {
-          if (result.status === 'fulfilled') {
-            console.log(`✅ Published to ${this.relays[index]}`);
-            successCount++;
-          } else {
-            console.warn(`❌ Failed to publish to ${this.relays[index]}:`, result.reason);
-            failureCount++;
-          }
-        });
-        
-        console.log(`📊 Publish results: ${successCount} successful, ${failureCount} failed`);
-        
-        if (successCount > 0) {
-          console.log('🎵 Boost note published successfully to Nostr relays');
-          console.log(`🔗 View your boost: https://primal.net/e/${event.id}`);
-          console.log(`🔗 Alternative: https://snort.social/e/${event.id}`);
-          console.log(`🔗 Nostr reference: nostr:${nevent}`);
-          console.log(`👤 Your Nostr profile: https://primal.net/p/${getPublicKey(this.secretKey)}`);
-        } else {
-          console.error('❌ Failed to publish to any relays');
-        }
-        
-      } catch (publishError) {
-        console.warn('⚠️ Failed to publish boost note:', publishError);
-        // Continue anyway - the payment was successful
-      }
+      // Don't await - publish in background to avoid blocking payment response
+      this.publishBoostNoteAsync(event, nevent).catch(error => {
+        console.warn('⚠️ Background Nostr publishing failed:', error);
+      });
 
       return {
         event,

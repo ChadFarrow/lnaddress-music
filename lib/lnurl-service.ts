@@ -25,6 +25,10 @@ export interface LNURLInvoiceResponse {
 }
 
 export class LNURLService {
+  // Cache for LNURL metadata to avoid repeated lookups
+  private static metadataCache: Map<string, { data: LNURLResponse; timestamp: number }> = new Map();
+  private static readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
   /**
    * Decode an LNURL or Lightning Address
    */
@@ -47,10 +51,20 @@ export class LNURLService {
   }
 
   /**
-   * Fetch LNURL metadata from endpoint
+   * Fetch LNURL metadata from endpoint with caching
    */
   static async fetchLNURLMetadata(url: string): Promise<LNURLResponse> {
+    // Check cache first
+    const cached = this.metadataCache.get(url);
+    const now = Date.now();
+    
+    if (cached && (now - cached.timestamp) < this.CACHE_DURATION) {
+      console.log(`🚀 Using cached LNURL metadata for ${url}`);
+      return cached.data;
+    }
+
     try {
+      console.log(`🔄 Fetching fresh LNURL metadata for ${url}`);
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`Failed to fetch LNURL metadata: ${response.statusText}`);
@@ -63,6 +77,9 @@ export class LNURLService {
         throw new Error('Invalid LNURL response: missing required fields');
       }
 
+      // Cache the result
+      this.metadataCache.set(url, { data: data as LNURLResponse, timestamp: now });
+      
       return data as LNURLResponse;
     } catch (error) {
       console.error('Error fetching LNURL metadata:', error);
