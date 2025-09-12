@@ -227,16 +227,26 @@ export default function HomePage() {
       
       if (response.ok) {
         data = await response.json();
-        // Check if the data includes podcast:value information
+        // Check if the data includes podcast:value and GUID information
         const hasValueData = data.albums?.some((album: any) => 
           album.value || album.tracks?.some((track: any) => track.value)
         );
         
-        if (hasValueData) {
-          console.log('⚡ Using static cached album data (fast loading, includes podcast:value)');
+        // Check if the data includes GUID information needed for Nostr tagging
+        const hasGuidData = data.albums?.some((album: any) => 
+          album.feedGuid || album.tracks?.some((track: any) => track.guid)
+        );
+        
+        if (hasValueData && hasGuidData) {
+          console.log('⚡ Using static cached album data (fast loading, includes podcast:value and GUID data)');
           useStaticCache = true;
         } else {
-          console.log('📦 Static cached data missing podcast:value info, falling back to dynamic data...');
+          if (!hasValueData) {
+            console.log('📦 Static cached data missing podcast:value info, falling back to dynamic data...');
+          }
+          if (!hasGuidData) {
+            console.log('🏷️ Static cached data missing GUID info needed for Nostr tagging, falling back to dynamic data...');
+          }
         }
       }
       
