@@ -244,25 +244,7 @@ export class BoostToNostrService {
       content += `\n\nnostr:${announcementNevent}`;
     }
 
-    // Add structured JSON metadata when GUIDs are available
-    if (track.guid || track.feedGuid || track.publisherGuid) {
-      const podcastData: any = {
-        version: '1.0.0',
-        boostAmount: amount,
-        app: 'ITDV Lightning'
-      };
-      
-      if (track.guid) podcastData.itemGuid = track.guid;
-      if (track.feedGuid) podcastData.podcastGuid = track.feedGuid;
-      if (track.publisherGuid) podcastData.publisherGuid = track.publisherGuid;
-      if (track.feedUrl) podcastData.feedUrl = track.feedUrl;
-      if (track.publisherUrl) podcastData.publisherUrl = track.publisherUrl;
-      if (track.title) podcastData.episode = track.title;
-      if (track.artist) podcastData.podcast = track.artist;
-      if (track.timestamp) podcastData.ts = track.timestamp;
-      
-      content += `\n\n${JSON.stringify(podcastData)}`;
-    }
+    // Structured metadata is included in the Nostr tags, not in the content
     
     return content;
   }
