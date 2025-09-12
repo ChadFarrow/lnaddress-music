@@ -282,52 +282,37 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const loadAlbum = async () => {
     try {
       setIsLoading(true);
-      // Use the static cached data which now includes complete podcast:value data
-      const response = await fetch('/api/albums-static');
+      console.log(`🔍 Loading album with dynamic RSS parsing: ${albumTitle}`);
+      
+      // Use the new individual album endpoint that does live RSS parsing with GUID data
+      const response = await fetch(`/api/album/${encodeURIComponent(albumTitle)}`);
       
       if (!response.ok) {
-        throw new Error('Failed to load albums');
+        throw new Error('Failed to load album');
       }
 
       const data = await response.json();
-      const albums = data.albums || [];
       
-      // Find the album by title matching (same logic as the individual endpoint)
-      const createSlug = (title: string) => 
-        title.toLowerCase()
-          .replace(/[^\w\s-]/g, '')       // Remove punctuation except spaces and hyphens
-          .replace(/\s+/g, '-')
-          .replace(/-+/g, '-')
-          .replace(/^-+|-+$/g, '');
-      
-      // Try different matching strategies
-      const foundAlbum = albums.find((album: Album) => {
-        const albumDataTitle = album.title;
-        const titleMatch = albumDataTitle.toLowerCase() === albumTitle.toLowerCase();
-        const slugMatch = createSlug(albumDataTitle) === albumTitle.toLowerCase();
-        const compatMatch = albumDataTitle.toLowerCase().replace(/\s+/g, '-') === albumTitle.toLowerCase();
+      if (data.album) {
+        console.log(`✅ Album loaded with GUID data:`, {
+          title: data.album.title,
+          feedGuid: data.album.feedGuid,
+          publisherGuid: data.album.publisherGuid,
+          trackGuids: data.album.tracks?.map((t: any) => ({ title: t.title, guid: t.guid })) || []
+        });
         
-        // Flexible matching: check if the album title starts with the decoded ID
-        const baseTitle = albumDataTitle.toLowerCase().split(/\s*[-–]\s*/)[0];
-        const baseTitleSlug = createSlug(baseTitle);
-        const flexibleMatch = baseTitleSlug === albumTitle.toLowerCase();
-        
-        return titleMatch || slugMatch || compatMatch || flexibleMatch;
-      });
-
-      if (foundAlbum) {
-        setAlbum(foundAlbum);
+        setAlbum(data.album);
         setError(null);
         
         if (isDesktop && !preloadAttemptedRef.current) {
           preloadAttemptedRef.current = true;
-          preloadBackgroundImage(foundAlbum);
+          preloadBackgroundImage(data.album);
         }
         
         loadRelatedAlbums();
-        // We already have the albums data, so set it and load podroll
-        setSiteAlbums(albums);
-        loadPodrollAlbums();
+        loadSiteAlbums().then(() => {
+          loadPodrollAlbums();
+        });
       } else {
         setError('Album not found');
       }
