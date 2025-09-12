@@ -462,7 +462,7 @@
     },
     {
       "id": "lnurl-testing-podcast",
-      "originalUrl": "https://www.doerfelverse.com/feeds/lnurl-testing-podcast.xml",
+      "originalUrl": "https://raw.githubusercontent.com/ChadFarrow/lnurl-test-feed/main/public/lnurl-test-feed.xml",
       "type": "album",
       "title": "LNURL Testing Podcast",
       "priority": "core",
