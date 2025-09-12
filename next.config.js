@@ -349,6 +349,13 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      // GitHub raw content for LNURL test feed artwork
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
     unoptimized: process.env.NODE_ENV === 'development', // Optimize in production
     formats: ['image/webp', 'image/avif'],
