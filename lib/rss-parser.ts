@@ -912,7 +912,7 @@ export class RSSParser {
         feedUrl: publisher?.feedUrl || feedUrl,
         publisherGuid: publisher?.feedGuid,
         publisherUrl: publisher?.feedUrl,
-        imageUrl: coverArt
+        imageUrl: coverArt || undefined
       };
       
       verboseLog('[RSSParser] Successfully parsed RSS feed', { feedUrl, trackCount: tracks.length });

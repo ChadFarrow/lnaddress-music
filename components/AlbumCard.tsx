@@ -16,6 +16,14 @@ interface Track {
   trackNumber: number;
   image?: string;
   value?: RSSValue; // Track-level podcast:value data
+  // Podcast GUIDs for Nostr boost tagging
+  guid?: string; // Item GUID from RSS <guid> element  
+  podcastGuid?: string; // podcast:guid at item level
+  feedGuid?: string; // Feed GUID from podcast namespace
+  feedUrl?: string; // Feed URL for this track
+  publisherGuid?: string; // Publisher GUID
+  publisherUrl?: string; // Publisher URL
+  imageUrl?: string; // Track artwork URL
 }
 
 interface Album {
