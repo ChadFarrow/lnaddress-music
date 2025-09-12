@@ -76,7 +76,8 @@ export default function RootLayout({
         {/* Resource hints for performance */}
         <link rel="preconnect" href="https://www.doerfelverse.com" />
         <link rel="dns-prefetch" href="https://www.doerfelverse.com" />
-        <link rel="preload" href="/api/albums-static-cached" as="fetch" crossOrigin="anonymous" />
+        <link rel="preload" href="/bloodshot-lies-big.png" as="image" />
+        <link rel="prefetch" href="/api/albums-static-cached" as="fetch" crossOrigin="anonymous" />
         
         {/* Global Error Handler Script */}
         <script

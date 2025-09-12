@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -10,8 +10,14 @@ import { toast } from '@/components/Toast';
 import { preloadCriticalColors } from '@/lib/performance-utils';
 import dynamic from 'next/dynamic';
 
-// Import Lightning components
-import { BitcoinConnectWallet } from '@/components/BitcoinConnect';
+// Lazy load Lightning components - not needed on initial page load
+const BitcoinConnectWallet = dynamic(
+  () => import('@/components/BitcoinConnect').then(mod => ({ default: mod.BitcoinConnectWallet })),
+  { 
+    loading: () => <div className="w-32 h-10 bg-gray-800/50 rounded-lg animate-pulse" />,
+    ssr: false 
+  }
+);
 
 // Direct import of AlbumCard to fix lazy loading issue
 import AlbumCard from '@/components/AlbumCard';
@@ -145,12 +151,22 @@ export default function HomePage() {
     
     hasLoadedRef.current = true;
     
-    // Clear cache to force fresh data load
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('cachedAlbums');
-      localStorage.removeItem('albumsCacheTimestamp');
-      localStorage.removeItem('cachedCriticalAlbums');
-      localStorage.removeItem('criticalAlbumsCacheTimestamp');
+    // Check for cached data first to speed up initial load
+    const cachedAlbums = localStorage.getItem('cachedAlbums');
+    const cacheTime = localStorage.getItem('albumsCacheTimestamp');
+    
+    if (cachedAlbums && cacheTime) {
+      const cacheAge = Date.now() - parseInt(cacheTime);
+      // Use cache if less than 10 minutes old
+      if (cacheAge < 10 * 60 * 1000) {
+        const albums = JSON.parse(cachedAlbums);
+        setAlbums(albums);
+        setIsLoading(false);
+        
+        // Still fetch fresh data in background
+        setTimeout(() => loadCriticalAlbums(), 1000);
+        return;
+      }
     }
     
     // Progressive loading: Load critical data first, then enhance
@@ -208,12 +224,12 @@ export default function HomePage() {
 
   const loadAlbumsData = async () => {
     try {
-      // Check for cached albums first
+      // Check for cached albums first - extend cache time for better performance
       if (typeof window !== 'undefined') {
         const cached = localStorage.getItem('cachedAlbums');
         const cacheTime = localStorage.getItem('albumsCacheTimestamp');
         
-        if (cached && cacheTime && (Date.now() - parseInt(cacheTime)) < 5 * 60 * 1000) {
+        if (cached && cacheTime && (Date.now() - parseInt(cacheTime)) < 10 * 60 * 1000) {
           console.log('📦 Using cached albums');
           return JSON.parse(cached);
         }
@@ -442,9 +458,11 @@ export default function HomePage() {
           alt="Bloodshot Lies Album Art"
           fill
           className="object-cover w-full h-full"
-          priority
-          quality={60}
+          loading="eager"
+          quality={40}
           sizes="100vw"
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAA8A/9k="
         />
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
@@ -474,8 +492,8 @@ export default function HomePage() {
                       width={40} 
                       height={40}
                       className="object-cover"
-                      priority
-                      quality={75}
+                      loading="lazy"
+                      quality={60}
                     />
                   </div>
                 </div>
@@ -519,8 +537,8 @@ export default function HomePage() {
                       width={40} 
                       height={40}
                       className="object-cover"
-                      priority
-                      quality={75}
+                      loading="lazy"
+                      quality={60}
                     />
                   </div>
                 </div>

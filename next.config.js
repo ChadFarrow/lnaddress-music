@@ -1,6 +1,6 @@
 const withPWA = require('next-pwa')({
   dest: 'public',
-  register: true,
+  register: false, // Disable registration entirely
   skipWaiting: true,
   disable: true, // Disable Service Worker for performance
   // Exclude RSC payloads and critical Next.js files from service worker caching
@@ -103,49 +103,78 @@ const nextConfig = {
     // Disable static generation for dynamic API routes
     workerThreads: false,
     cpus: 1,
+    optimizePackageImports: ['lucide-react', '@getalby/bitcoin-connect'],
   },
+  
+  // Optimize production builds
+  productionBrowserSourceMaps: false,
+  swcMinify: true,
 
   // Webpack configuration for nostr-tools and crypto polyfills
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     // Handle Node.js modules for client-side - only when using nostr-tools
     if (!isServer) {
-      try {
-        config.resolve.fallback = {
-          ...config.resolve.fallback,
-          crypto: require.resolve('crypto-browserify'),
-          stream: require.resolve('stream-browserify'),
-          buffer: require.resolve('buffer'),
-          util: require.resolve('util/'),
-          url: require.resolve('url/'),
-          assert: require.resolve('assert/'),
-          fs: false,
-          net: false,
-          tls: false,
-        };
-        
-        // Add global for buffer polyfill
-        config.plugins = config.plugins || [];
-        config.plugins.push(
-          new config.webpack.ProvidePlugin({
-            Buffer: ['buffer', 'Buffer'],
-            process: 'process/browser',
-          })
-        );
-      } catch (e) {
-        console.warn('Could not resolve polyfills, falling back to disabled fallbacks');
-        config.resolve.fallback = {
-          ...config.resolve.fallback,
-          crypto: false,
-          stream: false,
-          buffer: false,
-          util: false,
-          url: false,
-          assert: false,
-          fs: false,
-          net: false,
-          tls: false,
-        };
-      }
+      // Only load crypto polyfills when needed (lazy)
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        crypto: false,
+        stream: false,
+        buffer: false,
+        util: false,
+        url: false,
+        assert: false,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    
+    // Optimize chunks in production
+    if (!dev && !isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          framework: {
+            chunks: 'all',
+            name: 'framework',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          lib: {
+            test(module) {
+              return module.size() > 160000 &&
+                /node_modules[\\/]/.test(module.identifier());
+            },
+            name(module) {
+              const hash = require('crypto').createHash('sha1');
+              hash.update(module.identifier());
+              return hash.digest('hex').substring(0, 8);
+            },
+            priority: 30,
+            minChunks: 1,
+            reuseExistingChunk: true,
+          },
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+          },
+          shared: {
+            name(module, chunks) {
+              return 'shared';
+            },
+            priority: 10,
+            test: /[\\/]components[\\/]/,
+            minChunks: 2,
+            reuseExistingChunk: true,
+          },
+        },
+        maxAsyncRequests: 25,
+        maxInitialRequests: 20,
+      };
     }
     
     return config;
