@@ -21,6 +21,27 @@
   - Track payment history
   - Enable payment analytics
 
+- [ ] **Implement Boostagrams**
+  - Add message field for boost payments
+  - Support podcast:value boostagram spec
+  - Include sender message in payment metadata
+  - Display boostagrams in player interface
+  - Store message history with boosts
+
+- [ ] **Add Sender Name support**
+  - Allow users to set their sender name
+  - Include sender name in boost metadata
+  - Display sender name with boosts
+  - Optional anonymous mode
+  - Persist sender preference
+
+- [ ] **Custom boost amounts**
+  - Replace fixed amount buttons with input field
+  - Allow users to enter custom satoshi amounts
+  - Add preset amount suggestions
+  - Remember user's preferred amounts
+  - Validate minimum/maximum amounts
+
 ### 📱 User Interface
 - [ ] **Create a page showing boosts sent from the app**
   - Display recent boosts with track details

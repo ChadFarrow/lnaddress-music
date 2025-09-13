@@ -64,8 +64,27 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [showBoostSuccess, setShowBoostSuccess] = useState(false);
   const [showBoostModal, setShowBoostModal] = useState(false);
+  const [boostAmount, setBoostAmount] = useState(50);
+  const [senderName, setSenderName] = useState('');
   
   const { checkConnection } = useBitcoinConnect();
+
+  // Load saved sender name when modal opens
+  useEffect(() => {
+    if (showBoostModal) {
+      const savedSenderName = localStorage.getItem('boost-sender-name');
+      if (savedSenderName) {
+        setSenderName(savedSenderName);
+      }
+    }
+  }, [showBoostModal]);
+
+  // Save sender name to localStorage when it changes
+  useEffect(() => {
+    if (senderName.trim()) {
+      localStorage.setItem('boost-sender-name', senderName.trim());
+    }
+  }, [senderName]);
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -416,21 +435,42 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
               </div>
               
               <div className="text-center mb-6">
-                <div className="w-16 h-16 mx-auto mb-3 rounded-lg overflow-hidden">
-                  <Image
-                    src={album.coverArt}
-                    alt={album.title}
-                    width={64}
-                    height={64}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
                 <p className="text-white font-semibold">{album.title}</p>
                 <p className="text-gray-400 text-sm">{album.artist}</p>
               </div>
               
+              {/* Amount Selection */}
+              <div className="mb-6">
+                <p className="text-gray-300 text-xs mb-3 uppercase tracking-wide">Boost Amount</p>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={boostAmount}
+                    onChange={(e) => setBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
+                    className="flex-1 px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
+                    placeholder="Enter amount in sats"
+                    min="1"
+                  />
+                  <span className="text-gray-400 text-sm">sats</span>
+                </div>
+              </div>
+              
+              {/* Sender Name */}
+              <div className="mb-6">
+                <p className="text-gray-300 text-xs mb-3 uppercase tracking-wide">Your Name (Optional)</p>
+                <input
+                  type="text"
+                  value={senderName}
+                  onChange={(e) => setSenderName(e.target.value)}
+                  className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
+                  placeholder="Enter your name to be credited in the boost"
+                  maxLength={50}
+                />
+                <p className="text-gray-500 text-xs mt-1">This will be included with your boost payment</p>
+              </div>
+              
               <BitcoinConnectPayment
-                amount={50}
+                amount={boostAmount}
                 description={`Boost for ${album.title} by ${album.artist}`}
                 onSuccess={handleBoostSuccess}
                 onError={handleBoostError}
@@ -459,6 +499,7 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
                     album: album.title,
                     url: `https://zaps.podtards.com/album/${encodeURIComponent(album.feedId || album.title)}`,
                     appName: 'ITDV Lightning',
+                    senderName: senderName?.trim() || null, // Include sender name if provided
                     // Include RSS podcast GUIDs for proper Nostr tagging
                     itemGuid: album.tracks?.[0]?.guid, // Use first track GUID as episode GUID
                     podcastGuid: album.tracks?.[0]?.podcastGuid, // podcast:guid at item level

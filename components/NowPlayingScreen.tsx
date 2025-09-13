@@ -26,6 +26,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   const [isLoadingColors, setIsLoadingColors] = useState(false);
   const [showBoostModal, setShowBoostModal] = useState(false);
   const [boostAmount, setBoostAmount] = useState(50);
+  const [senderName, setSenderName] = useState('');
   const [albumData, setAlbumData] = useState<any>(null);
   const colorCache = useRef<Map<string, ExtractedColors>>(globalColorCache);
   
@@ -198,6 +199,23 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
       setAlbumData(null);
     }
   }, [currentAlbum, isOpen]);
+
+  // Load saved sender name on component mount
+  useEffect(() => {
+    if (isOpen) {
+      const savedSenderName = localStorage.getItem('boost-sender-name');
+      if (savedSenderName) {
+        setSenderName(savedSenderName);
+      }
+    }
+  }, [isOpen]);
+
+  // Save sender name to localStorage when it changes
+  useEffect(() => {
+    if (senderName.trim()) {
+      localStorage.setItem('boost-sender-name', senderName.trim());
+    }
+  }, [senderName]);
 
   if (!isOpen || !currentTrack) return null;
 
@@ -616,48 +634,32 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
               
               {/* Amount Selection */}
               <div className="mb-6">
-                <p className="text-gray-300 text-xs mb-3 uppercase tracking-wide">Select Amount</p>
-                <div className="grid grid-cols-4 gap-2 mb-3">
-                  {[100, 500, 1000, 2000].map((amount) => (
-                    <button
-                      key={amount}
-                      onClick={() => setBoostAmount(amount)}
-                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        boostAmount === amount
-                          ? 'bg-yellow-500 text-black'
-                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      }`}
-                    >
-                      {amount}
-                    </button>
-                  ))}
-                </div>
-                <div className="grid grid-cols-3 gap-2 mb-3">
-                  {[5000, 10000, 21000].map((amount) => (
-                    <button
-                      key={amount}
-                      onClick={() => setBoostAmount(amount)}
-                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        boostAmount === amount
-                          ? 'bg-yellow-500 text-black'
-                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      }`}
-                    >
-                      {amount >= 1000 ? `${amount/1000}k` : amount}
-                    </button>
-                  ))}
-                </div>
+                <p className="text-gray-300 text-xs mb-3 uppercase tracking-wide">Boost Amount</p>
                 <div className="flex items-center gap-2">
                   <input
                     type="number"
                     value={boostAmount}
                     onChange={(e) => setBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
                     className="flex-1 px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
-                    placeholder="Custom amount"
+                    placeholder="Enter amount in sats"
                     min="1"
                   />
                   <span className="text-gray-400 text-sm">sats</span>
                 </div>
+              </div>
+              
+              {/* Sender Name */}
+              <div className="mb-6">
+                <p className="text-gray-300 text-xs mb-3 uppercase tracking-wide">Your Name (Optional)</p>
+                <input
+                  type="text"
+                  value={senderName}
+                  onChange={(e) => setSenderName(e.target.value)}
+                  className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
+                  placeholder="Enter your name to be credited in the boost"
+                  maxLength={50}
+                />
+                <p className="text-gray-500 text-xs mt-1">This will be included with your boost payment</p>
               </div>
               
               <BitcoinConnectPayment
@@ -677,7 +679,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                     currentTrackFeedGuid: currentTrack?.feedGuid,
                     albumDataFeedGuid: albumData?.feedGuid,
                     albumDataPublisherGuid: albumData?.publisherGuid,
-                    currentAlbum: currentAlbum
+                    currentAlbum: currentAlbum,
+                    senderName: senderName?.trim() || null
                   });
                   
                   return {
@@ -688,6 +691,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                     url: currentAlbum ? `https://zaps.podtards.com/album/${encodeURIComponent(currentAlbum)}#${encodeURIComponent(currentTrack?.title || '')}` : 'https://zaps.podtards.com',
                     appName: 'ITDV Lightning',
                     timestamp: Math.floor(currentTime),
+                    senderName: senderName?.trim() || null, // Include sender name if provided
                     // Include RSS podcast GUIDs for proper Nostr tagging
                     itemGuid: currentTrack?.guid,
                     podcastGuid: currentTrack?.podcastGuid, // podcast:guid at item level

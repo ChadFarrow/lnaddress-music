@@ -25,6 +25,7 @@ export interface TrackMetadata {
   imageUrl?: string;
   timestamp?: number; // Current playback position in seconds
   duration?: number; // Total track duration in seconds
+  senderName?: string; // Name of the person sending the boost
   // Podcast-specific metadata (matching RSS parser property names)
   guid?: string; // Standard item GUID
   podcastGuid?: string; // podcast:guid at item level
@@ -259,6 +260,11 @@ export class BoostToNostrService {
     // Add album on new line if different from title
     if (track.album && track.album !== track.title) {
       content += `\nFrom: ${track.album}`;
+    }
+    
+    // Add sender name if provided
+    if (track.senderName) {
+      content += `\n\nSent by: ${track.senderName}`;
     }
     
     // Add user comment if provided

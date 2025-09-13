@@ -99,6 +99,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const [relatedAlbums, setRelatedAlbums] = useState<Album[]>([]);
   const [podrollAlbums, setPodrollAlbums] = useState<PodrollAlbum[]>([]);
   const [siteAlbums, setSiteAlbums] = useState<Album[]>([]);
+  const [senderName, setSenderName] = useState('');
   
   // Global audio context
   const { 
@@ -251,6 +252,23 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       });
     }
   }, [albumTitle, initialAlbum, isDesktop]);
+
+  // Load saved sender name from localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedSenderName = localStorage.getItem('boost-sender-name');
+      if (savedSenderName) {
+        setSenderName(savedSenderName);
+      }
+    }
+  }, []);
+
+  // Save sender name to localStorage when it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && senderName.trim()) {
+      localStorage.setItem('boost-sender-name', senderName.trim());
+    }
+  }, [senderName]);
 
   const preloadBackgroundImage = async (albumData: Album) => {
     if (!albumData.coverArt) return;
@@ -700,6 +718,22 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
 
                 </div>
 
+                {/* Sender Name Input */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Your Name (for boosts)
+                  </label>
+                  <input
+                    type="text"
+                    value={senderName}
+                    onChange={(e) => setSenderName(e.target.value)}
+                    className="max-w-sm w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
+                    placeholder="Enter your name to be credited in boosts"
+                    maxLength={50}
+                  />
+                  <p className="text-xs text-gray-500 mt-1 max-w-sm">This will be included with all boost payments on this page</p>
+                </div>
+
                 {/* Play Controls */}
                 <div className="flex items-center justify-center lg:justify-start gap-4 mb-8">
                   <button
@@ -734,7 +768,8 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                       artist: album.artist,
                       album: album.title,
                       url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
-                      appName: 'ITDV Lightning'
+                      appName: 'ITDV Lightning',
+                      senderName: senderName?.trim() || null // Include sender name if provided
                     }}
                   />
                 </div>
@@ -863,6 +898,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                               episode: track.title,
                               url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
                               appName: 'ITDV Lightning',
+                              senderName: senderName?.trim() || null, // Include sender name if provided
                               // Include RSS podcast GUIDs for proper Nostr tagging
                               itemGuid: track.guid, // Track-level GUID
                               podcastGuid: track.podcastGuid, // podcast:guid at item level

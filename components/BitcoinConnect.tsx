@@ -177,6 +177,7 @@ export function BitcoinConnectPayment({
     feedUrl?: string;
     itemGuid?: string;
     timestamp?: number;
+    senderName?: string;
     appName?: string;
     url?: string;
     publisherGuid?: string;
@@ -209,7 +210,7 @@ export function BitcoinConnectPayment({
         ...(boostMetadata.podcastFeedGuid && { feedID: boostMetadata.podcastFeedGuid }),
         ...(boostMetadata.album && { album: boostMetadata.album }),
         value_msat_total: amount * 1000,
-        sender_name: 'Super Fan'
+        sender_name: boostMetadata.senderName || 'Anonymous'
       };
       
       tlvRecords.push({
@@ -232,7 +233,7 @@ export function BitcoinConnectPayment({
         app: boostMetadata.appName || 'ITDV Lightning',
         message: tipMessage,
         amount: amount,
-        sender: 'Super Fan',
+        sender: boostMetadata.senderName || 'Anonymous',
         ...(boostMetadata.timestamp && { timestamp: boostMetadata.timestamp })
       };
       
@@ -322,6 +323,7 @@ export function BitcoinConnectPayment({
         album: boostMetadata.album,
         url: boostMetadata.url,
         imageUrl: boostMetadata.imageUrl,
+        senderName: boostMetadata.senderName,
         guid: boostMetadata.itemGuid, // Map itemGuid to guid
         podcastGuid: boostMetadata.podcastGuid,
         feedGuid: boostMetadata.podcastFeedGuid, // Map podcastFeedGuid to feedGuid
