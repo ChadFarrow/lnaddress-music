@@ -21,16 +21,11 @@ async function getAlbumData(albumId: string) {
       if (process.env.VERCEL_URL) {
         // In Vercel deployments
         baseUrl = `https://${process.env.VERCEL_URL}`;
-      } else if (process.env.NODE_ENV === 'production') {
-        // In production without VERCEL_URL, skip SSR data fetching
-        // The client will load the data
-        console.log('🔄 Skipping SSR data fetch in production, will load client-side');
-        return null;
       } else {
-        // Local development - check common ports
-        // Next.js uses 3000 by default, falls back to 3001, 3002, etc.
-        const port = process.env.PORT || '3002'; // Current running port
-        baseUrl = `http://localhost:${port}`;
+        // In development, skip SSR data fetching to avoid port conflicts
+        // The client will load the data from cache efficiently
+        console.log('🔄 Skipping SSR data fetch in development, will load client-side from cache');
+        return null;
       }
     }
     

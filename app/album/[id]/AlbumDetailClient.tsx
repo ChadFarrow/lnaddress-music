@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
+import { ArrowLeft, Play, Pause, SkipBack, SkipForward, Volume2, Zap } from 'lucide-react';
 import { useAudio } from '@/contexts/AudioContext';
 import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
 import type { RSSValue } from '@/lib/rss-parser';
@@ -102,6 +102,10 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const [senderName, setSenderName] = useState('');
   const [boostAmount, setBoostAmount] = useState(50);
   const [boostMessage, setBoostMessage] = useState('');
+  const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
+  const [showTrackBoostModal, setShowTrackBoostModal] = useState(false);
+  const [trackBoostAmount, setTrackBoostAmount] = useState(50);
+  const [trackBoostMessage, setTrackBoostMessage] = useState('');
   
   
   // Global audio context
@@ -943,46 +947,17 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                           e.stopPropagation(); // Prevent track play when clicking boost
                         }}
                       >
-                        <BitcoinConnectPayment
-                          amount={boostAmount}
-                          description={`Boost for "${track.title}" by ${album.artist}`}
-                          key={`track-boost-${track.title}-${boostAmount}`}
-                          onSuccess={handleBoostSuccess}
-                          onError={handleBoostError}
-                          recipients={getTrackPaymentRecipients(track) || undefined}
-                          recipient={getFallbackRecipient().address}
-                          className="scale-75"
-                          enableBoosts={true}
-                          boostMetadata={(() => {
-                            console.log('🔍 AlbumDetailClient boost data:', {
-                              trackTitle: track.title,
-                              trackGuid: track.guid,
-                              trackPodcastGuid: track.podcastGuid,
-                              albumFeedGuid: album.feedGuid,
-                              albumPublisherGuid: album.publisherGuid,
-                              albumTitle: album.title
-                            });
-                            
-                            return {
-                              title: track.title,
-                              artist: album.artist,
-                              album: album.title,
-                              episode: track.title,
-                              url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
-                              appName: 'ITDV Lightning',
-                              senderName: senderName?.trim() || undefined, // Include sender name if provided
-                              message: boostMessage?.trim() || undefined, // Include boostagram message if provided
-                              // Include RSS podcast GUIDs for proper Nostr tagging
-                              itemGuid: track.guid, // Track-level GUID
-                              podcastGuid: track.podcastGuid, // podcast:guid at item level
-                              podcastFeedGuid: album.feedGuid, // Feed-level GUID
-                              feedUrl: album.feedUrl,
-                              publisherGuid: album.publisherGuid,
-                              publisherUrl: album.publisherUrl,
-                              imageUrl: track.imageUrl || album.imageUrl
-                            };
-                          })()}
-                        />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedTrack(track);
+                            setShowTrackBoostModal(true);
+                          }}
+                          className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-500 to-orange-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 hover:from-yellow-400 hover:to-orange-500 hover:shadow-lg transform hover:scale-105 active:scale-95"
+                        >
+                          <Zap className="w-4 h-4" />
+                          <span className="hidden sm:inline">Boost</span>
+                        </button>
                       </div>
                     </div>
                   );
