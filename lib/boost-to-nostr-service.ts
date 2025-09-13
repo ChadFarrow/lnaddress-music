@@ -380,8 +380,25 @@ export class BoostToNostrService {
         eventTemplate.tags.push(['image', options.track.imageUrl]);
       }
 
+      // Debug: Log final event template with all tags before signing
+      console.log('🏷️ Final Nostr event template with all tags:', {
+        kind: eventTemplate.kind,
+        tagsCount: eventTemplate.tags.length,
+        tags: eventTemplate.tags,
+        hasGuidTags: eventTemplate.tags.some(tag => tag[0] === 'k' && tag[1] === 'podcast:item:guid'),
+        hasFeedGuidTags: eventTemplate.tags.some(tag => tag[0] === 'k' && tag[1] === 'podcast:guid'),
+        hasPublisherGuidTags: eventTemplate.tags.some(tag => tag[0] === 'k' && tag[1] === 'podcast:publisher:guid')
+      });
+
       // Sign the event
       const event = finalizeEvent(eventTemplate, this.secretKey);
+      
+      // Debug: Log the signed event's tags
+      console.log('🏷️ Signed Nostr event tags:', {
+        eventId: event.id,
+        finalTagsCount: event.tags.length,
+        finalTags: event.tags
+      });
       
       // Create the nevent identifier for this event
       const neventData = {

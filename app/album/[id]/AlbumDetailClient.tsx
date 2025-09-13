@@ -807,7 +807,15 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                           url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
                           appName: 'ITDV Lightning',
                           senderName: senderName?.trim() || undefined, // Include sender name if provided
-                          message: boostMessage?.trim() || undefined // Include boostagram message if provided
+                          message: boostMessage?.trim() || undefined, // Include boostagram message if provided
+                          // Include podcast GUIDs for Nostr tagging
+                          itemGuid: album.tracks?.[0]?.guid, // Use first track GUID as episode GUID
+                          podcastGuid: album.tracks?.[0]?.podcastGuid, // podcast:guid at item level
+                          podcastFeedGuid: album.feedGuid, // Feed-level GUID
+                          feedUrl: album.feedUrl, // Feed URL for this album
+                          publisherGuid: album.publisherGuid, // Publisher GUID
+                          publisherUrl: album.publisherUrl, // Publisher URL
+                          imageUrl: album.coverArt // Album artwork URL
                         }}
                       />
                     </div>
