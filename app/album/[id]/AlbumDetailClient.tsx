@@ -100,6 +100,8 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const [podrollAlbums, setPodrollAlbums] = useState<PodrollAlbum[]>([]);
   const [siteAlbums, setSiteAlbums] = useState<Album[]>([]);
   const [senderName, setSenderName] = useState('');
+  const [boostAmount, setBoostAmount] = useState(50);
+  const [boostMessage, setBoostMessage] = useState('');
   
   // Global audio context
   const { 
@@ -649,7 +651,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         {/* Album Hero Section */}
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col lg:flex-row gap-8 items-start">
+            <div className="flex flex-col lg:flex-row gap-6 items-start">
               {/* Album Artwork */}
               <div className="flex-shrink-0 mx-auto lg:mx-0">
                 <div className="w-64 h-64 lg:w-80 lg:h-80 relative rounded-xl shadow-2xl overflow-hidden border border-white/20 group cursor-pointer">
@@ -679,7 +681,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
 
               {/* Album Info */}
               <div className="flex-1 text-center lg:text-left">
-                <div className="mb-6">
+                <div className="mb-4">
                   <h1 className="text-4xl lg:text-5xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                     {album.title}
                   </h1>
@@ -718,24 +720,9 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
 
                 </div>
 
-                {/* Sender Name Input */}
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Your Name (for boosts)
-                  </label>
-                  <input
-                    type="text"
-                    value={senderName}
-                    onChange={(e) => setSenderName(e.target.value)}
-                    className="max-w-sm w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
-                    placeholder="Enter your name to be credited in boosts"
-                    maxLength={50}
-                  />
-                  <p className="text-xs text-gray-500 mt-1 max-w-sm">This will be included with all boost payments on this page</p>
-                </div>
 
                 {/* Play Controls */}
-                <div className="flex items-center justify-center lg:justify-start gap-4 mb-8">
+                <div className="flex items-center justify-center lg:justify-start gap-4 mb-4">
                   <button
                     onClick={handlePlayAlbum}
                     className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
@@ -753,25 +740,78 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                       <path d="M14.83 13.41L13.42 14.82L16.55 17.95L14.5 20H20V14.5L17.96 16.54L14.83 13.41M14.5 4L16.54 6.04L4 18.59L5.41 20L17.96 7.46L20 9.5V4M10.59 9.17L5.41 4L4 5.41L9.17 10.58L10.59 9.17Z"/>
                     </svg>
                   </button>
-                  
-                  {/* Lightning Payment Button */}
-                  <BitcoinConnectPayment
-                    amount={50}
-                    description={`Boost for ${album.title} by ${album.artist}`}
-                    onSuccess={handleBoostSuccess}
-                    onError={handleBoostError}
-                    recipients={paymentRecipients || undefined}
-                    recipient={getFallbackRecipient().address}
-                    enableBoosts={true}
-                    boostMetadata={{
-                      title: album.title,
-                      artist: album.artist,
-                      album: album.title,
-                      url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
-                      appName: 'ITDV Lightning',
-                      senderName: senderName?.trim() || undefined // Include sender name if provided
-                    }}
-                  />
+                </div>
+                
+                {/* Boost Section */}
+                <div className="mb-6 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 max-w-2xl w-full">
+                  <h3 className="text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
+                    <svg className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M13 0L22 12L13 24L11 22L18 12L11 2L13 0ZM2 12L11 2L13 0L4 12L13 24L11 22L2 12Z"/>
+                    </svg>
+                    Boost this Album
+                  </h3>
+                  <div className="space-y-2">
+                    {/* Sender Name */}
+                    <div>
+                      <p className="text-xs text-gray-400 mb-1">Your Name (optional)</p>
+                      <input
+                        type="text"
+                        value={senderName}
+                        onChange={(e) => setSenderName(e.target.value)}
+                        className="w-full px-3 py-1.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
+                        placeholder="Enter your name to be credited in the boost"
+                        maxLength={50}
+                      />
+                    </div>
+                    {/* Boostagram Message */}
+                    <div>
+                      <p className="text-xs text-gray-400 mb-1">Message (optional)</p>
+                      <textarea
+                        value={boostMessage}
+                        onChange={(e) => setBoostMessage(e.target.value)}
+                        className="w-full px-3 py-1.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm resize-none"
+                        placeholder="Add a message with your boost (boostagram)"
+                        rows={2}
+                        maxLength={250}
+                      />
+                      <p className="text-xs text-gray-500 mt-1">{boostMessage.length}/250 characters</p>
+                    </div>
+                    {/* Amount and Boost Button */}
+                    <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-end">
+                      <div className="flex-1">
+                        <p className="text-xs text-gray-400 mb-1">Amount</p>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="number"
+                            value={boostAmount}
+                            onChange={(e) => setBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
+                            className="w-20 px-3 py-1.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
+                            placeholder="50"
+                            min="1"
+                          />
+                          <span className="text-gray-400 text-sm">sats</span>
+                        </div>
+                      </div>
+                      <BitcoinConnectPayment
+                        amount={boostAmount}
+                        description={`Boost for ${album.title} by ${album.artist}`}
+                        onSuccess={handleBoostSuccess}
+                        onError={handleBoostError}
+                        recipients={paymentRecipients || undefined}
+                        recipient={getFallbackRecipient().address}
+                        enableBoosts={true}
+                        boostMetadata={{
+                          title: album.title,
+                          artist: album.artist,
+                          album: album.title,
+                          url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
+                          appName: 'ITDV Lightning',
+                          senderName: senderName?.trim() || undefined, // Include sender name if provided
+                          message: boostMessage?.trim() || undefined // Include boostagram message if provided
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 {/* Funding Information - Support This Artist */}

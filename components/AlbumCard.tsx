@@ -66,6 +66,7 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
   const [showBoostModal, setShowBoostModal] = useState(false);
   const [boostAmount, setBoostAmount] = useState(50);
   const [senderName, setSenderName] = useState('');
+  const [boostMessage, setBoostMessage] = useState('');
   
   const { checkConnection } = useBitcoinConnect();
 

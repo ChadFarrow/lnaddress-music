@@ -32,7 +32,8 @@ A Lightning Network-powered Value4Value music platform showcasing independent ar
 ### Core Functionality
 - **Lightning Network Payments**: Instant Bitcoin payments via Bitcoin Connect
 - **Value4Value Model**: Support artists directly with Lightning zaps and value splits
-- **Nostr Integration**: NIP-57/NIP-73 compliant boost notes published to Nostr relays
+- **Boostagrams**: Custom 250-character messages with Lightning boost payments
+- **Nostr Integration**: NIP-57/NIP-73 compliant boost notes with boostagrams published to Nostr relays
 - **Multi-Payment Recipients**: Automatic splitting to multiple Lightning addresses and nodes
 - **RSS Feed Parsing**: Dynamic parsing of 42 album feeds + 4 publisher feeds
 - **Complete Content Coverage**: All 40 unique albums displaying (100% coverage)
@@ -113,6 +114,14 @@ The app uses a hybrid approach:
 - **Lightning Address Support**: Full LNURL resolution for email-style Lightning payments
 - **Metadata Fee Collection**: Automatic 2 sat fee collection for platform development
 - **Payment Performance**: Fixed render loop causing excessive payment recipient checks
+
+### Boostagram Features (Latest)
+- **Custom Messages**: 250-character boostagram messages with Lightning payments
+- **Sender Names**: Persistent sender name storage across boost interfaces
+- **Custom Amounts**: User-defined boost amounts on all payment interfaces
+- **Compact UI**: Streamlined boost interface with improved spacing and layout
+- **Message Integration**: Boostagrams included in Lightning TLV records and Nostr boost posts
+- **Performance Optimization**: Removed failing payment recipients to improve boost speed
 
 ### Value4Value Implementation
 - **Podcasting 2.0 Value Tags**: Full parsing and support for Lightning Network value splits

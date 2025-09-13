@@ -182,6 +182,7 @@ export function BitcoinConnectPayment({
     url?: string;
     publisherGuid?: string;
     publisherUrl?: string;
+    message?: string; // Boostagram message
   };
 }) {
   const [mounted, setMounted] = useState(false);
@@ -205,7 +206,7 @@ export function BitcoinConnectPayment({
         action: 'boost',
         app_name: boostMetadata.appName || 'ITDV Lightning',
         url: boostMetadata.url || 'https://doerfelverse.com',
-        message: `⚡ ${amount} sats boost from ITDV Lightning${recipientName ? ` → ${recipientName}` : ''} (+2 sat metadata fee)`,
+        message: boostMetadata.message || `⚡ ${amount} sats boost from ITDV Lightning${recipientName ? ` → ${recipientName}` : ''} (+2 sat metadata fee)`,
         ...(boostMetadata.timestamp && { ts: boostMetadata.timestamp }),
         ...(boostMetadata.podcastFeedGuid && { feedID: boostMetadata.podcastFeedGuid }),
         ...(boostMetadata.album && { album: boostMetadata.album }),
@@ -219,7 +220,7 @@ export function BitcoinConnectPayment({
       });
       
       // 7629171 - Tip note/message (Lightning spec compliant)
-      const tipMessage = `⚡ Boost from ITDV Lightning: ${amount} sats to "${boostMetadata.title}" by ${boostMetadata.artist}${recipientName ? ` → ${recipientName}` : ''} (+2 sat metadata fee)`;
+      const tipMessage = boostMetadata.message || `⚡ Boost from ITDV Lightning: ${amount} sats to "${boostMetadata.title}" by ${boostMetadata.artist}${recipientName ? ` → ${recipientName}` : ''} (+2 sat metadata fee)`;
       tlvRecords.push({
         type: 7629171,
         value: Buffer.from(tipMessage, 'utf8').toString('hex')
@@ -231,7 +232,7 @@ export function BitcoinConnectPayment({
         episode: boostMetadata.title || 'Unknown Title', 
         action: 'boost',
         app: boostMetadata.appName || 'ITDV Lightning',
-        message: tipMessage,
+        message: boostMetadata.message || tipMessage,
         amount: amount,
         sender: boostMetadata.senderName || 'Anonymous',
         ...(boostMetadata.timestamp && { timestamp: boostMetadata.timestamp })
@@ -336,8 +337,8 @@ export function BitcoinConnectPayment({
       
       const boostResult = await postBoost(
         totalAmount, 
-        trackMetadata
-        // No default comment - just URL like Fountain
+        trackMetadata,
+        boostMetadata.message // Pass custom message as comment
       );
       
       if (boostResult.success) {
