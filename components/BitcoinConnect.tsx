@@ -379,7 +379,7 @@ export function BitcoinConnectPayment({
       
       // Always add 2 sat payment to site owner for metadata collection
       const siteOwnerRecipient = {
-        address: '032870511bfa0309bab3ca1832ead69eed848a4abddbc4d50e55bb2157f9525e51',
+        address: '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
         split: 0, // Will be handled separately as fixed 2 sats
         name: 'ITDV Site Metadata',
         fee: false,
