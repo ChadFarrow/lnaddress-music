@@ -1789,6 +1789,13 @@
           "name": "Doerfel-Verse",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "a1077af6-602b-5daf-957b-68a65a03cad1",
@@ -2687,6 +2694,13 @@
           "name": "DV Media",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "00addc23-7769-5471-bb9a-c0acb6f27437",
@@ -4427,6 +4441,13 @@
           "name": "DV Media",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "1dc549bf-c1ef-5a30-813f-a2918d37b38d",
@@ -4593,6 +4614,13 @@
           "name": "DV Media",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "2b6d971f-562e-510e-ad40-272cb3962c8b",
@@ -4772,6 +4800,13 @@
           "name": "Podcast Index",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "3074902b-b2dc-5877-bfc3-30f5df0fbe6a",
@@ -4940,6 +4975,13 @@
           "name": "DV Media",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "0bc8103c-7e22-5a59-b152-04af80746b49",
@@ -6345,6 +6387,13 @@
           "name": "Joey - bass",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "4ab3741a-4a10-5631-a026-a9d0eb62fe11",
@@ -10769,6 +10818,13 @@
           "name": "DoerfelVerse",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "2b62ef49-fcff-523c-b81a-0a7dde2b0609",
@@ -11518,6 +11574,13 @@
           "name": "DV Media",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "08604071-83cc-5810-bec2-bea0f0cd0033",
@@ -12744,6 +12807,13 @@
           "name": "DoerfelVese-Node",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "69c634ad-afea-5826-ad9a-8e1f06d6470b",
@@ -16083,6 +16153,13 @@
           "name": "DV Media",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "47768d25-74d9-5ba4-82db-aeaa7f50e29c",
@@ -16235,6 +16312,13 @@
           "name": "DV Media",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "00addc23-7769-5471-bb9a-c0acb6f27437",
@@ -16599,6 +16683,13 @@
           "name": "Middle Season(mixing and mastering)",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "141b86d8-76bc-581a-adf1-2f836a4dde91",
@@ -16733,6 +16824,13 @@
           "name": "DV Media",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "8c5dd9fd-4257-5e7b-9e94-643e6aa4ca1c",
@@ -16875,6 +16973,13 @@
           "name": "Doerfel-Node",
           "fee": false,
           "type": "node"
+        },
+        {
+          "type": "node",
+          "address": "035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8",
+          "split": 5,
+          "name": "Sovereign Feeds",
+          "fee": true
         }
       ],
       "feedGuid": "3679b281-4f40-5463-aa5a-6ea91b8a4957",
