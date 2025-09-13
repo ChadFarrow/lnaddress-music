@@ -200,18 +200,27 @@ export function BitcoinConnectPayment({
     
     if (boostMetadata) {
       // 7629169 - Podcast metadata JSON (bLIP-10 standard - Breez/Fountain compatible)
+      // Fixed to match working Castamatic format
       const podcastMetadata = {
         podcast: boostMetadata.artist || 'Unknown Artist',
         episode: boostMetadata.title || 'Unknown Title',
         action: 'boost',
         app_name: boostMetadata.appName || 'ITDV Lightning',
-        url: boostMetadata.url || 'https://doerfelverse.com',
-        message: boostMetadata.message || `⚡ ${amount} sats boost from ITDV Lightning${recipientName ? ` → ${recipientName}` : ''} (+2 sat metadata fee)`,
+        // Use main podcast feed URL instead of album-specific URL
+        feed: 'https://www.doerfelverse.com/feeds/intothedoerfelverse.xml',
+        url: 'https://www.doerfelverse.com/feeds/intothedoerfelverse.xml',
+        message: boostMetadata.message || '',
         ...(boostMetadata.timestamp && { ts: boostMetadata.timestamp }),
-        ...(boostMetadata.podcastFeedGuid && { feedID: boostMetadata.podcastFeedGuid }),
+        // Use numeric feedID like Castamatic (6590182)
+        feedID: "6590182",
+        // Add episode_guid for proper identification
+        ...(boostMetadata.itemGuid && { episode_guid: boostMetadata.itemGuid }),
         ...(boostMetadata.album && { album: boostMetadata.album }),
         value_msat_total: amount * 1000,
-        sender_name: boostMetadata.senderName || 'Anonymous'
+        sender_name: boostMetadata.senderName || 'Anonymous',
+        // Add reply fields that Castamatic includes
+        reply_address: '033868c219bdb51a33560d854d500fe7d3898a1ad9e05dd89d0007e11313588500',
+        reply_custom_key: '818ccc5e70aa6bd7eb7ba924ec0cbce5ce10ac07c2fb92b84a7e95c9b5e4a5e5'
       };
       
       tlvRecords.push({
@@ -219,12 +228,13 @@ export function BitcoinConnectPayment({
         value: Buffer.from(JSON.stringify(podcastMetadata), 'utf8').toString('hex')
       });
       
-      // 7629171 - Tip note/message (Lightning spec compliant)
-      const tipMessage = boostMetadata.message || `⚡ Boost from ITDV Lightning: ${amount} sats to "${boostMetadata.title}" by ${boostMetadata.artist}${recipientName ? ` → ${recipientName}` : ''} (+2 sat metadata fee)`;
-      tlvRecords.push({
-        type: 7629171,
-        value: Buffer.from(tipMessage, 'utf8').toString('hex')
-      });
+      // 7629171 - Tip note/message (Lightning spec compliant) - only if custom message provided
+      if (boostMetadata.message) {
+        tlvRecords.push({
+          type: 7629171,
+          value: Buffer.from(boostMetadata.message, 'utf8').toString('hex')
+        });
+      }
       
       // 133773310 - Sphinx compatibility (JSON encoded data)
       const sphinxData = {
@@ -232,7 +242,7 @@ export function BitcoinConnectPayment({
         episode: boostMetadata.title || 'Unknown Title', 
         action: 'boost',
         app: boostMetadata.appName || 'ITDV Lightning',
-        message: boostMetadata.message || tipMessage,
+        message: boostMetadata.message || '',
         amount: amount,
         sender: boostMetadata.senderName || 'Anonymous',
         ...(boostMetadata.timestamp && { timestamp: boostMetadata.timestamp })
@@ -459,6 +469,12 @@ export function BitcoinConnectPayment({
             return null;
           }
           
+          // Skip known offline nodes temporarily 
+          if (recipientData.address === '035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8') {
+            console.log(`⏭️ Skipping ${recipientData.name || recipientData.address} - node temporarily offline`);
+            return null;
+          }
+          
           console.log(`⚡ NWC sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
           
           try {
@@ -479,6 +495,43 @@ export function BitcoinConnectPayment({
               // For node public keys, use keysend with TLV records
               console.log(`⚡ NWC sending keysend to node: ${recipientData.address}`);
               const tlvRecords = createBoostTLVRecords(recipientData.name || 'Recipient');
+              
+              // DEBUG: Log detailed keysend data and compare with working format
+              const ourTlvData = tlvRecords.map(r => {
+                try {
+                  return {
+                    type: r.type,
+                    data: JSON.parse(Buffer.from(r.value, 'hex').toString('utf8'))
+                  };
+                } catch {
+                  return {
+                    type: r.type,
+                    data: Buffer.from(r.value, 'hex').toString('utf8')
+                  };
+                }
+              });
+
+              console.log('🔍 KEYSEND DEBUG - OUR APP:', {
+                recipient: recipientData.name || 'Unknown',
+                pubkey: recipientData.address,
+                amount: recipientAmount,
+                tlvRecordCount: tlvRecords.length,
+                tlvTypes: tlvRecords.map(r => r.type),
+                ourTlvData: ourTlvData
+              });
+
+              console.log('🔍 COMPARISON - WORKING vs OUR FORMAT:');
+              console.log('✅ WORKING (Castamatic to Sovereign Feeds):');
+              console.log('  feedID: 6590182 (numeric)');
+              console.log('  episode_guid: b4578bea-855b-48a6-a747-1a09ed44a19a');
+              console.log('  url: https://www.doerfelverse.com/feeds/intothedoerfelverse.xml');
+              console.log('  reply_address: 032870511bfa0309bab3ca1832ead69eed848a4abddbc4d50e55bb2157f9525e51');
+              console.log('❓ OUR APP (ITDV Lightning):');
+              console.log(`  feedID: ${boostMetadata?.podcastFeedGuid || 'GUID string'} (should be numeric?)`);
+              console.log(`  episode_guid: ${boostMetadata?.itemGuid || 'missing'}`);
+              console.log(`  url: ${boostMetadata?.url || 'album-specific URL'}`);
+              console.log('  reply_address: missing');
+              console.log('  reply_custom_key/value: missing');
               
               response = await nwcService.payKeysend(
                 recipientData.address,
@@ -553,16 +606,49 @@ export function BitcoinConnectPayment({
             return null;
           }
           
+          // Skip known offline nodes temporarily 
+          if (recipientData.address === '035ad2c954e264004986da2d9499e1732e5175e1dcef2453c921c6cdcc3536e9d8') {
+            console.log(`⏭️ Skipping ${recipientData.name || recipientData.address} - node temporarily offline`);
+            return null;
+          }
+          
           console.log(`⚡ Sending ${recipientAmount} sats to ${recipientData.name || recipientData.address.slice(0, 10)}... (${recipientData.split}/${totalSplit} split)`);
           
           try {
             // Handle different payment types
             if (recipientData.type === 'node' || (recipientData.address && recipientData.address.length === 66 && !recipientData.address.includes('@'))) {
               // Use keysend for node public keys
+              const customRecords = createWebLNCustomRecords(recipientData.name || 'Recipient');
+              
+              // DEBUG: Log WebLN keysend data for Sovereign Feeds
+              if (recipientData.name === 'Sovereign Feeds') {
+                console.log('🔍 WEBLN SOVEREIGN FEEDS DEBUG:', {
+                  recipient: recipientData.name,
+                  pubkey: recipientData.address,
+                  amount: recipientAmount,
+                  customRecordKeys: Object.keys(customRecords),
+                  customRecordsData: Object.fromEntries(
+                    Object.entries(customRecords).map(([key, value]) => [
+                      key,
+                      {
+                        length: value.length,
+                        decoded: (() => {
+                          try {
+                            return JSON.parse(Buffer.from(value, 'hex').toString('utf8'));
+                          } catch {
+                            return Buffer.from(value, 'hex').toString('utf8');
+                          }
+                        })()
+                      }
+                    ])
+                  )
+                });
+              }
+              
               const response = await webln.keysend({
                 destination: recipientData.address,
                 amount: recipientAmount, // Send in sats - Alby might expect sats not millisats
-                customRecords: createWebLNCustomRecords(recipientData.name || 'Recipient')
+                customRecords
               });
               
               console.log(`💰 Payment sent: ${recipientAmount} sats to ${recipientData.address}`);

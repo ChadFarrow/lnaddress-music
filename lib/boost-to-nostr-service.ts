@@ -85,7 +85,8 @@ export class BoostToNostrService {
       'wss://relay.snort.social', 
       'wss://relay.nostr.band',
       'wss://relay.fountain.fm',
-      'wss://relay.damus.io'
+      'wss://relay.damus.io',
+      'wss://chadf.nostr1.com'
     ];
 
     if (secretKey) {

@@ -103,6 +103,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const [boostAmount, setBoostAmount] = useState(50);
   const [boostMessage, setBoostMessage] = useState('');
   
+  
   // Global audio context
   const { 
     playAlbum: globalPlayAlbum, 
@@ -795,6 +796,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                       <BitcoinConnectPayment
                         amount={boostAmount}
                         description={`Boost for ${album.title} by ${album.artist}`}
+                        key={`album-boost-${boostAmount}`}
                         onSuccess={handleBoostSuccess}
                         onError={handleBoostError}
                         recipients={paymentRecipients || undefined}
@@ -921,8 +923,9 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                         }}
                       >
                         <BitcoinConnectPayment
-                          amount={50}
+                          amount={boostAmount}
                           description={`Boost for "${track.title}" by ${album.artist}`}
+                          key={`track-boost-${track.title}-${boostAmount}`}
                           onSuccess={handleBoostSuccess}
                           onError={handleBoostError}
                           recipients={getTrackPaymentRecipients(track) || undefined}
