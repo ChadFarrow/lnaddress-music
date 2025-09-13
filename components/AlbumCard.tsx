@@ -417,31 +417,31 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
       {/* Boost Modal */}
       {showBoostModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="relative bg-gray-900 rounded-2xl shadow-2xl max-w-sm w-full">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-yellow-500" />
+          <div className="relative bg-gray-900 rounded-xl shadow-2xl max-w-xs w-full">
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <Zap className="w-4 h-4 text-yellow-500" />
                   Boost Artist
                 </h3>
                 <button
                   onClick={() => setShowBoostModal(false)}
-                  className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+                  className="p-1 hover:bg-gray-800 rounded-lg transition-colors"
                 >
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
               
-              <div className="text-center mb-6">
-                <p className="text-white font-semibold">{album.title}</p>
-                <p className="text-gray-400 text-sm">{album.artist}</p>
+              <div className="text-center mb-4">
+                <p className="text-white font-medium text-sm">{album.title}</p>
+                <p className="text-gray-400 text-xs">{album.artist}</p>
               </div>
               
               {/* Amount Selection */}
-              <div className="mb-6">
-                <p className="text-gray-300 text-xs mb-3 uppercase tracking-wide">Boost Amount</p>
+              <div className="mb-4">
+                <p className="text-gray-300 text-xs mb-2 uppercase tracking-wide">Boost Amount</p>
                 <div className="flex items-center gap-2">
                   <input
                     type="number"
@@ -456,17 +456,16 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
               </div>
               
               {/* Sender Name */}
-              <div className="mb-6">
-                <p className="text-gray-300 text-xs mb-3 uppercase tracking-wide">Your Name (Optional)</p>
+              <div className="mb-4">
+                <p className="text-gray-300 text-xs mb-2 uppercase tracking-wide">Your Name (Optional)</p>
                 <input
                   type="text"
                   value={senderName}
                   onChange={(e) => setSenderName(e.target.value)}
                   className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
-                  placeholder="Enter your name to be credited in the boost"
+                  placeholder="Enter your name"
                   maxLength={50}
                 />
-                <p className="text-gray-500 text-xs mt-1">This will be included with your boost payment</p>
               </div>
               
               <BitcoinConnectPayment
