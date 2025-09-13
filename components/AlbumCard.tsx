@@ -499,7 +499,7 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
                     album: album.title,
                     url: `https://zaps.podtards.com/album/${encodeURIComponent(album.feedId || album.title)}`,
                     appName: 'ITDV Lightning',
-                    senderName: senderName?.trim() || null, // Include sender name if provided
+                    senderName: senderName?.trim() || undefined, // Include sender name if provided
                     // Include RSS podcast GUIDs for proper Nostr tagging
                     itemGuid: album.tracks?.[0]?.guid, // Use first track GUID as episode GUID
                     podcastGuid: album.tracks?.[0]?.podcastGuid, // podcast:guid at item level

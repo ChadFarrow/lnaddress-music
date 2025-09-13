@@ -769,7 +769,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                       album: album.title,
                       url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
                       appName: 'ITDV Lightning',
-                      senderName: senderName?.trim() || null // Include sender name if provided
+                      senderName: senderName?.trim() || undefined // Include sender name if provided
                     }}
                   />
                 </div>
@@ -898,7 +898,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                               episode: track.title,
                               url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
                               appName: 'ITDV Lightning',
-                              senderName: senderName?.trim() || null, // Include sender name if provided
+                              senderName: senderName?.trim() || undefined, // Include sender name if provided
                               // Include RSS podcast GUIDs for proper Nostr tagging
                               itemGuid: track.guid, // Track-level GUID
                               podcastGuid: track.podcastGuid, // podcast:guid at item level

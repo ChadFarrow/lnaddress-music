@@ -680,7 +680,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                     albumDataFeedGuid: albumData?.feedGuid,
                     albumDataPublisherGuid: albumData?.publisherGuid,
                     currentAlbum: currentAlbum,
-                    senderName: senderName?.trim() || null
+                    senderName: senderName?.trim() || undefined
                   });
                   
                   return {
@@ -691,7 +691,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                     url: currentAlbum ? `https://zaps.podtards.com/album/${encodeURIComponent(currentAlbum)}#${encodeURIComponent(currentTrack?.title || '')}` : 'https://zaps.podtards.com',
                     appName: 'ITDV Lightning',
                     timestamp: Math.floor(currentTime),
-                    senderName: senderName?.trim() || null, // Include sender name if provided
+                    senderName: senderName?.trim() || undefined, // Include sender name if provided
                     // Include RSS podcast GUIDs for proper Nostr tagging
                     itemGuid: currentTrack?.guid,
                     podcastGuid: currentTrack?.podcastGuid, // podcast:guid at item level
