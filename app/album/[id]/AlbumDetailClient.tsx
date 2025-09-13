@@ -305,8 +305,16 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       setIsLoading(true);
       console.log(`🔍 Loading album with dynamic RSS parsing: ${albumTitle}`);
       
+      // Convert album title back to URL slug format for API call
+      const albumSlug = albumTitle
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')       // Remove punctuation except spaces and hyphens
+        .replace(/\s+/g, '-')           // Replace spaces with dashes
+        .replace(/-+/g, '-')            // Replace multiple consecutive dashes with single dash
+        .replace(/^-+|-+$/g, '');       // Remove leading/trailing dashes
+      
       // Use the new individual album endpoint that does live RSS parsing with GUID data
-      const response = await fetch(`/api/album/${encodeURIComponent(albumTitle)}`);
+      const response = await fetch(`/api/album/${encodeURIComponent(albumSlug)}`);
       
       if (!response.ok) {
         throw new Error('Failed to load album');
@@ -950,6 +958,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                               url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
                               appName: 'ITDV Lightning',
                               senderName: senderName?.trim() || undefined, // Include sender name if provided
+                              message: boostMessage?.trim() || undefined, // Include boostagram message if provided
                               // Include RSS podcast GUIDs for proper Nostr tagging
                               itemGuid: track.guid, // Track-level GUID
                               podcastGuid: track.podcastGuid, // podcast:guid at item level

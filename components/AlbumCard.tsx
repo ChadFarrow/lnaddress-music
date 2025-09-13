@@ -468,6 +468,23 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
                   maxLength={50}
                 />
               </div>
+
+              {/* Boostagram Message */}
+              <div className="mb-4">
+                <p className="text-gray-300 text-xs mb-2 uppercase tracking-wide">Message (Optional)</p>
+                <textarea
+                  value={boostMessage}
+                  onChange={(e) => setBoostMessage(e.target.value)}
+                  className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm resize-none"
+                  placeholder="Enter your boostagram message"
+                  maxLength={250}
+                  rows={3}
+                />
+                <div className="flex justify-between items-center mt-1">
+                  <p className="text-gray-500 text-xs">Custom message for your boost</p>
+                  <p className="text-gray-400 text-xs">{boostMessage.length}/250</p>
+                </div>
+              </div>
               
               <BitcoinConnectPayment
                 amount={boostAmount}
@@ -500,6 +517,7 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
                     url: `https://zaps.podtards.com/album/${encodeURIComponent(album.feedId || album.title)}`,
                     appName: 'ITDV Lightning',
                     senderName: senderName?.trim() || undefined, // Include sender name if provided
+                    message: boostMessage?.trim() || undefined, // Include custom boostagram message
                     // Include RSS podcast GUIDs for proper Nostr tagging
                     itemGuid: album.tracks?.[0]?.guid, // Use first track GUID as episode GUID
                     podcastGuid: album.tracks?.[0]?.podcastGuid, // podcast:guid at item level

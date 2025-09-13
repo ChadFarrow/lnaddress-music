@@ -27,6 +27,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   const [showBoostModal, setShowBoostModal] = useState(false);
   const [boostAmount, setBoostAmount] = useState(50);
   const [senderName, setSenderName] = useState('');
+  const [boostMessage, setBoostMessage] = useState('');
   const [albumData, setAlbumData] = useState<any>(null);
   const colorCache = useRef<Map<string, ExtractedColors>>(globalColorCache);
   
@@ -299,12 +300,12 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
       
       // Convert album title to URL-friendly format (same as album page)
       const albumId = albumTitle.toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '');
+        .replace(/[^\w\s-]/g, '')       // Remove punctuation except spaces and hyphens
+        .replace(/\s+/g, '-')           // Replace spaces with dashes
+        .replace(/-+/g, '-')            // Replace multiple consecutive dashes with single dash
+        .replace(/^-+|-+$/g, '');       // Remove leading/trailing dashes
       
-      const response = await fetch(`/api/album/${albumId}`);
+      const response = await fetch(`/api/album/${encodeURIComponent(albumId)}`);
       const data = await response.json();
       
       if (data.success && data.album) {
@@ -661,6 +662,25 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                 />
                 <p className="text-gray-500 text-xs mt-1">This will be included with your boost payment</p>
               </div>
+
+              {/* Boostagram Message */}
+              <div>
+                <label className="block text-white text-sm font-medium mb-2">
+                  Message (Optional)
+                </label>
+                <textarea
+                  value={boostMessage}
+                  onChange={(e) => setBoostMessage(e.target.value)}
+                  className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm resize-none"
+                  placeholder="Enter your boostagram message (up to 250 characters)"
+                  maxLength={250}
+                  rows={3}
+                />
+                <div className="flex justify-between items-center mt-1">
+                  <p className="text-gray-500 text-xs">Custom message for your boost</p>
+                  <p className="text-gray-400 text-xs">{boostMessage.length}/250</p>
+                </div>
+              </div>
               
               <BitcoinConnectPayment
                 amount={boostAmount}
@@ -680,7 +700,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                     albumDataFeedGuid: albumData?.feedGuid,
                     albumDataPublisherGuid: albumData?.publisherGuid,
                     currentAlbum: currentAlbum,
-                    senderName: senderName?.trim() || undefined
+                    senderName: senderName?.trim() || undefined,
+                    boostMessage: boostMessage?.trim() || undefined
                   });
                   
                   return {
@@ -692,6 +713,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                     appName: 'ITDV Lightning',
                     timestamp: Math.floor(currentTime),
                     senderName: senderName?.trim() || undefined, // Include sender name if provided
+                    message: boostMessage?.trim() || undefined, // Include custom boostagram message
                     // Include RSS podcast GUIDs for proper Nostr tagging
                     itemGuid: currentTrack?.guid,
                     podcastGuid: currentTrack?.podcastGuid, // podcast:guid at item level
