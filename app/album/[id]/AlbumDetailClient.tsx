@@ -248,10 +248,14 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         preloadAttemptedRef.current = true;
         preloadBackgroundImage(initialAlbum);
       }
-      loadRelatedAlbums();
-      // Load site albums first, then load podroll albums
+      // Load related albums and podroll albums in background (non-blocking)
+      loadRelatedAlbums().catch(error => {
+        console.warn('Failed to load related albums:', error);
+      });
       loadSiteAlbums().then(() => {
         loadPodrollAlbums();
+      }).catch(error => {
+        console.warn('Failed to load site albums:', error);
       });
     }
   }, [albumTitle, initialAlbum, isDesktop]);
@@ -338,9 +342,14 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
           preloadBackgroundImage(data.album);
         }
         
-        loadRelatedAlbums();
+        // Load related albums and podroll albums in background (non-blocking)
+        loadRelatedAlbums().catch(error => {
+          console.warn('Failed to load related albums:', error);
+        });
         loadSiteAlbums().then(() => {
           loadPodrollAlbums();
+        }).catch(error => {
+          console.warn('Failed to load site albums:', error);
         });
       } else {
         setError('Album not found');
@@ -355,36 +364,38 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
 
   const loadSiteAlbums = async () => {
     try {
-      const response = await fetch('/api/albums-static');
+      // Use the lightweight albums endpoint to avoid RSS parsing overhead
+      const response = await fetch('/api/albums-simple');
       if (response.ok) {
         const data = await response.json();
         const albums = data.albums || [];
         setSiteAlbums(albums);
         return albums;
+      } else {
+        console.warn(`Failed to load site albums: ${response.status} ${response.statusText}`);
       }
     } catch (error) {
-      console.error('Error loading site albums:', error);
+      console.warn('Error loading site albums:', error);
     }
     return [];
   };
 
   const loadRelatedAlbums = async () => {
     try {
-      // Try fast static endpoint first
-      let response = await fetch('/api/albums-static');
+      // Use the lightweight albums endpoint to avoid RSS parsing overhead
+      const response = await fetch('/api/albums-simple');
       
-      if (!response.ok) {
-        response = await fetch('/api/albums');
-      }
       if (response.ok) {
         const data = await response.json();
         const albums = data.albums || [];
         
         // Don't show random albums - only show podroll connections
         setRelatedAlbums([]); // No random albums
+      } else {
+        console.warn(`Failed to load related albums: ${response.status} ${response.statusText}`);
       }
     } catch (error) {
-      console.error('Error loading related albums:', error);
+      console.warn('Error loading related albums:', error);
     }
   };
 
@@ -396,14 +407,16 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       let albums: Album[] = siteAlbums;
       if (albums.length === 0) {
         try {
-          const response = await fetch('/api/albums-static');
+          const response = await fetch('/api/albums-simple');
           if (response.ok) {
             const data = await response.json();
             albums = data.albums || [];
             setSiteAlbums(albums);
+          } else {
+            console.warn(`Failed to load site albums for podroll matching: ${response.status}`);
           }
         } catch (error) {
-          console.error('Error loading site albums for podroll matching:', error);
+          console.warn('Error loading site albums for podroll matching:', error);
         }
       }
       
