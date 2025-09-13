@@ -1079,6 +1079,124 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         })()}
 
 
+        {/* Track Boost Modal */}
+        {showTrackBoostModal && selectedTrack && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+            <div className="relative bg-gray-900 rounded-xl shadow-2xl max-w-sm w-full">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-yellow-500" />
+                    Boost Track
+                  </h3>
+                  <button
+                    onClick={() => {
+                      setShowTrackBoostModal(false);
+                      setSelectedTrack(null);
+                    }}
+                    className="p-1 hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                
+                <div className="text-center mb-6">
+                  <p className="text-white font-medium">{selectedTrack.title}</p>
+                  <p className="text-gray-400 text-sm">{album?.artist}</p>
+                </div>
+                
+                {/* Amount Selection */}
+                <div className="mb-6">
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Boost Amount
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      value={trackBoostAmount}
+                      onChange={(e) => setTrackBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="flex-1 px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
+                      placeholder="Enter amount in sats"
+                      min="1"
+                    />
+                    <span className="text-gray-400 text-sm">sats</span>
+                  </div>
+                </div>
+
+                {/* Sender Name */}
+                <div className="mb-6">
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Your Name (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={senderName}
+                    onChange={(e) => setSenderName(e.target.value)}
+                    className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
+                    placeholder="Enter your name to be credited"
+                    maxLength={50}
+                  />
+                </div>
+
+                {/* Boostagram Message */}
+                <div className="mb-6">
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Message (Optional)
+                  </label>
+                  <textarea
+                    value={trackBoostMessage}
+                    onChange={(e) => setTrackBoostMessage(e.target.value)}
+                    className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm resize-none"
+                    placeholder="Enter your boostagram message (up to 250 characters)"
+                    maxLength={250}
+                    rows={3}
+                  />
+                  <div className="flex justify-between items-center mt-1">
+                    <p className="text-gray-500 text-xs">Custom message for your boost</p>
+                    <p className="text-gray-400 text-xs">{trackBoostMessage.length}/250</p>
+                  </div>
+                </div>
+                
+                <BitcoinConnectPayment
+                  amount={trackBoostAmount}
+                  description={`Boost for "${selectedTrack.title}" by ${album?.artist}`}
+                  onSuccess={(response) => {
+                    handleBoostSuccess(response);
+                    setShowTrackBoostModal(false);
+                    setSelectedTrack(null);
+                    setTrackBoostMessage('');
+                  }}
+                  onError={handleBoostError}
+                  className="w-full"
+                  recipients={getTrackPaymentRecipients(selectedTrack) || undefined}
+                  recipient={getFallbackRecipient().address}
+                  enableBoosts={true}
+                  boostMetadata={{
+                    title: selectedTrack.title,
+                    artist: album?.artist || 'Unknown Artist',
+                    album: album?.title || 'Unknown Album',
+                    episode: selectedTrack.title,
+                    url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
+                    appName: 'ITDV Lightning',
+                    senderName: senderName?.trim() || undefined,
+                    message: trackBoostMessage?.trim() || undefined,
+                    // Include RSS podcast GUIDs for proper Nostr tagging
+                    itemGuid: selectedTrack.guid,
+                    podcastGuid: selectedTrack.podcastGuid,
+                    podcastFeedGuid: album?.feedGuid,
+                    feedUrl: album?.feedUrl,
+                    publisherGuid: album?.publisherGuid,
+                    publisherUrl: album?.publisherUrl,
+                    imageUrl: selectedTrack.imageUrl || album?.coverArt
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Bottom spacing for audio player */}
         <div className="h-24" />
       </div>
