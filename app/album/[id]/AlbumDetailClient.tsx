@@ -110,6 +110,10 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   // Album boost modal state
   const [showAlbumBoostModal, setShowAlbumBoostModal] = useState(false);
   
+  // Request deduplication refs
+  const loadingAlbumsRef = useRef(false);
+  const loadingRelatedRef = useRef(false);
+  
   
   // Global audio context
   const { 
@@ -251,22 +255,30 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     if (!initialAlbum) {
       loadAlbum();
     } else {
-      // Preload background image for desktop
-      if (isDesktop && !preloadAttemptedRef.current) {
-        preloadAttemptedRef.current = true;
-        preloadBackgroundImage(initialAlbum);
-      }
-      // Load related albums and podroll albums in background (non-blocking)
+      // Load related albums in background (non-blocking)
       loadRelatedAlbums().catch(error => {
         console.warn('Failed to load related albums:', error);
       });
-      loadSiteAlbums().then(() => {
-        loadPodrollAlbums();
-      }).catch(error => {
+      
+      // Load site albums and podroll albums in parallel, non-blocking
+      loadSiteAlbums().catch(error => {
         console.warn('Failed to load site albums:', error);
       });
+      
+      // Defer podroll loading to not block initial render
+      setTimeout(() => {
+        loadPodrollAlbums();
+      }, 100);
     }
-  }, [albumTitle, initialAlbum, isDesktop]);
+  }, [albumTitle, initialAlbum]);
+
+  // Separate useEffect for background image preloading to avoid re-running API calls
+  useEffect(() => {
+    if (initialAlbum && isDesktop && !preloadAttemptedRef.current) {
+      preloadAttemptedRef.current = true;
+      preloadBackgroundImage(initialAlbum);
+    }
+  }, [isDesktop, initialAlbum]);
 
   // Load saved sender name from localStorage
   useEffect(() => {
@@ -350,15 +362,20 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
           preloadBackgroundImage(data.album);
         }
         
-        // Load related albums and podroll albums in background (non-blocking)
+        // Load related albums in background (non-blocking)
         loadRelatedAlbums().catch(error => {
           console.warn('Failed to load related albums:', error);
         });
-        loadSiteAlbums().then(() => {
-          loadPodrollAlbums();
-        }).catch(error => {
+        
+        // Load site albums and podroll albums in parallel, non-blocking
+        loadSiteAlbums().catch(error => {
           console.warn('Failed to load site albums:', error);
         });
+        
+        // Defer podroll loading to not block initial render
+        setTimeout(() => {
+          loadPodrollAlbums();
+        }, 100);
       } else {
         setError('Album not found');
       }
@@ -371,7 +388,13 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   };
 
   const loadSiteAlbums = async () => {
+    // Prevent duplicate requests
+    if (loadingAlbumsRef.current) {
+      return siteAlbums;
+    }
+    
     try {
+      loadingAlbumsRef.current = true;
       // Use the lightweight albums endpoint to avoid RSS parsing overhead
       const response = await fetch('/api/albums-simple');
       if (response.ok) {
@@ -384,12 +407,20 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       }
     } catch (error) {
       console.warn('Error loading site albums:', error);
+    } finally {
+      loadingAlbumsRef.current = false;
     }
     return [];
   };
 
   const loadRelatedAlbums = async () => {
+    // Prevent duplicate requests
+    if (loadingRelatedRef.current) {
+      return;
+    }
+    
     try {
+      loadingRelatedRef.current = true;
       // Use the lightweight albums endpoint to avoid RSS parsing overhead
       const response = await fetch('/api/albums-simple');
       
@@ -404,6 +435,8 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       }
     } catch (error) {
       console.warn('Error loading related albums:', error);
+    } finally {
+      loadingRelatedRef.current = false;
     }
   };
 
@@ -411,30 +444,26 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     if (!album?.podroll || album.podroll.length === 0) return;
     
     try {
-      // First, get all albums from the site to check for matches
+      // Use site albums if already loaded, otherwise wait for them to load
       let albums: Album[] = siteAlbums;
       if (albums.length === 0) {
-        try {
-          const response = await fetch('/api/albums-simple');
-          if (response.ok) {
-            const data = await response.json();
-            albums = data.albums || [];
-            setSiteAlbums(albums);
-          } else {
-            console.warn(`Failed to load site albums for podroll matching: ${response.status}`);
-          }
-        } catch (error) {
-          console.warn('Error loading site albums for podroll matching:', error);
+        console.log('⏳ Waiting for site albums to load before processing podroll...');
+        // Wait a bit for the site albums to load from the parallel call
+        await new Promise(resolve => setTimeout(resolve, 500));
+        albums = siteAlbums;
+        
+        // If still empty after waiting, something went wrong - skip podroll processing
+        if (albums.length === 0) {
+          console.warn('❌ Site albums not loaded, skipping podroll processing');
+          return;
         }
       }
-      
-      const podrollData: PodrollAlbum[] = [];
       
       // Filter out non-music podcast feeds from podrolls
       const filteredPodroll = filterPodrollItems(album.podroll);
       
-      // Process each podroll item
-      for (const podrollItem of filteredPodroll) {
+      // Process all podroll items in parallel for better performance
+      const podrollPromises = filteredPodroll.map(async (podrollItem) => {
         // Check if this podroll URL matches any album on the site
         const matchingAlbum = albums.find(siteAlbum => 
           siteAlbum.feedUrl === podrollItem.url
@@ -442,39 +471,57 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         
         if (matchingAlbum) {
           // Use the site album data
-          podrollData.push({
+          return {
             title: matchingAlbum.title,
             artist: matchingAlbum.artist,
             coverArt: matchingAlbum.coverArt,
             url: podrollItem.url
-          });
+          };
         } else {
-          // Try to fetch external feed data
+          // Try to fetch external feed data with timeout
           try {
-            const response = await fetch(`/api/test-single-feed?url=${encodeURIComponent(podrollItem.url)}`);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
+            
+            const response = await fetch(`/api/test-single-feed?url=${encodeURIComponent(podrollItem.url)}`, {
+              signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            
             if (response.ok) {
               const data = await response.json();
               if (data.album) {
-                podrollData.push({
+                return {
                   title: data.album.title || podrollItem.title || 'Unknown Album',
                   artist: data.album.artist || 'Unknown Artist',
                   coverArt: data.album.coverArt || '/placeholder-episode.jpg',
                   url: podrollItem.url
-                });
+                };
               }
             }
           } catch (error) {
-            console.error(`Error fetching podroll album for ${podrollItem.url}:`, error);
-            // Fallback to basic podroll data
-            podrollData.push({
-              title: podrollItem.title || 'Unknown Album',
-              artist: 'Unknown Artist',
-              coverArt: '/placeholder-episode.jpg',
-              url: podrollItem.url
-            });
+            if (error.name === 'AbortError') {
+              console.warn(`Timeout fetching podroll album for ${podrollItem.url}`);
+            } else {
+              console.error(`Error fetching podroll album for ${podrollItem.url}:`, error);
+            }
           }
+          
+          // Fallback to basic podroll data
+          return {
+            title: podrollItem.title || 'Unknown Album',
+            artist: 'Unknown Artist',
+            coverArt: '/placeholder-episode.jpg',
+            url: podrollItem.url
+          };
         }
-      }
+      });
+      
+      // Wait for all podroll items to resolve (in parallel)
+      const podrollResults = await Promise.allSettled(podrollPromises);
+      const podrollData = podrollResults
+        .filter((result): result is PromiseFulfilledResult<PodrollAlbum> => result.status === 'fulfilled')
+        .map(result => result.value);
       
       setPodrollAlbums(podrollData);
     } catch (error) {
