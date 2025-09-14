@@ -4,10 +4,7 @@ import { useState, useRef, useEffect, memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Play, Pause, Music, Zap } from 'lucide-react';
-import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
-import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 import type { RSSValue, RSSValueRecipient } from '@/lib/rss-parser';
-import confetti from 'canvas-confetti';
 
 interface Track {
   title: string;
@@ -54,38 +51,16 @@ interface AlbumCardProps {
   album: Album;
   isPlaying?: boolean;
   onPlay: (album: Album, e: React.MouseEvent | React.TouchEvent) => void;
+  onBoostClick?: (album: Album) => void;
   className?: string;
 }
 
-function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCardProps) {
+function AlbumCard({ album, isPlaying = false, onPlay, onBoostClick, className = '' }: AlbumCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const [showBoostSuccess, setShowBoostSuccess] = useState(false);
-  const [showBoostModal, setShowBoostModal] = useState(false);
-  const [boostAmount, setBoostAmount] = useState(50);
-  const [senderName, setSenderName] = useState('');
-  const [boostMessage, setBoostMessage] = useState('');
-  
-  const { checkConnection } = useBitcoinConnect();
 
-  // Load saved sender name when modal opens
-  useEffect(() => {
-    if (showBoostModal) {
-      const savedSenderName = localStorage.getItem('boost-sender-name');
-      if (savedSenderName) {
-        setSenderName(savedSenderName);
-      }
-    }
-  }, [showBoostModal]);
-
-  // Save sender name to localStorage when it changes
-  useEffect(() => {
-    if (senderName.trim()) {
-      localStorage.setItem('boost-sender-name', senderName.trim());
-    }
-  }, [senderName]);
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -126,107 +101,7 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
     setImageLoaded(false);
   };
 
-  const handleBoostSuccess = (response: any) => {
-    setShowBoostSuccess(true);
-    setShowBoostModal(false);
-    setTimeout(() => setShowBoostSuccess(false), 3000);
-    
-    // Trigger multiple confetti bursts for dramatic effect
-    const count = 200;
-    const defaults = {
-      origin: { y: 0.7 },
-      colors: ['#FFD700', '#FFA500', '#FF8C00', '#FFE55C', '#FFFF00']
-    };
 
-    function fire(particleRatio: number, opts: any) {
-      confetti(Object.assign({}, defaults, opts, {
-        particleCount: Math.floor(count * particleRatio)
-      }));
-    }
-
-    fire(0.25, {
-      spread: 26,
-      startVelocity: 55,
-    });
-    fire(0.2, {
-      spread: 60,
-    });
-    fire(0.35, {
-      spread: 100,
-      decay: 0.91,
-      scalar: 0.8
-    });
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 25,
-      decay: 0.92,
-      scalar: 1.2
-    });
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 45,
-    });
-  };
-
-  const handleBoostError = (error: string) => {
-    console.error('Boost failed:', error);
-  };
-
-  // Get Lightning payment recipients from RSS value data
-  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
-    console.log('🔍 Checking album for podcast:value data:', album.title, { 
-      hasAlbumValue: !!album.value,
-      albumValueType: album.value?.type,
-      albumValueMethod: album.value?.method,
-      albumRecipients: album.value?.recipients?.length || 0,
-      trackCount: album.tracks?.length || 0,
-      firstTrackHasValue: !!(album.tracks?.[0]?.value)
-    });
-    
-    // First, check if album has podcast:value Lightning recipients
-    if (album.value && album.value.type === 'lightning' && album.value.method === 'keysend') {
-      const recipients = album.value.recipients
-        .filter(r => r.type === 'node') // Only include node recipients
-        .map(r => ({
-          address: r.address,
-          split: r.split,
-          name: r.name,
-          fee: r.fee,
-          type: 'node' // Include the type field for payment routing
-        }));
-      
-      console.log('✅ Found album-level podcast:value recipients:', recipients);
-      return recipients;
-    }
-    
-    // If no album-level value, check first track for podcast:value data
-    const firstTrack = album.tracks?.[0];
-    if (firstTrack?.value && firstTrack.value.type === 'lightning' && firstTrack.value.method === 'keysend') {
-      const recipients = firstTrack.value.recipients
-        .filter(r => r.type === 'node') // Only include node recipients
-        .map(r => ({
-          address: r.address,
-          split: r.split,
-          name: r.name,
-          fee: r.fee,
-          type: 'node' // Include the type field for payment routing
-        }));
-      
-      console.log('✅ Found track-level podcast:value recipients from first track:', recipients);
-      return recipients;
-    }
-    
-    console.log('❌ No podcast:value data found (checked album and first track), using fallback');
-    return null; // Will use fallback single recipient
-  };
-  
-  // Get fallback recipient for backwards compatibility
-  const getFallbackRecipient = (): { address: string; amount: number } => {
-    return {
-      address: '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
-      amount: 50
-    };
-  };
 
   const getAlbumUrl = (album: Album) => {
     // Create URL-friendly slug from album title
@@ -367,19 +242,18 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
         {/* Lightning tip button - moved to top left */}
         <div className="absolute top-1 left-1 sm:top-2 sm:left-2 flex items-center gap-1 sm:gap-2">
           <button
-            onClick={async (e) => {
+            onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              // Force connection check before showing modal
-              await checkConnection();
-              setShowBoostModal(true);
+              if (onBoostClick) {
+                onBoostClick(album);
+              }
             }}
             className="w-6 h-6 sm:w-7 sm:h-7 bg-yellow-500/90 hover:bg-yellow-600/90 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors z-10"
             aria-label={`Boost ${album.artist}`}
           >
             <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
           </button>
-          
         </div>
         
         {/* Track count badge - kept on the right */}
@@ -414,125 +288,6 @@ function AlbumCard({ album, isPlaying = false, onPlay, className = '' }: AlbumCa
         <div className="absolute inset-0 bg-white/5 opacity-0 group-active:opacity-100 transition-opacity duration-150" />
       </div>
       </Link>
-      
-      {/* Boost Modal */}
-      {showBoostModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="relative bg-gray-900 rounded-xl shadow-2xl max-w-xs w-full">
-            <div className="p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-yellow-500" />
-                  Boost Artist
-                </h3>
-                <button
-                  onClick={() => setShowBoostModal(false)}
-                  className="p-1 hover:bg-gray-800 rounded-lg transition-colors"
-                >
-                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              
-              <div className="text-center mb-4">
-                <p className="text-white font-medium text-sm">{album.title}</p>
-                <p className="text-gray-400 text-xs">{album.artist}</p>
-              </div>
-              
-              {/* Amount Selection */}
-              <div className="mb-4">
-                <p className="text-gray-300 text-xs mb-2 uppercase tracking-wide">Boost Amount</p>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    value={boostAmount}
-                    onChange={(e) => setBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="flex-1 px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
-                    placeholder="Enter amount in sats"
-                    min="1"
-                  />
-                  <span className="text-gray-400 text-sm">sats</span>
-                </div>
-              </div>
-              
-              {/* Sender Name */}
-              <div className="mb-4">
-                <p className="text-gray-300 text-xs mb-2 uppercase tracking-wide">Your Name (Optional)</p>
-                <input
-                  type="text"
-                  value={senderName}
-                  onChange={(e) => setSenderName(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
-                  placeholder="Enter your name"
-                  maxLength={50}
-                />
-              </div>
-
-              {/* Boostagram Message */}
-              <div className="mb-4">
-                <p className="text-gray-300 text-xs mb-2 uppercase tracking-wide">Message (Optional)</p>
-                <textarea
-                  value={boostMessage}
-                  onChange={(e) => setBoostMessage(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm resize-none"
-                  placeholder="Enter your boostagram message"
-                  maxLength={250}
-                  rows={3}
-                />
-                <div className="flex justify-between items-center mt-1">
-                  <p className="text-gray-500 text-xs">Custom message for your boost</p>
-                  <p className="text-gray-400 text-xs">{boostMessage.length}/250</p>
-                </div>
-              </div>
-              
-              <BitcoinConnectPayment
-                amount={boostAmount}
-                description={`Boost for ${album.title} by ${album.artist}`}
-                onSuccess={handleBoostSuccess}
-                onError={handleBoostError}
-                className="w-full"
-                recipients={getPaymentRecipients() || undefined}
-                recipient={getFallbackRecipient().address}
-                enableBoosts={true}
-                boostMetadata={(() => {
-                  console.log('🔍 Album data for boost:', {
-                    albumTitle: album.title,
-                    albumId: album.feedId || album.title,
-                    feedGuid: album.feedGuid,
-                    publisherGuid: album.publisherGuid,
-                    firstTrack: album.tracks?.[0] ? {
-                      title: album.tracks[0].title,
-                      guid: album.tracks[0].guid,
-                      podcastGuid: album.tracks[0].podcastGuid,
-                      feedGuid: album.tracks[0].feedGuid
-                    } : 'NO TRACKS',
-                    allTracks: album.tracks?.length || 0
-                  });
-                  
-                  return {
-                    title: album.title,
-                    artist: album.artist,
-                    album: album.title,
-                    url: `https://zaps.podtards.com/album/${encodeURIComponent(album.feedId || album.title)}`,
-                    appName: 'ITDV Lightning',
-                    senderName: senderName?.trim() || undefined, // Include sender name if provided
-                    message: boostMessage?.trim() || undefined, // Include custom boostagram message
-                    // Include RSS podcast GUIDs for proper Nostr tagging
-                    itemGuid: album.tracks?.[0]?.guid, // Use first track GUID as episode GUID
-                    podcastGuid: album.tracks?.[0]?.podcastGuid, // podcast:guid at item level
-                    podcastFeedGuid: album.feedGuid,
-                    feedUrl: album.feedUrl,
-                    publisherGuid: album.publisherGuid,
-                    publisherUrl: album.publisherUrl,
-                    imageUrl: album.imageUrl
-                  };
-                })()}
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

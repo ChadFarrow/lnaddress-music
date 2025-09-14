@@ -9,12 +9,22 @@ import { useAudio } from '@/contexts/AudioContext';
 import { toast } from '@/components/Toast';
 import { preloadCriticalColors } from '@/lib/performance-utils';
 import dynamic from 'next/dynamic';
+import { Zap } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 // Lazy load Lightning components - not needed on initial page load
 const BitcoinConnectWallet = dynamic(
   () => import('@/components/BitcoinConnect').then(mod => ({ default: mod.BitcoinConnectWallet })),
   { 
     loading: () => <div className="w-32 h-10 bg-gray-800/50 rounded-lg animate-pulse" />,
+    ssr: false 
+  }
+);
+
+const BitcoinConnectPayment = dynamic(
+  () => import('@/components/BitcoinConnect').then(mod => ({ default: mod.BitcoinConnectPayment })),
+  { 
+    loading: () => <div className="w-full h-10 bg-gray-800/50 rounded-lg animate-pulse" />,
     ssr: false 
   }
 );
@@ -42,6 +52,7 @@ interface Track {
   url: string;
   trackNumber: number;
   image?: string;
+  value?: any; // Track-level podcast:value data
   // Podcast GUIDs for Nostr boost tagging
   guid?: string; // Standard item GUID
   podcastGuid?: string; // podcast:guid at item level
@@ -73,6 +84,7 @@ interface Album {
   feedId: string;
   feedUrl?: string;
   funding?: RSSFunding[];
+  value?: any; // Album-level podcast:value data
   podroll?: RSSPodRoll[];
   publisher?: {
     feedGuid: string;
@@ -97,9 +109,53 @@ export default function HomePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
   
+  // Boost modal state
+  const [showBoostModal, setShowBoostModal] = useState(false);
+  const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
+  const [boostAmount, setBoostAmount] = useState(50);
+  const [senderName, setSenderName] = useState('');
+  const [boostMessage, setBoostMessage] = useState('');
+  
   // Global audio context
   const { playAlbumAndOpenNowPlaying: globalPlayAlbum, toggleShuffle } = useAudio();
   const hasLoadedRef = useRef(false);
+  
+  // Handle boost button click from album card
+  const handleBoostClick = (album: Album) => {
+    setSelectedAlbum(album);
+    setShowBoostModal(true);
+  };
+  
+  // Handle boost success
+  const handleBoostSuccess = (response: any) => {
+    setShowBoostModal(false);
+    
+    // Trigger confetti animation
+    const count = 200;
+    const defaults = {
+      origin: { y: 0.7 },
+      colors: ['#FFD700', '#FFA500', '#FF8C00', '#FFE55C', '#FFFF00']
+    };
+
+    function fire(particleRatio: number, opts: any) {
+      confetti(Object.assign({}, defaults, opts, {
+        particleCount: Math.floor(count * particleRatio)
+      }));
+    }
+
+    fire(0.25, { spread: 26, startVelocity: 55 });
+    fire(0.2, { spread: 60 });
+    fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+    fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+    fire(0.1, { spread: 120, startVelocity: 45 });
+    
+    toast.success('⚡ Boost sent successfully!');
+  };
+  
+  const handleBoostError = (error: string) => {
+    console.error('Boost failed:', error);
+    toast.error('Failed to send boost');
+  };
   
   // Static background state
   const [backgroundImageLoaded, setBackgroundImageLoaded] = useState(false);
@@ -122,6 +178,12 @@ export default function HomePage() {
 
   useEffect(() => {
     setIsClient(true);
+    
+    // Load saved sender name
+    const savedSenderName = localStorage.getItem('boost-sender-name');
+    if (savedSenderName) {
+      setSenderName(savedSenderName);
+    }
     
     // Add scroll detection for mobile
     let scrollTimer: NodeJS.Timeout;
@@ -711,6 +773,7 @@ export default function HomePage() {
                                 key={`album-${index}`}
                                 album={album}
                                 onPlay={playAlbum}
+                                onBoostClick={handleBoostClick}
                               />
                             ))}
                           </div>
@@ -765,6 +828,7 @@ export default function HomePage() {
                                 key={`ep-single-${index}`}
                                 album={album}
                                 onPlay={playAlbum}
+                                onBoostClick={handleBoostClick}
                               />
                             ))}
                           </div>
@@ -817,6 +881,7 @@ export default function HomePage() {
                         key={`${album.title}-${index}`}
                         album={album}
                         onPlay={playAlbum}
+                        onBoostClick={handleBoostClick}
                       />
                     ))}
                   </div>
@@ -874,6 +939,147 @@ export default function HomePage() {
           )}
         </div>
       </div>
+      
+      {/* Boost Modal - Rendered outside of album cards */}
+      {showBoostModal && selectedAlbum && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative bg-gradient-to-b from-gray-900 to-black rounded-t-3xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-hidden animate-in slide-in-from-bottom sm:zoom-in-95 duration-300">
+            {/* Header with Album Art */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10" />
+              <Image
+                src={selectedAlbum.coverArt}
+                alt={selectedAlbum.title}
+                width={400}
+                height={200}
+                className="w-full h-32 sm:h-40 object-cover"
+              />
+              <button
+                onClick={() => {
+                  setShowBoostModal(false);
+                  setSelectedAlbum(null);
+                }}
+                className="absolute top-4 right-4 z-20 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors backdrop-blur-sm"
+              >
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <div className="absolute bottom-4 left-6 right-6 z-20">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{selectedAlbum.title}</h3>
+                <p className="text-sm sm:text-base text-gray-200">{selectedAlbum.artist}</p>
+              </div>
+            </div>
+            
+            <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(85vh-8rem)] sm:max-h-[calc(90vh-10rem)]">
+              {/* Amount Input */}
+              <div>
+                <label className="text-gray-400 text-sm font-medium">Amount</label>
+                <div className="flex items-center gap-3 mt-2">
+                  <input
+                    type="number"
+                    value={boostAmount}
+                    onChange={(e) => setBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
+                    className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    placeholder="Enter amount"
+                    min="1"
+                  />
+                  <span className="text-gray-400 font-medium">sats</span>
+                </div>
+              </div>
+              
+              {/* Sender Name */}
+              <div>
+                <label className="text-gray-400 text-sm font-medium">Your Name (Optional)</label>
+                <input
+                  type="text"
+                  value={senderName}
+                  onChange={(e) => {
+                    setSenderName(e.target.value);
+                    if (e.target.value.trim()) {
+                      localStorage.setItem('boost-sender-name', e.target.value.trim());
+                    }
+                  }}
+                  className="w-full mt-2 px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  placeholder="Anonymous"
+                  maxLength={50}
+                />
+              </div>
+
+              {/* Boostagram Message */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-gray-400 text-sm font-medium">Message (Optional)</label>
+                  <span className="text-gray-500 text-xs">{boostMessage.length}/250</span>
+                </div>
+                <textarea
+                  value={boostMessage}
+                  onChange={(e) => setBoostMessage(e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  placeholder="Share your thoughts..."
+                  maxLength={250}
+                  rows={3}
+                />
+              </div>
+              
+              {/* Boost Button */}
+              <BitcoinConnectPayment
+                amount={boostAmount}
+                description={`Boost for ${selectedAlbum.title} by ${selectedAlbum.artist}`}
+                onSuccess={handleBoostSuccess}
+                onError={handleBoostError}
+                className="w-full !mt-6"
+                recipients={(() => {
+                  // Get payment recipients from selected album
+                  if (selectedAlbum.value && selectedAlbum.value.type === 'lightning' && selectedAlbum.value.method === 'keysend') {
+                    return selectedAlbum.value.recipients
+                      .filter((r: any) => r.type === 'node')
+                      .map((r: any) => ({
+                        address: r.address,
+                        split: r.split,
+                        name: r.name,
+                        fee: r.fee,
+                        type: 'node'
+                      }));
+                  }
+                  // Check first track for value data
+                  const firstTrack = selectedAlbum.tracks?.[0];
+                  if (firstTrack?.value && firstTrack.value.type === 'lightning' && firstTrack.value.method === 'keysend') {
+                    return firstTrack.value.recipients
+                      .filter((r: any) => r.type === 'node')
+                      .map((r: any) => ({
+                        address: r.address,
+                        split: r.split,
+                        name: r.name,
+                        fee: r.fee,
+                        type: 'node'
+                      }));
+                  }
+                  return undefined;
+                })()}
+                recipient="03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e"
+                enableBoosts={true}
+                boostMetadata={{
+                  title: selectedAlbum.title,
+                  artist: selectedAlbum.artist,
+                  album: selectedAlbum.title,
+                  url: `https://zaps.podtards.com/album/${encodeURIComponent(selectedAlbum.feedId || selectedAlbum.title)}`,
+                  appName: 'ITDV Lightning',
+                  senderName: senderName?.trim() || 'Super Fan',
+                  message: boostMessage?.trim() || undefined,
+                  itemGuid: selectedAlbum.tracks?.[0]?.guid,
+                  podcastGuid: selectedAlbum.tracks?.[0]?.podcastGuid,
+                  podcastFeedGuid: selectedAlbum.feedGuid,
+                  feedUrl: selectedAlbum.feedUrl,
+                  publisherGuid: selectedAlbum.publisherGuid,
+                  publisherUrl: selectedAlbum.publisherUrl,
+                  imageUrl: selectedAlbum.imageUrl
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

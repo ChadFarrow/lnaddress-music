@@ -107,6 +107,9 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const [trackBoostAmount, setTrackBoostAmount] = useState(50);
   const [trackBoostMessage, setTrackBoostMessage] = useState('');
   
+  // Album boost modal state
+  const [showAlbumBoostModal, setShowAlbumBoostModal] = useState(false);
+  
   
   // Global audio context
   const { 
@@ -121,6 +124,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   // Lightning payment handlers
   const handleBoostSuccess = (response: any) => {
     console.log('✅ Boost successful:', response);
+    setShowAlbumBoostModal(false);
     
     // Trigger multiple confetti bursts for dramatic effect
     const count = 200;
@@ -748,7 +752,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
 
 
                 {/* Play Controls */}
-                <div className="flex items-center justify-center lg:justify-start gap-4 mb-4">
+                <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
                   <button
                     onClick={handlePlayAlbum}
                     className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
@@ -766,87 +770,15 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                       <path d="M14.83 13.41L13.42 14.82L16.55 17.95L14.5 20H20V14.5L17.96 16.54L14.83 13.41M14.5 4L16.54 6.04L4 18.59L5.41 20L17.96 7.46L20 9.5V4M10.59 9.17L5.41 4L4 5.41L9.17 10.58L10.59 9.17Z"/>
                     </svg>
                   </button>
-                </div>
-                
-                {/* Boost Section */}
-                <div className="mb-6 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 max-w-2xl w-full">
-                  <h3 className="text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
-                    <svg className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M13 0L22 12L13 24L11 22L18 12L11 2L13 0ZM2 12L11 2L13 0L4 12L13 24L11 22L2 12Z"/>
-                    </svg>
-                    Boost this Album
-                  </h3>
-                  <div className="space-y-2">
-                    {/* Sender Name */}
-                    <div>
-                      <p className="text-xs text-gray-400 mb-1">Your Name (optional)</p>
-                      <input
-                        type="text"
-                        value={senderName}
-                        onChange={(e) => setSenderName(e.target.value)}
-                        className="w-full px-3 py-1.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
-                        placeholder="Enter your name to be credited in the boost"
-                        maxLength={50}
-                      />
-                    </div>
-                    {/* Boostagram Message */}
-                    <div>
-                      <p className="text-xs text-gray-400 mb-1">Message (optional)</p>
-                      <textarea
-                        value={boostMessage}
-                        onChange={(e) => setBoostMessage(e.target.value)}
-                        className="w-full px-3 py-1.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm resize-none"
-                        placeholder="Add a message with your boost (boostagram)"
-                        rows={2}
-                        maxLength={250}
-                      />
-                      <p className="text-xs text-gray-500 mt-1">{boostMessage.length}/250 characters</p>
-                    </div>
-                    {/* Amount and Boost Button */}
-                    <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-end">
-                      <div className="flex-1">
-                        <p className="text-xs text-gray-400 mb-1">Amount</p>
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="number"
-                            value={boostAmount}
-                            onChange={(e) => setBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
-                            className="w-20 px-3 py-1.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
-                            placeholder="50"
-                            min="1"
-                          />
-                          <span className="text-gray-400 text-sm">sats</span>
-                        </div>
-                      </div>
-                      <BitcoinConnectPayment
-                        amount={boostAmount}
-                        description={`Boost for ${album.title} by ${album.artist}`}
-                        key={`album-boost-${boostAmount}`}
-                        onSuccess={handleBoostSuccess}
-                        onError={handleBoostError}
-                        recipients={paymentRecipients || undefined}
-                        recipient={getFallbackRecipient().address}
-                        enableBoosts={true}
-                        boostMetadata={{
-                          title: album.title,
-                          artist: album.artist,
-                          album: album.title,
-                          url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
-                          appName: 'ITDV Lightning',
-                          senderName: senderName?.trim() || undefined, // Include sender name if provided
-                          message: boostMessage?.trim() || undefined, // Include boostagram message if provided
-                          // Include podcast GUIDs for Nostr tagging
-                          itemGuid: album.tracks?.[0]?.guid, // Use first track GUID as episode GUID
-                          podcastGuid: album.tracks?.[0]?.podcastGuid, // podcast:guid at item level
-                          podcastFeedGuid: album.feedGuid, // Feed-level GUID
-                          feedUrl: album.feedUrl, // Feed URL for this album
-                          publisherGuid: album.publisherGuid, // Publisher GUID
-                          publisherUrl: album.publisherUrl, // Publisher URL
-                          imageUrl: album.coverArt // Album artwork URL
-                        }}
-                      />
-                    </div>
-                  </div>
+                  
+                  {/* Album Boost Button */}
+                  <button
+                    onClick={() => setShowAlbumBoostModal(true)}
+                    className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-yellow-500 to-orange-600 text-white rounded-full font-semibold transition-all duration-200 hover:from-yellow-400 hover:to-orange-500 hover:shadow-lg transform hover:scale-105 active:scale-95"
+                  >
+                    <Zap className="w-4 h-4" />
+                    <span>Boost</span>
+                  </button>
                 </div>
 
                 {/* Funding Information - Support This Artist */}
@@ -1078,6 +1010,117 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
           );
         })()}
 
+
+        {/* Album Boost Modal */}
+        {showAlbumBoostModal && album && (
+          <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="relative bg-gradient-to-b from-gray-900 to-black rounded-t-3xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-hidden animate-in slide-in-from-bottom sm:zoom-in-95 duration-300">
+              {/* Header with Album Art */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10" />
+                <Image
+                  src={album.coverArt}
+                  alt={album.title}
+                  width={400}
+                  height={200}
+                  className="w-full h-32 sm:h-40 object-cover"
+                />
+                <button
+                  onClick={() => setShowAlbumBoostModal(false)}
+                  className="absolute top-4 right-4 z-20 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors backdrop-blur-sm"
+                >
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                <div className="absolute bottom-4 left-6 right-6 z-20">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{album.title}</h3>
+                  <p className="text-sm sm:text-base text-gray-200">{album.artist}</p>
+                </div>
+              </div>
+              
+              <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(85vh-8rem)] sm:max-h-[calc(90vh-10rem)]">
+                {/* Amount Input */}
+                <div>
+                  <label className="text-gray-400 text-sm font-medium">Amount</label>
+                  <div className="flex items-center gap-3 mt-2">
+                    <input
+                      type="number"
+                      value={boostAmount}
+                      onChange={(e) => setBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      placeholder="Enter amount"
+                      min="1"
+                    />
+                    <span className="text-gray-400 font-medium">sats</span>
+                  </div>
+                </div>
+                
+                {/* Sender Name */}
+                <div>
+                  <label className="text-gray-400 text-sm font-medium">Your Name (Optional)</label>
+                  <input
+                    type="text"
+                    value={senderName}
+                    onChange={(e) => {
+                      setSenderName(e.target.value);
+                      if (e.target.value.trim()) {
+                        localStorage.setItem('boost-sender-name', e.target.value.trim());
+                      }
+                    }}
+                    className="w-full mt-2 px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    placeholder="Anonymous"
+                    maxLength={50}
+                  />
+                </div>
+
+                {/* Boostagram Message */}
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="text-gray-400 text-sm font-medium">Message (Optional)</label>
+                    <span className="text-gray-500 text-xs">{boostMessage.length}/250</span>
+                  </div>
+                  <textarea
+                    value={boostMessage}
+                    onChange={(e) => setBoostMessage(e.target.value)}
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    placeholder="Share your thoughts..."
+                    maxLength={250}
+                    rows={3}
+                  />
+                </div>
+                
+                {/* Boost Button */}
+                <BitcoinConnectPayment
+                  amount={boostAmount}
+                  description={`Boost for ${album.title} by ${album.artist}`}
+                  onSuccess={handleBoostSuccess}
+                  onError={handleBoostError}
+                  className="w-full !mt-6"
+                  recipients={paymentRecipients || undefined}
+                  recipient={getFallbackRecipient().address}
+                  enableBoosts={true}
+                  boostMetadata={{
+                    title: album.title,
+                    artist: album.artist,
+                    album: album.title,
+                    url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
+                    appName: 'ITDV Lightning',
+                    senderName: senderName?.trim() || 'Super Fan',
+                    message: boostMessage?.trim() || undefined,
+                    itemGuid: album.tracks?.[0]?.guid,
+                    podcastGuid: album.tracks?.[0]?.podcastGuid,
+                    podcastFeedGuid: album.feedGuid,
+                    feedUrl: album.feedUrl,
+                    publisherGuid: album.publisherGuid,
+                    publisherUrl: album.publisherUrl,
+                    imageUrl: album.coverArt
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Track Boost Modal */}
         {showTrackBoostModal && selectedTrack && (
