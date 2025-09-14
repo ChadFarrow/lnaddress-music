@@ -194,8 +194,28 @@ export function BitcoinConnectPayment({
     autoGenerateKeys: enableBoosts && typeof window !== 'undefined'
   });
 
+  // Helper function to get sender's Lightning node pubkey for replies
+  const getSenderNodePubkey = async (): Promise<string> => {
+    try {
+      // Try to get node info from WebLN
+      if (window.webln && window.webln.getInfo) {
+        const info = await window.webln.getInfo();
+        if (info.node && info.node.pubkey) {
+          return info.node.pubkey;
+        }
+      }
+      
+      // Fallback: Use a default reply address (could be user's personal node)
+      // This should be configurable in a real app
+      return '032870511bfa0309bab3ca1832ead69eed848a4abddbc4d50e55bb2157f9525e51'; // Placeholder - use Castamatic's as fallback
+    } catch (error) {
+      console.warn('Could not get sender node pubkey:', error);
+      return '032870511bfa0309bab3ca1832ead69eed848a4abddbc4d50e55bb2157f9525e51'; // Fallback
+    }
+  };
+
   // Helper function to create enhanced TLV records for boosts following podcast namespace spec
-  const createBoostTLVRecords = (recipientName?: string) => {
+  const createBoostTLVRecords = async (recipientName?: string) => {
     const tlvRecords = [];
     
     if (boostMetadata) {
@@ -218,9 +238,15 @@ export function BitcoinConnectPayment({
         ...(boostMetadata.album && { album: boostMetadata.album }),
         value_msat_total: amount * 1000,
         sender_name: boostMetadata.senderName || 'Anonymous',
-        // Add reply fields that Castamatic includes
-        reply_address: '033868c219bdb51a33560d854d500fe7d3898a1ad9e05dd89d0007e11313588500',
-        reply_custom_key: '818ccc5e70aa6bd7eb7ba924ec0cbce5ce10ac07c2fb92b84a7e95c9b5e4a5e5'
+        // Add reply fields - use the sender's info for replies (so Helipad can reply back to sender)  
+        reply_address: await getSenderNodePubkey(), // Get sender's Lightning node pubkey
+        reply_custom_key: '696969', // Use same key as Castamatic for compatibility
+        // Add missing Castamatic fields for Helipad compatibility
+        reply_custom_value: 43, // Fixed value like Castamatic uses
+        uuid: `boost-${Date.now()}-${Math.floor(Math.random() * 1000)}`, // Unique identifier
+        app_version: '1.0.0', // App version
+        value_msat: recipients ? Math.floor((amount * 1000) / recipients.length) : amount * 1000, // Individual payment amount
+        name: 'ITDV Lightning' // App/service name
       };
       
       tlvRecords.push({
@@ -265,9 +291,9 @@ export function BitcoinConnectPayment({
     return tlvRecords;
   };
 
-  // Helper function to convert TLV records to WebLN customRecords format
-  const createWebLNCustomRecords = (recipientName?: string) => {
-    const tlvRecords = createBoostTLVRecords(recipientName);
+  // Helper function to convert TLV records to WebLN customRecords format  
+  const createWebLNCustomRecords = async (recipientName?: string) => {
+    const tlvRecords = await createBoostTLVRecords(recipientName);
     const customRecords: { [key: number]: string } = {};
     
     tlvRecords.forEach(record => {
@@ -494,7 +520,7 @@ export function BitcoinConnectPayment({
             } else {
               // For node public keys, use keysend with TLV records
               console.log(`⚡ NWC sending keysend to node: ${recipientData.address}`);
-              const tlvRecords = createBoostTLVRecords(recipientData.name || 'Recipient');
+              const tlvRecords = await createBoostTLVRecords(recipientData.name || 'Recipient');
               
               // DEBUG: Log detailed keysend data and compare with working format
               const ourTlvData = tlvRecords.map(r => {
@@ -618,7 +644,7 @@ export function BitcoinConnectPayment({
             // Handle different payment types
             if (recipientData.type === 'node' || (recipientData.address && recipientData.address.length === 66 && !recipientData.address.includes('@'))) {
               // Use keysend for node public keys
-              const customRecords = createWebLNCustomRecords(recipientData.name || 'Recipient');
+              const customRecords = await createWebLNCustomRecords(recipientData.name || 'Recipient');
               
               // DEBUG: Log WebLN keysend data for Sovereign Feeds
               if (recipientData.name === 'Sovereign Feeds') {
@@ -754,7 +780,7 @@ export function BitcoinConnectPayment({
                 } else {
                   // For node public keys, use keysend with TLV records
                   console.log(`⚡ NWC fallback sending keysend to node: ${recipientData.address}`);
-                  const tlvRecords = createBoostTLVRecords(recipientData.name || 'Recipient');
+                  const tlvRecords = await createBoostTLVRecords(recipientData.name || 'Recipient');
                   
                   response = await nwcService.payKeysend(
                     recipientData.address,
