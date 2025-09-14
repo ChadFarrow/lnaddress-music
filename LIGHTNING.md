@@ -34,7 +34,6 @@ The integration includes:
 - **UI Components**:
   - `components/LightningWallet.tsx`: Wallet connection and balance display
   - `components/LightningPayment.tsx`: Payment interface
-- **Demo Page** (`app/lightning-demo/page.tsx`): Interactive demo and documentation
 
 ## Usage Example
 
@@ -73,7 +72,7 @@ NWC (Nostr Wallet Connect) is defined in [NIP-47](https://github.com/nostr-proto
 
 ## Testing
 
-1. Visit `/lightning-demo` to see the integration in action
+1. Use the Lightning payment buttons throughout the app
 2. Connect a testnet wallet for testing
 3. Use small amounts for initial testing
 

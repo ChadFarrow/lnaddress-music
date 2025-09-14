@@ -650,17 +650,6 @@ export default function HomePage() {
             
             <div className="mb-4 space-y-1">
               <Link 
-                href="/lightning-demo" 
-                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
-                onClick={() => setIsSidebarOpen(false)}
-              >
-                <svg className="w-4 h-4 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span className="text-sm">Lightning Payments</span>
-              </Link>
-              
-              <Link 
                 href="/about" 
                 className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
                 onClick={() => setIsSidebarOpen(false)}
