@@ -500,7 +500,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
               }
             }
           } catch (error) {
-            if (error.name === 'AbortError') {
+            if (error instanceof Error && error.name === 'AbortError') {
               console.warn(`Timeout fetching podroll album for ${podrollItem.url}`);
             } else {
               console.error(`Error fetching podroll album for ${podrollItem.url}:`, error);
