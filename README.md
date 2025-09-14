@@ -33,6 +33,7 @@ A Lightning Network-powered Value4Value music platform showcasing independent ar
 - **Lightning Network Payments**: Instant Bitcoin payments via Bitcoin Connect
 - **Value4Value Model**: Support artists directly with Lightning zaps and value splits
 - **Boostagrams**: Custom 250-character messages with Lightning boost payments
+- **Helipad Integration**: Bidirectional boost communication with Helipad instances for podcast replies
 - **Nostr Integration**: NIP-57/NIP-73 compliant boost notes with boostagrams published to Nostr relays
 - **Multi-Payment Recipients**: Automatic splitting to multiple Lightning addresses and nodes
 - **RSS Feed Parsing**: Dynamic parsing of 42 album feeds + 4 publisher feeds
@@ -134,6 +135,7 @@ The app uses a hybrid approach:
 - **Custom Amounts**: User-defined boost amounts on all payment interfaces
 - **Compact UI**: Streamlined boost interface with improved spacing and layout
 - **Message Integration**: Boostagrams included in Lightning TLV records and Nostr boost posts
+- **Helipad Reply Integration**: Full bidirectional communication with Helipad users - send boosts and receive replies
 - **Performance Optimization**: Removed failing payment recipients to improve boost speed
 
 ### Value4Value Implementation
@@ -163,6 +165,8 @@ The app uses a hybrid approach:
 - **Lightning Addresses**: Full LNURL support for email-style Lightning payments
 - **Node Keysends**: Direct payments to Lightning node public keys
 - **Value Splits**: Podcasting 2.0 value tag parsing for payment distribution
+- **Helipad Reply System**: Castamatic-compatible TLV fields enable two-way communication with Helipad instances
+- **Dynamic Sender Detection**: Automatic sender Lightning node pubkey detection for proper reply routing
 - **Metadata Collection**: 2 sat fee per boost for platform analytics and development
 
 ### Nostr Integration
