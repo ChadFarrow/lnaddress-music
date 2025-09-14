@@ -194,25 +194,6 @@ export function BitcoinConnectPayment({
     autoGenerateKeys: enableBoosts && typeof window !== 'undefined'
   });
 
-  // Helper function to get sender's Lightning node pubkey for replies
-  const getSenderNodePubkey = async (): Promise<string> => {
-    try {
-      // Try to get node info from WebLN
-      if (window.webln && window.webln.getInfo) {
-        const info = await window.webln.getInfo();
-        if (info.node && info.node.pubkey) {
-          return info.node.pubkey;
-        }
-      }
-      
-      // Fallback: Use a default reply address (could be user's personal node)
-      // This should be configurable in a real app
-      return '032870511bfa0309bab3ca1832ead69eed848a4abddbc4d50e55bb2157f9525e51'; // Placeholder - use Castamatic's as fallback
-    } catch (error) {
-      console.warn('Could not get sender node pubkey:', error);
-      return '032870511bfa0309bab3ca1832ead69eed848a4abddbc4d50e55bb2157f9525e51'; // Fallback
-    }
-  };
 
   // Helper function to create enhanced TLV records for boosts following podcast namespace spec
   const createBoostTLVRecords = async (recipientName?: string) => {
@@ -238,11 +219,6 @@ export function BitcoinConnectPayment({
         ...(boostMetadata.album && { album: boostMetadata.album }),
         value_msat_total: amount * 1000,
         sender_name: boostMetadata.senderName || 'Anonymous',
-        // Add reply fields - use the sender's info for replies (so Helipad can reply back to sender)  
-        reply_address: await getSenderNodePubkey(), // Get sender's Lightning node pubkey
-        reply_custom_key: '696969', // Use same key as Castamatic for compatibility
-        // Add missing Castamatic fields for Helipad compatibility
-        reply_custom_value: 43, // Fixed value like Castamatic uses
         uuid: `boost-${Date.now()}-${Math.floor(Math.random() * 1000)}`, // Unique identifier
         app_version: '1.0.0', // App version
         value_msat: recipients ? Math.floor((amount * 1000) / recipients.length) : amount * 1000, // Individual payment amount
@@ -551,13 +527,10 @@ export function BitcoinConnectPayment({
               console.log('  feedID: 6590182 (numeric)');
               console.log('  episode_guid: b4578bea-855b-48a6-a747-1a09ed44a19a');
               console.log('  url: https://www.doerfelverse.com/feeds/intothedoerfelverse.xml');
-              console.log('  reply_address: 032870511bfa0309bab3ca1832ead69eed848a4abddbc4d50e55bb2157f9525e51');
               console.log('❓ OUR APP (ITDV Lightning):');
               console.log(`  feedID: ${boostMetadata?.podcastFeedGuid || 'GUID string'} (should be numeric?)`);
               console.log(`  episode_guid: ${boostMetadata?.itemGuid || 'missing'}`);
               console.log(`  url: ${boostMetadata?.url || 'album-specific URL'}`);
-              console.log('  reply_address: missing');
-              console.log('  reply_custom_key/value: missing');
               
               response = await nwcService.payKeysend(
                 recipientData.address,
