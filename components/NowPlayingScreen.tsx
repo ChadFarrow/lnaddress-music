@@ -456,7 +456,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 pb-4 sm:pb-8">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 pb-4 sm:pb-8" style={{ paddingBottom: `max(2rem, calc(2rem + env(safe-area-inset-bottom)))` }}>
         {/* Album Art */}
         <div className="w-full max-w-md aspect-square relative mb-8">
           {currentTrack.image ? (

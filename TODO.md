@@ -31,11 +31,6 @@
   - User preference settings for auto-boost
   - Optional confirmation before auto-boosting
 
-- [ ] **Add padding to top of page for iOS**
-  - Fix iOS Safari safe area handling
-  - Add proper top padding for iOS devices
-  - Ensure content doesn't overlap with status bar
-  - Test across different iOS versions
 
 - [ ] **Add tutorial for new users**
   - Interactive onboarding flow
@@ -45,11 +40,6 @@
   - Skip option for returning users
 
 ### 📡 Content & Feeds
-- [ ] **Add opos feed**
-  - Integrate opos podcast feed
-  - Parse and display opos episodes
-  - Enable boosts for opos content
-  - Ensure proper metadata handling
 
 ### 🤝 Partnerships & Outreach
 - [ ] **Ask TSB**
@@ -69,6 +59,8 @@
 - ✅ **Performance Optimizations** - Reduced page load times from 17+ seconds to ~12 seconds
 - ✅ **Parallel API Loading** - Non-blocking external API calls with proper timeouts
 - ✅ **System Resource Cleanup** - Eliminated multiple accumulated Next.js servers
+- ✅ **iOS Safe Area Padding** - Enhanced iOS Safari safe area handling with progressive enhancement
+- ✅ **Opus Album Integration** - Added Manchester State Fair Battle of the Bands Champions album with full Lightning support
 
 ### 🎵 Boostagram System (January 2025)
 - ✅ **Implement Boostagrams** - Full 250-character message support with Lightning payments
