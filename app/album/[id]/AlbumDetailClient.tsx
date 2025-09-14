@@ -1171,84 +1171,87 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
 
         {/* Track Boost Modal */}
         {showTrackBoostModal && selectedTrack && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-            <div className="relative bg-gray-900 rounded-xl shadow-2xl max-w-sm w-full">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-yellow-500" />
-                    Boost Track
-                  </h3>
-                  <button
-                    onClick={() => {
-                      setShowTrackBoostModal(false);
-                      setSelectedTrack(null);
-                    }}
-                    className="p-1 hover:bg-gray-800 rounded-lg transition-colors"
-                  >
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="relative bg-gradient-to-b from-gray-900 to-black rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
+              {/* Header with Track Art */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10" />
+                <Image
+                  src={selectedTrack.image || album?.coverArt || '/placeholder-episode.jpg'}
+                  alt={selectedTrack.title}
+                  width={400}
+                  height={200}
+                  className="w-full h-32 sm:h-40 object-cover"
+                />
+                <button
+                  onClick={() => {
+                    setShowTrackBoostModal(false);
+                    setSelectedTrack(null);
+                  }}
+                  className="absolute top-4 right-4 z-20 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors backdrop-blur-sm"
+                >
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                <div className="absolute bottom-4 left-6 right-6 z-20">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{selectedTrack.title}</h3>
+                  <p className="text-sm sm:text-base text-gray-200">{album?.artist}</p>
                 </div>
-                
-                <div className="text-center mb-6">
-                  <p className="text-white font-medium">{selectedTrack.title}</p>
-                  <p className="text-gray-400 text-sm">{album?.artist}</p>
-                </div>
-                
-                {/* Amount Selection */}
-                <div className="mb-6">
-                  <label className="block text-white text-sm font-medium mb-2">
-                    Boost Amount
-                  </label>
-                  <div className="flex items-center gap-2">
+              </div>
+              
+              <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(85vh-8rem)] sm:max-h-[calc(90vh-10rem)]">
+                {/* Amount Input */}
+                <div>
+                  <label className="text-gray-400 text-sm font-medium">Amount</label>
+                  <div className="flex items-center gap-3 mt-2">
                     <input
                       type="number"
                       value={trackBoostAmount}
                       onChange={(e) => setTrackBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
-                      className="flex-1 px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
-                      placeholder="Enter amount in sats"
+                      className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      placeholder="Enter amount"
                       min="1"
                     />
-                    <span className="text-gray-400 text-sm">sats</span>
+                    <span className="text-gray-400 font-medium">sats</span>
                   </div>
                 </div>
-
+                
                 {/* Sender Name */}
-                <div className="mb-6">
-                  <label className="block text-white text-sm font-medium mb-2">
-                    Your Name (Optional)
-                  </label>
+                <div>
+                  <label className="text-gray-400 text-sm font-medium">Your Name (Optional)</label>
                   <input
                     type="text"
                     value={senderName}
-                    onChange={(e) => setSenderName(e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
-                    placeholder="Enter your name to be credited"
+                    onChange={(e) => {
+                      setSenderName(e.target.value);
+                      if (e.target.value.trim()) {
+                        localStorage.setItem('boost-sender-name', e.target.value.trim());
+                      }
+                    }}
+                    className="w-full mt-2 px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    placeholder="Anonymous"
                     maxLength={50}
                   />
                 </div>
 
                 {/* Boostagram Message */}
-                <div className="mb-6">
-                  <label className="block text-white text-sm font-medium mb-2">
-                    Message (Optional)
-                  </label>
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="text-gray-400 text-sm font-medium">Message (Optional)</label>
+                    <span className="text-gray-500 text-xs">{trackBoostMessage.length}/250</span>
+                  </div>
                   <textarea
                     value={trackBoostMessage}
                     onChange={(e) => setTrackBoostMessage(e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm resize-none"
-                    placeholder="Enter your boostagram message (up to 250 characters)"
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    placeholder="Share your thoughts..."
                     maxLength={250}
                     rows={3}
                   />
-                  <div className="flex justify-between items-center mt-1">
-                    <p className="text-gray-500 text-xs">Custom message for your boost</p>
-                    <p className="text-gray-400 text-xs">{trackBoostMessage.length}/250</p>
-                  </div>
                 </div>
                 
+                {/* Boost Button */}
                 <BitcoinConnectPayment
                   amount={trackBoostAmount}
                   description={`Boost for "${selectedTrack.title}" by ${album?.artist}`}
@@ -1259,7 +1262,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                     setTrackBoostMessage('');
                   }}
                   onError={handleBoostError}
-                  className="w-full"
+                  className="w-full !mt-6"
                   recipients={getTrackPaymentRecipients(selectedTrack) || undefined}
                   recipient={getFallbackRecipient().address}
                   enableBoosts={true}
