@@ -46,8 +46,10 @@ A Lightning Network-powered Value4Value music platform showcasing independent ar
 ### User Experience
 - **Progressive Web App (PWA)**: Install on mobile devices
 - **Responsive Design**: Optimized for all screen sizes
+- **Boost Modal System**: Elegant popup modals for Lightning payments with album artwork headers
+- **Mobile-Optimized Modals**: Vertically centered modals with touch-friendly controls
 - **Dark Theme**: Elegant dark interface throughout
-- **Smooth Animations**: Polished transitions and hover effects
+- **Smooth Animations**: Polished transitions and hover effects with confetti celebrations
 - **Mobile-First**: Touch-friendly controls and navigation
 
 ### Technical Features
@@ -106,6 +108,17 @@ The app uses a hybrid approach:
 - **Comprehensive coverage** of all albums, EPs, and singles from DoerfelVerse artists
 
 ## Recent Improvements
+
+### UI/UX Improvements (September 2025)
+- **Boost Modal Popup System**: Replaced inline boost forms with elegant popup modals across the platform
+- **Album Artwork Headers**: Beautiful artwork headers in all boost modals (album, track, main page)
+- **Mobile-Centered Modals**: Optimized modal positioning for mobile devices with vertical centering
+- **Track Boost Artwork**: Individual track artwork display in track boost modals for consistency
+- **Unified Modal Design**: Consistent design language across all boost interfaces
+- **Performance Optimizations**: Reduced page load times from 17+ seconds to ~12 seconds
+- **Parallel API Loading**: Non-blocking external API calls with proper timeouts and request deduplication
+- **System Resource Cleanup**: Eliminated multiple accumulated Next.js servers consuming system memory
+- **Codebase Cleanup**: Removed 193+ unused files including test files, demo pages, and redundant tool directories
 
 ### Lightning Network Integration (January 2025)
 - **Bitcoin Connect Integration**: Full WebLN and NWC wallet support
