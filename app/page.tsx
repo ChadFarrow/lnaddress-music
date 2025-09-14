@@ -11,6 +11,7 @@ import { preloadCriticalColors } from '@/lib/performance-utils';
 import dynamic from 'next/dynamic';
 import { Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { isLightningEnabled } from '@/lib/feature-flags';
 
 // Lazy load Lightning components - not needed on initial page load
 const BitcoinConnectWallet = dynamic(
@@ -927,7 +928,7 @@ export default function HomePage() {
       </div>
       
       {/* Boost Modal - Rendered outside of album cards */}
-      {showBoostModal && selectedAlbum && (
+      {isLightningEnabled() && showBoostModal && selectedAlbum && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="relative bg-gradient-to-b from-gray-900 to-black rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
             {/* Header with Album Art */}
