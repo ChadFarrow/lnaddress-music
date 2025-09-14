@@ -274,11 +274,11 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
 
   // Separate useEffect for background image preloading to avoid re-running API calls
   useEffect(() => {
-    if (initialAlbum && isDesktop && !preloadAttemptedRef.current) {
+    if (initialAlbum && initialAlbum.coverArt && !preloadAttemptedRef.current) {
       preloadAttemptedRef.current = true;
       preloadBackgroundImage(initialAlbum);
     }
-  }, [isDesktop, initialAlbum]);
+  }, [initialAlbum]);
 
   // Load saved sender name from localStorage
   useEffect(() => {
@@ -352,7 +352,8 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         setAlbum(data.album);
         setError(null);
         
-        if (isDesktop && !preloadAttemptedRef.current) {
+        // Always set background image for vibrant album backgrounds
+        if (data.album.coverArt && !preloadAttemptedRef.current) {
           preloadAttemptedRef.current = true;
           preloadBackgroundImage(data.album);
         }
@@ -667,6 +668,14 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
+      <style jsx>{`
+        .text-shadow {
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+        .text-shadow-sm {
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+        }
+      `}</style>
       {/* Dynamic Background with Bloodshot Lies fallback */}
       <div className="fixed inset-0 z-0">
         {/* Primary album background */}
@@ -683,15 +692,14 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
           <div className="w-full h-full bg-gradient-to-br from-gray-900 to-black"></div>
         )}
         
-        {/* Dynamic overlay based on album */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 via-black/90 to-gray-900/95"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60"></div>
+        {/* Very subtle gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30"></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10">
         {/* Header */}
-        <header className="bg-black/20 backdrop-blur-sm border-b border-white/10 sticky top-0 z-50">
+        <header className="bg-black/50 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -754,17 +762,17 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
               {/* Album Info */}
               <div className="flex-1 text-center lg:text-left">
                 <div className="mb-4">
-                  <h1 className="text-4xl lg:text-5xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white text-shadow">
                     {album.title}
                   </h1>
-                  <p className="text-xl lg:text-2xl text-gray-300 mb-2">{album.artist}</p>
+                  <p className="text-xl lg:text-2xl text-gray-300 mb-2 text-shadow-sm">{album.artist}</p>
                   
                   {/* Publisher Link */}
                   {album.publisher && (
                     <div className="mb-4">
                       <Link
                         href={`/publisher/${getPublisherSlug(album.artist)}`}
-                        className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                        className="inline-flex items-center gap-2 text-sm text-white hover:text-yellow-400 transition-colors underline underline-offset-2 text-shadow-sm"
                         title={`View all albums by ${album.artist}`}
                       >
                         <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
@@ -773,7 +781,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                     </div>
                   )}
                   
-                  <div className="flex items-center justify-center lg:justify-start gap-4 text-sm text-gray-400 mb-6">
+                  <div className="flex items-center justify-center lg:justify-start gap-4 text-sm text-gray-200 mb-6 text-shadow-sm">
                     <span className="flex items-center gap-1">
                       <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
                       {getReleaseYear()}
@@ -785,8 +793,8 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   </div>
 
                   {album.description && (
-                    <div className="max-w-2xl mx-auto lg:mx-0 mb-6">
-                      <p className="text-gray-300 leading-relaxed">{album.description}</p>
+                    <div className="max-w-2xl mx-auto lg:mx-0 mb-6 bg-black/30 backdrop-blur-sm rounded-xl border border-white/20 p-6">
+                      <p className="text-white leading-relaxed">{album.description}</p>
                     </div>
                   )}
 
@@ -805,7 +813,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   
                   <button
                     onClick={() => toggleShuffle()}
-                    className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors backdrop-blur-sm border border-white/20"
+                    className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all backdrop-blur-sm border-2 border-white/40 hover:border-white/60 shadow-lg"
                     title="Shuffle"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -852,9 +860,9 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         {/* Track List */}
         <div className="container mx-auto px-4 pb-8">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden">
+            <div className="bg-black/30 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
               <div className="p-6 border-b border-white/10">
-                <h2 className="text-2xl font-bold">Tracks</h2>
+                <h2 className="text-2xl font-bold text-shadow">Tracks</h2>
               </div>
               
               <div className="divide-y divide-white/5">
@@ -879,7 +887,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                             <div className="w-1 h-4 bg-blue-400 animate-pulse delay-150"></div>
                           </div>
                         ) : (
-                          <span className={`text-sm font-medium ${isCurrentTrack ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}`}>
+                          <span className={`text-sm font-medium ${isCurrentTrack ? 'text-blue-400' : 'text-gray-200 group-hover:text-white'} text-shadow-sm`}>
                             {track.trackNumber}
                           </span>
                         )}
@@ -906,11 +914,11 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                         }`}>
                           {track.title}
                         </h3>
-                        <p className="text-sm text-gray-400 truncate">{album.artist}</p>
+                        <p className="text-sm text-gray-300 truncate text-shadow-sm">{album.artist}</p>
                       </div>
 
                       {/* Duration */}
-                      <div className="text-sm text-gray-400 font-mono">
+                      <div className="text-sm text-gray-200 font-mono text-shadow-sm">
                         {formatDuration(track.duration)}
                       </div>
 
