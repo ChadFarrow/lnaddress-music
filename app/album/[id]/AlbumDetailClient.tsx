@@ -298,20 +298,18 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   }, [senderName]);
 
   const preloadBackgroundImage = async (albumData: Album) => {
-    if (!albumData.coverArt) return;
+    if (!albumData.coverArt) {
+      setBackgroundLoaded(true);
+      return;
+    }
     
     try {
+      // Set background immediately for faster perceived loading
+      setBackgroundImage(albumData.coverArt);
+      setBackgroundLoaded(true);
       
+      // Preload in background for better caching, but don't block rendering
       const img = new window.Image();
-      img.onload = () => {
-        setBackgroundImage(albumData.coverArt);
-        setBackgroundLoaded(true);
-      };
-      img.onerror = () => {
-        setBackgroundImage(null);
-        setBackgroundLoaded(true);
-      };
-      
       img.decoding = 'async';
       img.src = albumData.coverArt;
     } catch (error) {
