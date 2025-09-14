@@ -109,8 +109,8 @@ export default function RootLayout({
             <AudioProvider>
               <BitcoinConnectProvider>
                 <div className="min-h-screen bg-gray-50 relative">
-                  {/* Content overlay */}
-                  <div className="relative z-10">
+                  {/* Content overlay with iOS safe area padding */}
+                  <div className="relative z-10 pt-ios">
                     {children}
                   </div>
                 </div>

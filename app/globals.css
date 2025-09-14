@@ -129,6 +129,23 @@ bc-button .sat {
   .pt-safe-plus {
     padding-top: calc(1rem + env(safe-area-inset-top));
   }
+  
+  /* Enhanced iOS top padding - more generous spacing */
+  .pt-safe-xl {
+    padding-top: calc(2rem + env(safe-area-inset-top));
+  }
+  
+  /* iOS specific padding for main content areas */
+  .pt-ios {
+    padding-top: 1rem;
+  }
+  
+  /* For devices with notch/dynamic island - extra top padding */
+  @supports (padding-top: env(safe-area-inset-top)) {
+    .pt-ios {
+      padding-top: calc(1.5rem + env(safe-area-inset-top));
+    }
+  }
 }
 
 /* PWA Standalone Mode Adjustments */
@@ -141,5 +158,18 @@ bc-button .sat {
   /* Add padding to body for standalone mode */
   body {
     padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Enhanced top padding for PWA standalone mode */
+  .pt-ios {
+    padding-top: calc(2rem + env(safe-area-inset-top));
+  }
+}
+
+/* iOS specific styles */
+@supports (-webkit-touch-callout: none) {
+  /* iOS specific adjustments */
+  .pt-ios {
+    padding-top: calc(1.75rem + env(safe-area-inset-top));
   }
 } 

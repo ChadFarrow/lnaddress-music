@@ -469,8 +469,18 @@
       "status": "active",
       "addedAt": "2025-09-12T00:00:00.000Z",
       "lastUpdated": "2025-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "www-doerfelverse-com-artists-opus-opus-opus-xml",
+      "originalUrl": "https://www.doerfelverse.com/artists/opus/opus/opus.xml",
+      "type": "album",
+      "title": "Opus",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-09-14T22:30:00.000Z",
+      "lastUpdated": "2025-09-14T22:30:00.000Z"
     }
   ],
-  "lastUpdated": "2025-09-12T00:00:00.000Z",
+  "lastUpdated": "2025-09-14T22:30:00.000Z",
   "version": 2
 }
