@@ -942,8 +942,8 @@ export default function HomePage() {
       
       {/* Boost Modal - Rendered outside of album cards */}
       {showBoostModal && selectedAlbum && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative bg-gradient-to-b from-gray-900 to-black rounded-t-3xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-hidden animate-in slide-in-from-bottom sm:zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative bg-gradient-to-b from-gray-900 to-black rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
             {/* Header with Album Art */}
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10" />
