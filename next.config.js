@@ -109,6 +109,11 @@ const nextConfig = {
   // Optimize production builds
   productionBrowserSourceMaps: false,
   swcMinify: true,
+  
+  // Performance optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 
   // Webpack configuration for nostr-tools and crypto polyfills
   webpack: (config, { isServer, dev }) => {

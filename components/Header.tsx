@@ -1,6 +1,7 @@
 import { Music, Mic, Home, TestTube, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { ClientOnlyLightningWallet } from './ClientOnlyNWC';
+import { isLightningEnabled } from '@/lib/feature-flags';
 
 export default function Header() {
   return (
@@ -44,7 +45,7 @@ export default function Header() {
               <TestTube className="h-4 w-4" />
               <span>Feed Tester</span>
             </Link>
-            <ClientOnlyLightningWallet />
+            {isLightningEnabled() && <ClientOnlyLightningWallet />}
           </nav>
         </div>
       </div>

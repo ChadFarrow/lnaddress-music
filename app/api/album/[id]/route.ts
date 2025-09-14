@@ -2,12 +2,31 @@ import { NextResponse } from 'next/server';
 import { FeedManager } from '@/lib/feed-manager';
 import { RSSParser } from '@/lib/rss-parser';
 
+// Cache for individual albums to avoid repeated RSS parsing
+let albumCache: Map<string, { data: any; timestamp: number }> = new Map();
+const ALBUM_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const albumId = decodeURIComponent(id);
     
     console.log(`🔍 Looking for single album with ID: "${albumId}"`);
+    
+    // Check cache first
+    const cached = albumCache.get(albumId);
+    if (cached && Date.now() - cached.timestamp < ALBUM_CACHE_TTL) {
+      console.log(`📦 Serving cached album: "${albumId}"`);
+      const response = NextResponse.json({ 
+        album: cached.data,
+        cached: true,
+        timestamp: new Date().toISOString()
+      });
+      
+      // Add cache headers for better performance
+      response.headers.set('Cache-Control', 'public, max-age=300, s-maxage=600');
+      return response;
+    }
     
     // Get feeds directly from FeedManager (uses feeds.json, no database)
     const feeds = FeedManager.getActiveFeeds();
@@ -157,11 +176,19 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     const parseTime = Date.now() - startTime;
     console.log(`✅ Successfully parsed album in ${parseTime}ms: "${album?.title || 'Unknown'}"`);
     
-    return NextResponse.json({ 
+    // Cache the result
+    albumCache.set(albumId, { data: album, timestamp: Date.now() });
+    
+    const response = NextResponse.json({ 
       album,
       parseTime: `${parseTime}ms`,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      cached: false
     });
+    
+    // Add cache headers for better performance
+    response.headers.set('Cache-Control', 'public, max-age=300, s-maxage=600');
+    return response;
     
   } catch (error) {
     console.error('❌ Error fetching single album:', error);
