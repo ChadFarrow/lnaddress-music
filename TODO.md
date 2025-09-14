@@ -25,6 +25,39 @@
   - Track receipt status
   - Pull from local storage and Nostr relays
 
+- [ ] **Add auto boost when track is finished**
+  - Automatic boost trigger at track completion
+  - Configurable boost amount and message
+  - User preference settings for auto-boost
+  - Optional confirmation before auto-boosting
+
+- [ ] **Add padding to top of page for iOS**
+  - Fix iOS Safari safe area handling
+  - Add proper top padding for iOS devices
+  - Ensure content doesn't overlap with status bar
+  - Test across different iOS versions
+
+- [ ] **Add tutorial for new users**
+  - Interactive onboarding flow
+  - Explain Lightning payments and boosts
+  - Show how to connect wallets
+  - Guide through first boost experience
+  - Skip option for returning users
+
+### 📡 Content & Feeds
+- [ ] **Add opos feed**
+  - Integrate opos podcast feed
+  - Parse and display opos episodes
+  - Enable boosts for opos content
+  - Ensure proper metadata handling
+
+### 🤝 Partnerships & Outreach
+- [ ] **Ask TSB**
+  - Reach out to TSB for potential collaboration
+  - Discuss integration possibilities
+  - Explore partnership opportunities
+  - Follow up on discussions
+
 ## Completed Features
 
 ### 🎨 UI/UX Improvements (September 2025)
