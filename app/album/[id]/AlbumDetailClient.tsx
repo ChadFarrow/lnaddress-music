@@ -301,16 +301,13 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     if (!albumData.coverArt) return;
     
     try {
-      console.log('🎨 Preloading background image for desktop:', albumData.coverArt);
       
       const img = new window.Image();
       img.onload = () => {
-        console.log('✅ Background image preloaded successfully');
         setBackgroundImage(albumData.coverArt);
         setBackgroundLoaded(true);
       };
       img.onerror = () => {
-        console.error('❌ Background image preload failed');
         setBackgroundImage(null);
         setBackgroundLoaded(true);
       };
@@ -318,7 +315,6 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       img.decoding = 'async';
       img.src = albumData.coverArt;
     } catch (error) {
-      console.error('❌ Error preloading background image:', error);
       setBackgroundImage(null);
       setBackgroundLoaded(true);
     }
@@ -327,7 +323,6 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const loadAlbum = async () => {
     try {
       setIsLoading(true);
-      console.log(`🔍 Loading album with dynamic RSS parsing: ${albumTitle}`);
       
       // Convert album title back to URL slug format for API call
       const albumSlug = albumTitle

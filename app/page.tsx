@@ -153,7 +153,6 @@ export default function HomePage() {
   };
   
   const handleBoostError = (error: string) => {
-    console.error('Boost failed:', error);
     toast.error('Failed to send boost');
   };
   
@@ -167,11 +166,9 @@ export default function HomePage() {
   // Shuffle functionality
   const handleShuffle = () => {
     try {
-      console.log('🎲 Shuffle button clicked - toggling shuffle mode');
       toggleShuffle();
       toast.success('🎲 Shuffle toggled!');
     } catch (error) {
-      console.error('Error toggling shuffle:', error);
       toast.error('Error toggling shuffle');
     }
   };
