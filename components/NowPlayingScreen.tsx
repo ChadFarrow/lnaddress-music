@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAudio } from '@/contexts/AudioContext';
+import { useLightning } from '@/contexts/LightningContext';
 import { useSwipeGestures } from '@/hooks/useSwipeGestures';
 import { extractColorsFromImage, createAlbumBackground, createTextOverlay, createButtonStyles, ExtractedColors } from '@/lib/color-utils';
 import { performanceMonitor, getMobileOptimizations, getCachedColors, debounce } from '@/lib/performance-utils';
@@ -22,6 +23,7 @@ let colorDataPromise: Promise<any> | null = null;
 
 const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
+  const { isLightningEnabled } = useLightning();
   const [extractedColors, setExtractedColors] = useState<ExtractedColors | null>(null);
   const [isLoadingColors, setIsLoadingColors] = useState(false);
   const [showBoostModal, setShowBoostModal] = useState(false);
@@ -573,58 +575,60 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
             </button>
           </div>
 
-          {/* Boost Button Row */}
-          <div className="flex items-center justify-center w-full relative">
-            <button
-              onClick={() => {
-                checkConnection();
-                setShowBoostModal(true);
+          {/* Boost Button Row - only show when Lightning is enabled */}
+          {isLightningEnabled && (
+            <div className="flex items-center justify-center w-full relative">
+              <button
+                onClick={() => {
+                  checkConnection();
+                  setShowBoostModal(true);
+                }}
+                className="flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transform hover:scale-105 transition-all duration-150 text-sm"
+                style={{
+                WebkitTapHighlightColor: 'transparent',
+                touchAction: 'manipulation',
+                background: buttonStyles.background,
+                border: `1px solid ${buttonStyles.border}`
               }}
-              className="flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transform hover:scale-105 transition-all duration-150 text-sm"
-              style={{
-              WebkitTapHighlightColor: 'transparent',
-              touchAction: 'manipulation',
-              background: buttonStyles.background,
-              border: `1px solid ${buttonStyles.border}`
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = buttonStyles.hoverBackground;
-              e.currentTarget.style.border = `1px solid ${buttonStyles.hoverBorder}`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = buttonStyles.background;
-              e.currentTarget.style.border = `1px solid ${buttonStyles.border}`;
-            }}
-            title="Boost this song"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
-            </svg>
-            <span className="font-medium">Boost Song</span>
-            </button>
-            
-            {/* Auto boost button positioned to the right */}
-            <button
-              onClick={toggleAutoBoost}
-              className={`absolute right-0 flex items-center gap-1 px-3 py-1 rounded-full text-xs transition-colors ${
-                isAutoBoostEnabled 
-                  ? 'bg-yellow-400/20 text-yellow-400 border border-yellow-400/30' 
-                  : 'bg-white/10 text-white/60 border border-white/20 hover:text-white hover:border-white/30'
-              }`}
-              title={`Auto boost ${isAutoBoostEnabled ? 'enabled' : 'disabled'} - 25 sats`}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = buttonStyles.hoverBackground;
+                e.currentTarget.style.border = `1px solid ${buttonStyles.hoverBorder}`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = buttonStyles.background;
+                e.currentTarget.style.border = `1px solid ${buttonStyles.border}`;
+              }}
+              title="Boost this song"
             >
-              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
               </svg>
-              <span className="font-medium">Auto</span>
-            </button>
-          </div>
+              <span className="font-medium">Boost Song</span>
+              </button>
+              
+              {/* Auto boost button positioned to the right */}
+              <button
+                onClick={toggleAutoBoost}
+                className={`absolute right-0 flex items-center gap-1 px-3 py-1 rounded-full text-xs transition-colors ${
+                  isAutoBoostEnabled 
+                    ? 'bg-yellow-400/20 text-yellow-400 border border-yellow-400/30' 
+                    : 'bg-white/10 text-white/60 border border-white/20 hover:text-white hover:border-white/30'
+                }`}
+                title={`Auto boost ${isAutoBoostEnabled ? 'enabled' : 'disabled'} - 25 sats`}
+              >
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
+                </svg>
+                <span className="font-medium">Auto</span>
+              </button>
+            </div>
+          )}
         </div>
 
       </div>
 
-      {/* Boost Modal */}
-      {showBoostModal && (
+      {/* Boost Modal - only show when Lightning is enabled */}
+      {isLightningEnabled && showBoostModal && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="relative bg-gray-900 rounded-2xl shadow-2xl max-w-sm w-full">
             <div className="p-6">

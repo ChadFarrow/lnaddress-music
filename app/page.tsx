@@ -6,6 +6,7 @@ import Link from 'next/link';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { getVersionString } from '@/lib/version';
 import { useAudio } from '@/contexts/AudioContext';
+import { useLightning } from '@/contexts/LightningContext';
 import { toast } from '@/components/Toast';
 import { preloadCriticalColors } from '@/lib/performance-utils';
 import dynamic from 'next/dynamic';
@@ -102,6 +103,7 @@ interface Album {
 
 
 export default function HomePage() {
+  const { isLightningEnabled } = useLightning();
   const [isLoading, setIsLoading] = useState(true);
   const [albums, setAlbums] = useState<Album[]>([]);
   const [publishers, setPublishers] = useState<any[]>([]);
@@ -439,8 +441,8 @@ export default function HomePage() {
 
   // Helper functions for filtering and sorting
   const getFilteredAlbums = () => {
-    // Use the main albums state directly
-    const albumsToUse = albums;
+    // Filter out LNURL Testing Podcast from main page display (accessible via sidebar)
+    const albumsToUse = albums.filter(album => album.title !== 'LNURL Testing Podcast');
     
           // Universal sorting function that implements hierarchical order: Pinned → Albums → EPs → Singles
       const sortWithHierarchy = (albums: Album[]) => {
@@ -559,7 +561,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <BitcoinConnectWallet />
+                  {isLightningEnabled && <BitcoinConnectWallet />}
                   <Link 
                     href="/about" 
                     className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
@@ -609,7 +611,7 @@ export default function HomePage() {
 
                 </div>
                 <div className="absolute right-0 flex items-center gap-4">
-                  <BitcoinConnectWallet />
+                  {isLightningEnabled && <BitcoinConnectWallet />}
                   <Link 
                     href="/about" 
                     className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
@@ -706,9 +708,25 @@ export default function HomePage() {
                 </svg>
                 <span className="text-sm">Admin Panel</span>
               </Link>
+              
+              <Link  
+                href="/album/lnurl-testing-podcast" 
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span className="text-sm">LNURL Testing Podcast</span>
+              </Link>
             </div>
             
-            <div className="mt-auto pt-2 border-t border-gray-700">
+            {/* Lightning Toggle - moved up to avoid being hidden by now playing bar */}
+            <div className="pt-4 border-t border-gray-700">
+              <LightningToggle />
+            </div>
+            
+            <div className="mt-auto pt-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-500">Version</span>
                 <span className="text-xs text-gray-400 font-mono">{getVersionString()}</span>
@@ -960,8 +978,8 @@ export default function HomePage() {
         </div>
       </div>
       
-      {/* Boost Modal - Rendered outside of album cards */}
-      {isLightningEnabled() && showBoostModal && selectedAlbum && (
+      {/* Boost Modal - Rendered outside of album cards - only show when Lightning is enabled */}
+      {isLightningEnabled && showBoostModal && selectedAlbum && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="relative bg-gradient-to-b from-gray-900 to-black rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
             {/* Header with Album Art */}

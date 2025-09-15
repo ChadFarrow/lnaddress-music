@@ -5,8 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Play, Pause, SkipBack, SkipForward, Volume2, Zap } from 'lucide-react';
 import { useAudio } from '@/contexts/AudioContext';
+import { useLightning } from '@/contexts/LightningContext';
 import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
-import { isLightningEnabled } from '@/lib/feature-flags';
 import type { RSSValue } from '@/lib/rss-parser';
 import dynamic from 'next/dynamic';
 import { filterPodrollItems } from '@/lib/podroll-utils';
@@ -95,6 +95,7 @@ interface AlbumDetailClientProps {
 }
 
 export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDetailClientProps) {
+  const { isLightningEnabled } = useLightning();
   const [album, setAlbum] = useState<Album | null>(initialAlbum);
   const [isLoading, setIsLoading] = useState(!initialAlbum);
   const [error, setError] = useState<string | null>(null);
@@ -917,7 +918,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   </button>
                   
                   {/* Album Boost Button */}
-                  {isLightningEnabled() && (
+                  {isLightningEnabled && (
                     <button
                       onClick={() => setShowAlbumBoostModal(true)}
                       className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-yellow-500 to-orange-600 text-white rounded-full font-semibold transition-all duration-200 hover:from-yellow-400 hover:to-orange-500 hover:shadow-lg transform hover:scale-105 active:scale-95"
@@ -1020,7 +1021,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                       </div>
 
                       {/* Track Lightning Boost Button */}
-                      {isLightningEnabled() && (
+                      {isLightningEnabled && (
                         <div 
                           className="flex items-center justify-center ml-2"
                           onClick={(e) => {
@@ -1051,7 +1052,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
 
 
         {/* Album Boost Modal */}
-        {isLightningEnabled() && showAlbumBoostModal && album && (
+        {isLightningEnabled && showAlbumBoostModal && album && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
             <div className="relative bg-gradient-to-b from-gray-900 to-black rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
               {/* Header with Album Art */}
@@ -1162,7 +1163,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         )}
 
         {/* Track Boost Modal */}
-        {isLightningEnabled() && showTrackBoostModal && selectedTrack && (
+        {isLightningEnabled && showTrackBoostModal && selectedTrack && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
             <div className="relative bg-gradient-to-b from-gray-900 to-black rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
               {/* Header with Track Art */}

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Play, Pause, Music, Zap } from 'lucide-react';
 import type { RSSValue, RSSValueRecipient } from '@/lib/rss-parser';
+import { useLightning } from '@/contexts/LightningContext';
 
 interface Track {
   title: string;
@@ -56,6 +57,7 @@ interface AlbumCardProps {
 }
 
 function AlbumCard({ album, isPlaying = false, onPlay, onBoostClick, className = '' }: AlbumCardProps) {
+  const { isLightningEnabled } = useLightning();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -239,22 +241,24 @@ function AlbumCard({ album, isPlaying = false, onPlay, onBoostClick, className =
           </button>
         </div>
 
-        {/* Lightning tip button - moved to top left */}
-        <div className="absolute top-1 left-1 sm:top-2 sm:left-2 flex items-center gap-1 sm:gap-2">
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (onBoostClick) {
-                onBoostClick(album);
-              }
-            }}
-            className="w-6 h-6 sm:w-7 sm:h-7 bg-yellow-500/90 hover:bg-yellow-600/90 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors z-10"
-            aria-label={`Boost ${album.artist}`}
-          >
-            <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
-          </button>
-        </div>
+        {/* Lightning tip button - moved to top left - only show when Lightning is enabled */}
+        {isLightningEnabled && (
+          <div className="absolute top-1 left-1 sm:top-2 sm:left-2 flex items-center gap-1 sm:gap-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (onBoostClick) {
+                  onBoostClick(album);
+                }
+              }}
+              className="w-6 h-6 sm:w-7 sm:h-7 bg-yellow-500/90 hover:bg-yellow-600/90 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors z-10"
+              aria-label={`Boost ${album.artist}`}
+            >
+              <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
+            </button>
+          </div>
+        )}
         
         {/* Track count badge - kept on the right */}
         {album.tracks.length > 0 && (
