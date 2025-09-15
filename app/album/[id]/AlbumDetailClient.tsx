@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Play, Pause, SkipBack, SkipForward, Volume2, Zap } from 'lucide-react';
@@ -326,7 +326,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     }
   };
 
-  const loadAlbum = async () => {
+  const loadAlbum = useCallback(async () => {
     try {
       setIsLoading(true);
       
@@ -387,9 +387,9 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [albumTitle]);
 
-  const loadSiteAlbums = async () => {
+  const loadSiteAlbums = useCallback(async () => {
     // Prevent duplicate requests
     if (loadingAlbumsRef.current) {
       return siteAlbums;
@@ -413,25 +413,27 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       loadingAlbumsRef.current = false;
     }
     return [];
-  };
+  }, []);
 
-  const loadRelatedAlbums = async () => {
+  const loadRelatedAlbums = useCallback(async () => {
     // Prevent duplicate requests
     if (loadingRelatedRef.current) {
       return;
     }
     
+    loadingRelatedRef.current = true;
+    
     try {
-      loadingRelatedRef.current = true;
-      // Use the lightweight albums endpoint to avoid RSS parsing overhead
-      const response = await fetch('/api/albums-simple');
-      
+      const response = await fetch('/api/albums-static');
       if (response.ok) {
-        const data = await response.json();
-        const albums = data.albums || [];
+        const albums = await response.json();
+        const relatedAlbums = albums.filter((album: Album) => {
+          // Simple related album logic - same artist or similar genre
+          return album.artist === album?.artist || 
+                 album.title.toLowerCase().includes(album?.title?.toLowerCase() || '');
+        }).slice(0, 6);
         
-        // Don't show random albums - only show podroll connections
-        setRelatedAlbums([]); // No random albums
+        setRelatedAlbums(relatedAlbums);
       } else {
         console.warn(`Failed to load related albums: ${response.status} ${response.statusText}`);
       }
@@ -440,9 +442,9 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     } finally {
       loadingRelatedRef.current = false;
     }
-  };
+  }, [album]);
 
-  const loadPodrollAlbums = async () => {
+  const loadPodrollAlbums = useCallback(async () => {
     if (!album?.podroll || album.podroll.length === 0) return;
     
     try {
@@ -529,7 +531,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     } catch (error) {
       console.error('Error loading podroll albums:', error);
     }
-  };
+  }, [album, siteAlbums]);
 
   const handlePlayAlbum = () => {
     if (!album) return;

@@ -501,9 +501,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           console.warn('⚠️ Auto boost Nostr post failed:', nostrError);
         }
 
-        toast.success(`⚡ Auto boosted "${track.title}" with ${autoBoostAmount} sats!`, {
-          duration: 3000
-        });
+        toast.success(`⚡ Auto boosted "${track.title}" with ${autoBoostAmount} sats!`, 3000);
         console.log('✅ Auto boost payment successful:', paymentResult.results);
       } else {
         throw new Error(paymentResult.error || 'Auto boost payment failed');

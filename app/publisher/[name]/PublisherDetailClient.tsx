@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
@@ -59,7 +59,7 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
     loadPublisherArtwork();
   }, [publisherName, initialPublisher]);
 
-  const loadPublisherArtwork = async () => {
+  const loadPublisherArtwork = useCallback(async () => {
     try {
       const response = await fetch('/publishers.json');
       if (response.ok) {
@@ -78,9 +78,9 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
     } catch (error) {
       console.warn('Could not load artist artwork:', error);
     }
-  };
+  }, [publisherName]);
 
-  const loadPublisher = async () => {
+  const loadPublisher = useCallback(async () => {
     try {
       setIsLoading(true);
       // Try fast static endpoint first
@@ -148,7 +148,7 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [publisherName]);
 
   const getAlbumSlug = (album: Album) => {
     return album.title

@@ -61,11 +61,11 @@ export default function MusicGuidePage() {
             <div className="bg-black/80 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/30">
               <h2 className="text-3xl font-bold mb-4 text-blue-400">🎵 Discover the DoerfelVerse</h2>
               <p className="text-lg mb-4">
-                ITDV Lightning features music from the <strong>DoerfelVerse</strong> - a collection of independent artists creating amazing music across multiple genres. From rock to electronic, bluegrass to experimental, there's something for every music lover.
+                ITDV Lightning features music from the <strong>DoerfelVerse</strong> - a collection of independent artists creating amazing music across multiple genres. From rock to electronic, bluegrass to experimental, there&apos;s something for every music lover.
               </p>
               
               <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-4 text-center">
-                <h3 className="text-xl font-bold mb-2">🎯 What You'll Find</h3>
+                <h3 className="text-xl font-bold mb-2">🎯 What You&apos;ll Find</h3>
                 <p className="text-lg">
                   <strong>40+ albums, EPs, and singles</strong> from talented independent artists, all available for streaming with optional Lightning payments.
                 </p>
@@ -403,7 +403,7 @@ export default function MusicGuidePage() {
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-xl font-semibold mb-3 text-blue-400">Audio Won't Play</h3>
+                  <h3 className="text-xl font-semibold mb-3 text-blue-400">Audio Won&apos;t Play</h3>
                   <ul className="list-disc list-inside space-y-1 text-gray-300">
                     <li><strong>Tap play button twice</strong> - browsers require user interaction</li>
                     <li><strong>Check internet connection</strong> - streaming requires internet</li>

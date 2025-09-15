@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface CDNImageProps {
   src: string;
@@ -108,7 +108,7 @@ export default function CDNImage({
   }, [isGif, isClient, priority]);
 
   // Generate optimized image URL
-  const getOptimizedUrl = (originalUrl: string, targetWidth?: number, targetHeight?: number) => {
+  const getOptimizedUrl = useCallback((originalUrl: string, targetWidth?: number, targetHeight?: number) => {
     // If it's already an optimized URL, return as is
     if (originalUrl.includes('/api/optimized-images/')) {
       return originalUrl;
@@ -155,9 +155,9 @@ export default function CDNImage({
     }
     
     return originalUrl;
-  };
+  }, [width, height]);
 
-  const getResponsiveSizes = () => {
+  const getResponsiveSizes = useCallback(() => {
     if (sizes) return sizes;
     
     // For GIFs, use smaller sizes to improve performance
@@ -178,9 +178,9 @@ export default function CDNImage({
     } else {
       return '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw';
     }
-  };
+  }, [sizes, isGif, isMobile, isTablet]);
 
-  const getImageDimensions = () => {
+  const getImageDimensions = useCallback(() => {
     if (width && height) {
       return { width, height };
     }
@@ -204,9 +204,10 @@ export default function CDNImage({
     } else {
       return { width: 500, height: 500 };
     }
-  };
+  }, [width, height, isGif]);
 
-  const getOriginalUrl = (imageUrl: string) => {
+
+  const getOriginalUrl = useCallback((imageUrl: string) => {
     if (imageUrl.includes('/api/optimized-images/')) {
       // Extract original URL from optimized URL
       const filename = imageUrl.split('/').pop()?.split('?')[0];
@@ -216,9 +217,9 @@ export default function CDNImage({
       }
     }
     return fallbackSrc || imageUrl;
-  };
+  }, [fallbackSrc]);
 
-  const handleError = () => {
+  const handleError = useCallback(() => {
     // Prevent recursion by checking if component is unmounted or src changed
     if (!src) return;
     
@@ -271,7 +272,7 @@ export default function CDNImage({
     // All retry attempts have failed - only now call onError and show placeholder
     setHasError(true);
     onError?.(); // Only call onError after all retries have failed
-  };
+  }, [src, currentSrc, retryCount, fallbackSrc, onError]);
 
   const handleLoad = () => {
     setIsLoading(false);
@@ -318,7 +319,7 @@ export default function CDNImage({
       clearTimeout(timeoutId);
       setTimeoutId(null);
     }
-  }, [src, width, height, isClient, isMobile]); // Only run when src prop changes
+  }, [src, width, height, isClient, isMobile, getImageDimensions, getOptimizedUrl, timeoutId]); // Only run when src prop changes
 
   // Separate effect for handling timeouts to prevent recursion
   useEffect(() => {
@@ -354,7 +355,7 @@ export default function CDNImage({
     return () => {
       if (timeout) clearTimeout(timeout);
     };
-  }, [currentSrc, retryCount, isLoading, hasError, isGif]); // Run when retry state changes
+  }, [currentSrc, retryCount, isLoading, hasError, isGif, handleError, timeoutId]); // Run when retry state changes
 
   const dims = getImageDimensions();
 
@@ -379,7 +380,7 @@ export default function CDNImage({
       
       {isClient && isMobile ? (
         // Enhanced mobile image handling
-        <img
+        <Image
           src={showGif ? currentSrc : ''}
           alt={alt}
           width={dims.width}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import Image from 'next/image';
 
 interface PlaceholderImageProps {
   width: number;
@@ -34,7 +35,7 @@ export default function PlaceholderImage({
   }, [width, height]);
 
   return (
-    <img
+    <Image
       src={svgDataUrl}
       alt={alt}
       width={width}

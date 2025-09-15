@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense, lazy } from 'react';
+import { useState, useEffect, useRef, Suspense, lazy, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -32,6 +32,7 @@ const BitcoinConnectPayment = dynamic(
 
 // Direct import of AlbumCard to fix lazy loading issue
 import AlbumCard from '@/components/AlbumCard';
+import LightningToggle from '@/components/LightningToggle';
 
 const PublisherCard = dynamic(() => import('@/components/PublisherCard'), {
   loading: () => <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 h-20 animate-pulse"></div>,
@@ -244,7 +245,7 @@ export default function HomePage() {
   }, []);
 
   // Load all albums and publishers
-  const loadCriticalAlbums = async () => {
+  const loadCriticalAlbums = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -280,7 +281,7 @@ export default function HomePage() {
       setError('Failed to load albums');
       setIsLoading(false);
     }
-  };
+  }, []);
 
   const loadAlbumsData = async () => {
     try {

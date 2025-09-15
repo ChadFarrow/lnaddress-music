@@ -86,7 +86,7 @@ export default function PerformanceMonitor() {
       window.removeEventListener('load', handleLoad);
       window.fetch = originalFetch;
     };
-  }, []);
+  }, [isClient]);
 
   // Only render in development and after client hydration
   if (process.env.NODE_ENV !== 'development' || !isClient) return null;

@@ -61,7 +61,7 @@ export default function LightningGuidePage() {
             <div className="bg-black/80 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/30">
               <h2 className="text-3xl font-bold mb-4 text-yellow-400">⚡ Lightning Network & Value4Value</h2>
               <p className="text-lg mb-4">
-                ITDV Lightning uses Bitcoin's Lightning Network to enable <strong>Value4Value</strong> payments - a revolutionary model where you pay artists directly based on the value you receive from their music.
+                ITDV Lightning uses Bitcoin&apos;s Lightning Network to enable <strong>Value4Value</strong> payments - a revolutionary model where you pay artists directly based on the value you receive from their music.
               </p>
               
               <div className="bg-gradient-to-r from-yellow-600 to-orange-600 rounded-lg p-4 text-center">
@@ -198,7 +198,7 @@ export default function LightningGuidePage() {
                     <ol className="list-decimal list-inside space-y-1 text-gray-300">
                       <li>Click the Lightning wallet button in the header</li>
                       <li>Choose your connection method (WebLN, NWC, or Lightning Address)</li>
-                      <li>Follow the wallet's connection prompts</li>
+                      <li>Follow the wallet&apos;s connection prompts</li>
                       <li>Verify your connection is successful</li>
                     </ol>
                   </div>
@@ -226,7 +226,7 @@ export default function LightningGuidePage() {
               <h2 className="text-3xl font-bold mb-4 text-purple-400">💬 Boostagrams</h2>
               
               <p className="mb-4">
-                <strong>Boostagrams</strong> are special messages sent with Lightning payments. They're like digital tips with personal messages that artists can see and respond to.
+                <strong>Boostagrams</strong> are special messages sent with Lightning payments. They&apos;re like digital tips with personal messages that artists can see and respond to.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -253,7 +253,7 @@ export default function LightningGuidePage() {
               <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg p-4">
                 <h3 className="text-lg font-bold mb-2">💡 Pro Tip</h3>
                 <p className="text-sm">
-                  Boostagrams are published to Nostr relays, so other music lovers can see your messages and discover new artists. It's like a decentralized social network for music support!
+                  Boostagrams are published to Nostr relays, so other music lovers can see your messages and discover new artists. It&apos;s like a decentralized social network for music support!
                 </p>
               </div>
             </div>
@@ -263,7 +263,7 @@ export default function LightningGuidePage() {
               <h2 className="text-3xl font-bold mb-4 text-indigo-400">🎯 Value Splits & Multi-Recipient Payments</h2>
               
               <p className="mb-4">
-                Some albums support <strong>automatic value splitting</strong> - your payment is automatically distributed to multiple recipients based on the artist's preferences.
+                Some albums support <strong>automatic value splitting</strong> - your payment is automatically distributed to multiple recipients based on the artist&apos;s preferences.
               </p>
 
               <div className="space-y-4">
@@ -320,7 +320,7 @@ export default function LightningGuidePage() {
                     <li><strong>Wallet not connecting:</strong> Check that your wallet is online and NWC is enabled</li>
                     <li><strong>Invalid connection string:</strong> Ensure the connection string is complete and valid</li>
                     <li><strong>Try disconnecting and reconnecting:</strong> Sometimes a fresh connection helps</li>
-                    <li><strong>Use different wallet:</strong> Try WebLN if NWC doesn't work, or vice versa</li>
+                    <li><strong>Use different wallet:</strong> Try WebLN if NWC doesn&apos;t work, or vice versa</li>
                   </ul>
                 </div>
 
@@ -329,7 +329,7 @@ export default function LightningGuidePage() {
                   <ul className="list-disc list-inside space-y-1 text-gray-300">
                     <li><strong>Insufficient balance:</strong> Ensure your wallet has enough Lightning balance</li>
                     <li><strong>Invoice expired:</strong> Try generating a new payment request</li>
-                    <li><strong>Node offline:</strong> Recipient's Lightning node must be online</li>
+                    <li><strong>Node offline:</strong> Recipient&apos;s Lightning node must be online</li>
                     <li><strong>Amount too small:</strong> Minimum payment is 1 satoshi</li>
                     <li><strong>Network congestion:</strong> Try again in a few minutes</li>
                   </ul>
@@ -365,7 +365,7 @@ export default function LightningGuidePage() {
                 <div className="bg-black/70 rounded-lg p-4">
                   <h3 className="text-xl font-semibold mb-3 text-green-400">For Listeners</h3>
                   <ul className="space-y-2 text-sm">
-                    <li><strong>Pay what it's worth:</strong> No fixed prices or subscriptions</li>
+                    <li><strong>Pay what it&apos;s worth:</strong> No fixed prices or subscriptions</li>
                     <li><strong>Support creators directly:</strong> Your money goes to artists</li>
                     <li><strong>Micro-payments:</strong> Support individual songs affordably</li>
                     <li><strong>Global access:</strong> Works anywhere with internet</li>

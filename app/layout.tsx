@@ -9,6 +9,7 @@ import { ToastContainer } from '@/components/Toast'
 import PerformanceMonitor from '@/components/PerformanceMonitor'
 import { AudioProvider } from '@/contexts/AudioContext'
 import { BitcoinConnectProvider } from '@/contexts/BitcoinConnectContext'
+import { LightningProvider } from '@/contexts/LightningContext'
 import GlobalNowPlayingBar from '@/components/GlobalNowPlayingBar'
 
 
@@ -106,18 +107,20 @@ export default function RootLayout({
       <body className={inter.className}>
         <ClientErrorBoundary>
           <ErrorBoundary>
-            <AudioProvider>
-              <BitcoinConnectProvider>
-                <div className="min-h-screen bg-gray-50 relative">
-                  {/* Content overlay with iOS safe area padding */}
-                  <div className="relative z-10 pt-ios">
-                    {children}
+            <LightningProvider>
+              <AudioProvider>
+                <BitcoinConnectProvider>
+                  <div className="min-h-screen bg-gray-50 relative">
+                    {/* Content overlay with iOS safe area padding */}
+                    <div className="relative z-10 pt-ios">
+                      {children}
+                    </div>
                   </div>
-                </div>
-                <GlobalNowPlayingBar />
-                <ToastContainer />
-              </BitcoinConnectProvider>
-            </AudioProvider>
+                  <GlobalNowPlayingBar />
+                  <ToastContainer />
+                </BitcoinConnectProvider>
+              </AudioProvider>
+            </LightningProvider>
           </ErrorBoundary>
           <ServiceWorkerRegistration />
           <PWAInstallPrompt />

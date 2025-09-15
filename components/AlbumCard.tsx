@@ -127,7 +127,7 @@ function AlbumCard({ album, isPlaying = false, onPlay, onBoostClick, className =
       }
       console.log(`🎵 Album card mounted: "${album.title}" -> URL: ${albumUrl}`);
     }
-  }, []); // Empty dependency array = only run once on mount
+  }, [album.coverArt, album.title, albumUrl]); // Include dependencies for logging
 
   return (
     <div className={`group relative bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] block ${className}`}>
