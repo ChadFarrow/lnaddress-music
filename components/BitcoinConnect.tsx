@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Zap, Wallet } from 'lucide-react';
 import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 import { useBoostToNostr } from '@/hooks/useBoostToNostr';
+import { useLightning } from '@/contexts/LightningContext';
 import AlbyGoConnect from './AlbyGoConnect';
 
 declare global {
@@ -21,8 +22,13 @@ declare global {
 export function BitcoinConnectWallet() {
   const [mounted, setMounted] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
+  const { isLightningEnabled } = useLightning();
 
   useEffect(() => {
+    // Only initialize Bitcoin Connect if Lightning is enabled
+    if (!isLightningEnabled) {
+      return;
+    }
     // Import Bitcoin Connect dynamically to avoid SSR issues
     const loadBitcoinConnect = async () => {
       try {
@@ -117,7 +123,12 @@ export function BitcoinConnectWallet() {
     };
 
     loadBitcoinConnect();
-  }, []);
+  }, [isLightningEnabled]);
+
+  // Don't render anything if Lightning is disabled
+  if (!isLightningEnabled) {
+    return null;
+  }
 
   if (!mounted) {
     return (
@@ -188,6 +199,7 @@ export function BitcoinConnectPayment({
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { isConnected } = useBitcoinConnect();
+  const { isLightningEnabled } = useLightning();
   
   // Initialize Nostr boost system if boosts are enabled
   const { postBoost, generateKeys, publicKey } = useBoostToNostr({ 
@@ -282,6 +294,11 @@ export function BitcoinConnectPayment({
   };
 
   useEffect(() => {
+    // Only load Bitcoin Connect if Lightning is enabled
+    if (!isLightningEnabled) {
+      return;
+    }
+    
     const loadBitcoinConnect = async () => {
       try {
         await import('@getalby/bitcoin-connect');
@@ -292,7 +309,7 @@ export function BitcoinConnectPayment({
     };
 
     loadBitcoinConnect();
-  }, []);
+  }, [isLightningEnabled]);
 
   // Helper function to create Nostr boost notes after successful payments
   const handleBoostCreation = async (paymentResults: any[], totalAmount: number) => {
@@ -811,6 +828,11 @@ export function BitcoinConnectPayment({
       setLoading(false);
     }
   };
+
+  // Don't render anything if Lightning is disabled
+  if (!isLightningEnabled) {
+    return null;
+  }
 
   if (!mounted) {
     return (
