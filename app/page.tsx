@@ -651,6 +651,39 @@ export default function HomePage() {
             
             <div className="mb-4 space-y-1">
               <Link 
+                href="/lightning-guide" 
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span className="text-sm">Lightning Payments</span>
+              </Link>
+              
+              <Link 
+                href="/music-guide" 
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                </svg>
+                <span className="text-sm">Music Streaming</span>
+              </Link>
+              
+              <Link 
+                href="/rss-guide" 
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                </svg>
+                <span className="text-sm">RSS & Podcasting 2.0</span>
+              </Link>
+              
+              <Link 
                 href="/about" 
                 className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
                 onClick={() => setIsSidebarOpen(false)}
@@ -660,7 +693,6 @@ export default function HomePage() {
                 </svg>
                 <span className="text-sm">About & Support</span>
               </Link>
-              
               
               <Link  
                 href="/admin/feeds" 
