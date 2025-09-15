@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useLightning } from './LightningContext';
 
 interface BitcoinConnectContextType {
   isConnected: boolean;
@@ -12,9 +13,15 @@ const BitcoinConnectContext = createContext<BitcoinConnectContextType | undefine
 
 export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
+  const { isLightningEnabled } = useLightning();
 
   const checkConnection = async () => {
     try {
+      // Don't check connections if Lightning is disabled
+      if (!isLightningEnabled) {
+        setIsConnected(false);
+        return false;
+      }
       // Check for WebLN (Alby, etc.)
       const weblnExists = !!(window as any).webln;
       const weblnEnabled = weblnExists && !!(window as any).webln?.enabled;
@@ -171,7 +178,7 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
       window.removeEventListener('storage', handleStorageChange);
       clearInterval(interval);
     };
-  }, []);
+  }, [isLightningEnabled]);
 
   return (
     <BitcoinConnectContext.Provider value={{ isConnected, setIsConnected, checkConnection }}>
