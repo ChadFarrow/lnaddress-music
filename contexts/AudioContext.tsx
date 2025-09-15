@@ -331,73 +331,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [playlist, currentTrackIndex, isPlaying, currentAlbum]);
 
-  // Handle track ended event - needs to be after nextTrack is declared
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handleEnded = () => {
-      // Trigger auto boost if enabled and we have a current track
-      if (isAutoBoostEnabled && currentTrack) {
-        triggerAutoBoost(currentTrack);
-      }
-      
-      if (isRepeating) {
-        audio.currentTime = 0;
-        audio.play();
-      } else {
-        nextTrack();
-      }
-    };
-
-    audio.addEventListener('ended', handleEnded);
-
-    return () => {
-      audio.removeEventListener('ended', handleEnded);
-    };
-  }, [isRepeating, nextTrack]);
-
-  const seekTo = useCallback((time: number) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = time;
-      setCurrentTime(time);
-    }
-  }, []);
-
-  const setVolume = (newVolume: number) => {
-    const clampedVolume = Math.max(0, Math.min(1, newVolume));
-    setVolumeState(clampedVolume);
-    if (audioRef.current) {
-      audioRef.current.volume = clampedVolume;
-    }
-  };
-
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-    if (audioRef.current) {
-      audioRef.current.muted = !isMuted;
-    }
-  };
-
-  const toggleShuffle = () => {
-    setIsShuffling(!isShuffling);
-  };
-
-  const toggleRepeat = () => {
-    setIsRepeating(!isRepeating);
-  };
-
-  // Auto Boost functions
-  const toggleAutoBoost = () => {
-    setIsAutoBoostEnabled(!isAutoBoostEnabled);
-    if (!isAutoBoostEnabled) {
-      toast.success('🔥 Auto boost enabled! Songs will auto boost 25 sats when finished');
-    } else {
-      toast.info('Auto boost disabled');
-    }
-  };
-
-  const triggerAutoBoost = async (track: Track) => {
+  // Make triggerAutoBoost a useCallback to avoid recreation
+  const triggerAutoBoost = useCallback(async (track: Track) => {
     try {
       console.log('🚀 Auto boost triggered for:', track.title);
       
@@ -510,6 +445,72 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch (error) {
       console.error('Auto boost failed:', error);
       toast.error(`Auto boost failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }, [autoBoostAmount, currentAlbum, currentTime, duration, postBoost]);
+
+  // Handle track ended event - needs to be after nextTrack is declared
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleEnded = () => {
+      // Trigger auto boost if enabled and we have a current track
+      if (isAutoBoostEnabled && currentTrack) {
+        triggerAutoBoost(currentTrack);
+      }
+      
+      if (isRepeating) {
+        audio.currentTime = 0;
+        audio.play();
+      } else {
+        nextTrack();
+      }
+    };
+
+    audio.addEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, [isRepeating, nextTrack, isAutoBoostEnabled, currentTrack, triggerAutoBoost]);
+
+  const seekTo = useCallback((time: number) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = time;
+      setCurrentTime(time);
+    }
+  }, []);
+
+  const setVolume = (newVolume: number) => {
+    const clampedVolume = Math.max(0, Math.min(1, newVolume));
+    setVolumeState(clampedVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = clampedVolume;
+    }
+  };
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+    }
+  };
+
+  const toggleShuffle = () => {
+    setIsShuffling(!isShuffling);
+  };
+
+  const toggleRepeat = () => {
+    setIsRepeating(!isRepeating);
+  };
+
+  // Auto Boost functions
+  const toggleAutoBoost = () => {
+    setIsAutoBoostEnabled(!isAutoBoostEnabled);
+    if (!isAutoBoostEnabled) {
+      toast.success('🔥 Auto boost enabled! Songs will auto boost 25 sats when finished');
+    } else {
+      toast.info('Auto boost disabled');
     }
   };
 
