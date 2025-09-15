@@ -16,9 +16,10 @@ export function LightningProvider({ children }: { children: ReactNode }) {
   // Load Lightning setting from localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem('lightning_enabled');
-    if (saved === 'true') {
-      setIsLightningEnabled(true);
+    if (saved !== null) {
+      setIsLightningEnabled(saved === 'true');
     }
+    // If no saved preference exists, Lightning stays disabled by default
   }, []);
 
   // Save to localStorage when setting changes
