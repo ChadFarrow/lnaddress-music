@@ -44,6 +44,7 @@ export class NWCService {
    * Parse NWC connection string (nostr+walletconnect://...)
    */
   parseConnectionString(connectionString: string): NWCConnection {
+    console.log('🔍 Parsing connection string:', connectionString.substring(0, 50) + '...');
     const url = new URL(connectionString);
     
     if (!url.protocol.startsWith('nostr+walletconnect:')) {
@@ -56,8 +57,10 @@ export class NWCService {
     const relay = params.get('relay');
     const secret = params.get('secret');
     
+    console.log('🔍 Parsed params:', { relay, secret: secret ? secret.substring(0, 10) + '...' : null, walletPubkey });
+    
     if (!relay || !secret || !walletPubkey) {
-      throw new Error('Missing required NWC parameters');
+      throw new Error(`Missing required NWC parameters: relay=${!!relay}, secret=${!!secret}, walletPubkey=${!!walletPubkey}`);
     }
 
     const secretKey = Uint8Array.from(
@@ -245,7 +248,7 @@ export class NWCService {
   /**
    * Create a Lightning invoice
    */
-  async makeInvoice(amount: number, description?: string): Promise<{ invoice?: string; error?: string }> {
+  async makeInvoice(amount: number, description?: string): Promise<{ invoice?: string; payment_hash?: string; error?: string }> {
     try {
       const response = await this.sendNWCRequest('make_invoice', {
         amount,
@@ -257,7 +260,8 @@ export class NWCService {
       }
       
       return {
-        invoice: response.result?.invoice
+        invoice: response.result?.invoice,
+        payment_hash: response.result?.payment_hash
       };
     } catch (error) {
       return { error: error instanceof Error ? error.message : 'Unknown error' };
@@ -324,6 +328,31 @@ export class NWCService {
       };
     } catch (error) {
       console.error('💥 Keysend payment exception:', error);
+      return { error: error instanceof Error ? error.message : 'Unknown error' };
+    }
+  }
+
+  /**
+   * Look up invoice status
+   */
+  async lookupInvoice(invoice: string, paymentHash?: string): Promise<{ settled?: boolean; paid?: boolean; error?: string }> {
+    try {
+      const params: any = { invoice };
+      if (paymentHash) {
+        params.payment_hash = paymentHash;
+      }
+      
+      const response = await this.sendNWCRequest('lookup_invoice', params);
+      
+      if (response.error) {
+        return { error: response.error.message || response.error };
+      }
+      
+      return {
+        settled: response.result?.settled,
+        paid: response.result?.paid
+      };
+    } catch (error) {
       return { error: error instanceof Error ? error.message : 'Unknown error' };
     }
   }
