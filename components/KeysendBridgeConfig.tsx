@@ -137,7 +137,7 @@ export default function KeysendBridgeConfig() {
             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
               <p className="text-sm text-blue-800">
                 <strong>What is this?</strong><br />
-                The Keysend Bridge allows wallets that don't support keysend payments (like Coinos) 
+                The Keysend Bridge allows wallets that don&apos;t support keysend payments (like Coinos) 
                 to make them through Alby Hub. Connect your Alby Hub here to enable keysend for any wallet.
               </p>
             </div>
