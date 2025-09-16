@@ -427,11 +427,14 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     try {
       const response = await fetch('/api/albums-static');
       if (response.ok) {
-        const albums = await response.json();
-        const relatedAlbums = albums.filter((album: Album) => {
-          // Simple related album logic - same artist or similar genre
-          return album.artist === album?.artist || 
-                 album.title.toLowerCase().includes(album?.title?.toLowerCase() || '');
+        const data = await response.json();
+        const albums = Array.isArray(data) ? data : [];
+        
+        const relatedAlbums = albums.filter((relatedAlbum: Album) => {
+          // Simple related album logic - same artist or exclude current album
+          return relatedAlbum.id !== album?.id && 
+                 (relatedAlbum.artist === album?.artist || 
+                  relatedAlbum.title.toLowerCase().includes(album?.title?.toLowerCase() || ''));
         }).slice(0, 6);
         
         setRelatedAlbums(relatedAlbums);

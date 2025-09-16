@@ -462,6 +462,24 @@ export function BitcoinConnectPayment({
           
           if (nwcConnectionString && !nwcService.isConnected()) {
             await nwcService.connect(nwcConnectionString);
+            
+            // Initialize keysend bridge after NWC connection
+            if (nwcService.isConnected()) {
+              try {
+                const { getKeysendBridge } = await import('../lib/nwc-keysend-bridge');
+                const bridge = getKeysendBridge();
+                await bridge.initialize({
+                  userWalletConnection: nwcConnectionString
+                });
+                
+                const capabilities = bridge.getCapabilities();
+                if (capabilities.hasBridge && !capabilities.supportsKeysend) {
+                  console.log('🌉 Keysend bridge initialized for non-keysend wallet');
+                }
+              } catch (bridgeError) {
+                console.warn('Failed to initialize keysend bridge:', bridgeError);
+              }
+            }
           }
           
           shouldUseNWC = nwcService.isConnected();
@@ -478,7 +496,28 @@ export function BitcoinConnectPayment({
       if (shouldUseNWC && nwcService) {
         console.log(`⚡ Bitcoin Connect using NWC (prioritized): ${amount} sats split among recipients`);
         
-        // Process all payments in parallel for speed
+        // Check if we need bridge mode before creating payment promises
+        let usingBridge = false;
+        try {
+          const { getKeysendBridge } = await import('../lib/nwc-keysend-bridge');
+          const bridge = getKeysendBridge();
+          
+          // Try to initialize bridge if not already initialized
+          if (!bridge.getCapabilities().walletName || bridge.getCapabilities().walletName === 'Unknown') {
+            console.log('🔄 Pre-checking bridge capabilities...');
+            await bridge.initialize({
+              userWalletConnection: nwcConnectionString
+            });
+          }
+          
+          const capabilities = bridge.getCapabilities();
+          usingBridge = capabilities.hasBridge && !capabilities.supportsKeysend;
+          console.log(`🔍 Bridge mode pre-check: ${usingBridge ? 'ENABLED' : 'DISABLED'} (wallet: ${capabilities.walletName})`);
+        } catch (error) {
+          console.warn('Could not pre-check bridge capabilities:', error);
+        }
+        
+        // Process payments based on bridge mode
         const paymentPromises = paymentsToMake.map(async (recipientData) => {
           // Calculate amount: use fixed amount if specified, otherwise proportional split
           const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
@@ -549,11 +588,55 @@ export function BitcoinConnectPayment({
               console.log(`  episode_guid: ${boostMetadata?.itemGuid || 'missing'}`);
               console.log(`  url: ${boostMetadata?.url || 'album-specific URL'}`);
               
-              response = await nwcService.payKeysend(
-                recipientData.address,
-                recipientAmount,
-                tlvRecords
-              );
+              // Check if we should use the keysend bridge
+              try {
+                const { getKeysendBridge } = await import('../lib/nwc-keysend-bridge');
+                const bridge = getKeysendBridge();
+                
+                // Try to initialize bridge if not already initialized
+                if (!bridge.getCapabilities().walletName || bridge.getCapabilities().walletName === 'Unknown') {
+                  console.log('🔄 Initializing keysend bridge...');
+                  await bridge.initialize({
+                    userWalletConnection: nwcConnectionString
+                  });
+                }
+                
+                const capabilities = bridge.getCapabilities();
+                console.log('🔍 Bridge capabilities:', capabilities);
+                
+                if (capabilities.hasBridge && !capabilities.supportsKeysend) {
+                  // Use bridge for non-keysend wallets
+                  console.log('🌉 Using keysend bridge for payment');
+                  const bridgeResult = await bridge.payKeysend({
+                    pubkey: recipientData.address,
+                    amount: recipientAmount,
+                    tlvRecords,
+                    description: `Boost to ${recipientData.name || 'recipient'}`
+                  });
+                  
+                  if (bridgeResult.success) {
+                    response = { preimage: bridgeResult.preimage };
+                  } else {
+                    response = { error: bridgeResult.error };
+                  }
+                } else {
+                  // Direct keysend payment
+                  console.log('⚡ Using direct keysend payment');
+                  response = await nwcService.payKeysend(
+                    recipientData.address,
+                    recipientAmount,
+                    tlvRecords
+                  );
+                }
+              } catch (bridgeError) {
+                console.warn('🌉 Bridge error, falling back to direct keysend:', bridgeError);
+                // Fallback to direct keysend payment
+                response = await nwcService.payKeysend(
+                  recipientData.address,
+                  recipientAmount,
+                  tlvRecords
+                );
+              }
             }
             
             if (response.error) {
@@ -569,17 +652,46 @@ export function BitcoinConnectPayment({
           }
         });
         
-        // Wait for all payments to complete (in parallel)
-        const paymentResults = await Promise.allSettled(paymentPromises);
         const errors: string[] = [];
         
-        paymentResults.forEach((result, index) => {
-          if (result.status === 'fulfilled' && result.value) {
-            results.push(result.value);
-          } else if (result.status === 'rejected') {
-            errors.push(result.reason.message || String(result.reason));
+        if (usingBridge) {
+          // Sequential processing for bridge payments to ensure proper order
+          console.log(`🌉 BRIDGE MODE: Processing ${paymentPromises.length} payments sequentially via Alby Hub`);
+          
+          for (let i = 0; i < paymentPromises.length; i++) {
+            try {
+              const result = await paymentPromises[i];
+              if (result) {
+                results.push(result);
+                console.log(`✅ BRIDGE [${i + 1}/${paymentPromises.length}]: ${result.recipient} payment completed`);
+              }
+            } catch (error) {
+              const errorMsg = error instanceof Error ? error.message : String(error);
+              errors.push(errorMsg);
+              console.error(`❌ BRIDGE [${i + 1}/${paymentPromises.length}]: ${errorMsg}`);
+            }
           }
-        });
+          
+          if (errors.length > 0) {
+            console.error('❌ Bridge sequential payments had errors:', errors);
+          }
+        } else {
+          // Parallel processing for direct payments (faster)
+          console.log('⚡ Processing direct payments in parallel');
+          const paymentResults = await Promise.allSettled(paymentPromises);
+          
+          paymentResults.forEach((result, index) => {
+            if (result.status === 'fulfilled' && result.value) {
+              results.push(result.value);
+            } else if (result.status === 'rejected') {
+              errors.push(result.reason.message || String(result.reason));
+            }
+          });
+          
+          if (errors.length > 0) {
+            console.error('❌ Direct payments had errors:', errors);
+          }
+        }
         
         // Report NWC results
         if (results.length > 0) {
@@ -772,11 +884,55 @@ export function BitcoinConnectPayment({
                   console.log(`⚡ NWC fallback sending keysend to node: ${recipientData.address}`);
                   const tlvRecords = await createBoostTLVRecords(recipientData.name || 'Recipient');
                   
-                  response = await nwcService.payKeysend(
-                    recipientData.address,
-                    recipientAmount,
-                    tlvRecords
-                  );
+                  // Check if we should use the keysend bridge
+                  try {
+                    const { getKeysendBridge } = await import('../lib/nwc-keysend-bridge');
+                    const bridge = getKeysendBridge();
+                    
+                    // Try to initialize bridge if not already initialized
+                    if (!bridge.getCapabilities().walletName || bridge.getCapabilities().walletName === 'Unknown') {
+                      console.log('🔄 Initializing keysend bridge for fallback...');
+                      await bridge.initialize({
+                        userWalletConnection: nwcConnectionString
+                      });
+                    }
+                    
+                    const capabilities = bridge.getCapabilities();
+                    console.log('🔍 Bridge capabilities (fallback):', capabilities);
+                    
+                    if (capabilities.hasBridge && !capabilities.supportsKeysend) {
+                      // Use bridge for non-keysend wallets
+                      console.log('🌉 Using keysend bridge for fallback payment');
+                      const bridgeResult = await bridge.payKeysend({
+                        pubkey: recipientData.address,
+                        amount: recipientAmount,
+                        tlvRecords,
+                        description: `Boost to ${recipientData.name || 'recipient'}`
+                      });
+                      
+                      if (bridgeResult.success) {
+                        response = { preimage: bridgeResult.preimage };
+                      } else {
+                        response = { error: bridgeResult.error };
+                      }
+                    } else {
+                      // Direct keysend payment
+                      console.log('⚡ Using direct keysend payment (fallback)');
+                      response = await nwcService.payKeysend(
+                        recipientData.address,
+                        recipientAmount,
+                        tlvRecords
+                      );
+                    }
+                  } catch (bridgeError) {
+                    console.warn('🌉 Bridge error in fallback, using direct keysend:', bridgeError);
+                    // Fallback to direct keysend payment
+                    response = await nwcService.payKeysend(
+                      recipientData.address,
+                      recipientAmount,
+                      tlvRecords
+                    );
+                  }
                 }
                 
                 if (response.error) {

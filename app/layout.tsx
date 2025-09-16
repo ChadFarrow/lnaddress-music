@@ -11,6 +11,7 @@ import { AudioProvider } from '@/contexts/AudioContext'
 import { BitcoinConnectProvider } from '@/contexts/BitcoinConnectContext'
 import { LightningProvider } from '@/contexts/LightningContext'
 import GlobalNowPlayingBar from '@/components/GlobalNowPlayingBar'
+import KeysendBridgeConfig from '@/components/KeysendBridgeConfig'
 
 
 
@@ -84,21 +85,21 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               // Global error handler for debugging
-              window.addEventListener('error', function(event) {
-                console.error('Layout error caught:', event.error);
+              window.addEventListener("error", function(event) {
+                console.error("Layout error caught:", event.error);
                 if (event.error && event.error.stack) {
-                  console.error('Stack trace:', event.error.stack);
+                  console.error("Stack trace:", event.error.stack);
                 }
               });
-
-              window.addEventListener('unhandledrejection', function(event) {
+              
+              window.addEventListener("unhandledrejection", function(event) {
                 // Suppress known Bitcoin Connect balance errors
                 if (event.reason && event.reason.message && 
-                    event.reason.message.includes('_balanceSats is null')) {
+                    event.reason.message.includes("_balanceSats is null")) {
                   event.preventDefault();
-                  return;
+                } else {
+                  console.error("Layout promise rejection caught:", event.reason);
                 }
-                console.error('Layout promise rejection caught:', event.reason);
               });
             `
           }}
@@ -117,6 +118,7 @@ export default function RootLayout({
                     </div>
                   </div>
                   <GlobalNowPlayingBar />
+                  <KeysendBridgeConfig />
                   <ToastContainer />
                 </BitcoinConnectProvider>
               </AudioProvider>

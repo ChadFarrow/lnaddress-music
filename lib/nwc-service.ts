@@ -245,7 +245,7 @@ export class NWCService {
   /**
    * Create a Lightning invoice
    */
-  async makeInvoice(amount: number, description?: string): Promise<{ invoice?: string; error?: string }> {
+  async makeInvoice(amount: number, description?: string): Promise<{ invoice?: string; payment_hash?: string; error?: string }> {
     try {
       const response = await this.sendNWCRequest('make_invoice', {
         amount,
@@ -257,7 +257,8 @@ export class NWCService {
       }
       
       return {
-        invoice: response.result?.invoice
+        invoice: response.result?.invoice,
+        payment_hash: response.result?.payment_hash
       };
     } catch (error) {
       return { error: error instanceof Error ? error.message : 'Unknown error' };
@@ -324,6 +325,31 @@ export class NWCService {
       };
     } catch (error) {
       console.error('💥 Keysend payment exception:', error);
+      return { error: error instanceof Error ? error.message : 'Unknown error' };
+    }
+  }
+
+  /**
+   * Look up invoice status
+   */
+  async lookupInvoice(invoice: string, paymentHash?: string): Promise<{ settled?: boolean; paid?: boolean; error?: string }> {
+    try {
+      const params: any = { invoice };
+      if (paymentHash) {
+        params.payment_hash = paymentHash;
+      }
+      
+      const response = await this.sendNWCRequest('lookup_invoice', params);
+      
+      if (response.error) {
+        return { error: response.error.message || response.error };
+      }
+      
+      return {
+        settled: response.result?.settled,
+        paid: response.result?.paid
+      };
+    } catch (error) {
       return { error: error instanceof Error ? error.message : 'Unknown error' };
     }
   }
