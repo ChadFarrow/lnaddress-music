@@ -432,7 +432,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         
         const relatedAlbums = albums.filter((relatedAlbum: Album) => {
           // Simple related album logic - same artist or exclude current album
-          return relatedAlbum.id !== album?.id && 
+          return relatedAlbum.feedId !== album?.feedId && 
                  (relatedAlbum.artist === album?.artist || 
                   relatedAlbum.title.toLowerCase().includes(album?.title?.toLowerCase() || ''));
         }).slice(0, 6);
