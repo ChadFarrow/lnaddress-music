@@ -511,8 +511,8 @@ export function BitcoinConnectPayment({
           }
           
           const capabilities = bridge.getCapabilities();
-          usingBridge = capabilities.hasBridge && !capabilities.supportsKeysend;
-          console.log(`🔍 Bridge mode pre-check: ${usingBridge ? 'ENABLED' : 'DISABLED'} (wallet: ${capabilities.walletName})`);
+          usingBridge = bridge.needsBridge();
+          console.log(`🔍 Bridge mode pre-check: ${usingBridge ? 'ENABLED' : 'DISABLED'} (wallet: ${capabilities.walletName}, supportsKeysend: ${capabilities.supportsKeysend}, hasBridge: ${capabilities.hasBridge})`);
         } catch (error) {
           console.warn('Could not pre-check bridge capabilities:', error);
         }
