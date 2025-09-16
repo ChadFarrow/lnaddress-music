@@ -67,7 +67,9 @@ export class NWCKeysendBridge {
     try {
       // Connect user's wallet
       await this.userWalletService.connect(config.userWalletConnection);
-      this.userWalletInfo = await this.userWalletService.getInfo();
+      
+      // Wait a bit for connection to stabilize, then retry getInfo if needed
+      this.userWalletInfo = await this.retryGetWalletInfo();
       
       console.log('✅ Connected to user wallet:', this.userWalletInfo);
       console.log('🔍 Wallet supports methods:', this.userWalletInfo?.result?.methods || []);
@@ -110,6 +112,52 @@ export class NWCKeysendBridge {
       this.isInitialized = false;
       throw error;
     }
+  }
+
+  /**
+   * Retry getting wallet info with proper delays for connection stabilization
+   */
+  private async retryGetWalletInfo(maxRetries: number = 3, baseDelay: number = 1000): Promise<any> {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        // Add initial delay for connection to stabilize
+        if (attempt === 1) {
+          await new Promise(resolve => setTimeout(resolve, baseDelay));
+        }
+        
+        const walletInfo = await this.userWalletService.getInfo();
+        
+        // Check if we got valid wallet info
+        if (walletInfo && walletInfo.result && walletInfo.result.alias) {
+          console.log(`✅ Got wallet info on attempt ${attempt}:`, {
+            alias: walletInfo.result.alias,
+            methods: walletInfo.result.methods || []
+          });
+          return walletInfo;
+        }
+        
+        console.warn(`⚠️ Attempt ${attempt}: Got incomplete wallet info, retrying...`, walletInfo);
+        
+        // Exponential backoff for subsequent attempts
+        if (attempt < maxRetries) {
+          const delay = baseDelay * Math.pow(2, attempt - 1);
+          console.log(`⏳ Waiting ${delay}ms before retry ${attempt + 1}/${maxRetries}`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      } catch (error) {
+        console.warn(`⚠️ Attempt ${attempt} failed:`, error);
+        
+        if (attempt < maxRetries) {
+          const delay = baseDelay * Math.pow(2, attempt - 1);
+          console.log(`⏳ Waiting ${delay}ms before retry ${attempt + 1}/${maxRetries}`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        } else {
+          throw error;
+        }
+      }
+    }
+    
+    throw new Error(`Failed to get wallet info after ${maxRetries} attempts`);
   }
 
   /**

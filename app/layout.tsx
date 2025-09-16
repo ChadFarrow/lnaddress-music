@@ -11,7 +11,6 @@ import { AudioProvider } from '@/contexts/AudioContext'
 import { BitcoinConnectProvider } from '@/contexts/BitcoinConnectContext'
 import { LightningProvider } from '@/contexts/LightningContext'
 import GlobalNowPlayingBar from '@/components/GlobalNowPlayingBar'
-import KeysendBridgeConfig from '@/components/KeysendBridgeConfig'
 
 
 
@@ -118,7 +117,6 @@ export default function RootLayout({
                     </div>
                   </div>
                   <GlobalNowPlayingBar />
-                  <KeysendBridgeConfig />
                   <ToastContainer />
                 </BitcoinConnectProvider>
               </AudioProvider>
