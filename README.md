@@ -32,9 +32,11 @@ A Lightning Network-powered Value4Value music platform showcasing independent ar
 ### Core Functionality
 - **Lightning Network Payments**: Instant Bitcoin payments via Bitcoin Connect
 - **Value4Value Model**: Support artists directly with Lightning zaps and value splits
+- **Auto Boost System**: Automatic 25 sat payments when songs complete (with NWC integration)
 - **Boostagrams**: Custom 250-character messages with Lightning boost payments
 - **Nostr Integration**: NIP-57/NIP-73 compliant boost notes with boostagrams published to Nostr relays
 - **Multi-Payment Recipients**: Automatic splitting to multiple Lightning addresses and nodes
+- **NWC Bridge System**: Seamless payments for non-keysend wallets via Alby Hub relay
 - **RSS Feed Parsing**: Dynamic parsing of 42 album feeds + 4 publisher feeds
 - **Complete Content Coverage**: All 40 unique albums displaying (100% coverage)
 - **Publisher System**: Dedicated pages for music publishers with real artwork  
@@ -127,6 +129,17 @@ The app uses a hybrid approach:
 - **Lightning Address Support**: Full LNURL resolution for email-style Lightning payments
 - **Metadata Fee Collection**: Automatic 2 sat fee collection for platform development
 - **Payment Performance**: Fixed render loop causing excessive payment recipient checks
+- **Auto Boost NWC Integration**: Fixed auto boost to use NWC bridge instead of triggering WebLN popups
+- **Bridge System**: Seamless integration with Alby Hub for non-keysend wallets (Coinos, Primal, etc.)
+- **Payment Method Prioritization**: Smart detection prioritizes connected NWC wallets over WebLN extensions
+
+### Auto Boost System (Latest)
+- **Automatic Song-End Payments**: 25 sats automatically sent when songs complete
+- **NWC Integration**: Uses connected NWC wallets (Coinos, Alby Hub, etc.) instead of browser extensions
+- **Bridge Compatibility**: Seamless integration with Alby Hub bridge for non-keysend wallets
+- **Dual Payment System**: Both Lightning payments and Nostr boost notes posted automatically
+- **User Control**: Simple toggle to enable/disable auto boost functionality
+- **Payment Method Detection**: Smart detection prioritizes NWC over WebLN to prevent unwanted popups
 
 ### Boostagram Features (Latest)
 - **Custom Messages**: 250-character boostagram messages with Lightning payments
