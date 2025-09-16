@@ -44,6 +44,7 @@ export class NWCService {
    * Parse NWC connection string (nostr+walletconnect://...)
    */
   parseConnectionString(connectionString: string): NWCConnection {
+    console.log('🔍 Parsing connection string:', connectionString.substring(0, 50) + '...');
     const url = new URL(connectionString);
     
     if (!url.protocol.startsWith('nostr+walletconnect:')) {
@@ -56,8 +57,10 @@ export class NWCService {
     const relay = params.get('relay');
     const secret = params.get('secret');
     
+    console.log('🔍 Parsed params:', { relay, secret: secret ? secret.substring(0, 10) + '...' : null, walletPubkey });
+    
     if (!relay || !secret || !walletPubkey) {
-      throw new Error('Missing required NWC parameters');
+      throw new Error(`Missing required NWC parameters: relay=${!!relay}, secret=${!!secret}, walletPubkey=${!!walletPubkey}`);
     }
 
     const secretKey = Uint8Array.from(

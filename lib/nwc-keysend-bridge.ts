@@ -81,8 +81,11 @@ export class NWCKeysendBridge {
           const bridgeConfigResponse = await fetch('/api/bridge-config');
           const bridgeConfig = await bridgeConfigResponse.json();
           
+          console.log('🔍 Bridge config response:', bridgeConfig);
+          
           if (bridgeConfig.isConfigured && bridgeConfig.connection) {
             const albyHubConnection = config.albyHubConnection || bridgeConfig.connection;
+            console.log('🔍 Using Alby Hub connection string:', albyHubConnection.substring(0, 50) + '...');
             
             this.albyHubService = new NWCService();
             await this.albyHubService.connect(albyHubConnection);
@@ -91,7 +94,7 @@ export class NWCKeysendBridge {
             console.log('✅ Connected to Alby Hub bridge for keysend relay');
             console.log('🌉 Bridge will relay keysend payments for non-keysend wallet');
           } else {
-            console.warn('⚠️ Keysend bridge not configured. Check ALBY_HUB_BRIDGE_NWC in .env.local');
+            console.warn('⚠️ Keysend bridge not configured. Bridge config:', bridgeConfig);
           }
         } catch (error) {
           console.error('Failed to fetch bridge configuration:', error);
