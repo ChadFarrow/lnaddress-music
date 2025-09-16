@@ -287,10 +287,11 @@ export class NWCKeysendBridge {
         }
         
         // Step 3: Alby Hub sends keysend to final recipient
+        // Temporarily disable TLV records to avoid format issues with Alby Hub
         const keysendResult = await this.albyHubService.payKeysend(
           payment.pubkey,
           payment.amount,
-          payment.tlvRecords
+          undefined // payment.tlvRecords
         );
         
         if (keysendResult.error) {

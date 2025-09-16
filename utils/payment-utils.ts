@@ -32,9 +32,10 @@ interface BoostMetadata {
 
 /**
  * Create TLV records for Lightning boost payments (matching manual boost format)
+ * Returns array format compatible with NWC bridge system
  */
 function createBoostTLVRecords(metadata: BoostMetadata, recipientName?: string, amount?: number) {
-  const records: { [key: string]: string } = {};
+  const tlvRecords = [];
 
   // Use the same format as manual boosts from BitcoinConnect component
   // 7629169 - Podcast metadata JSON (bLIP-10 standard - Breez/Fountain compatible)
@@ -61,14 +62,17 @@ function createBoostTLVRecords(metadata: BoostMetadata, recipientName?: string, 
     name: 'ITDV Lightning' // App/service name
   };
   
-  // Convert to hex format like manual boosts, then back to string for WebLN
-  const podcastMetadataHex = Buffer.from(JSON.stringify(podcastMetadata), 'utf8').toString('hex');
-  records['7629169'] = Buffer.from(podcastMetadataHex, 'hex').toString('utf8');
+  tlvRecords.push({
+    type: 7629169,
+    value: Buffer.from(JSON.stringify(podcastMetadata), 'utf8').toString('hex')
+  });
   
   // 7629171 - Tip note/message (Lightning spec compliant) - only if custom message provided
   if (metadata.message) {
-    const messageHex = Buffer.from(metadata.message, 'utf8').toString('hex');
-    records['7629171'] = Buffer.from(messageHex, 'hex').toString('utf8');
+    tlvRecords.push({
+      type: 7629171,
+      value: Buffer.from(metadata.message, 'utf8').toString('hex')
+    });
   }
   
   // 133773310 - Sphinx compatibility (JSON encoded data)
@@ -83,14 +87,17 @@ function createBoostTLVRecords(metadata: BoostMetadata, recipientName?: string, 
     ...(metadata.timestamp && { timestamp: metadata.timestamp })
   };
   
-  const sphinxDataHex = Buffer.from(JSON.stringify(sphinxData), 'utf8').toString('hex');
-  records['133773310'] = Buffer.from(sphinxDataHex, 'hex').toString('utf8');
+  tlvRecords.push({
+    type: 133773310,
+    value: Buffer.from(JSON.stringify(sphinxData), 'utf8').toString('hex')
+  });
 
-  return records;
+  return tlvRecords;
 }
 
 /**
- * Make a Lightning payment using WebLN
+ * Make a Lightning payment using available payment methods (WebLN, NWC bridge, etc.)
+ * This function replicates the payment logic from BitcoinConnect component for auto boost
  */
 export async function makeAutoBoostPayment({
   amount,
@@ -106,6 +113,7 @@ export async function makeAutoBoostPayment({
   boostMetadata?: BoostMetadata;
 }): Promise<{ success: boolean; results?: any[]; error?: string }> {
   try {
+    console.log('💡 AUTO BOOST: Using UPDATED makeAutoBoostPayment function (v2)');
     console.log('🚀 Starting auto boost payment:', {
       amount,
       description,
@@ -113,20 +121,48 @@ export async function makeAutoBoostPayment({
       fallbackRecipient
     });
 
-    // Check if WebLN is available
+    // Import NWC services dynamically
+    const { getNWCService } = await import('@/lib/nwc-service');
+    const { getKeysendBridge } = await import('@/lib/nwc-keysend-bridge');
+    
+    // Check connection state similar to BitcoinConnect
     const weblnExists = !!(window as any).webln;
     const weblnEnabled = weblnExists && !!(window as any).webln?.enabled;
     
-    if (!weblnExists) {
-      throw new Error('WebLN not available');
+    // Check for NWC connection (same logic as BitcoinConnect component)
+    let bcConfig = null;
+    let bcConnectorType = null;
+    let nwcConnectionString = null;
+    
+    try {
+      const bcConfigRaw = localStorage.getItem('bc:config');
+      if (bcConfigRaw) {
+        bcConfig = JSON.parse(bcConfigRaw);
+        bcConnectorType = bcConfig.connectorType;
+        nwcConnectionString = bcConfig.nwcUrl;
+      }
+    } catch (error) {
+      // Fallback to individual keys if config is corrupted
+      bcConnectorType = localStorage.getItem('bc:connectorType');
     }
-
-    const webln = (window as any).webln;
-
-    // Ensure WebLN is enabled
-    if (!weblnEnabled) {
-      await webln.enable();
+    if (!nwcConnectionString) {
+      nwcConnectionString = localStorage.getItem('nwc_connection_string');
     }
+    
+    const hasNWCConnection = !!nwcConnectionString;
+    // Use NWC if we have a connection string, regardless of bcConnectorType
+    // This matches how manual payments work in BitcoinConnect component
+    const shouldUseNWC = hasNWCConnection;
+    
+    console.log('💡 AUTO BOOST: Payment method detection:', {
+      weblnExists,
+      weblnEnabled,
+      hasNWCConnection,
+      bcConnectorType,
+      shouldUseNWC,
+      nwcConnectionExists: !!nwcConnectionString,
+      nwcStringLength: nwcConnectionString?.length || 0
+    });
 
     // Determine payments to make
     let paymentsToMake: PaymentRecipient[] = [];
@@ -144,65 +180,136 @@ export async function makeAutoBoostPayment({
         name: 'Default',
         type: 'node'
       }];
-      console.log('💰 Using fallback single recipient');
+      console.log('💰 Using fallback single recipient for auto boost');
     }
 
     const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);
     const results: any[] = [];
 
-    // Check if we can use keysend (for node addresses)
-    const hasKeysend = typeof webln.keysend === 'function';
-    
-    if (hasKeysend) {
-      console.log('💡 Using keysend for auto boost payments');
+    // Use NWC if available and preferred (same logic as BitcoinConnect)
+    if (shouldUseNWC && hasNWCConnection) {
+      console.log('💡 AUTO BOOST: Using NWC for auto boost payments');
+      console.log('💡 AUTO BOOST: NWC connection string length:', nwcConnectionString?.length);
       
-      const paymentPromises = paymentsToMake.map(async (recipientData) => {
-        const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
+      try {
+        // Initialize keysend bridge (same logic as BitcoinConnect manual boost)
+        console.log('💡 AUTO BOOST: Initializing keysend bridge...');
+        const bridge = getKeysendBridge();
         
-        console.log(`💰 Sending ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
+        // Check if bridge needs initialization (same check as manual boost)
+        if (!bridge.getCapabilities().walletName || bridge.getCapabilities().walletName === 'Unknown') {
+          console.log('💡 AUTO BOOST: Bridge needs initialization, setting up...');
+          await bridge.initialize({ userWalletConnection: nwcConnectionString });
+        } else {
+          console.log('💡 AUTO BOOST: Bridge already initialized with wallet:', bridge.getCapabilities().walletName);
+        }
+        console.log('💡 AUTO BOOST: Bridge ready for auto boost payments');
         
-        // Create TLV records for boost metadata
-        const customRecords = boostMetadata ? createBoostTLVRecords(boostMetadata, recipientData.name, recipientAmount) : {};
+        const paymentPromises = paymentsToMake.map(async (recipientData) => {
+          const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
+          
+          console.log(`💰 Auto boost sending ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
+          
+          // Temporarily disable TLV records for auto boost to avoid format issues
+          // TODO: Fix TLV records format to match Alby Hub expectations
+          const tlvRecords = undefined; // boostMetadata ? createBoostTLVRecords(boostMetadata, recipientData.name, recipientAmount) : undefined;
+          
+          const result = await bridge.payKeysend({
+            pubkey: recipientData.address,
+            amount: recipientAmount,
+            tlvRecords,
+            description: `Auto boost to ${recipientData.name || 'recipient'}`
+          });
+          
+          if (result.success) {
+            console.log(`✅ Auto boost payment successful: ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
+            return { recipient: recipientData.name || recipientData.address, amount: recipientAmount, preimage: result.preimage };
+          } else {
+            throw new Error(result.error || 'Payment failed');
+          }
+        });
+
+        const paymentResults = await Promise.allSettled(paymentPromises);
         
-        try {
+        paymentResults.forEach((result, index) => {
+          if (result.status === 'fulfilled') {
+            results.push(result.value);
+          } else {
+            const recipientName = paymentsToMake[index].name || paymentsToMake[index].address;
+            console.error(`❌ Auto boost payment failed to ${recipientName}:`, result.reason);
+          }
+        });
+
+        if (results.length > 0) {
+          console.log(`✅ Auto boost completed: ${results.length}/${paymentsToMake.length} payments successful`);
+          return { success: true, results };
+        } else {
+          throw new Error('All NWC auto boost payments failed');
+        }
+        
+      } catch (nwcError) {
+        console.error('💡 AUTO BOOST: NWC auto boost failed, trying WebLN fallback:', nwcError);
+        // Fall through to WebLN
+      }
+    } else {
+      console.log('💡 AUTO BOOST: Skipping NWC - shouldUseNWC:', shouldUseNWC, 'hasNWCConnection:', hasNWCConnection);
+    }
+
+    // WebLN fallback (same as original logic)
+    if (weblnExists) {
+      console.log('💡 AUTO BOOST: Using WebLN for auto boost payments (fallback)');
+      
+      const webln = (window as any).webln;
+
+      // Ensure WebLN is enabled
+      if (!weblnEnabled) {
+        await webln.enable();
+      }
+
+      // Check if we can use keysend (for node addresses)
+      const hasKeysend = typeof webln.keysend === 'function';
+      
+      if (hasKeysend) {
+        const paymentPromises = paymentsToMake.map(async (recipientData) => {
+          const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
+          
+          console.log(`💰 WebLN auto boost sending ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
+          
+          // Create TLV records for boost metadata
+          const customRecords = boostMetadata ? createBoostTLVRecords(boostMetadata, recipientData.name, recipientAmount) : {};
+          
           const response = await webln.keysend({
             destination: recipientData.address,
             amount: recipientAmount,
             customRecords
           });
           
-          console.log(`✅ Auto boost payment successful: ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
+          console.log(`✅ WebLN auto boost payment successful: ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
           return { recipient: recipientData.name || recipientData.address, amount: recipientAmount, response };
-        } catch (error) {
-          console.error(`❌ Auto boost payment failed to ${recipientData.name || recipientData.address}:`, error);
-          throw error;
-        }
-      });
+        });
 
-      const paymentResults = await Promise.allSettled(paymentPromises);
-      const errors: string[] = [];
-      
-      paymentResults.forEach((result, index) => {
-        if (result.status === 'fulfilled') {
-          results.push(result.value);
+        const paymentResults = await Promise.allSettled(paymentPromises);
+        
+        paymentResults.forEach((result, index) => {
+          if (result.status === 'fulfilled') {
+            results.push(result.value);
+          } else {
+            const recipientName = paymentsToMake[index].name || paymentsToMake[index].address;
+            console.error(`❌ WebLN auto boost payment failed to ${recipientName}:`, result.reason);
+          }
+        });
+
+        if (results.length > 0) {
+          console.log(`✅ WebLN auto boost completed: ${results.length}/${paymentsToMake.length} payments successful`);
+          return { success: true, results };
         } else {
-          const recipientName = paymentsToMake[index].name || paymentsToMake[index].address;
-          errors.push(`Payment to ${recipientName} failed: ${result.reason?.message || 'Unknown error'}`);
+          throw new Error('All WebLN auto boost payments failed');
         }
-      });
-
-      if (errors.length > 0) {
-        console.warn('Some auto boost payments failed:', errors);
-      }
-
-      if (results.length > 0) {
-        console.log(`✅ Auto boost completed: ${results.length}/${paymentsToMake.length} payments successful`);
-        return { success: true, results };
       } else {
-        throw new Error('All auto boost payments failed');
+        throw new Error('Keysend not available for auto boost payments');
       }
     } else {
-      throw new Error('Keysend not available for auto boost payments');
+      throw new Error('No payment method available for auto boost');
     }
 
   } catch (error) {

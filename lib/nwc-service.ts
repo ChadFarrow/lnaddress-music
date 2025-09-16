@@ -301,20 +301,19 @@ export class NWCService {
       // Convert sats to msats for NWC (if not already in msats)
       const amountMsats = amount < 1000000 ? amount * 1000 : amount;
       
-      // Ensure we have proper TLV records structure (array format)
-      const finalTlvRecords = tlvRecords || [];
-      
-      console.log('⚡ Sending keysend payment:', { 
-        pubkey, 
-        amount: amountMsats, 
-        tlv_records: finalTlvRecords 
-      });
-      
-      const response = await this.sendNWCRequest('pay_keysend', {
+      // Only include TLV records if they are provided and not empty
+      const paymentParams: any = {
         pubkey,
-        amount: amountMsats,
-        tlv_records: finalTlvRecords
-      });
+        amount: amountMsats
+      };
+      
+      if (tlvRecords && tlvRecords.length > 0) {
+        paymentParams.tlv_records = tlvRecords;
+      }
+      
+      console.log('⚡ Sending keysend payment:', paymentParams);
+      
+      const response = await this.sendNWCRequest('pay_keysend', paymentParams);
       
       console.log('⚡ Keysend payment response:', response);
       
