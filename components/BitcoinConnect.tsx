@@ -38,10 +38,8 @@ export function BitcoinConnectWallet() {
         if (bc.init && !window.bitcoinConnectInitialized) {
           bc.init({
             appName: 'ITDV Lightning',
-            // Filter out wallets that don't work reliably with keysend payments
-            filters: {
-              exclude: ['cashu.me'] // Remove Cashu.me since it doesn't work with our keysend implementation
-            },
+            // Show specific reliable wallets only (excludes cashu.me by omission)
+            filters: ['nwc'], // Only show NWC-compatible wallets which work reliably
             showBalance: false // Hide balance to keep UI clean
           });
           window.bitcoinConnectInitialized = true;
