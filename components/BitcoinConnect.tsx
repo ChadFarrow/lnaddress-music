@@ -38,7 +38,10 @@ export function BitcoinConnectWallet() {
         if (bc.init && !window.bitcoinConnectInitialized) {
           bc.init({
             appName: 'ITDV Lightning',
-            // No filters - show all available wallet options
+            // Filter out wallets that don't work reliably with keysend payments
+            filters: {
+              exclude: ['cashu.me'] // Remove Cashu.me since it doesn't work with our keysend implementation
+            },
             showBalance: false // Hide balance to keep UI clean
           });
           window.bitcoinConnectInitialized = true;
