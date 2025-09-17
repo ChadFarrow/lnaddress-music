@@ -108,7 +108,6 @@ const nextConfig = {
   
   // Optimize production builds
   productionBrowserSourceMaps: false,
-  swcMinify: true,
   
   // Performance optimizations
   compiler: {

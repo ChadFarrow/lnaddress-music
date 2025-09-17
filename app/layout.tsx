@@ -81,6 +81,7 @@ export default function RootLayout({
         
         {/* Global Error Handler Script */}
         <script
+          async
           dangerouslySetInnerHTML={{
             __html: `
               // Global error handler for debugging
