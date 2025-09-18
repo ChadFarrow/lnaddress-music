@@ -124,8 +124,11 @@ async function fetchUserProfile(pubkey: string): Promise<string | undefined> {
     const pool = new SimplePool();
     const relays = [
       'wss://relay.primal.net',
+      'wss://relay.snort.social',
+      'wss://relay.nostr.band',
+      'wss://relay.fountain.fm',
       'wss://relay.damus.io',
-      'wss://nos.lol'
+      'wss://chadf.nostr1.com'
     ];
 
     const profiles = await pool.querySync(relays, {
@@ -684,28 +687,36 @@ export default function BoostsPage() {
                 key={boost.id}
                 className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 hover:bg-gray-800/70 transition"
               >
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                <div className="flex flex-col gap-4">
                   {/* Boost Info */}
                   <div className="flex-1">
-                    {/* Amount and Track */}
-                    <div className="flex items-center gap-3 mb-2">
-                      {boost.amount && (
+                    {/* Amount - Always on its own line for mobile */}
+                    {boost.amount && (
+                      <div className="mb-3">
                         <span className="text-2xl font-bold text-yellow-400">
                           ⚡ {boost.amount} sats
                         </span>
-                      )}
-                      {boost.trackTitle && (
-                        <span className="text-lg text-white">
-                          • &ldquo;{boost.trackTitle}&rdquo;
-                        </span>
-                      )}
-                    </div>
+                      </div>
+                    )}
 
-                    {/* Artist and Album */}
+                    {/* Track Title - On its own line */}
+                    {boost.trackTitle && (
+                      <div className="mb-2">
+                        <span className="text-lg text-white font-medium">
+                          &ldquo;{boost.trackTitle}&rdquo;
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Artist and Album - Better spacing */}
                     {(boost.trackArtist || boost.trackAlbum) && (
-                      <div className="text-gray-400 mb-3">
-                        {boost.trackArtist && <span>by {boost.trackArtist}</span>}
-                        {boost.trackAlbum && <span> • Sent by: {boost.trackAlbum}</span>}
+                      <div className="text-gray-400 mb-4 space-y-1">
+                        {boost.trackArtist && (
+                          <div className="text-base">by {boost.trackArtist}</div>
+                        )}
+                        {boost.trackAlbum && (
+                          <div className="text-sm">Sent by: {boost.trackAlbum}</div>
+                        )}
                       </div>
                     )}
 
@@ -731,14 +742,14 @@ export default function BoostsPage() {
                       </div>
                     )}
 
-                    {/* Links and Actions */}
-                    <div className="flex flex-wrap gap-3 items-center">
+                    {/* Links and Actions - Mobile-optimized */}
+                    <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3 items-center">
                       {boost.url && (
                         <a
                           href={boost.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-orange-400 hover:text-orange-300 transition"
+                          className="text-orange-400 hover:text-orange-300 transition text-sm font-medium py-1"
                         >
                           🎧 Listen
                         </a>
@@ -747,7 +758,7 @@ export default function BoostsPage() {
                         href={`https://primal.net/e/${boost.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-purple-400 hover:text-purple-300 transition"
+                        className="text-purple-400 hover:text-purple-300 transition text-sm py-1"
                       >
                         View on Nostr
                       </a>
@@ -755,7 +766,7 @@ export default function BoostsPage() {
                         href={`https://primal.net/p/${boost.author}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-400 hover:text-blue-300 transition"
+                        className="text-blue-400 hover:text-blue-300 transition text-sm py-1"
                       >
                         Profile
                       </a>
@@ -764,21 +775,20 @@ export default function BoostsPage() {
                       {boost.replies && boost.replies.length > 0 && (
                         <button
                           onClick={() => toggleBoostExpansion(boost.id)}
-                          className="text-gray-400 hover:text-gray-300 transition flex items-center gap-1"
+                          className="text-gray-400 hover:text-gray-300 transition flex items-center gap-1 text-sm py-1"
                         >
                           💬 {boost.replies.length} {boost.replies.length === 1 ? 'reply' : 'replies'}
-                          <span className="text-xs">
+                          <span className="text-xs ml-1">
                             {expandedBoosts.has(boost.id) ? '▼' : '▶'}
                           </span>
                         </button>
                       )}
-
                     </div>
-                  </div>
 
-                  {/* Timestamp */}
-                  <div className="text-gray-500 text-sm">
-                    {formatTimestamp(boost.timestamp)}
+                    {/* Timestamp - Below actions on mobile */}
+                    <div className="text-gray-500 text-sm mt-3 pt-2 border-t border-gray-700/50">
+                      {formatTimestamp(boost.timestamp)}
+                    </div>
                   </div>
                 </div>
 
