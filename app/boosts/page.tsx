@@ -66,7 +66,7 @@ function parseBoostFromEvent(event: Event): ParsedBoost | null {
     const url = urlMatch ? urlMatch[1] : undefined;
 
     // Extract user message (text that isn't metadata)
-    let userMessage = event.content;
+    let userMessage: string | undefined = event.content;
 
     // Remove the standard boost formatting to get user's custom message
     userMessage = userMessage.replace(/⚡\s*[\d.]+[MkK]?\s*sats/, '').trim();
