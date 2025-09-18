@@ -891,20 +891,70 @@ export class BoostToNostrService {
     filters: {
       tracks?: Array<{ title: string; artist?: string }>;
       users?: string[];
+      authors?: string[];
     },
     callbacks: {
       onBoost: (event: Event) => void;
       onError?: (error: Error) => void;
     }
   ) {
-    // Temporarily disabled to prevent filter errors
-    // The issue is that nostr-tools is sending empty or malformed filters
-    // which causes relay errors. We'll implement a proper solution later.
-    console.log('🔍 Boost subscription temporarily disabled to prevent relay filter errors');
-    
-    return {
-      close: () => {}
+    console.log('🔍 Setting up real-time boost subscription');
+
+    const pool = new SimplePool();
+
+    // Create filter for real-time events
+    const subscriptionFilter: Filter = {
+      kinds: [1], // Text notes
+      since: Math.floor(Date.now() / 1000), // Only new events from now
+      limit: 50
     };
+
+    // Add author filter if specified
+    if (filters.authors && filters.authors.length > 0) {
+      subscriptionFilter.authors = filters.authors;
+    }
+
+    console.log('🔍 Subscription filter:', subscriptionFilter);
+
+    try {
+      const subscription = pool.subscribeMany(
+        this.relays,
+        [subscriptionFilter],
+        {
+          onevent(event) {
+            console.log('📡 Received real-time event:', event.id);
+
+            // Check if this looks like a boost event
+            if (event.content.includes('⚡') && event.content.includes('sats')) {
+              console.log('⚡ Detected boost event in real-time:', event.id);
+              callbacks.onBoost(event);
+            }
+          },
+          oneose() {
+            console.log('🔍 Real-time subscription established');
+          },
+          onclose() {
+            console.log('🔍 Real-time subscription closed');
+          }
+        }
+      );
+
+      return {
+        close: () => {
+          console.log('🔍 Closing real-time subscription');
+          subscription.close();
+          pool.close(this.relays);
+        }
+      };
+    } catch (error) {
+      console.error('🔍 Failed to create real-time subscription:', error);
+      if (callbacks.onError) {
+        callbacks.onError(error as Error);
+      }
+      return {
+        close: () => {}
+      };
+    }
   }
 
   /**

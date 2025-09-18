@@ -10,7 +10,9 @@ interface ParsedBoost {
   id: string;
   author: string;
   authorNpub: string;
+  authorName?: string;  // Display name of the user
   content: string;
+  userMessage?: string;  // User's custom message/comment
   amount?: string;
   trackTitle?: string;
   trackArtist?: string;
@@ -40,24 +42,66 @@ function parseBoostFromEvent(event: Event): ParsedBoost | null {
     const titleMatch = event.content.match(/"([^"]+)"/);
     const trackTitle = titleMatch ? titleMatch[1] : undefined;
 
-    const artistMatch = event.content.match(/by\s+([^\\n]+)/);
-    const trackArtist = artistMatch ? artistMatch[1].trim() : undefined;
+    // Look for track artist after "by" (but not "Sent by")
+    let trackArtist: string | undefined;
+    const artistMatches = event.content.match(/\sby:?\s+([^\\n]+)/g);
+    if (artistMatches) {
+      for (const match of artistMatches) {
+        if (!match.includes('Sent by')) {
+          const artistMatch = match.match(/by:?\s+(.+)/);
+          if (artistMatch) {
+            trackArtist = artistMatch[1].trim();
+            break;
+          }
+        }
+      }
+    }
 
-    const albumMatch = event.content.match(/From:\s*([^\\n]+)/);
-    const trackAlbum = albumMatch ? albumMatch[1].trim() : undefined;
+    // Look for sender after "Sent by" - be more flexible with whitespace and line endings
+    const sentByMatch = event.content.match(/Sent\s+by:?\s+(.+?)(?=\n|$|🎧|nostr:)/i);
+    const trackAlbum = sentByMatch ? sentByMatch[1].trim() : undefined;
 
     // Extract URL from content
     const urlMatch = event.content.match(/🎧\s*(https?:\/\/[^\s]+)/);
     const url = urlMatch ? urlMatch[1] : undefined;
 
+    // Extract user message (text that isn't metadata)
+    let userMessage = event.content;
+
+    // Remove the standard boost formatting to get user's custom message
+    userMessage = userMessage.replace(/⚡\s*[\d.]+[MkK]?\s*sats/, '').trim();
+    if (trackTitle) {
+      userMessage = userMessage.replace(new RegExp(`"${trackTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, 'g'), '').trim();
+    }
+    if (trackArtist) {
+      userMessage = userMessage.replace(new RegExp(`by\\s+${trackArtist.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'g'), '').trim();
+    }
+    if (trackAlbum) {
+      userMessage = userMessage.replace(new RegExp(`Sent\\s+by:?\\s*${trackAlbum.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'), '').trim();
+    }
+    userMessage = userMessage.replace(/🎧\s*https?:\/\/[^\s]+/, '').trim();
+    userMessage = userMessage.replace(/nostr:[a-zA-Z0-9]+/, '').trim();
+    userMessage = userMessage.replace(/\n+/g, ' ').trim();
+
+    // If there's no meaningful message left, set to undefined
+    if (!userMessage || userMessage.length < 3) {
+      userMessage = undefined;
+    }
+
     // Create npub from pubkey
     const authorNpub = nip19.npubEncode(event.pubkey);
+
+    // Try to get author name from profile tags (this would need to be fetched separately in a real implementation)
+    const authorName = event.pubkey.substring(0, 8) + '...'; // Fallback to truncated pubkey
+
 
     return {
       id: event.id,
       author: event.pubkey,
       authorNpub,
+      authorName,
       content: event.content,
+      userMessage,
       amount,
       trackTitle,
       trackArtist,
@@ -99,6 +143,7 @@ export default function BoostsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [expandedBoosts, setExpandedBoosts] = useState<Set<string>>(new Set());
+  const [isRealTimeActive, setIsRealTimeActive] = useState(false);
 
   const loadBoosts = async () => {
     try {
@@ -179,6 +224,59 @@ export default function BoostsPage() {
 
   useEffect(() => {
     loadBoosts();
+
+    // Set up real-time subscription for new boosts
+    const service = getBoostToNostrService();
+
+    // Get the site's Nostr account from environment
+    let appPubkey = process.env.NEXT_PUBLIC_SITE_NOSTR_NPUB;
+
+    if (appPubkey && appPubkey.startsWith('npub')) {
+      try {
+        const { data } = nip19.decode(appPubkey);
+        appPubkey = data as string;
+
+        // Subscribe to new boosts from this account
+        const subscription = service.subscribeToBoosts(
+          { authors: [appPubkey] },
+          {
+            onBoost: (event) => {
+              const parsedBoost = parseBoostFromEvent(event);
+              if (parsedBoost) {
+                parsedBoost.isFromApp = true;
+                parsedBoost.replies = [];
+
+                setBoosts(prev => {
+                  // Check if boost already exists
+                  const exists = prev.some(b => b.id === parsedBoost.id);
+                  if (exists) return prev;
+
+                  // Add new boost to the beginning and sort by timestamp
+                  const updated = [parsedBoost, ...prev];
+                  return updated.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                });
+              }
+            },
+            onError: (err) => {
+              console.error('Real-time boost subscription error:', err);
+              setIsRealTimeActive(false);
+            }
+          }
+        );
+
+        setIsRealTimeActive(true);
+
+        // Cleanup subscription on unmount
+        return () => {
+          if (subscription && typeof subscription.close === 'function') {
+            subscription.close();
+          }
+          setIsRealTimeActive(false);
+        };
+      } catch (error) {
+        console.error('Failed to set up real-time subscription:', error);
+      }
+    }
   }, []);
 
   const filteredBoosts = boosts;
@@ -223,9 +321,17 @@ export default function BoostsPage() {
             <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
               ⚡ Boosts
             </h1>
-            <p className="text-gray-400">
-              Recent boosts sent from this site and their replies from the Nostr network
-            </p>
+            <div className="flex items-center gap-3">
+              <p className="text-gray-400">
+                Recent boosts sent from this site and their replies from the Nostr network
+              </p>
+              {isRealTimeActive && (
+                <div className="flex items-center gap-2 text-green-400 text-sm">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  Live Updates
+                </div>
+              )}
+            </div>
           </div>
 
           <button
@@ -302,25 +408,31 @@ export default function BoostsPage() {
                     {(boost.trackArtist || boost.trackAlbum) && (
                       <div className="text-gray-400 mb-3">
                         {boost.trackArtist && <span>by {boost.trackArtist}</span>}
-                        {boost.trackAlbum && <span> • From: {boost.trackAlbum}</span>}
+                        {boost.trackAlbum && <span> • Sent by: {boost.trackAlbum}</span>}
                       </div>
                     )}
 
-                    {/* Content/Comment */}
-                    <div className="text-gray-300 mb-3 whitespace-pre-wrap break-words">
-                      {boost.content.split('\\n').map((line, i) => {
-                        // Skip lines that are already shown above
-                        if (line.includes('⚡') && line.includes('sats')) return null;
-                        if (line.includes('"') && boost.trackTitle && line.includes(boost.trackTitle)) return null;
-                        if (boost.trackArtist && line.includes(`by ${boost.trackArtist}`)) return null;
-                        if (boost.trackAlbum && line.includes(`From: ${boost.trackAlbum}`)) return null;
-                        if (line.includes('🎧')) return null;
-                        if (line.includes('nostr:')) return null;
-                        if (!line.trim()) return null;
+                    {/* User Info and Message - only for external boosts */}
+                    {!boost.isFromApp && (
+                      <div className="mb-3">
+                        {/* User Name */}
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-blue-400 font-medium">
+                            {boost.authorName || `${boost.author.substring(0, 8)}...`}
+                          </span>
+                          <span className="text-gray-500 text-sm">
+                            boosted this track
+                          </span>
+                        </div>
 
-                        return <div key={i}>{line}</div>;
-                      }).filter(Boolean)}
-                    </div>
+                        {/* User Message */}
+                        {boost.userMessage && (
+                          <div className="text-gray-300 italic bg-gray-800/30 rounded-lg p-3 border-l-2 border-blue-400/50">
+                            &ldquo;{boost.userMessage}&rdquo;
+                          </div>
+                        )}
+                      </div>
+                    )}
 
                     {/* Links and Actions */}
                     <div className="flex flex-wrap gap-3 items-center">
