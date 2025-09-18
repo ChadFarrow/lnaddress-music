@@ -18,13 +18,6 @@
   - Enable payment analytics
 
 ### 📱 User Interface
-- [ ] **Create a page showing boosts sent from the app**
-  - Display recent boosts with track details
-  - Show payment amounts and timestamps
-  - Link to Nostr boost notes
-  - Track receipt status
-  - Pull from local storage and Nostr relays
-
 - [ ] **Add auto boost when track is finished**
   - Automatic boost trigger at track completion
   - Configurable boost amount and message
@@ -69,6 +62,7 @@
 - ✅ **GUID tagging for Nostr posts** - Comprehensive podcast namespace GUID metadata for discovery
 - ✅ **Compact boost UI** - Streamlined interface with consolidated controls and reduced whitespace
 - ✅ **Message integration** - Boostagrams included in Lightning TLV records and Nostr boost posts
+- ✅ **Boosts Page** - Comprehensive page displaying all boosts sent from the app with Nostr replies, user profiles, and mobile-optimized layout
 
 ### 🔋 Lightning Network Integration
 - ✅ **LNURL test feed integration** - Special test album with multiple payment recipients for testing
