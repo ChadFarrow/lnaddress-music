@@ -85,6 +85,8 @@ function parseBoostFromEvent(event: Event): ParsedBoost | null {
     userMessage = userMessage.replace(/🎧\s*https?:\/\/[^\s]+/, '').trim();
     userMessage = userMessage.replace(/nostr:[a-zA-Z0-9]+/, '').trim();
     userMessage = userMessage.replace(/\n+/g, ' ').trim();
+    // Remove leftover bullet points and formatting artifacts
+    userMessage = userMessage.replace(/^[•·\-\*\s]+|[•·\-\*\s]+$/g, '').trim();
 
     // If there's no meaningful message left, set to undefined
     if (!userMessage || userMessage.length < 3) {
@@ -720,25 +722,12 @@ export default function BoostsPage() {
                       </div>
                     )}
 
-                    {/* User Info and Message - only for external boosts */}
-                    {!boost.isFromApp && (
+                    {/* User Message */}
+                    {boost.userMessage && (
                       <div className="mb-3">
-                        {/* User Name */}
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="text-blue-400 font-medium">
-                            {boost.authorName || `${boost.author.substring(0, 8)}...`}
-                          </span>
-                          <span className="text-gray-500 text-sm">
-                            boosted this track
-                          </span>
+                        <div className="text-gray-300 italic bg-gray-800/30 rounded-lg p-3 border-l-2 border-blue-400/50">
+                          &ldquo;{boost.userMessage}&rdquo;
                         </div>
-
-                        {/* User Message */}
-                        {boost.userMessage && (
-                          <div className="text-gray-300 italic bg-gray-800/30 rounded-lg p-3 border-l-2 border-blue-400/50">
-                            &ldquo;{boost.userMessage}&rdquo;
-                          </div>
-                        )}
                       </div>
                     )}
 
