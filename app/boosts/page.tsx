@@ -478,7 +478,7 @@ export default function BoostsPage() {
           <div className="bg-red-900/20 border border-red-500 rounded-lg p-6 text-center">
             <p className="text-red-400">{error}</p>
             <button
-              onClick={loadBoosts}
+              onClick={() => loadBoosts(true)}
               className="mt-4 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
             >
               Try Again
