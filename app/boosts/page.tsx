@@ -31,6 +31,8 @@ interface ParsedReply {
   authorName?: string;
   content: string;
   timestamp: number;
+  replies?: ParsedReply[];  // Nested replies for threading
+  depth?: number;          // Depth level for indentation
 }
 
 function parseBoostFromEvent(event: Event): ParsedBoost | null {
@@ -145,6 +147,68 @@ async function fetchUserProfile(pubkey: string): Promise<string | undefined> {
   }
 }
 
+function buildThreadedReplies(events: any[], rootEventId: string): ParsedReply[] {
+  // Create a map of event ID to reply object
+  const replyMap = new Map<string, ParsedReply>();
+  const childrenMap = new Map<string, string[]>(); // parent ID -> child IDs
+
+  // First pass: create all reply objects
+  for (const event of events) {
+    const reply: ParsedReply = {
+      id: event.id,
+      author: event.pubkey,
+      authorNpub: nip19.npubEncode(event.pubkey),
+      content: event.content,
+      timestamp: event.created_at,
+      replies: [],
+      depth: 0
+    };
+    replyMap.set(event.id, reply);
+  }
+
+  // Second pass: build parent-child relationships
+  for (const event of events) {
+    const eTags = event.tags.filter((tag: string[]) => tag[0] === 'e');
+
+    // Find the parent this reply is responding to
+    let parentId = rootEventId; // Default to root
+
+    // Look for the most recent 'e' tag which usually indicates the direct parent
+    if (eTags.length > 0) {
+      // The last e tag is typically the direct parent being replied to
+      parentId = eTags[eTags.length - 1][1];
+    }
+
+    // Add this reply as a child of its parent
+    if (!childrenMap.has(parentId)) {
+      childrenMap.set(parentId, []);
+    }
+    childrenMap.get(parentId)!.push(event.id);
+  }
+
+  // Third pass: build the threaded structure recursively
+  function buildChildren(parentId: string, depth: number): ParsedReply[] {
+    const children = childrenMap.get(parentId) || [];
+    const result: ParsedReply[] = [];
+
+    for (const childId of children) {
+      const reply = replyMap.get(childId);
+      if (reply) {
+        reply.depth = depth;
+        reply.replies = buildChildren(childId, depth + 1);
+        result.push(reply);
+      }
+    }
+
+    // Sort by timestamp (oldest first for chronological order)
+    result.sort((a, b) => a.timestamp - b.timestamp);
+    return result;
+  }
+
+  // Start with direct replies to the root event
+  return buildChildren(rootEventId, 0);
+}
+
 function formatTimestamp(timestamp: number): string {
   const date = new Date(timestamp * 1000);
   const now = new Date();
@@ -166,6 +230,69 @@ function formatTimestamp(timestamp: number): string {
   }
 }
 
+// Recursive component for displaying threaded replies
+function ThreadedReply({ reply, maxDepth = 3 }: { reply: ParsedReply; maxDepth?: number }) {
+  const indentLevel = Math.min(reply.depth || 0, maxDepth);
+  const marginLeft = indentLevel * 16; // 16px per level
+
+  return (
+    <div
+      style={{ marginLeft: `${marginLeft}px` }}
+      className={reply.depth && reply.depth > 0 ? 'border-l border-gray-700 pl-4' : ''}
+    >
+      <div className="bg-gray-900/50 rounded-lg p-4 mb-3">
+        <div className="flex flex-col gap-2">
+          {/* Reply content */}
+          <div className="text-gray-300 text-sm break-words">
+            {reply.content}
+          </div>
+
+          {/* Reply metadata */}
+          <div className="flex flex-wrap gap-3 text-xs">
+            <a
+              href={`https://primal.net/p/${reply.author}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300 transition"
+            >
+              {reply.authorName || `${reply.authorNpub.slice(0, 12)}...`}
+            </a>
+            <span className="text-gray-500">
+              {formatTimestamp(reply.timestamp)}
+            </span>
+            <a
+              href={`https://primal.net/e/${reply.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purple-400 hover:text-purple-300 transition"
+            >
+              View reply
+            </a>
+            {reply.depth !== undefined && reply.depth < maxDepth && (
+              <span className="text-gray-600 text-xs">
+                Level {reply.depth + 1}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Nested replies */}
+      {reply.replies && reply.replies.length > 0 && (
+        <div className="mt-2">
+          {reply.replies.map((nestedReply) => (
+            <ThreadedReply
+              key={nestedReply.id}
+              reply={nestedReply}
+              maxDepth={maxDepth}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function BoostsPage() {
 
   const [boosts, setBoosts] = useState<ParsedBoost[]>([]);
@@ -180,27 +307,9 @@ export default function BoostsPage() {
       setLoading(true);
       setError(null);
 
-      // Check cache first (cache for 5 minutes)
-      const cacheKey = 'boosts_cache';
-      const cacheTimeKey = 'boosts_cache_time';
-      const cacheValidDuration = 5 * 60 * 1000; // 5 minutes
-
-      if (!forceRefresh) {
-        const cachedData = localStorage.getItem(cacheKey);
-        const cachedTime = localStorage.getItem(cacheTimeKey);
-
-        if (cachedData && cachedTime) {
-          const timeSinceCache = Date.now() - parseInt(cachedTime);
-          if (timeSinceCache < cacheValidDuration) {
-            console.log('✅ Loading boosts from cache - data is fresh');
-            const parsedBoosts = JSON.parse(cachedData);
-            setBoosts(parsedBoosts);
-            setLastCacheTime(parseInt(cachedTime));
-            setLoading(false);
-            return;
-          }
-        }
-      }
+      // Skip cache for now to test reply fetching
+      // TODO: Re-enable cache after fixing reply state management
+      console.log('⚠️ Cache temporarily disabled for debugging');
 
       const service = getBoostToNostrService();
 
@@ -245,65 +354,76 @@ export default function BoostsPage() {
         allBoosts = [];
       }
 
+      // Parse boosts and fetch replies progressively
       const parsedBoosts: ParsedBoost[] = [];
 
-      // Parse boosts first without replies for faster initial display
-      for (const event of allBoosts) {
+      // Process each boost and immediately fetch its replies
+      for (let i = 0; i < allBoosts.length; i++) {
+        const event = allBoosts[i];
         const parsedBoost = parseBoostFromEvent(event);
+
         if (parsedBoost) {
           parsedBoost.isFromApp = true;
           parsedBoost.replies = []; // Start with empty replies
           parsedBoosts.push(parsedBoost);
+
+          // Sort and update the display immediately after adding each boost
+          const sortedBoosts = [...parsedBoosts].sort((a, b) => {
+            const timeA = a.timestamp || 0;
+            const timeB = b.timestamp || 0;
+            return timeB - timeA;
+          });
+
+          setBoosts(sortedBoosts);
+          setLoading(false); // Set loading to false after first boost
+
+          // Start reply fetching in the background for first 5 boosts only (for faster loading)
+          if (i < 5) {
+            // Don't await - fetch replies in background
+            setTimeout(async () => {
+              try {
+                // Use a shorter timeout for reply fetching
+                const timeoutPromise = new Promise<never>((_, reject) =>
+                  setTimeout(() => reject(new Error('Reply fetch timeout')), 3000)
+                );
+
+                const replies = await Promise.race([
+                  service.fetchReplies(parsedBoost.id, 10), // Reduced limit
+                  timeoutPromise
+                ]);
+
+                if (replies.length > 0) {
+                  console.log(`Found ${replies.length} replies for boost ${parsedBoost.id.substring(0, 8)}`);
+                }
+
+                if (replies.length > 0) {
+                  // Map replies without fetching user profiles for faster display
+                  const mappedReplies = replies.map(reply => ({
+                    id: reply.id,
+                    author: reply.pubkey,
+                    authorNpub: nip19.npubEncode(reply.pubkey),
+                    authorName: reply.pubkey.substring(0, 8) + '...', // Use truncated key for now
+                    content: reply.content,
+                    timestamp: reply.created_at,
+                    depth: 0,
+                    replies: []
+                  }));
+
+                  // Update the specific boost with replies
+                  setBoosts(prev => prev.map(b =>
+                    b.id === parsedBoost.id ? { ...b, replies: mappedReplies } : b
+                  ));
+                }
+              } catch (error) {
+                console.warn('Failed to fetch replies for boost:', parsedBoost.id, error);
+              }
+            }, i * 100); // Stagger requests by 100ms each
+          }
         }
       }
 
-      // Sort by timestamp (newest first)
-      parsedBoosts.sort((a, b) => {
-        const timeA = a.timestamp || 0;
-        const timeB = b.timestamp || 0;
-        return timeB - timeA;
-      });
-
-      // Set boosts immediately for fast display
-      setBoosts(parsedBoosts);
-      setLoading(false);
-
-      // Fetch replies in background for recent boosts only (last 10)
-      console.log('Fetching replies for recent boosts...');
-      const recentBoosts = parsedBoosts.slice(0, 10);
-
-      for (let i = 0; i < recentBoosts.length; i++) {
-        const boost = recentBoosts[i];
-        try {
-          const replies = await service.fetchReplies(boost.id);
-          const mappedReplies = await Promise.all(replies.map(async reply => {
-            const authorName = await fetchUserProfile(reply.pubkey);
-            return {
-              id: reply.id,
-              author: reply.pubkey,
-              authorNpub: nip19.npubEncode(reply.pubkey),
-              authorName,
-              content: reply.content,
-              timestamp: reply.created_at
-            };
-          }));
-
-          // Update the specific boost with replies
-          setBoosts(prev => prev.map(b =>
-            b.id === boost.id ? { ...b, replies: mappedReplies } : b
-          ));
-        } catch (error) {
-          console.warn('Failed to fetch replies for boost:', boost.id, error);
-        }
-      }
-
-      // Cache the results after replies are fetched
-      const currentTime = Date.now();
-      localStorage.setItem(cacheKey, JSON.stringify(parsedBoosts));
-      localStorage.setItem(cacheTimeKey, currentTime.toString());
-      setLastCacheTime(currentTime);
-
-      console.log(`Cached ${parsedBoosts.length} boosts`);
+      // TODO: Re-enable caching after fixing reply state management
+      console.log(`Processed ${parsedBoosts.length} boosts (caching disabled)`);
     } catch (err) {
       console.error('Error loading boosts:', err);
       setError('Failed to load boosts from Nostr relays');
@@ -335,18 +455,31 @@ export default function BoostsPage() {
               if (parsedBoost) {
                 parsedBoost.isFromApp = true;
 
-                // Fetch replies for real-time boost
+                // Fetch threaded replies for real-time boost
                 try {
-                  const replies = await service.fetchReplies(event.id);
-                  parsedBoost.replies = replies.map(reply => ({
-                    id: reply.id,
-                    author: reply.pubkey,
-                    authorNpub: nip19.npubEncode(reply.pubkey),
-                    content: reply.content,
-                    timestamp: reply.created_at
-                  }));
+                  const threadedReplies = await service.fetchThreadedReplies(event.id, 3, 20);
+                  const mappedReplies = buildThreadedReplies(threadedReplies, event.id);
+
+                  // Recursively enrich replies with user profiles
+                  const enrichRepliesWithProfiles = async (replies: ParsedReply[]): Promise<ParsedReply[]> => {
+                    return Promise.all(replies.map(async reply => {
+                      const authorName = await fetchUserProfile(reply.author);
+                      const enrichedReply = { ...reply, authorName };
+
+                      // Recursively enrich nested replies
+                      if (reply.replies && reply.replies.length > 0) {
+                        enrichedReply.replies = await enrichRepliesWithProfiles(reply.replies);
+                      }
+
+                      return enrichedReply;
+                    }));
+                  };
+
+                  const enrichedReplies = await enrichRepliesWithProfiles(mappedReplies);
+
+                  parsedBoost.replies = enrichedReplies;
                 } catch (error) {
-                  console.warn('Failed to fetch replies for real-time boost:', event.id, error);
+                  console.warn('Failed to fetch threaded replies for real-time boost:', event.id, error);
                   parsedBoost.replies = [];
                 }
 
@@ -510,7 +643,7 @@ export default function BoostsPage() {
                       )}
                       {boost.trackTitle && (
                         <span className="text-lg text-white">
-                          • &ldquo;{boost.trackTitle}&rdquo;
+                          • "{boost.trackTitle}"
                         </span>
                       )}
                     </div>
@@ -539,7 +672,7 @@ export default function BoostsPage() {
                         {/* User Message */}
                         {boost.userMessage && (
                           <div className="text-gray-300 italic bg-gray-800/30 rounded-lg p-3 border-l-2 border-blue-400/50">
-                            &ldquo;{boost.userMessage}&rdquo;
+                            "{boost.userMessage}"
                           </div>
                         )}
                       </div>
@@ -586,6 +719,7 @@ export default function BoostsPage() {
                           </span>
                         </button>
                       )}
+
                     </div>
                   </div>
 
@@ -595,46 +729,21 @@ export default function BoostsPage() {
                   </div>
                 </div>
 
-                {/* Replies Section */}
+                {/* Threaded Replies Section */}
                 {boost.replies && boost.replies.length > 0 && expandedBoosts.has(boost.id) && (
-                  <div className="mt-4 pl-4 border-l-2 border-gray-700 space-y-3">
-                    <div className="text-sm text-gray-400 font-semibold">Replies:</div>
-                    {boost.replies.map((reply) => (
-                      <div
-                        key={reply.id}
-                        className="bg-gray-900/50 rounded-lg p-4"
-                      >
-                        <div className="flex flex-col gap-2">
-                          {/* Reply content */}
-                          <div className="text-gray-300 text-sm break-words">
-                            {reply.content}
-                          </div>
-
-                          {/* Reply metadata */}
-                          <div className="flex flex-wrap gap-3 text-xs">
-                            <a
-                              href={`https://primal.net/p/${reply.author}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-400 hover:text-blue-300 transition"
-                            >
-                              {reply.authorName || `${reply.authorNpub.slice(0, 12)}...`}
-                            </a>
-                            <span className="text-gray-500">
-                              {formatTimestamp(reply.timestamp)}
-                            </span>
-                            <a
-                              href={`https://primal.net/e/${reply.id}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-purple-400 hover:text-purple-300 transition"
-                            >
-                              View reply
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                  <div className="mt-4 border-l-2 border-gray-700 pl-4">
+                    <div className="text-sm text-gray-400 font-semibold mb-3">
+                      Replies ({boost.replies.length}):
+                    </div>
+                    <div className="space-y-2">
+                      {boost.replies.map((reply) => (
+                        <ThreadedReply
+                          key={reply.id}
+                          reply={reply}
+                          maxDepth={3}
+                        />
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>

@@ -852,6 +852,64 @@ export class BoostToNostrService {
   }
 
   /**
+   * Fetch threaded replies with nested structure
+   */
+  async fetchThreadedReplies(
+    eventId: string,
+    maxDepth: number = 3,
+    limit: number = 20
+  ): Promise<Event[]> {
+    try {
+      const allReplies: Event[] = [];
+      const processedIds = new Set<string>();
+
+      // Recursive function to fetch replies at each depth level
+      const fetchRepliesRecursive = async (parentId: string, currentDepth: number): Promise<void> => {
+        if (currentDepth >= maxDepth) return;
+
+        const filter: Filter = {
+          kinds: [1], // Text notes
+          '#e': [parentId], // Events that reference this event
+          limit
+        };
+
+        const events = await this.pool.querySync(this.relays, filter);
+
+        // Filter for actual replies and avoid duplicates
+        const replies = events.filter(event => {
+          if (processedIds.has(event.id)) return false;
+
+          const eTags = event.tags.filter(tag => tag[0] === 'e');
+          const referencesEvent = eTags.some(tag => tag[1] === parentId);
+
+          if (referencesEvent) {
+            processedIds.add(event.id);
+            allReplies.push(event);
+            return true;
+          }
+          return false;
+        });
+
+        // Recursively fetch replies to these replies
+        for (const reply of replies) {
+          await fetchRepliesRecursive(reply.id, currentDepth + 1);
+        }
+      };
+
+      // Start with the original event
+      await fetchRepliesRecursive(eventId, 0);
+
+      // Sort by timestamp for consistent ordering
+      allReplies.sort((a, b) => a.created_at - b.created_at);
+
+      return allReplies;
+    } catch (error) {
+      console.error('Error fetching threaded replies:', error);
+      return [];
+    }
+  }
+
+  /**
    * Fetch multiple events with their replies
    */
   async fetchBoostsWithReplies(
