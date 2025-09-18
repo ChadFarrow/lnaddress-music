@@ -307,9 +307,27 @@ export default function BoostsPage() {
       setLoading(true);
       setError(null);
 
-      // Skip cache for now to test reply fetching
-      // TODO: Re-enable cache after fixing reply state management
-      console.log('⚠️ Cache temporarily disabled for debugging');
+      // Check cache first (cache for 10 minutes)
+      const cacheKey = 'boosts_cache';
+      const cacheTimeKey = 'boosts_cache_time';
+      const cacheValidDuration = 10 * 60 * 1000; // 10 minutes
+
+      if (!forceRefresh) {
+        const cachedData = localStorage.getItem(cacheKey);
+        const cachedTime = localStorage.getItem(cacheTimeKey);
+
+        if (cachedData && cachedTime) {
+          const timeSinceCache = Date.now() - parseInt(cachedTime);
+          if (timeSinceCache < cacheValidDuration) {
+            console.log('✅ Loading boosts from cache - data is fresh');
+            const parsedBoosts = JSON.parse(cachedData);
+            setBoosts(parsedBoosts);
+            setLastCacheTime(parseInt(cachedTime));
+            setLoading(false);
+            return;
+          }
+        }
+      }
 
       const service = getBoostToNostrService();
 
@@ -356,6 +374,7 @@ export default function BoostsPage() {
 
       // Parse boosts and fetch replies progressively
       const parsedBoosts: ParsedBoost[] = [];
+      let actualBoostCount = 0;
 
       // Process each boost and immediately fetch its replies
       for (let i = 0; i < allBoosts.length; i++) {
@@ -363,6 +382,11 @@ export default function BoostsPage() {
         const parsedBoost = parseBoostFromEvent(event);
 
         if (parsedBoost) {
+          // Check if this looks like an actual boost (has amount and track info)
+          if (parsedBoost.amount && (parsedBoost.trackTitle || parsedBoost.trackArtist)) {
+            actualBoostCount++;
+          }
+
           parsedBoost.isFromApp = true;
           parsedBoost.replies = []; // Start with empty replies
           parsedBoosts.push(parsedBoost);
@@ -425,8 +449,22 @@ export default function BoostsPage() {
         }
       }
 
-      // TODO: Re-enable caching after fixing reply state management
-      console.log(`Processed ${parsedBoosts.length} boosts (caching disabled)`);
+      // Cache the results after processing
+      const currentTime = Date.now();
+
+      // Wait a bit for replies to be fetched before caching
+      setTimeout(() => {
+        setBoosts(currentBoosts => {
+          // Cache the current state with any replies that have been loaded
+          localStorage.setItem(cacheKey, JSON.stringify(currentBoosts));
+          localStorage.setItem(cacheTimeKey, currentTime.toString());
+          setLastCacheTime(currentTime);
+          console.log(`Cached ${currentBoosts.length} boosts with replies`);
+          return currentBoosts;
+        });
+      }, 5000); // Wait 5 seconds for replies to load
+
+      console.log(`Processed ${parsedBoosts.length} total events, ${actualBoostCount} actual boosts with caching enabled`);
     } catch (err) {
       console.error('Error loading boosts:', err);
       setError('Failed to load boosts from Nostr relays');
@@ -523,6 +561,9 @@ export default function BoostsPage() {
 
   // Calculate statistics
   const totalBoosts = boosts.length;
+  const actualBoosts = boosts.filter(boost =>
+    boost.amount && (boost.trackTitle || boost.trackArtist)
+  ).length;
   const totalSats = boosts.reduce((sum, boost) => {
     if (!boost.amount) return sum;
 
@@ -537,7 +578,12 @@ export default function BoostsPage() {
       sats = parseFloat(amount);
     }
 
-    return sum + sats;
+    // Debug: Log unusual amounts for verification
+    if (sats > 100000 || isNaN(sats)) {
+      console.log(`Unusual sats amount: "${amount}" -> ${sats} for boost:`, boost.id.substring(0, 8));
+    }
+
+    return sum + (isNaN(sats) ? 0 : sats);
   }, 0);
 
   const toggleBoostExpansion = (boostId: string) => {
@@ -590,16 +636,20 @@ export default function BoostsPage() {
         </div>
 
         {/* Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-gray-800/50 rounded-lg p-6 backdrop-blur-sm">
-            <div className="text-2xl font-bold text-yellow-400">{totalBoosts}</div>
-            <div className="text-gray-400">Total Boosts</div>
+            <div className="text-2xl font-bold text-yellow-400">{actualBoosts}</div>
+            <div className="text-gray-400">Actual Boosts</div>
           </div>
           <div className="bg-gray-800/50 rounded-lg p-6 backdrop-blur-sm">
             <div className="text-2xl font-bold text-orange-400">
               {totalSats.toLocaleString()} sats
             </div>
             <div className="text-gray-400">Total Value</div>
+          </div>
+          <div className="bg-gray-800/50 rounded-lg p-6 backdrop-blur-sm">
+            <div className="text-xl font-bold text-gray-400">{totalBoosts}</div>
+            <div className="text-gray-500 text-sm">Total Events</div>
           </div>
         </div>
 
