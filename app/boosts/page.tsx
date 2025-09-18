@@ -117,7 +117,7 @@ function parseBoostFromEvent(event: Event): ParsedBoost | null {
   }
 }
 
-async function fetchUserProfile(pubkey: string): Promise<string | null> {
+async function fetchUserProfile(pubkey: string): Promise<string | undefined> {
   try {
     const pool = new SimplePool();
     const relays = [
@@ -134,14 +134,14 @@ async function fetchUserProfile(pubkey: string): Promise<string | null> {
 
     if (profiles.length > 0) {
       const metadata = JSON.parse(profiles[0].content);
-      return metadata.display_name || metadata.name || null;
+      return metadata.display_name || metadata.name || undefined;
     }
 
     pool.close(relays);
-    return null;
+    return undefined;
   } catch (error) {
     console.warn('Failed to fetch user profile:', error);
-    return null;
+    return undefined;
   }
 }
 
