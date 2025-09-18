@@ -47,11 +47,11 @@ function parseBoostFromEvent(event: Event): ParsedBoost | null {
 
     // Look for track artist after "by" (but not "Sent by")
     let trackArtist: string | undefined;
-    const artistMatches = event.content.match(/\sby:?\s+([^\\n]+)/g);
+    const artistMatches = event.content.match(/\sby:?\s+([^\n]+)/g);
     if (artistMatches) {
       for (const match of artistMatches) {
         if (!match.includes('Sent by')) {
-          const artistMatch = match.match(/by:?\s+(.+)/);
+          const artistMatch = match.match(/by:?\s+(.+?)(?=\n|$)/);
           if (artistMatch) {
             trackArtist = artistMatch[1].trim();
             break;
