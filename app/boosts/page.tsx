@@ -397,16 +397,19 @@ export default function BoostsPage() {
                 }
 
                 if (replies.length > 0) {
-                  // Map replies without fetching user profiles for faster display
-                  const mappedReplies = replies.map(reply => ({
-                    id: reply.id,
-                    author: reply.pubkey,
-                    authorNpub: nip19.npubEncode(reply.pubkey),
-                    authorName: reply.pubkey.substring(0, 8) + '...', // Use truncated key for now
-                    content: reply.content,
-                    timestamp: reply.created_at,
-                    depth: 0,
-                    replies: []
+                  // Map replies and fetch user profiles
+                  const mappedReplies = await Promise.all(replies.map(async reply => {
+                    const authorName = await fetchUserProfile(reply.pubkey);
+                    return {
+                      id: reply.id,
+                      author: reply.pubkey,
+                      authorNpub: nip19.npubEncode(reply.pubkey),
+                      authorName: authorName || reply.pubkey.substring(0, 8) + '...', // Fallback to truncated key
+                      content: reply.content,
+                      timestamp: reply.created_at,
+                      depth: 0,
+                      replies: []
+                    };
                   }));
 
                   // Update the specific boost with replies
