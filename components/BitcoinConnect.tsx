@@ -38,8 +38,7 @@ export function BitcoinConnectWallet() {
         if (bc.init && !window.bitcoinConnectInitialized) {
           bc.init({
             appName: 'ITDV Lightning',
-            // Show specific reliable wallets only (excludes cashu.me by omission)
-            filters: ['nwc'], // Only show NWC-compatible wallets which work reliably
+            // Remove filters to show all wallet types including browser extensions
             showBalance: false // Hide balance to keep UI clean
           });
           window.bitcoinConnectInitialized = true;
