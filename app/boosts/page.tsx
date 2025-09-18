@@ -643,7 +643,7 @@ export default function BoostsPage() {
                       )}
                       {boost.trackTitle && (
                         <span className="text-lg text-white">
-                          • "{boost.trackTitle}"
+                          • &ldquo;{boost.trackTitle}&rdquo;
                         </span>
                       )}
                     </div>
@@ -672,7 +672,7 @@ export default function BoostsPage() {
                         {/* User Message */}
                         {boost.userMessage && (
                           <div className="text-gray-300 italic bg-gray-800/30 rounded-lg p-3 border-l-2 border-blue-400/50">
-                            "{boost.userMessage}"
+                            &ldquo;{boost.userMessage}&rdquo;
                           </div>
                         )}
                       </div>
