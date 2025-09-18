@@ -82,11 +82,10 @@ export class BoostToNostrService {
     this.pool = new SimplePool();
     this.relays = relays.length > 0 ? relays : [
       'wss://relay.primal.net',
-      'wss://relay.snort.social', 
+      'wss://relay.snort.social',
       'wss://relay.nostr.band',
       'wss://relay.fountain.fm',
-      'wss://relay.damus.io',
-      'wss://chadf.nostr1.com'
+      'wss://relay.damus.io'
     ];
 
     if (secretKey) {
@@ -721,9 +720,71 @@ export class BoostToNostrService {
     pubkey: string,
     limit: number = 20
   ): Promise<Event[]> {
-    // Temporarily disabled to prevent filter errors
-    console.log('🔍 User boosts fetch temporarily disabled to prevent relay filter errors');
-    return [];
+    try {
+      const filter: Filter = {
+        kinds: [1], // Text notes
+        authors: [pubkey],
+        limit
+        // Remove hashtag filter as it may be too restrictive
+      };
+
+      const events = await this.pool.querySync(this.relays, filter);
+
+      // Filter for events that look like boosts (contain ⚡ and sats)
+      const boostEvents = events.filter(event =>
+        event.content.includes('⚡') && event.content.includes('sats')
+      );
+
+      // Sort by timestamp, newest first
+      boostEvents.sort((a, b) => b.created_at - a.created_at);
+
+      return boostEvents;
+    } catch (error) {
+      console.error('Error fetching user boosts:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Fetch all recent boosts from relays
+   */
+  async fetchRecentBoosts(
+    limit: number = 50,
+    since?: number
+  ): Promise<Event[]> {
+    try {
+      const filter: Filter = {
+        kinds: [1], // Text notes
+        limit,
+        since: since || Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60, // Last 7 days by default
+      };
+
+      const events = await this.pool.querySync(this.relays, filter);
+
+      // Filter for events that look like boosts
+      const boostEvents = events.filter(event => {
+        // Check if it's a boost by content pattern
+        const hasBoostPattern = event.content.includes('⚡') && event.content.includes('sats');
+
+        // Also check for podcast-related tags, but be more specific
+        const hasPodcastTags = event.tags.some(tag =>
+          (tag[0] === 'k' && tag[1]?.includes('podcast')) ||
+          (tag[0] === 'i' && tag[1]?.includes('podcast'))
+        );
+
+
+        // Accept events with boost pattern OR podcast tags (original logic)
+        return hasBoostPattern || hasPodcastTags;
+      });
+
+      // Sort by timestamp, newest first
+      boostEvents.sort((a, b) => b.created_at - a.created_at);
+
+      return boostEvents;
+    } catch (error) {
+      console.error('Error fetching recent boosts:', error);
+      return [];
+    }
   }
 
   /**
@@ -734,9 +795,93 @@ export class BoostToNostrService {
     artist?: string,
     limit: number = 20
   ): Promise<Event[]> {
-    // Temporarily disabled to prevent filter errors
-    console.log('🔍 Track boosts fetch temporarily disabled to prevent relay filter errors');
-    return [];
+    try {
+      // Fetch recent boosts and filter by track
+      const allBoosts = await this.fetchRecentBoosts(limit * 2);
+
+      const trackBoosts = allBoosts.filter(event => {
+        const content = event.content.toLowerCase();
+        const hasTrack = trackTitle && content.includes(trackTitle.toLowerCase());
+        const hasArtist = !artist || content.includes(artist.toLowerCase());
+
+        return hasTrack && hasArtist;
+      });
+
+      return trackBoosts.slice(0, limit);
+    } catch (error) {
+      console.error('Error fetching track boosts:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Fetch replies to a specific event
+   */
+  async fetchReplies(
+    eventId: string,
+    limit: number = 20
+  ): Promise<Event[]> {
+    try {
+      const filter: Filter = {
+        kinds: [1], // Text notes
+        '#e': [eventId], // Events that reference this event
+        limit
+      };
+
+      const events = await this.pool.querySync(this.relays, filter);
+
+      // Filter for actual replies (those with 'reply' or 'root' markers, or direct references)
+      const replies = events.filter(event => {
+        // Check if this is a reply by looking at e tags
+        const eTags = event.tags.filter(tag => tag[0] === 'e');
+
+        // If it references our event, it's likely a reply
+        const referencesEvent = eTags.some(tag => tag[1] === eventId);
+
+        return referencesEvent;
+      });
+
+      // Sort by timestamp, oldest first (chronological order for replies)
+      replies.sort((a, b) => a.created_at - b.created_at);
+
+      return replies;
+    } catch (error) {
+      console.error('Error fetching replies:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Fetch multiple events with their replies
+   */
+  async fetchBoostsWithReplies(
+    limit: number = 20
+  ): Promise<Map<string, { boost: Event; replies: Event[] }>> {
+    try {
+      // First fetch the boosts
+      const boosts = await this.fetchRecentBoosts(limit);
+
+      // Create a map to store boosts with their replies
+      const boostsWithReplies = new Map<string, { boost: Event; replies: Event[] }>();
+
+      // Fetch replies for each boost
+      const replyPromises = boosts.map(async (boost) => {
+        const replies = await this.fetchReplies(boost.id, 10); // Limit replies per boost
+        return { boost, replies };
+      });
+
+      const results = await Promise.all(replyPromises);
+
+      // Populate the map
+      results.forEach(({ boost, replies }) => {
+        boostsWithReplies.set(boost.id, { boost, replies });
+      });
+
+      return boostsWithReplies;
+    } catch (error) {
+      console.error('Error fetching boosts with replies:', error);
+      return new Map();
+    }
   }
 
   /**

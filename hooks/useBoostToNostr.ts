@@ -45,7 +45,8 @@ export function useBoostToNostr(options: UseBoostToNostrOptions = {}): UseBoostT
     // Try to get site's permanent Nostr keys from environment
     const siteNsec = process.env.NEXT_PUBLIC_SITE_NOSTR_NSEC;
     const siteNpub = process.env.NEXT_PUBLIC_SITE_NOSTR_NPUB;
-    
+
+
     if (siteNsec && siteNpub) {
       try {
         // Decode the nsec to get the secret key
@@ -53,7 +54,6 @@ export function useBoostToNostr(options: UseBoostToNostrOptions = {}): UseBoostT
         if (secretKey instanceof Uint8Array) {
           serviceRef.current.setKeys(secretKey);
           setPublicKey(siteNpub.replace('npub', ''));
-          console.log('🔑 Using site permanent Nostr profile:', siteNpub);
         }
       } catch (error) {
         console.error('Failed to decode site Nostr keys:', error);

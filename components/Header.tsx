@@ -38,8 +38,8 @@ export default function Header() {
             >
               About
             </Link>
-            <Link 
-              href="/feed-tester" 
+            <Link
+              href="/feed-tester"
               className="flex items-center space-x-1 text-gray-600 hover:text-primary-600 transition-colors"
             >
               <TestTube className="h-4 w-4" />
