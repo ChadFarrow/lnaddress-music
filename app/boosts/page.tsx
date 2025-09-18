@@ -73,6 +73,8 @@ function parseBoostFromEvent(event: Event): ParsedBoost | null {
 
     // Remove the standard boost formatting to get user's custom message
     userMessage = userMessage.replace(/⚡\s*[\d.]+[MkK]?\s*sats/, '').trim();
+    // Remove bullet point that comes after the amount
+    userMessage = userMessage.replace(/^•\s*/, '').trim();
     if (trackTitle) {
       userMessage = userMessage.replace(new RegExp(`"${trackTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, 'g'), '').trim();
     }
@@ -85,7 +87,7 @@ function parseBoostFromEvent(event: Event): ParsedBoost | null {
     userMessage = userMessage.replace(/🎧\s*https?:\/\/[^\s]+/, '').trim();
     userMessage = userMessage.replace(/nostr:[a-zA-Z0-9]+/, '').trim();
     userMessage = userMessage.replace(/\n+/g, ' ').trim();
-    // Remove leftover bullet points and formatting artifacts
+    // Remove any remaining bullet points and formatting artifacts
     userMessage = userMessage.replace(/^[•·\-\*\s]+|[•·\-\*\s]+$/g, '').trim();
 
     // If there's no meaningful message left, set to undefined
@@ -566,9 +568,8 @@ export default function BoostsPage() {
 
   // Calculate statistics
   const totalBoosts = boosts.length;
-  const actualBoosts = boosts.filter(boost =>
-    boost.amount && (boost.trackTitle || boost.trackArtist)
-  ).length;
+  // Since we're only pulling from the app's npub, all events should be boosts
+  const actualBoosts = boosts.length;
   const totalSats = boosts.reduce((sum, boost) => {
     if (!boost.amount) return sum;
 
