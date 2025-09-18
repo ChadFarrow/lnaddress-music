@@ -293,7 +293,7 @@ export default function BoostsPage() {
                       )}
                       {boost.trackTitle && (
                         <span className="text-lg text-white">
-                          • "{boost.trackTitle}"
+                          • &ldquo;{boost.trackTitle}&rdquo;
                         </span>
                       )}
                     </div>
