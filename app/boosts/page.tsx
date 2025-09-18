@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { getBoostToNostrService } from '@/lib/boost-to-nostr-service';
 import { type Event } from 'nostr-tools';
-import { nip19 } from 'nostr-tools';
+import { nip19, SimplePool } from 'nostr-tools';
 import Link from 'next/link';
 
 interface ParsedBoost {
@@ -28,6 +28,7 @@ interface ParsedReply {
   id: string;
   author: string;
   authorNpub: string;
+  authorName?: string;
   content: string;
   timestamp: number;
 }
@@ -116,6 +117,34 @@ function parseBoostFromEvent(event: Event): ParsedBoost | null {
   }
 }
 
+async function fetchUserProfile(pubkey: string): Promise<string | null> {
+  try {
+    const pool = new SimplePool();
+    const relays = [
+      'wss://relay.primal.net',
+      'wss://relay.damus.io',
+      'wss://nos.lol'
+    ];
+
+    const profiles = await pool.querySync(relays, {
+      kinds: [0], // Metadata events
+      authors: [pubkey],
+      limit: 1
+    });
+
+    if (profiles.length > 0) {
+      const metadata = JSON.parse(profiles[0].content);
+      return metadata.display_name || metadata.name || null;
+    }
+
+    pool.close(relays);
+    return null;
+  } catch (error) {
+    console.warn('Failed to fetch user profile:', error);
+    return null;
+  }
+}
+
 function formatTimestamp(timestamp: number): string {
   const date = new Date(timestamp * 1000);
   const now = new Date();
@@ -144,11 +173,34 @@ export default function BoostsPage() {
   const [error, setError] = useState<string | null>(null);
   const [expandedBoosts, setExpandedBoosts] = useState<Set<string>>(new Set());
   const [isRealTimeActive, setIsRealTimeActive] = useState(false);
+  const [lastCacheTime, setLastCacheTime] = useState<number | null>(null);
 
-  const loadBoosts = async () => {
+  const loadBoosts = async (forceRefresh = false) => {
     try {
       setLoading(true);
       setError(null);
+
+      // Check cache first (cache for 5 minutes)
+      const cacheKey = 'boosts_cache';
+      const cacheTimeKey = 'boosts_cache_time';
+      const cacheValidDuration = 5 * 60 * 1000; // 5 minutes
+
+      if (!forceRefresh) {
+        const cachedData = localStorage.getItem(cacheKey);
+        const cachedTime = localStorage.getItem(cacheTimeKey);
+
+        if (cachedData && cachedTime) {
+          const timeSinceCache = Date.now() - parseInt(cachedTime);
+          if (timeSinceCache < cacheValidDuration) {
+            console.log('✅ Loading boosts from cache - data is fresh');
+            const parsedBoosts = JSON.parse(cachedData);
+            setBoosts(parsedBoosts);
+            setLastCacheTime(parseInt(cachedTime));
+            setLoading(false);
+            return;
+          }
+        }
+      }
 
       const service = getBoostToNostrService();
 
@@ -180,7 +232,7 @@ export default function BoostsPage() {
 
         // Add timeout to prevent hanging
         const fetchWithTimeout = Promise.race([
-          service.fetchUserBoosts(appPubkey, 100), // Check more events for historical data
+          service.fetchUserBoosts(appPubkey, 50), // Reduce to 50 most recent for faster loading
           new Promise<[]>((_, reject) =>
             setTimeout(() => reject(new Error('Fetch timeout after 5 seconds')), 5000)
           )
@@ -195,13 +247,12 @@ export default function BoostsPage() {
 
       const parsedBoosts: ParsedBoost[] = [];
 
+      // Parse boosts first without replies for faster initial display
       for (const event of allBoosts) {
-        // Try to parse boost
         const parsedBoost = parseBoostFromEvent(event);
         if (parsedBoost) {
           parsedBoost.isFromApp = true;
-          // Skip fetching replies for now to speed up debugging
-          parsedBoost.replies = [];
+          parsedBoost.replies = []; // Start with empty replies
           parsedBoosts.push(parsedBoost);
         }
       }
@@ -213,7 +264,46 @@ export default function BoostsPage() {
         return timeB - timeA;
       });
 
+      // Set boosts immediately for fast display
       setBoosts(parsedBoosts);
+      setLoading(false);
+
+      // Fetch replies in background for recent boosts only (last 10)
+      console.log('Fetching replies for recent boosts...');
+      const recentBoosts = parsedBoosts.slice(0, 10);
+
+      for (let i = 0; i < recentBoosts.length; i++) {
+        const boost = recentBoosts[i];
+        try {
+          const replies = await service.fetchReplies(boost.id);
+          const mappedReplies = await Promise.all(replies.map(async reply => {
+            const authorName = await fetchUserProfile(reply.pubkey);
+            return {
+              id: reply.id,
+              author: reply.pubkey,
+              authorNpub: nip19.npubEncode(reply.pubkey),
+              authorName,
+              content: reply.content,
+              timestamp: reply.created_at
+            };
+          }));
+
+          // Update the specific boost with replies
+          setBoosts(prev => prev.map(b =>
+            b.id === boost.id ? { ...b, replies: mappedReplies } : b
+          ));
+        } catch (error) {
+          console.warn('Failed to fetch replies for boost:', boost.id, error);
+        }
+      }
+
+      // Cache the results after replies are fetched
+      const currentTime = Date.now();
+      localStorage.setItem(cacheKey, JSON.stringify(parsedBoosts));
+      localStorage.setItem(cacheTimeKey, currentTime.toString());
+      setLastCacheTime(currentTime);
+
+      console.log(`Cached ${parsedBoosts.length} boosts`);
     } catch (err) {
       console.error('Error loading boosts:', err);
       setError('Failed to load boosts from Nostr relays');
@@ -240,11 +330,25 @@ export default function BoostsPage() {
         const subscription = service.subscribeToBoosts(
           { authors: [appPubkey] },
           {
-            onBoost: (event) => {
+            onBoost: async (event) => {
               const parsedBoost = parseBoostFromEvent(event);
               if (parsedBoost) {
                 parsedBoost.isFromApp = true;
-                parsedBoost.replies = [];
+
+                // Fetch replies for real-time boost
+                try {
+                  const replies = await service.fetchReplies(event.id);
+                  parsedBoost.replies = replies.map(reply => ({
+                    id: reply.id,
+                    author: reply.pubkey,
+                    authorNpub: nip19.npubEncode(reply.pubkey),
+                    content: reply.content,
+                    timestamp: reply.created_at
+                  }));
+                } catch (error) {
+                  console.warn('Failed to fetch replies for real-time boost:', event.id, error);
+                  parsedBoost.replies = [];
+                }
 
                 setBoosts(prev => {
                   // Check if boost already exists
@@ -334,12 +438,19 @@ export default function BoostsPage() {
             </div>
           </div>
 
-          <button
-            onClick={loadBoosts}
-            className="px-4 py-2 bg-gray-800 text-gray-400 rounded-lg hover:bg-gray-700 transition"
-          >
-            🔄 Refresh
-          </button>
+          <div className="flex flex-col gap-2">
+            <button
+              onClick={() => loadBoosts(true)}
+              className="px-4 py-2 bg-gray-800 text-gray-400 rounded-lg hover:bg-gray-700 transition"
+            >
+              🔄 Refresh
+            </button>
+            {lastCacheTime && (
+              <div className="text-xs text-gray-500">
+                Cached {formatTimestamp(Math.floor(lastCacheTime / 1000))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Statistics */}
@@ -507,7 +618,7 @@ export default function BoostsPage() {
                               rel="noopener noreferrer"
                               className="text-blue-400 hover:text-blue-300 transition"
                             >
-                              {reply.authorNpub.slice(0, 12)}...
+                              {reply.authorName || `${reply.authorNpub.slice(0, 12)}...`}
                             </a>
                             <span className="text-gray-500">
                               {formatTimestamp(reply.timestamp)}
