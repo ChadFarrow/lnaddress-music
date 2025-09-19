@@ -37,6 +37,12 @@ interface ParsedReply {
 
 function parseBoostFromEvent(event: Event): ParsedBoost | null {
   try {
+    // Skip auto boost messages
+    if (event.content.includes('Auto boost for') || 
+        (event.content.includes('From:') && event.content.includes('Auto boost'))) {
+      return null;
+    }
+
     // Extract amount from content (looking for "⚡ X sats")
     const amountMatch = event.content.match(/⚡\s*([\d.]+[MkK]?)\s*sats/);
     const amount = amountMatch ? amountMatch[1] : undefined;
