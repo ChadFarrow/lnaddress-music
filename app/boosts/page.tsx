@@ -5,6 +5,7 @@ import { getBoostToNostrService } from '@/lib/boost-to-nostr-service';
 import { type Event } from 'nostr-tools';
 import { nip19, SimplePool } from 'nostr-tools';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 interface ParsedBoost {
   id: string;
@@ -621,9 +622,18 @@ export default function BoostsPage() {
         {/* Header */}
         <div className="mb-8 flex justify-between items-start">
           <div>
-            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-              ⚡ Boosts
-            </h1>
+            <div className="flex items-center gap-4 mb-4">
+              <Link 
+                href="/" 
+                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+              >
+                <ArrowLeft className="h-6 w-6" />
+                <span>Back</span>
+              </Link>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+                ⚡ Boosts
+              </h1>
+            </div>
             <div className="flex items-center gap-3">
               <p className="text-gray-400">
                 Recent boosts sent from this site and their replies from the Nostr network
