@@ -259,13 +259,13 @@ export class BoostToNostrService {
       content += ` by ${track.artist}`;
     }
     
-    // Add album on new line if different from title
-    if (track.album && track.album !== track.title) {
+    // Add album on new line if different from title (skip for auto boosts)
+    if (track.album && track.album !== track.title && track.senderName !== 'Auto Boost') {
       content += `\nFrom: ${track.album}`;
     }
     
-    // Add sender name if provided
-    if (track.senderName) {
+    // Add sender name if provided (skip for auto boosts)
+    if (track.senderName && track.senderName !== 'Auto Boost') {
       content += `\n\nSent by: ${track.senderName}`;
     }
     
