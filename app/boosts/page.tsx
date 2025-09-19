@@ -620,20 +620,22 @@ export default function BoostsPage() {
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
         <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-8 flex justify-between items-start">
-          <div>
-            <div className="flex items-center gap-4 mb-4">
-              <Link 
-                href="/" 
-                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
-              >
-                <ArrowLeft className="h-6 w-6" />
-                <span>Back</span>
-              </Link>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-                ⚡ Boosts
-              </h1>
-            </div>
+        <div className="mb-8">
+          <div className="flex justify-start mb-4">
+            <Link 
+              href="/" 
+              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+            >
+              <ArrowLeft className="h-6 w-6" />
+              <span>Back</span>
+            </Link>
+          </div>
+          <div className="text-center mb-6">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+              ⚡ Boosts
+            </h1>
+          </div>
+          <div className="flex justify-between items-start">
             <div className="flex items-center gap-3">
               <p className="text-gray-400">
                 Recent boosts sent from this site and their replies from the Nostr network
@@ -645,9 +647,8 @@ export default function BoostsPage() {
                 </div>
               )}
             </div>
-          </div>
 
-          <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2">
             <button
               onClick={() => loadBoosts(true)}
               className="px-4 py-2 bg-gray-800 text-gray-400 rounded-lg hover:bg-gray-700 transition"
