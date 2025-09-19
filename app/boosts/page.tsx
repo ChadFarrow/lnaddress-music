@@ -366,9 +366,9 @@ export default function BoostsPage() {
 
         // Add timeout to prevent hanging
         const fetchWithTimeout = Promise.race([
-          service.fetchUserBoosts(appPubkey, 50), // Reduce to 50 most recent for faster loading
+          service.fetchUserBoosts(appPubkey, 200), // Fetch up to 200 most recent boosts
           new Promise<[]>((_, reject) =>
-            setTimeout(() => reject(new Error('Fetch timeout after 5 seconds')), 5000)
+            setTimeout(() => reject(new Error('Fetch timeout after 10 seconds')), 10000)
           )
         ]);
 
@@ -605,8 +605,19 @@ export default function BoostsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
-      <div className="container mx-auto px-4 py-8">
+    <>
+      {/* Override parent layout background */}
+      <style jsx global>{`
+        body {
+          background: linear-gradient(to bottom, rgb(17, 24, 39), rgb(0, 0, 0)) !important;
+        }
+        .min-h-screen.bg-gray-50 {
+          background: transparent !important;
+        }
+      `}</style>
+      
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+        <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8 flex justify-between items-start">
           <div>
@@ -805,5 +816,6 @@ export default function BoostsPage() {
         )}
       </div>
     </div>
+    </>
   );
 }
