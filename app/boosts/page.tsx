@@ -85,6 +85,8 @@ function parseBoostFromEvent(event: Event): ParsedBoost | null {
     if (trackAlbum) {
       userMessage = userMessage.replace(new RegExp(`Sent\\s+by:?\\s*${trackAlbum.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'), '').trim();
     }
+    // Remove "From: Album Name" patterns from the message
+    userMessage = userMessage.replace(/From:\s*[^\n]+/gi, '').trim();
     userMessage = userMessage.replace(/🎧\s*https?:\/\/[^\s]+/, '').trim();
     userMessage = userMessage.replace(/nostr:[a-zA-Z0-9]+/, '').trim();
     userMessage = userMessage.replace(/\n+/g, ' ').trim();
