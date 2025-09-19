@@ -397,6 +397,17 @@ export class RSSParser {
       } : undefined;
 
       // Extract tracks from items
+      // Extract main feed GUID from podcast:guid element before processing tracks
+      const feedGuidElement = channel.getElementsByTagName('podcast:guid')[0];
+      const mainFeedGuid = feedGuidElement?.textContent?.trim();
+      
+      // Debug feed GUID extraction
+      if (mainFeedGuid) {
+        console.log(`🏷️ Feed GUID extraction for "${title}":`, {
+          feedGuid: mainFeedGuid
+        });
+      }
+
       const tracks: RSSTrack[] = [];
       
       // Less verbose: only log for large feeds or unusual cases
@@ -666,7 +677,7 @@ export class RSSParser {
           // Add GUID fields for Nostr boost tagging
           guid: itemGuid, // Standard item guid
           podcastGuid: itemPodcastGuid, // podcast:guid at item level
-          feedGuid: itemFeedGuid,
+          feedGuid: itemFeedGuid || mainFeedGuid,
           feedUrl: itemFeedUrl,
           publisherGuid: itemPublisherGuid,
           publisherUrl: itemPublisherUrl,
@@ -875,16 +886,6 @@ export class RSSParser {
         }
       }
       
-      // Extract main feed GUID from podcast:guid element
-      const guidElement = channel.getElementsByTagName('podcast:guid')[0];
-      const mainFeedGuid = guidElement?.textContent?.trim();
-      
-      // Debug album GUID extraction
-      if (mainFeedGuid) {
-        console.log(`🏷️ Album GUID extraction for "${title}":`, {
-          feedGuid: mainFeedGuid
-        });
-      }
       
       const album = {
         title,
