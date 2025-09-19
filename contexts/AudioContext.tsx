@@ -382,7 +382,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         appName: 'ITDV Lightning',
         timestamp: Math.floor(currentTime),
         senderName: 'Auto Boost', // Identify as auto boost
-        message: `Auto boost for "${track.title}"`, // Auto boost message
+        // No message for auto boosts to keep TLVs clean
         itemGuid: track.guid,
         podcastGuid: track.podcastGuid,
         podcastFeedGuid: track.feedGuid,
