@@ -606,7 +606,7 @@ export default function BoostsPage() {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       {/* Override parent layout background */}
       <style jsx global>{`
         body {
@@ -616,8 +616,6 @@ export default function BoostsPage() {
           background: transparent !important;
         }
       `}</style>
-      
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
         <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -825,8 +823,7 @@ export default function BoostsPage() {
             ))}
           </div>
         )}
-      </div>
+        </div>
     </div>
-    </>
   );
 }
