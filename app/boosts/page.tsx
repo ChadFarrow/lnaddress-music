@@ -823,7 +823,8 @@ export default function BoostsPage() {
             ))}
           </div>
         )}
-        </div>
+      </div>
+    </div>
     </div>
   );
 }
