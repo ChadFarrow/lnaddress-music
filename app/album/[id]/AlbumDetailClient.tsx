@@ -132,6 +132,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const handleBoostSuccess = (response: any) => {
     console.log('✅ Boost successful:', response);
     setShowAlbumBoostModal(false);
+    setBoostMessage(''); // Clear the message input after successful boost
     
     // Trigger multiple confetti bursts for dramatic effect
     const count = 200;

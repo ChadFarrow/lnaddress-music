@@ -253,6 +253,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
 
   const handleBoostSuccess = (response: any) => {
     setShowBoostModal(false);
+    setBoostMessage(''); // Clear the message input after successful boost
     
     // Trigger multiple confetti bursts for dramatic effect
     const count = 200;

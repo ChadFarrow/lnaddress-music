@@ -85,8 +85,6 @@ function parseBoostFromEvent(event: Event): ParsedBoost | null {
     if (trackAlbum) {
       userMessage = userMessage.replace(new RegExp(`Sent\\s+by:?\\s*${trackAlbum.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'), '').trim();
     }
-    // Remove "From: [album name] " prefix - keep only the user's actual message
-    userMessage = userMessage.replace(/^From:\s*.*?\s+([A-Z][a-z]+)/, '$1').trim();
     userMessage = userMessage.replace(/🎧\s*https?:\/\/[^\s]+/, '').trim();
     userMessage = userMessage.replace(/nostr:[a-zA-Z0-9]+/, '').trim();
     userMessage = userMessage.replace(/\n+/g, ' ').trim();
@@ -826,7 +824,6 @@ export default function BoostsPage() {
           </div>
         )}
       </div>
-    </div>
     </div>
   );
 }

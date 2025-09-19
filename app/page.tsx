@@ -133,6 +133,7 @@ export default function HomePage() {
   // Handle boost success
   const handleBoostSuccess = (response: any) => {
     setShowBoostModal(false);
+    setBoostMessage(''); // Clear the message input after successful boost
     
     // Trigger confetti animation
     const count = 200;
