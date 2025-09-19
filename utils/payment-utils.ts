@@ -210,9 +210,8 @@ export async function makeAutoBoostPayment({
           
           console.log(`💰 Auto boost sending ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
           
-          // Temporarily disable TLV records for auto boost to avoid format issues
-          // TODO: Fix TLV records format to match Alby Hub expectations
-          const tlvRecords = undefined; // boostMetadata ? createBoostTLVRecords(boostMetadata, recipientData.name, recipientAmount) : undefined;
+          // Create TLV records for boost metadata - all keysend payments should include TLVs
+          const tlvRecords = boostMetadata ? createBoostTLVRecords(boostMetadata, recipientData.name, recipientAmount) : undefined;
           
           const result = await bridge.payKeysend({
             pubkey: recipientData.address,
