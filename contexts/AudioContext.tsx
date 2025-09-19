@@ -424,7 +424,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           const nostrResult = await postBoost(
             autoBoostAmount,
             trackMetadata,
-            `Auto boost for "${track.title}" - ${autoBoostAmount} sats`
+            undefined // Don't post auto boost message to Nostr
           );
 
           if (nostrResult.success) {
