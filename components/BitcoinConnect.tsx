@@ -203,6 +203,17 @@ export function BitcoinConnectPayment({
   const [loading, setLoading] = useState(false);
   const { isConnected } = useBitcoinConnect();
   const { isLightningEnabled } = useLightning();
+
+  // Debug: Log when isConnected state changes
+  useEffect(() => {
+    console.log('🔗 BitcoinConnectPayment - isConnected state changed:', isConnected);
+  }, [isConnected]);
+
+  // Force re-render when connection state changes to eliminate React rendering delays
+  const [renderKey, setRenderKey] = useState(0);
+  useEffect(() => {
+    setRenderKey(prev => prev + 1);
+  }, [isConnected]);
   
   // Initialize Nostr boost system if boosts are enabled
   const { postBoost, generateKeys, publicKey } = useBoostToNostr({ 
@@ -1120,6 +1131,7 @@ export function BitcoinConnectPayment({
 
   return (
     <button
+      key={`boost-button-${renderKey}-${isConnected}`}
       onClick={handlePayment}
       disabled={loading || !isConnected}
       className={`flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-600 disabled:text-gray-400 text-black font-semibold rounded-lg transition-colors ${className}`}

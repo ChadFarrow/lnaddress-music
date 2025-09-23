@@ -450,6 +450,39 @@ export class NWCService {
       
       if (tlvRecords && tlvRecords.length > 0) {
         paymentParams.tlv_records = tlvRecords;
+        
+        // Enhanced TLV debugging for Helipad compatibility
+        console.log('🔍 NWC SERVICE - TLV Records Debug:');
+        console.log('📊 TLV Record Count:', tlvRecords.length);
+        
+        tlvRecords.forEach((record: any, index: number) => {
+          console.log(`📋 TLV Record ${index + 1}:`);
+          console.log(`   Type: ${record.type}`);
+          console.log(`   Value Length: ${record.value ? record.value.length : 0} chars`);
+          
+          // Decode and log the actual content for debugging
+          if (record.value) {
+            try {
+              const decoded = Buffer.from(record.value, 'hex').toString('utf8');
+              console.log(`   Decoded Content:`, decoded);
+              
+              // If it's JSON, parse and pretty print
+              if (decoded.startsWith('{') || decoded.startsWith('[')) {
+                try {
+                  const parsed = JSON.parse(decoded);
+                  console.log(`   Parsed JSON:`, JSON.stringify(parsed, null, 2));
+                } catch (e) {
+                  console.log(`   Raw Text:`, decoded);
+                }
+              } else {
+                console.log(`   Raw Text:`, decoded);
+              }
+            } catch (e) {
+              console.log(`   Raw Hex:`, record.value.substring(0, 100) + '...');
+            }
+          }
+          console.log('   ─────────────────────');
+        });
       }
       
       console.log('⚡ Sending keysend payment:', paymentParams);

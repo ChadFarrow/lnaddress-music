@@ -67,6 +67,25 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         bcConfig = null;
       }
       
+      // Enhanced Bitcoin Connect detection - check for active connection state
+      const bcConnectorConnected = !!(bcConnected || (bcConfig && (bcConfig.connectorType || bcConfig.nwcUrl)));
+      
+      // Additional check: if Bitcoin Connect library reports connected state
+      // Check various possible Bitcoin Connect global objects
+      let bcLibraryConnected = false;
+      if (typeof window !== 'undefined') {
+        // Check for Bitcoin Connect wallet connection indicators
+        bcLibraryConnected = !!(
+          (window as any).webbtc?.isConnected || 
+          (window as any).bitcoin?.isConnected ||
+          (window as any).bc?.connected ||
+          // Check if there's an active wallet provider
+          (window as any).bitcoinProvider ||
+          // Check for Alby-specific indicators when connected through BC
+          ((window as any).webln?.enabled && bcConfig && bcConfig.connectorType)
+        );
+      }
+      
       // Debug: Log all Bitcoin Connect related localStorage items
       console.log('🔍 Bitcoin Connect localStorage debug:', {
         bcConnectorType: bcConnected,
@@ -124,10 +143,7 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
       // Only consider WebLN "connected" if it's actually enabled, not just if methods exist
       const finalWeblnStatus = weblnEnabledAfter && hasWeblnMethods;
 
-      // Check if AlbyGo or other BC connectors are properly connected
-      const bcConnectorConnected = !!(bcConnected || (bcConfig && (bcConfig.connectorType || bcConfig.nwcUrl)));
-      
-      const anyConnection = finalWeblnStatus || bcConnectorConnected || nwcConnected || nwcServiceConnected;
+      const anyConnection = finalWeblnStatus || bcConnectorConnected || bcLibraryConnected || nwcConnected || nwcServiceConnected;
 
       // Debug logging
       console.log('🔍 Connection check:', {
@@ -137,6 +153,7 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         finalWeblnStatus,
         bcConnected: !!bcConnected,
         bcConnectorConnected,
+        bcLibraryConnected,
         nwcConnected: !!nwcConnected,
         nwcServiceConnected,
         anyConnection
@@ -164,13 +181,21 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
     
     // Listen for Bitcoin Connect events
     const handleConnected = () => {
-      console.log('🔗 Global Bitcoin Connect wallet connected');
-      // Auto-refresh: Check immediately, then again after a delay to ensure state is settled
-      checkConnection();
+      console.log('🔗 Global Bitcoin Connect wallet connected - FORCING IMMEDIATE CONNECTION STATE');
+      // Force immediate state update when BC reports connected - bypass all checks
+      setIsConnected(true);
+      console.log('💡 INSTANT: Set isConnected = true immediately on bc:connected event');
+      
+      // Still do background verification, but don't wait for it
       setTimeout(() => {
-        console.log('🔄 Auto-refresh: Re-checking connection after wallet action');
+        console.log('🔄 Background verification: Re-checking connection after wallet action');
         checkConnection();
-      }, 1000);
+      }, 100);
+    };
+
+    // Add comprehensive event monitoring to debug what's actually happening
+    const debugEventHandler = (eventName: string) => (event: any) => {
+      console.log(`🔍 EVENT DEBUG: ${eventName} fired`, event);
     };
     
     const handleDisconnected = () => {
@@ -183,13 +208,40 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
       }, 1000);
     };
 
+    // Core Bitcoin Connect events
     window.addEventListener('bc:connected', handleConnected);
     window.addEventListener('bc:disconnected', handleDisconnected);
+    
+    // Debug: Monitor ALL possible Bitcoin Connect related events
+    const possibleEvents = [
+      'bc:connecting', 'bc:connect', 'bc:ready', 'bc:initialized', 'bc:wallet-connected',
+      'bitcoin-connect:connected', 'bitcoin-connect:ready', 'bitcoinconnect:connected',
+      'wallet:connected', 'wallet:ready', 'alby:connected', 'webln:ready'
+    ];
+    
+    possibleEvents.forEach(eventName => {
+      window.addEventListener(eventName, debugEventHandler(eventName));
+      console.log(`👂 Listening for event: ${eventName}`);
+    });
     
     // Listen for storage changes (in case BC updates localStorage from another tab/component)
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key && (e.key.startsWith('bc:') || e.key.includes('nwc') || e.key.includes('alby'))) {
         console.log('🔄 Bitcoin Connect storage changed:', e.key, 'new value:', e.newValue);
+        
+        // If bc:config appears with connection data, force immediate connection
+        if (e.key === 'bc:config' && e.newValue) {
+          try {
+            const config = JSON.parse(e.newValue);
+            if (config && (config.connectorType || config.nwcUrl)) {
+              console.log('💡 INSTANT: bc:config detected with connection data - forcing immediate state');
+              setIsConnected(true);
+            }
+          } catch (error) {
+            console.log('Failed to parse bc:config:', error);
+          }
+        }
+        
         // Auto-refresh: Check immediately, then again after a delay for storage changes
         checkConnection();
         setTimeout(() => {
@@ -236,17 +288,51 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
 
     // Check connection status periodically (less frequently to avoid rate limiting)
     const interval = setInterval(checkConnection, 60000); // Every 60 seconds to avoid rate limits
+    
+    // More frequent checking when BC config exists but not yet connected (transitional state)
+    let fastCheckInterval: NodeJS.Timeout | null = null;
+    const startFastChecking = () => {
+      if (fastCheckInterval) return; // Already checking
+      console.log('🚀 Starting fast connection checking (BC in transitional state)');
+      fastCheckInterval = setInterval(() => {
+        const bcConfigExists = localStorage.getItem('bc:config');
+        if (bcConfigExists && !isConnected) {
+          checkConnection();
+        } else {
+          // Stop fast checking once connected or no BC config
+          if (fastCheckInterval) {
+            clearInterval(fastCheckInterval);
+            fastCheckInterval = null;
+            console.log('🛑 Stopping fast connection checking');
+          }
+        }
+      }, 1000); // Check every second when in transitional state
+    };
+    
+    // Start fast checking if BC config exists but not connected
+    if (localStorage.getItem('bc:config') && !isConnected) {
+      startFastChecking();
+    }
 
     return () => {
       window.removeEventListener('bc:connected', handleConnected);
       window.removeEventListener('bc:disconnected', handleDisconnected);
       window.removeEventListener('storage', handleStorageChange);
+      
+      // Remove debug event listeners
+      possibleEvents.forEach(eventName => {
+        window.removeEventListener(eventName, debugEventHandler(eventName));
+      });
+      
       if (typeof window !== 'undefined' && (window as any).webln) {
         window.removeEventListener('webln:enabled', handleWeblnEnabled);
       }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('focus', handleFocus);
       clearInterval(interval);
+      if (fastCheckInterval) {
+        clearInterval(fastCheckInterval);
+      }
     };
   }, [isLightningEnabled]);
 
