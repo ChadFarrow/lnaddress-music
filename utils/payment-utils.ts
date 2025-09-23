@@ -44,15 +44,17 @@ function createBoostTLVRecords(metadata: BoostMetadata, recipientName?: string, 
     episode: metadata.title || 'Unknown Title',
     action: 'boost',
     app_name: metadata.appName || 'ITDV Lightning',
-    // Use main podcast feed URL like manual boosts
-    feed: 'https://www.doerfelverse.com/feeds/intothedoerfelverse.xml',
-    url: 'https://www.doerfelverse.com/feeds/intothedoerfelverse.xml',
+    // Use actual feed URL from metadata, fallback to main podcast feed
+    feed: metadata.feedUrl || 'https://www.doerfelverse.com/feeds/intothedoerfelverse.xml',
+    url: metadata.feedUrl || 'https://www.doerfelverse.com/feeds/intothedoerfelverse.xml',
     message: metadata.message || '',
     ...(metadata.timestamp && { ts: metadata.timestamp }),
-    // Use numeric feedID like manual boosts  
-    feedID: "6590182",
-    // Add episode_guid for proper identification
+    // Use proper feedId (lowercase 'd') for Helipad compatibility - it expects feedId not feedID
+    feedId: metadata.feedUrl === 'https://www.doerfelverse.com/feeds/bloodshot-lies-album.xml' ? "6590183" : "6590182",
+    // Add Helipad-specific GUID fields
     ...(metadata.itemGuid && { episode_guid: metadata.itemGuid }),
+    ...(metadata.itemGuid && { remote_item_guid: metadata.itemGuid }),
+    ...(metadata.podcastFeedGuid && { remote_feed_guid: metadata.podcastFeedGuid }),
     ...(metadata.album && { album: metadata.album }),
     ...(amount && { value_msat_total: amount * 1000 }),
     sender_name: metadata.senderName || 'Anonymous',
@@ -61,6 +63,10 @@ function createBoostTLVRecords(metadata: BoostMetadata, recipientName?: string, 
     ...(amount && { value_msat: amount * 1000 }), // Individual payment amount
     name: 'ITDV Lightning' // App/service name
   };
+  
+  // Log the exact TLV data for debugging
+  console.log('🔍 HELIPAD DEBUG - Exact TLV 7629169 data being sent:');
+  console.log(JSON.stringify(podcastMetadata, null, 2));
   
   tlvRecords.push({
     type: 7629169,

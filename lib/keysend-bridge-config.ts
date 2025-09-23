@@ -44,7 +44,10 @@ export const BRIDGE_CONFIG = {
     'strike', 
     'cash app',
     'zebedee',
-    'primal'            // Reports keysend support but doesn't implement it yet
+    'primal',           // Reports keysend support but doesn't implement it yet
+    'cashu',            // Cashu wallets don't support keysend natively
+    'cashume',          // Cashu.me specific variant
+    'mint'              // Generic Cashu mint references
   ],
   
   // List of wallets known to support reliable keysend

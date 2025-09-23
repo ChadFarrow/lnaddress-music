@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, useRef } from 'react';
 import { useLightning } from './LightningContext';
 
 interface BitcoinConnectContextType {
@@ -14,6 +14,8 @@ const BitcoinConnectContext = createContext<BitcoinConnectContextType | undefine
 export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
   const { isLightningEnabled } = useLightning();
+  const lastCheckRef = useRef<number>(0);
+  const checkInProgressRef = useRef<boolean>(false);
 
   const checkConnection = async () => {
     try {
@@ -22,6 +24,19 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         setIsConnected(false);
         return false;
       }
+      
+      // Prevent concurrent checks and rate limit to once per 5 seconds
+      if (checkInProgressRef.current) {
+        return isConnected;
+      }
+      
+      const now = Date.now();
+      if (now - lastCheckRef.current < 5000) {
+        return isConnected;
+      }
+      
+      checkInProgressRef.current = true;
+      lastCheckRef.current = now;
       // Check for WebLN (Alby, etc.)
       const weblnExists = !!(window as any).webln;
       const weblnEnabled = weblnExists && !!(window as any).webln?.enabled;
@@ -82,21 +97,20 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         weblnEnabledAfter = weblnEnabled;
       }
       
-      // Initialize NWC service if connection string exists
+      // Check NWC service status without trying to import it here
+      // to avoid chunk loading issues
       let nwcServiceConnected = false;
       try {
-        const { getNWCService } = await import('../lib/nwc-service');
-        const nwcService = getNWCService();
-        
-        // If we have an NWC connection string but service isn't connected, try to connect
-        if (nwcConnected && !nwcService.isConnected()) {
-          console.log('🔄 Initializing NWC service with connection string');
-          await nwcService.connect(nwcConnected);
+        // Only check if we have window and NWC connection
+        if (typeof window !== 'undefined' && nwcConnected) {
+          // Try to get the service if it's already loaded
+          const nwcService = (window as any).__nwcService;
+          if (nwcService && nwcService.isConnected) {
+            nwcServiceConnected = nwcService.isConnected();
+          }
         }
-        
-        nwcServiceConnected = nwcService.isConnected();
       } catch (error) {
-        console.warn('NWC service connection failed:', error);
+        console.warn('NWC service check failed:', error);
         nwcServiceConnected = false;
       }
       
@@ -139,6 +153,8 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Error checking connection:', error);
       return false;
+    } finally {
+      checkInProgressRef.current = false;
     }
   };
 
@@ -169,8 +185,8 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
     };
     window.addEventListener('storage', handleStorageChange);
 
-    // Check connection status periodically (less frequently to avoid performance issues)
-    const interval = setInterval(checkConnection, 30000); // Every 30 seconds instead of 2
+    // Check connection status periodically (less frequently to avoid rate limiting)
+    const interval = setInterval(checkConnection, 60000); // Every 60 seconds to avoid rate limits
 
     return () => {
       window.removeEventListener('bc:connected', handleConnected);
