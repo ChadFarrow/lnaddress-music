@@ -200,7 +200,7 @@ export default function TestCashuPage() {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-yellow-400 font-bold">3.</span>
-              <span>Click "Generate New Connection" or use existing NWC connection string</span>
+              <span>Click &quot;Generate New Connection&quot; or use existing NWC connection string</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-yellow-400 font-bold">4.</span>
@@ -208,7 +208,7 @@ export default function TestCashuPage() {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-yellow-400 font-bold">5.</span>
-              <span>Click the Bitcoin Connect button below and select "Nostr Wallet Connect"</span>
+              <span>Click the Bitcoin Connect button below and select &quot;Nostr Wallet Connect&quot;</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-yellow-400 font-bold">6.</span>
@@ -223,7 +223,7 @@ export default function TestCashuPage() {
           <div className="mt-4 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
             <p className="text-sm text-yellow-300">
               <strong>Note:</strong> Cashu.me is an ecash wallet that provides Lightning compatibility through NWC. 
-              Payments are processed through the Cashu mint's Lightning node.
+              Payments are processed through the Cashu mint&apos;s Lightning node.
             </p>
           </div>
         </div>
