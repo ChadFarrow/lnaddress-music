@@ -165,12 +165,22 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
     // Listen for Bitcoin Connect events
     const handleConnected = () => {
       console.log('🔗 Global Bitcoin Connect wallet connected');
+      // Auto-refresh: Check immediately, then again after a delay to ensure state is settled
       checkConnection();
+      setTimeout(() => {
+        console.log('🔄 Auto-refresh: Re-checking connection after wallet action');
+        checkConnection();
+      }, 1000);
     };
     
     const handleDisconnected = () => {
       console.log('🔗 Global Bitcoin Connect wallet disconnected');
+      // Auto-refresh: Check immediately, then again after a delay
       checkConnection();
+      setTimeout(() => {
+        console.log('🔄 Auto-refresh: Re-checking connection after disconnect');
+        checkConnection();
+      }, 1000);
     };
 
     window.addEventListener('bc:connected', handleConnected);
@@ -180,10 +190,49 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key && (e.key.startsWith('bc:') || e.key.includes('nwc') || e.key.includes('alby'))) {
         console.log('🔄 Bitcoin Connect storage changed:', e.key, 'new value:', e.newValue);
+        // Auto-refresh: Check immediately, then again after a delay for storage changes
         checkConnection();
+        setTimeout(() => {
+          console.log('🔄 Auto-refresh: Re-checking connection after storage change');
+          checkConnection();
+        }, 1500);
       }
     };
     window.addEventListener('storage', handleStorageChange);
+
+    // Listen for WebLN enable events (Alby extension connections)
+    const handleWeblnEnabled = () => {
+      console.log('🔗 WebLN enabled event detected');
+      // Auto-refresh: Check immediately, then again after a delay for WebLN
+      checkConnection();
+      setTimeout(() => {
+        console.log('🔄 Auto-refresh: Re-checking connection after WebLN enable');
+        checkConnection();
+      }, 1000);
+    };
+    
+    // Monitor for WebLN changes if available
+    if (typeof window !== 'undefined' && (window as any).webln) {
+      window.addEventListener('webln:enabled', handleWeblnEnabled);
+    }
+
+    // Listen for visibility changes (when user returns to tab after wallet action)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        console.log('🔄 Tab became visible - checking wallet connection status');
+        // Auto-refresh: Check connection when user returns to tab
+        setTimeout(checkConnection, 500);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Listen for focus events (when user clicks back into the app)
+    const handleFocus = () => {
+      console.log('🔄 Window focused - checking wallet connection status');
+      // Auto-refresh: Check connection when window gains focus
+      setTimeout(checkConnection, 500);
+    };
+    window.addEventListener('focus', handleFocus);
 
     // Check connection status periodically (less frequently to avoid rate limiting)
     const interval = setInterval(checkConnection, 60000); // Every 60 seconds to avoid rate limits
@@ -192,6 +241,11 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
       window.removeEventListener('bc:connected', handleConnected);
       window.removeEventListener('bc:disconnected', handleDisconnected);
       window.removeEventListener('storage', handleStorageChange);
+      if (typeof window !== 'undefined' && (window as any).webln) {
+        window.removeEventListener('webln:enabled', handleWeblnEnabled);
+      }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
       clearInterval(interval);
     };
   }, [isLightningEnabled]);
