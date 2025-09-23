@@ -526,7 +526,14 @@ export function BitcoinConnectPayment({
       const bridgeConfig = await bridgeConfigResponse?.json().catch(() => null);
       const bridgeAvailable = bridgeConfig?.isConfigured || false;
       
-      if (shouldUseNWC && isCashuWallet) {
+      // 🎯 PRIORITY: WebLN for Helipad compatibility
+      // Direct WebLN (browser extensions like Alby) provides the best compatibility
+      // with podcast apps like Helipad that monitor specific Lightning nodes
+      if (weblnAvailable && nodeRecipients.length > 0) {
+        console.log('🧠 Smart routing: WebLN available for keysend → Prioritizing for podcast compatibility (Helipad)');
+        useNWC = false;
+        routingReason = 'WebLN keysend ensures Helipad compatibility';
+      } else if (shouldUseNWC && isCashuWallet) {
         // CASHU WALLET SCENARIOS
         if (nodeRecipients.length > 0 && lnAddressRecipients.length > 0) {
           // Mixed recipients: keysend + Lightning addresses
