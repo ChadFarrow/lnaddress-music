@@ -17,7 +17,7 @@ The Keysend Bridge allows wallets that don't natively support keysend payments (
 1. Open your Alby Hub dashboard
 2. Navigate to **Apps → Connections**
 3. Click **"Create New Connection"**
-4. Give it a name like "ITDV Keysend Bridge"
+4. Give it a name like "HPM Keysend Bridge"
 5. Set appropriate permissions (needs payment capabilities)
 6. Copy the NWC connection string (starts with `nostr+walletconnect://`)
 

@@ -41,8 +41,8 @@ export default function LightningGuidePage() {
               <h1 className="text-2xl font-bold">⚡ Lightning Payments Guide</h1>
               <div className="w-10 h-10 relative border border-gray-700 rounded-lg overflow-hidden">
                 <Image 
-                  src="/ITDV-lightning-logo.jpg" 
-                  alt="ITDV Lightning Logo" 
+                  src="/HPM-lightning-logo.jpg" 
+                  alt="HPM Lightning Logo" 
                   width={40} 
                   height={40}
                   className="object-cover"
@@ -61,7 +61,7 @@ export default function LightningGuidePage() {
             <div className="bg-black/80 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/30">
               <h2 className="text-3xl font-bold mb-4 text-yellow-400">⚡ Lightning Network & Value4Value</h2>
               <p className="text-lg mb-4">
-                ITDV Lightning uses Bitcoin&apos;s Lightning Network to enable <strong>Value4Value</strong> payments - a revolutionary model where you pay artists directly based on the value you receive from their music.
+                HPM Lightning uses Bitcoin&apos;s Lightning Network to enable <strong>Value4Value</strong> payments - a revolutionary model where you pay artists directly based on the value you receive from their music.
               </p>
               
               <div className="bg-gradient-to-r from-yellow-600 to-orange-600 rounded-lg p-4 text-center">
@@ -193,7 +193,7 @@ export default function LightningGuidePage() {
                 <div className="flex gap-4">
                   <div className="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold">3</div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">Connect to ITDV Lightning</h3>
+                    <h3 className="text-xl font-semibold mb-2">Connect to HPM Lightning</h3>
                     <p className="mb-3">Connect your wallet to the platform:</p>
                     <ol className="list-decimal list-inside space-y-1 text-gray-300">
                       <li>Click the Lightning wallet button in the header</li>

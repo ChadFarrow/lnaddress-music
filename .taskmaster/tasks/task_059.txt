@@ -3,7 +3,7 @@
 # Status: pending
 # Dependencies: None
 # Priority: high
-# Description: Add Sir TJ the Wrathful artist content and pages to the ITDV site
+# Description: Add Sir TJ the Wrathful artist content and pages to the HPM site
 # Details:
 Add comprehensive Sir TJ the Wrathful artist content to the site including:
 - Create dedicated artist page for Sir TJ the Wrathful

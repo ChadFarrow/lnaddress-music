@@ -1,7 +1,7 @@
 # Claude Code Instructions
 
 ## Project Overview
-ITDV-Site is a Next.js web application that serves as a platform for showcasing music content from various artists, with a focus on The Doerfels and related artists.
+HPM-Site is a Next.js web application that serves as a platform for showcasing music content from various artists, with a focus on The Doerfels and related artists.
 
 ## Key Technologies
 - Next.js

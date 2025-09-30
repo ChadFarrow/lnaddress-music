@@ -565,7 +565,7 @@
       {
         "id": 55,
         "title": "Remove all music from the site",
-        "description": "Remove all music-related functionality, components, and content from the ITDV site",
+        "description": "Remove all music-related functionality, components, and content from the HPM site",
         "details": "Components and features to remove:\n- Audio players and music streaming functionality\n- Album pages and music content displays\n- RSS feed integration for music content\n- Music-related API endpoints and data fetching\n- Music player controls and interfaces\n- Album artwork and music metadata displays\n- Music-specific routing and navigation\n- Music-related database schemas or data structures\n- Audio file handling and processing\n- Music streaming platform integrations\n- Music-related UI components and layouts\n- Any music content management features\n\nGoal: Completely transition the site away from being a music streaming platform to focus on other content.",
         "testStrategy": "- Verify all audio players and music controls are removed\n- Confirm no music-related API endpoints remain\n- Test that all pages load without music functionality\n- Ensure no broken links to removed music content\n- Validate that RSS feeds no longer contain music data\n- Check that all music-related routing has been cleaned up",
         "status": "done",
@@ -576,7 +576,7 @@
       {
         "id": 56,
         "title": "Add The Doerfels to the site",
-        "description": "Add The Doerfels content, pages, and functionality to the ITDV site",
+        "description": "Add The Doerfels content, pages, and functionality to the HPM site",
         "details": "Add comprehensive Doerfels content to the site including:\n- Create dedicated artist page for The Doerfels\n- Integrate Doerfels music content (albums, tracks, metadata)\n- Add artist bio, images, and promotional materials\n- Ensure proper navigation and linking to Doerfels content\n- Implement Doerfels branding and visual elements\n- Add Doerfels discography and album artwork\n- Create Doerfels-specific sections and features\n- Maintain consistency with existing site design and functionality\n- Optimize for mobile and desktop viewing\n- Include social media links and contact information",
         "testStrategy": "- Verify all Doerfels content displays properly\n- Test navigation to and from Doerfels pages\n- Confirm artist page loads correctly on all devices\n- Validate music content integration and playback\n- Check that branding and images render correctly\n- Test responsive design on mobile and desktop\n- Verify all links and navigation work properly",
         "status": "done",
@@ -587,7 +587,7 @@
       {
         "id": 57,
         "title": "Add Ben Doerfel to the site",
-        "description": "Add Ben Doerfel individual artist content and pages to the ITDV site",
+        "description": "Add Ben Doerfel individual artist content and pages to the HPM site",
         "details": "Add comprehensive Ben Doerfel individual artist content to the site including:\n- Create dedicated artist page for Ben Doerfel as a solo artist\n- Integrate Ben Doerfel's solo music content (albums, tracks, metadata)\n- Add artist bio, images, and promotional materials for Ben Doerfel\n- Ensure proper navigation and linking to Ben Doerfel content\n- Implement Ben Doerfel branding and visual elements\n- Add Ben Doerfel discography and album artwork\n- Create Ben Doerfel-specific sections and features\n- Maintain consistency with existing site design and functionality\n- Optimize for mobile and desktop viewing\n- Include social media links and contact information\n- Distinguish Ben Doerfel solo content from The Doerfels band content",
         "testStrategy": "- Verify all Ben Doerfel content displays properly\n- Test navigation to and from Ben Doerfel pages\n- Confirm artist page loads correctly on all devices\n- Validate music content integration and playback\n- Check that branding and images render correctly\n- Test responsive design on mobile and desktop\n- Verify all links and navigation work properly\n- Ensure clear distinction from The Doerfels band content",
         "status": "pending",
@@ -598,7 +598,7 @@
       {
         "id": 58,
         "title": "Add KurtisDrums to the site",
-        "description": "Add KurtisDrums artist content and pages to the ITDV site",
+        "description": "Add KurtisDrums artist content and pages to the HPM site",
         "details": "Add comprehensive KurtisDrums artist content to the site including:\n- Create dedicated artist page for KurtisDrums\n- Integrate KurtisDrums music content (albums, tracks, metadata)\n- Add artist bio, images, and promotional materials for KurtisDrums\n- Ensure proper navigation and linking to KurtisDrums content\n- Implement KurtisDrums branding and visual elements\n- Add KurtisDrums discography and album artwork\n- Create KurtisDrums-specific sections and features\n- Maintain consistency with existing site design and functionality\n- Optimize for mobile and desktop viewing\n- Include social media links and contact information\n- Highlight drumming expertise and musical style",
         "testStrategy": "- Verify all KurtisDrums content displays properly\n- Test navigation to and from KurtisDrums pages\n- Confirm artist page loads correctly on all devices\n- Validate music content integration and playback\n- Check that branding and images render correctly\n- Test responsive design on mobile and desktop\n- Verify all links and navigation work properly\n- Ensure proper representation of drumming focus",
         "status": "pending",
@@ -609,7 +609,7 @@
       {
         "id": 59,
         "title": "Add Sir TJ the Wrathful to the site",
-        "description": "Add Sir TJ the Wrathful artist content and pages to the ITDV site",
+        "description": "Add Sir TJ the Wrathful artist content and pages to the HPM site",
         "details": "Add comprehensive Sir TJ the Wrathful artist content to the site including:\n- Create dedicated artist page for Sir TJ the Wrathful\n- Integrate Sir TJ the Wrathful music content (albums, tracks, metadata)\n- Add artist bio, images, and promotional materials for Sir TJ the Wrathful\n- Ensure proper navigation and linking to Sir TJ the Wrathful content\n- Implement Sir TJ the Wrathful branding and visual elements\n- Add Sir TJ the Wrathful discography and album artwork\n- Create Sir TJ the Wrathful-specific sections and features\n- Maintain consistency with existing site design and functionality\n- Optimize for mobile and desktop viewing\n- Include social media links and contact information\n- Highlight the unique artistic persona and style",
         "testStrategy": "- Verify all Sir TJ the Wrathful content displays properly\n- Test navigation to and from Sir TJ the Wrathful pages\n- Confirm artist page loads correctly on all devices\n- Validate music content integration and playback\n- Check that branding and images render correctly\n- Test responsive design on mobile and desktop\n- Verify all links and navigation work properly\n- Ensure proper representation of artistic persona",
         "status": "pending",
@@ -620,7 +620,7 @@
       {
         "id": 60,
         "title": "Add Doerfels Family Blugrass to the site",
-        "description": "Add Doerfels Family Blugrass band content and pages to the ITDV site",
+        "description": "Add Doerfels Family Blugrass band content and pages to the HPM site",
         "details": "Add comprehensive Doerfels Family Blugrass content to the site including:\n- Create dedicated artist page for Doerfels Family Blugrass\n- Integrate Doerfels Family Blugrass music content (albums, tracks, metadata)\n- Add band bio, images, and promotional materials for Doerfels Family Blugrass\n- Ensure proper navigation and linking to Doerfels Family Blugrass content\n- Implement Doerfels Family Blugrass branding and visual elements\n- Add Doerfels Family Blugrass discography and album artwork\n- Create Doerfels Family Blugrass-specific sections and features\n- Maintain consistency with existing site design and functionality\n- Optimize for mobile and desktop viewing\n- Include social media links and contact information\n- Highlight the blugrass musical style and family band aspect\n- Distinguish from other Doerfels-related projects",
         "testStrategy": "- Verify all Doerfels Family Blugrass content displays properly\n- Test navigation to and from Doerfels Family Blugrass pages\n- Confirm artist page loads correctly on all devices\n- Validate music content integration and playback\n- Check that branding and images render correctly\n- Test responsive design on mobile and desktop\n- Verify all links and navigation work properly\n- Ensure proper representation of blugrass style\n- Confirm distinction from other Doerfels projects",
         "status": "pending",
@@ -631,7 +631,7 @@
       {
         "id": 61,
         "title": "Remove the quote from the top",
-        "description": "Remove the quote displayed at the top of the ITDV site",
+        "description": "Remove the quote displayed at the top of the HPM site",
         "details": "Remove the quote that appears at the top of the site to clean up the page layout and improve the user experience. This includes:\n- Identify and locate the quote element in the header or top section\n- Remove the quote text and any associated styling\n- Clean up any related HTML elements or containers\n- Ensure the layout remains clean and well-structured after removal\n- Test that the removal doesn't break other page elements\n- Verify the site navigation and branding remain intact\n- Update any CSS or styling that may be affected by the removal",
         "testStrategy": "- Verify the quote is completely removed from the top of the site\n- Test that the page layout looks clean and well-structured\n- Confirm no broken elements or styling issues\n- Check that navigation and other header elements work properly\n- Test across different devices and screen sizes\n- Validate that the removal doesn't affect other page functionality",
         "status": "done",

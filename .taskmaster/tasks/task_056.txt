@@ -3,7 +3,7 @@
 # Status: pending
 # Dependencies: None
 # Priority: high
-# Description: Add The Doerfels content, pages, and functionality to the ITDV site
+# Description: Add The Doerfels content, pages, and functionality to the HPM site
 # Details:
 Add comprehensive Doerfels content to the site including:
 - Create dedicated artist page for The Doerfels

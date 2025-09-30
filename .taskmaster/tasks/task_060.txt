@@ -3,7 +3,7 @@
 # Status: pending
 # Dependencies: None
 # Priority: high
-# Description: Add Doerfels Family Blugrass band content and pages to the ITDV site
+# Description: Add Doerfels Family Blugrass band content and pages to the HPM site
 # Details:
 Add comprehensive Doerfels Family Blugrass content to the site including:
 - Create dedicated artist page for Doerfels Family Blugrass

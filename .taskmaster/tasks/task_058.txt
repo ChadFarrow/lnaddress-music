@@ -3,7 +3,7 @@
 # Status: pending
 # Dependencies: None
 # Priority: high
-# Description: Add KurtisDrums artist content and pages to the ITDV site
+# Description: Add KurtisDrums artist content and pages to the HPM site
 # Details:
 Add comprehensive KurtisDrums artist content to the site including:
 - Create dedicated artist page for KurtisDrums

@@ -3,7 +3,7 @@
 # Status: pending
 # Dependencies: None
 # Priority: medium
-# Description: Remove the quote displayed at the top of the ITDV site
+# Description: Remove the quote displayed at the top of the HPM site
 # Details:
 Remove the quote that appears at the top of the site to clean up the page layout and improve the user experience. This includes:
 - Identify and locate the quote element in the header or top section

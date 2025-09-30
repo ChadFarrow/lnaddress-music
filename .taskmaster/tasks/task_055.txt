@@ -3,7 +3,7 @@
 # Status: pending
 # Dependencies: None
 # Priority: high
-# Description: Remove all music-related functionality, components, and content from the ITDV site
+# Description: Remove all music-related functionality, components, and content from the HPM site
 # Details:
 Components and features to remove:
 - Audio players and music streaming functionality

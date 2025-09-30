@@ -41,8 +41,8 @@ export default function MusicGuidePage() {
               <h1 className="text-2xl font-bold">🎵 Music Streaming Guide</h1>
               <div className="w-10 h-10 relative border border-gray-700 rounded-lg overflow-hidden">
                 <Image 
-                  src="/ITDV-lightning-logo.jpg" 
-                  alt="ITDV Lightning Logo" 
+                  src="/HPM-lightning-logo.jpg" 
+                  alt="HPM Lightning Logo" 
                   width={40} 
                   height={40}
                   className="object-cover"
@@ -61,7 +61,7 @@ export default function MusicGuidePage() {
             <div className="bg-black/80 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/30">
               <h2 className="text-3xl font-bold mb-4 text-blue-400">🎵 Discover the DoerfelVerse</h2>
               <p className="text-lg mb-4">
-                ITDV Lightning features music from the <strong>DoerfelVerse</strong> - a collection of independent artists creating amazing music across multiple genres. From rock to electronic, bluegrass to experimental, there&apos;s something for every music lover.
+                HPM Lightning features music from the <strong>DoerfelVerse</strong> - a collection of independent artists creating amazing music across multiple genres. From rock to electronic, bluegrass to experimental, there&apos;s something for every music lover.
               </p>
               
               <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-4 text-center">
@@ -285,7 +285,7 @@ export default function MusicGuidePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-black/70 rounded-lg p-4">
                   <h3 className="text-xl font-semibold mb-3 text-blue-400">📱 Progressive Web App</h3>
-                  <p className="mb-3">Install ITDV Lightning as a mobile app:</p>
+                  <p className="mb-3">Install HPM Lightning as a mobile app:</p>
                   <ol className="list-decimal list-inside space-y-1 text-sm text-gray-300">
                     <li>Visit the site on your mobile browser</li>
                     <li>Look for the install prompt</li>
@@ -364,7 +364,7 @@ export default function MusicGuidePage() {
               <div className="space-y-6">
                 <div className="bg-black/70 rounded-lg p-4">
                   <h3 className="text-xl font-semibold mb-3 text-blue-400">🌐 Streaming Technology</h3>
-                  <p className="mb-3">ITDV Lightning uses advanced streaming technology:</p>
+                  <p className="mb-3">HPM Lightning uses advanced streaming technology:</p>
                   <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
                     <li><strong>Direct RSS feed streaming</strong> - no intermediate servers</li>
                     <li><strong>HLS.js support</strong> for adaptive streaming</li>

@@ -80,14 +80,14 @@ Apply this pattern to these key areas:
 ### Lightning Version (.env.lightning)
 ```env
 NEXT_PUBLIC_ENABLE_LIGHTNING=true
-NEXT_PUBLIC_SITE_NAME="ITDV Lightning"
+NEXT_PUBLIC_SITE_NAME="HPM Lightning"
 NEXT_PUBLIC_SITE_URL="https://zaps.podtards.com"
 ```
 
 ### Basic Version (.env.basic)
 ```env
 NEXT_PUBLIC_ENABLE_LIGHTNING=false
-NEXT_PUBLIC_SITE_NAME="ITDV Music"
+NEXT_PUBLIC_SITE_NAME="HPM Music"
 NEXT_PUBLIC_SITE_URL="https://music.podtards.com"
 ```
 

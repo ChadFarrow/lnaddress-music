@@ -1,8 +1,8 @@
-# ITDV Lightning - User Guide & Tutorial
+# HPM Lightning - User Guide & Tutorial
 
-## 🌟 What is ITDV Lightning?
+## 🌟 What is HPM Lightning?
 
-**ITDV Lightning** is a revolutionary music platform that showcases independent artists from the DoerfelVerse using the **Value4Value** model. It's built on Bitcoin's Lightning Network, allowing you to support artists directly with instant micropayments while enjoying their music.
+**HPM Lightning** is a revolutionary music platform that showcases independent artists from the DoerfelVerse using the **Value4Value** model. It's built on Bitcoin's Lightning Network, allowing you to support artists directly with instant micropayments while enjoying their music.
 
 ### Key Features:
 - 🎵 **40+ Albums & Singles** from independent DoerfelVerse artists
