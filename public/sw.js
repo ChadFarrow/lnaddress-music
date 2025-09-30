@@ -7,8 +7,8 @@ const STATIC_FILES = [
   '/manifest.json',
   '/icon-192x192.png',
   '/icon-512x512.png',
-  '/HPM-lightning-logo.jpg',
-  '/bloodshot-lies-big.png',
+  // '/your-logo.jpg', // Add your own logo here
+  // '/your-background.png', // Add your own background image here
   '/data/albums-with-colors.json', // Critical color data
   '/publishers.json', // Publisher data
   // Add more static assets as needed

@@ -81,8 +81,8 @@ export function preloadStaticAssets(): void {
   
   // Preload critical images
   const criticalImages = [
-    '/bloodshot-lies-big.png',
-    '/HPM-lightning-logo.jpg',
+    // '/bloodshot-lies-big.png', // Removed - add your own background image here
+    // '/your-logo.jpg', // Add your own logo here
   ];
   
   criticalImages.forEach(src => {

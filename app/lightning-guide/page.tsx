@@ -39,17 +39,7 @@ export default function LightningGuidePage() {
                 <span>Back to Music</span>
               </Link>
               <h1 className="text-2xl font-bold">⚡ Lightning Payments Guide</h1>
-              <div className="w-10 h-10 relative border border-gray-700 rounded-lg overflow-hidden">
-                <Image 
-                  src="/HPM-lightning-logo.jpg" 
-                  alt="HPM Lightning Logo" 
-                  width={40} 
-                  height={40}
-                  className="object-cover"
-                  loading="lazy"
-                  quality={60}
-                />
-              </div>
+              {/* Logo placeholder */}
             </div>
           </div>
         </header>

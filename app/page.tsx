@@ -549,17 +549,7 @@ export default function HomePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                   </button>
-                  <div className="w-10 h-10 relative border border-gray-700 rounded-lg overflow-hidden">
-                    <Image 
-                      src="/HPM-lightning-logo.jpg" 
-                      alt="HPM Lightning Logo" 
-                      width={40} 
-                      height={40}
-                      className="object-cover"
-                      loading="lazy"
-                      quality={60}
-                    />
-                  </div>
+                  {/* Logo placeholder - add your own logo here */}
                 </div>
                 <div className="flex items-center gap-3">
                   {isLightningEnabled && <BitcoinConnectWallet />}
@@ -575,7 +565,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="text-center">
-                <h1 className="text-xl font-bold mb-1">Into the Doerfel-Verse</h1>
+                <h1 className="text-xl font-bold mb-1">{process.env.NEXT_PUBLIC_BAND_NAME || '[YOUR_BAND_NAME]'}</h1>
 
 
               </div>
@@ -594,20 +584,10 @@ export default function HomePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                   </button>
-                  <div className="w-10 h-10 relative border border-gray-700 rounded-lg overflow-hidden">
-                    <Image 
-                      src="/HPM-lightning-logo.jpg" 
-                      alt="HPM Lightning Logo" 
-                      width={40} 
-                      height={40}
-                      className="object-cover"
-                      loading="lazy"
-                      quality={60}
-                    />
-                  </div>
+                  {/* Logo placeholder - add your own logo here */}
                 </div>
                 <div className="text-center">
-                  <h1 className="text-3xl font-bold mb-1">Into the Doerfel-Verse</h1>
+                  <h1 className="text-3xl font-bold mb-1">{process.env.NEXT_PUBLIC_BAND_NAME || '[YOUR_BAND_NAME]'}</h1>
 
 
                 </div>
