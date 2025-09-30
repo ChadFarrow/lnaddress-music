@@ -43,11 +43,6 @@
       "extended": "Additional/secondary content",
       "high": "Priority content"
     },
-    "exampleFeeds": {
-      "wavlake": "https://wavlake.com/feed/artist/[ARTIST_ID]",
-      "wavlakeAlbum": "https://wavlake.com/feed/music/[ALBUM_ID]",
-      "selfHosted": "https://yourdomain.com/feeds/album.xml",
-      "podcastHost": "https://feeds.buzzsprout.com/[SHOW_ID].rss"
-    }
+    "requirements": "RSS feeds must include Podcasting 2.0 value tags with Lightning payment info"
   }
 }

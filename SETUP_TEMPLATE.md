@@ -1,6 +1,6 @@
 # HPM-Lightning Setup Template
 
-This template helps you configure the platform for your band/artist. Replace all `[PLACEHOLDER]` values with your actual information.
+Configure the platform for your band/artist by replacing all `[PLACEHOLDER]` values with your actual information.
 
 ## Quick Setup Checklist
 
@@ -8,11 +8,11 @@ This template helps you configure the platform for your band/artist. Replace all
 ✅ Created with placeholders - Edit the file and replace:
 - `[YOUR_BAND_NAME]` - Your band/artist name
 - `[your-band-slug]` - URL-friendly version (lowercase, hyphens)
-- `[YOUR_LIGHTNING_ADDRESS]` - Your Lightning wallet address
+- `[YOUR_LIGHTNING_ADDRESS]` - Lightning address from your RSS feed's value tags
 
 ### 2. RSS Feeds (data/feeds.json)
 ✅ Created with template structure - Replace:
-- `[YOUR_RSS_FEED_URL_X]` - Your actual RSS feed URLs
+- `[YOUR_RSS_FEED_URL_X]` - Your existing RSS feed URLs
 - `[ALBUM_TITLE_X]` - Your album/EP titles
 - `[feed-id-X]` - Unique identifiers for each feed
 
@@ -20,14 +20,7 @@ This template helps you configure the platform for your band/artist. Replace all
 
 **Essential (must have):**
 - [ ] Band/Artist Name
-- [ ] Lightning Address (e.g., yourname@getalby.com)
-- [ ] At least one RSS feed URL
-
-**RSS Feed Options:**
-- **Wavlake:** `https://wavlake.com/feed/artist/YOUR_ARTIST_ID`
-- **Self-hosted:** Upload XML files to your server
-- **Podcast hosts:** Most provide RSS feeds automatically
-- **GitHub:** Host XML files in a public repo
+- [ ] Existing RSS feed URLs with Podcasting 2.0 value tags (includes Lightning payment info)
 
 ### 4. Commands to Run
 
@@ -70,30 +63,14 @@ rm .env.local
 rm -rf data/rss-cache/*
 ```
 
-## Example Values
+## RSS Feed Requirements
 
-If you're testing and need example values:
+Your RSS feeds must include:
+- Podcasting 2.0 `<podcast:value>` tags
+- Lightning payment splits configuration
+- Valid audio enclosures
 
-**.env.local:**
-```env
-NEXT_PUBLIC_BAND_NAME="Hash Power Music"
-NEXT_PUBLIC_BAND_SLUG="hash-power-music"
-NEXT_PUBLIC_METADATA_FEE_ADDRESS="hashpower@getalby.com"
-```
-
-**feeds.json:**
-```json
-{
-  "id": "test-album-1",
-  "originalUrl": "https://wavlake.com/feed/music/abc123",
-  "type": "album",
-  "title": "Test Album",
-  ...
-}
-```
-
-## Need Help?
-
-- Lightning wallet: https://getalby.com
-- RSS feed validator: https://validator.w3.org/feed/
-- Podcasting 2.0 spec: https://github.com/Podcastindex-org/podcast-namespace
+Common sources that support this:
+- **Wavlake:** `https://wavlake.com/feed/artist/[ARTIST_ID]`
+- **RSS.com:** With value tags enabled
+- **Self-hosted:** RSS with proper value tags
