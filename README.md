@@ -1,6 +1,6 @@
 # HPM Lightning
 
-A Lightning Network-powered Value4Value music platform showcasing independent artists from the DoerfelVerse. Built with Next.js, featuring instant Bitcoin payments, Nostr integration, and RSS feeds.
+A Lightning Network-powered Value4Value music platform for bands and artists with existing RSS feeds. Built with Next.js, featuring instant Bitcoin payments, Nostr integration, and Podcasting 2.0 support.
 
 ## Quick Start
 
@@ -16,6 +16,23 @@ A Lightning Network-powered Value4Value music platform showcasing independent ar
 
 3. **Open your browser:**
    Navigate to `http://localhost:3000`
+
+## Configuration
+
+### For Bands/Artists
+
+See [SETUP_TEMPLATE.md](SETUP_TEMPLATE.md) for detailed setup instructions.
+
+**Requirements:**
+- Existing RSS feeds with Podcasting 2.0 value tags
+- Lightning payment info already in your feeds
+- At least one album or publisher feed
+
+**Quick Setup:**
+1. Copy `.env.example` to `.env.local`
+2. Update with your band name and info
+3. Edit `data/feeds.json` with your RSS feed URLs
+4. Run `npm run dev`
 
 ## Available Scripts
 
@@ -37,9 +54,9 @@ A Lightning Network-powered Value4Value music platform showcasing independent ar
 - **Nostr Integration**: NIP-57/NIP-73 compliant boost notes with boostagrams published to Nostr relays
 - **Multi-Payment Recipients**: Automatic splitting to multiple Lightning addresses and nodes
 - **NWC Bridge System**: Seamless payments for non-keysend wallets via Alby Hub relay
-- **RSS Feed Parsing**: Dynamic parsing of 42 album feeds + 4 publisher feeds
-- **Complete Content Coverage**: All 40 unique albums displaying (100% coverage)
-- **Publisher System**: Dedicated pages for music publishers with real artwork  
+- **RSS Feed Parsing**: Dynamic parsing of album and publisher feeds
+- **Complete Content Coverage**: All configured albums and tracks
+- **Publisher System**: Dedicated pages for music publishers with artwork  
 - **Audio Streaming**: Full-featured audio player with playlist support
 - **Content Filtering**: Albums, EPs, Singles, and Publishers views
 - **Static Data Generation**: Fast loading with pre-generated content
@@ -63,7 +80,7 @@ A Lightning Network-powered Value4Value music platform showcasing independent ar
 ## Architecture
 
 - **Frontend**: Next.js 15.4.3 with TypeScript and App Router
-- **Data Source**: 46 RSS feeds + static JSON files (no database required)
+- **Data Source**: RSS feeds with Podcasting 2.0 value tags (no database required)
 - **Styling**: Tailwind CSS with custom components and dark theme
 - **Audio Engine**: Custom AudioContext with HLS.js support and playlist management
 - **Image Processing**: Next.js Image optimization with CDN fallbacks
@@ -78,23 +95,17 @@ A Lightning Network-powered Value4Value music platform showcasing independent ar
 
 ## Content Structure
 
-### Publishers
-Publishers have consolidated RSS feeds for easy subscription and include:
-- **The Doerfels** - `https://www.doerfelverse.com/feeds/doerfels-pubfeed.xml`
-- **CityBeach** - `https://www.doerfelverse.com/feeds/citybeach-pubfeed.xml`
-- **Middle Season** - `https://www.doerfelverse.com/artists/middleseason/mspubfeed.xml`
-- **Ryan Fonda** - `https://wavlake.com/feed/artist/d4c49f2e-0b50-4a5e-8101-7543d68e032f`
+### Feed Types
+- **Album Feeds**: Individual album or EP releases
+- **Publisher Feeds**: Consolidated feeds for all releases from an artist/label
 
-### Content Statistics  
-- **40 unique albums/EPs/singles** from independent DoerfelVerse artists
-- **42 individual album feeds** for granular content access
-- **4 consolidated publisher feeds** for easy RSS subscription  
-- **Artists featured**: The Doerfels, CityBeach, Middle Season, Ryan Fonda, Kurtisdrums, Sir TJ The Wrathful, Generation Gap, Jdog, Ben Doerfel
-- **Genres**: Rock, Bluegrass, Indie, Experimental, Electronic
-- **Content model**: Value for Value (free music with optional Lightning payments)
+### Requirements
+- RSS feeds must include Podcasting 2.0 `<podcast:value>` tags
+- Lightning payment splits must be configured in feeds
+- Valid audio enclosures (MP3 or supported formats)
 
 ### Data Flow
-1. **RSS Feed Parsing**: 46 feeds parsed with individual caching per URL
+1. **RSS Feed Parsing**: Feeds parsed with individual caching per URL
 2. **Content Normalization**: Album and track data extracted and standardized
 3. **Static Generation**: Pre-built JSON files for optimal loading performance
 4. **API Distribution**: Content served via optimized API routes
@@ -104,10 +115,10 @@ Publishers have consolidated RSS feeds for easy subscription and include:
 ## Development
 
 The app uses a hybrid approach:
-- **Static data** for fast initial loads with 100% content coverage
-- **Dynamic parsing** for real-time RSS feed updates (46 total feeds)
+- **Static data** for fast initial loads
+- **Dynamic parsing** for real-time RSS feed updates
 - **Intelligent caching** with unique cache keys to prevent feed collisions
-- **Comprehensive coverage** of all albums, EPs, and singles from DoerfelVerse artists
+- **Comprehensive coverage** of all configured albums, EPs, and singles
 
 ## Recent Improvements
 
@@ -165,18 +176,18 @@ The app uses a hybrid approach:
 - **GitHub Integration**: Nostr boost posts link to project repository
 - **Real-time Payments**: Instant Bitcoin payments with preimage verification
 
-### RSS Cache System Fix
-- **Fixed cache key collisions** that were causing multiple feeds to share the same cached data
-- **Removed truncation bug** in RSS cache key generation (`lib/rss-cache.ts`)
-- **Achievement: 100% album coverage** - All 40 required albums now display correctly
-- **Added publisher feeds** for consolidated RSS subscriptions
-- **Static Album Fallback**: API routes now support static album data when RSS feeds unavailable
+### RSS Cache System
+- **Unique cache keys** prevent feeds from sharing cached data
+- **No truncation bugs** in RSS cache key generation (`lib/rss-cache.ts`)
+- **Full album coverage** for all configured feeds
+- **Publisher feed support** for consolidated RSS subscriptions
+- **Static Album Fallback**: API routes support static album data when RSS feeds unavailable
 
 ### Content Coverage
-- **42 individual album feeds** for main site display
-- **4 publisher feeds** for RSS subscription consolidation  
-- **Zero parsing errors** across all feeds
-- **Complete artist representation** from The Doerfels, CityBeach, Middle Season, Ryan Fonda, and more
+- **Album feeds** for individual releases
+- **Publisher feeds** for RSS subscription consolidation  
+- **Robust parsing** with error handling
+- **Complete artist representation** for all configured feeds
 
 ## Lightning Network & Value4Value
 
