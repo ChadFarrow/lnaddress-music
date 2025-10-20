@@ -1,11 +1,11 @@
-# HPM Lightning - User Guide & Tutorial
+# Music RSS Site - User Guide & Tutorial
 
-## 🌟 What is HPM Lightning?
+## 🌟 What is This Platform?
 
-**HPM Lightning** is a revolutionary music platform that showcases independent artists from the DoerfelVerse using the **Value4Value** model. It's built on Bitcoin's Lightning Network, allowing you to support artists directly with instant micropayments while enjoying their music.
+This is a music platform template that showcases independent artists using the **Value4Value** model. It's built on Bitcoin's Lightning Network, allowing listeners to support artists directly with instant micropayments while enjoying their music.
 
 ### Key Features:
-- 🎵 **40+ Albums & Singles** from independent DoerfelVerse artists
+- 🎵 **RSS-Based Music Library** - Dynamic content from podcast RSS feeds
 - ⚡ **Lightning Network Payments** - Support artists with instant Bitcoin payments
 - 🎧 **Full Audio Player** - Stream music with playlist support
 - 📱 **Progressive Web App** - Install on mobile devices
@@ -17,7 +17,7 @@
 ## 🚀 Getting Started - Quick Tutorial
 
 ### Step 1: Visit the Site
-Navigate to **https://zaps.podtards.com** in your web browser.
+Navigate to your deployed site URL in your web browser.
 
 ### Step 2: Explore the Music
 - **Browse Albums**: Scroll through the main page to see featured albums
@@ -49,17 +49,12 @@ Navigate to **https://zaps.podtards.com** in your web browser.
 ## 🎵 How the Music System Works
 
 ### Content Organization
-The platform features music from the **DoerfelVerse** - a collection of independent artists:
+The platform dynamically loads music from RSS feeds configured in your environment:
 
-- **The Doerfels** - Main band with multiple albums
-- **CityBeach** - Alternative rock
-- **Middle Season** - Indie/experimental
-- **Ryan Fonda** - Singer-songwriter
-- **Kurtisdrums** - Instrumental
-- **Sir TJ The Wrathful** - Hip-hop
-- **Generation Gap** - Rock
-- **Jdog** - Electronic
-- **Ben Doerfel** - Solo projects
+- Configure your RSS feed URLs in `.env.local`
+- Support for multiple artists and publishers
+- Automatic parsing of podcast 2.0 RSS feeds
+- Value splits honored from feed metadata
 
 ### Content Types
 - **Albums**: 7+ tracks (full-length releases)
@@ -300,11 +295,12 @@ Some albums support **automatic value splitting**:
 
 ## 🎵 Start Your Value4Value Journey
 
-Ready to experience the future of music? Visit **https://zaps.podtards.com** and:
+Ready to experience the future of music? Deploy your site and:
 
-1. **Browse the music** - discover amazing independent artists
-2. **Connect your wallet** - set up Lightning payments
-3. **Send your first boost** - support an artist you love
-4. **Share the experience** - help others discover Value4Value
+1. **Configure your RSS feeds** - add your music feeds to `.env.local`
+2. **Browse the music** - discover the artists you've added
+3. **Connect your wallet** - set up Lightning payments
+4. **Send your first boost** - support an artist you love
+5. **Share the experience** - help others discover Value4Value
 
-**Welcome to the DoerfelVerse - where music meets the Lightning Network!** ⚡🎵
+**Welcome to Value4Value music - where artists meet their supporters directly!** ⚡🎵

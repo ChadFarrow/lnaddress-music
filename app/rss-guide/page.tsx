@@ -216,20 +216,20 @@ export default function RSSGuidePage() {
                       <h4 className="font-semibold text-blue-400 mb-2">🎵 Album Feeds</h4>
                       <p className="text-sm mb-3">Individual RSS feeds for each album/EP/single:</p>
                       <ul className="text-sm space-y-1">
-                        <li>• Bloodshot Lies - The Album</li>
-                        <li>• Think EP</li>
-                        <li>• Music From The Doerfel-Verse</li>
-                        <li>• Individual singles and EPs</li>
+                        <li>• Full-length albums</li>
+                        <li>• Various EPs</li>
+                        <li>• Individual singles</li>
+                        <li>• Live recordings</li>
                       </ul>
                     </div>
                     <div className="bg-black/70 rounded-lg p-4">
                       <h4 className="font-semibold text-purple-400 mb-2">🏢 Publisher Feeds</h4>
                       <p className="text-sm mb-3">Consolidated feeds for easy subscription:</p>
                       <ul className="text-sm space-y-1">
-                        <li>• The Doerfels Publisher Feed</li>
-                        <li>• CityBeach Publisher Feed</li>
-                        <li>• Middle Season Publisher Feed</li>
-                        <li>• Ryan Fonda Publisher Feed</li>
+                        <li>• Your Band Publisher Feed</li>
+                        <li>• Artist Catalog Feeds</li>
+                        <li>• Label/Publisher Feeds</li>
+                        <li>• Multiple Artist Feeds</li>
                       </ul>
                     </div>
                   </div>
@@ -239,7 +239,7 @@ export default function RSSGuidePage() {
 
             {/* How It Works */}
             <div className="bg-black/80 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/30">
-              <h2 className="text-3xl font-bold mb-4 text-indigo-400">⚙️ How RSS Powers HPM Lightning</h2>
+              <h2 className="text-3xl font-bold mb-4 text-indigo-400">⚙️ How RSS Powers This Platform</h2>
               
               <div className="space-y-6">
                 <div className="flex gap-4">
@@ -397,13 +397,13 @@ export default function RSSGuidePage() {
                       <div>
                         <span className="text-gray-400">Publisher Feeds:</span>
                         <div className="font-mono text-blue-400 text-xs mt-1">
-                          https://www.doerfelverse.com/feeds/doerfels-pubfeed.xml
+                          https://example.com/feeds/your-publisher-feed.xml
                         </div>
                       </div>
                       <div>
                         <span className="text-gray-400">Album Feeds:</span>
                         <div className="font-mono text-green-400 text-xs mt-1">
-                          https://www.doerfelverse.com/feeds/bloodshot-lies.xml
+                          https://example.com/feeds/your-album-feed.xml
                         </div>
                       </div>
                     </div>

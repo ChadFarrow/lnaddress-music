@@ -6,8 +6,6 @@ export function generateAlbumSlug(title: string): string {
   // Special case handling for known problematic titles
   const specialCases: { [key: string]: string } = {
     'bitpunk.fm': 'bitpunkfm',
-    'music from the doerfel-verse': 'music-from-the-doerfel-verse',
-    'bloodshot lies - the album': 'bloodshot-lies',
     'dead time(live 2016)': 'dead-timelive-2016',
     'let go (what\'s holding you back)': 'let-go-whats-holding-you-back',
     'they don\'t know': 'they-dont-know',
@@ -133,19 +131,15 @@ export function generateCleanUrl(type: 'album' | 'publisher', identifier: string
 /**
  * Known publisher mappings for routing
  * Maps clean slugs to their corresponding feed URLs
+ * Add your own publishers here for clean URL routing
  */
 export const KNOWN_PUBLISHERS: { [slug: string]: { feedGuid: string; feedUrl: string; name?: string } } = {
-  // The Doerfels - Family band from Buffalo, NY
-  'the-doerfels': {
-    feedGuid: 'doerfels-publisher-special',
-    feedUrl: 'https://re.podtards.com/api/feeds/doerfels-pubfeed',
-    name: 'The Doerfels'
-  },
-  'doerfels': {
-    feedGuid: 'doerfels-publisher-special',
-    feedUrl: 'https://re.podtards.com/api/feeds/doerfels-pubfeed',
-    name: 'The Doerfels'
-  },
+  // Example publisher mapping - replace with your own
+  // 'your-band': {
+  //   feedGuid: 'your-feed-guid',
+  //   feedUrl: 'https://example.com/feeds/your-feed.xml',
+  //   name: 'Your Band Name'
+  // },
   
   // IROH - Heavy Hazy Rock
   'iroh': {

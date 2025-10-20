@@ -1,6 +1,8 @@
-# HPM Lightning
+# RSS Music Site Template
 
-A Lightning Network-powered Value4Value music platform for bands and artists with existing RSS feeds. Built with Next.js, featuring instant Bitcoin payments, Nostr integration, and Podcasting 2.0 support.
+A Lightning Network-powered Value4Value music platform template for bands and artists with existing RSS feeds. Built with Next.js, featuring instant Bitcoin payments, Nostr integration, and Podcasting 2.0 support.
+
+> **Note**: This is a template repository. Clone it and customize it for your band or music project.
 
 ## Quick Start
 
@@ -264,9 +266,26 @@ If albums are not displaying:
 - **Duplicate boosts**: Verify deduplication logic is working correctly
 - **Storage resets**: In-memory storage clears on server restart (development only)
 
+## Template Notes
+
+### Taskmaster Files
+The `.taskmaster/` directory contains development planning files from the original project. These can be:
+- **Kept for reference** - Shows the project's evolution
+- **Deleted** - Run `rm -rf .taskmaster/` if you don't need them
+- **Replaced** - Initialize new taskmaster for your project with `task-master init`
+
+### Example Data
+All example data has been cleared from:
+- `public/publishers.json`
+- `public/static-albums.json`
+- `public/albums-static-cached.json`
+- `data/static/albums.json`
+
+These will be populated when you add your own RSS feeds.
+
 ## Contributing
 
-This project showcases music from independent artists in the DoerfelVerse using the Value4Value model. The platform enables direct Lightning Network payments to artists, creating a sustainable, decentralized music economy.
+This is a template repository for musicians and bands. Fork it, customize it, and build your own Value4Value music platform!
 
 ### Adding New Content
 1. Add RSS feed URL to `/data/feeds.json`
@@ -281,9 +300,12 @@ This project showcases music from independent artists in the DoerfelVerse using 
 - **Nostr Integration**: Confirm boost notes publish to relays correctly
 - **Performance**: Monitor payment recipient detection for render optimization
 
-## Live Demo
+## Example Implementations
 
-- **Production Site**: https://zaps.podtards.com
-- **Lightning Payments**: Full Bitcoin Lightning Network support
-- **Nostr Integration**: Boost notes published to major Nostr relays
-- **Value4Value**: Direct artist support with transparent payment splits
+This template was originally created for a multi-artist platform. You can customize it for:
+- Single band/artist sites
+- Record label catalogs
+- Music collective platforms
+- Podcast networks with music content
+
+Deploy your customized version to Vercel, Netlify, or any Next.js hosting platform.

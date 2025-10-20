@@ -1,7 +1,7 @@
 # Claude Code Instructions
 
 ## Project Overview
-HPM-Site is a Next.js web application that serves as a platform for showcasing music content from various artists, with a focus on The Doerfels and related artists.
+This is a Next.js web application template for musicians and bands to showcase their music content via RSS feeds with Value4Value (V4V) integration. It supports podcast 2.0 features, Bitcoin Lightning payments via boosts, and Progressive Web App (PWA) functionality.
 
 ## Key Technologies
 - Next.js

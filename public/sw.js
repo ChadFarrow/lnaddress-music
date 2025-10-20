@@ -1,5 +1,5 @@
-const CACHE_NAME = 'itdv-music-v1';
-const STATIC_CACHE_NAME = 'itdv-static-v1';
+const CACHE_NAME = 'music-site-v1';
+const STATIC_CACHE_NAME = 'music-site-static-v1';
 
 // Files to cache for offline functionality and performance
 const STATIC_FILES = [
@@ -238,7 +238,7 @@ self.addEventListener('push', (event) => {
   };
   
   event.waitUntil(
-    self.registration.showNotification('Into the Doerfel-Verse', options)
+    self.registration.showNotification('Music Player', options)
   );
 });
 

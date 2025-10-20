@@ -690,17 +690,6 @@ export default function HomePage() {
                 <span className="text-sm">Admin Panel</span>
               </Link>
               
-              <Link
-                href="/album/lnurl-testing-podcast"
-                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800/50 transition-colors"
-                onClick={() => setIsSidebarOpen(false)}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span className="text-sm">LNURL Testing Podcast</span>
-              </Link>
-
               {isLightningEnabled && (
                 <Link
                   href="/boosts"

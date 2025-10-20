@@ -49,106 +49,40 @@ export default function MusicGuidePage() {
           <div className="prose prose-invert max-w-none">
             {/* Introduction */}
             <div className="bg-black/80 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/30">
-              <h2 className="text-3xl font-bold mb-4 text-blue-400">🎵 Discover the DoerfelVerse</h2>
+              <h2 className="text-3xl font-bold mb-4 text-blue-400">🎵 Discover Independent Music</h2>
               <p className="text-lg mb-4">
-                HPM Lightning features music from the <strong>DoerfelVerse</strong> - a collection of independent artists creating amazing music across multiple genres. From rock to electronic, bluegrass to experimental, there&apos;s something for every music lover.
+                This platform features music from independent artists creating amazing music across multiple genres. From rock to electronic, acoustic to experimental, there&apos;s something for every music lover.
               </p>
-              
+
               <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-4 text-center">
                 <h3 className="text-xl font-bold mb-2">🎯 What You&apos;ll Find</h3>
                 <p className="text-lg">
-                  <strong>40+ albums, EPs, and singles</strong> from talented independent artists, all available for streaming with optional Lightning payments.
+                  <strong>Albums, EPs, and singles</strong> from talented independent artists, all available for streaming with optional Lightning payments via Value4Value.
                 </p>
               </div>
             </div>
 
             {/* Artists */}
             <div className="bg-black/80 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/30">
-              <h2 className="text-3xl font-bold mb-4 text-green-400">🎤 Featured Artists</h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-black/70 rounded-lg p-4">
-                  <h3 className="text-xl font-semibold mb-3 text-blue-400">🎸 Main Artists</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                        <span className="text-sm">🎸</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">The Doerfels</h4>
-                        <p className="text-sm text-gray-300">Main band with multiple albums</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-                        <span className="text-sm">🎵</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">CityBeach</h4>
-                        <p className="text-sm text-gray-300">Alternative rock</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
-                        <span className="text-sm">🎹</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Middle Season</h4>
-                        <p className="text-sm text-gray-300">Indie/experimental</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center">
-                        <span className="text-sm">🎤</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Ryan Fonda</h4>
-                        <p className="text-sm text-gray-300">Singer-songwriter</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <h2 className="text-3xl font-bold mb-4 text-green-400">🎤 RSS Feed Configuration</h2>
 
-                <div className="bg-black/70 rounded-lg p-4">
-                  <h3 className="text-xl font-semibold mb-3 text-purple-400">🎶 Additional Artists</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
-                        <span className="text-sm">🥁</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Kurtisdrums</h4>
-                        <p className="text-sm text-gray-300">Instrumental</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
-                        <span className="text-sm">🎤</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Sir TJ The Wrathful</h4>
-                        <p className="text-sm text-gray-300">Hip-hop</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-pink-600 rounded-full flex items-center justify-center">
-                        <span className="text-sm">🎸</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Generation Gap</h4>
-                        <p className="text-sm text-gray-300">Rock</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center">
-                        <span className="text-sm">🎹</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Jdog</h4>
-                        <p className="text-sm text-gray-300">Electronic</p>
-                      </div>
-                    </div>
-                  </div>
+              <div className="bg-black/70 rounded-lg p-4">
+                <h3 className="text-xl font-semibold mb-3 text-blue-400">📡 Adding Your Artists</h3>
+                <p className="mb-3">This site dynamically loads artists from RSS feeds. To add your music:</p>
+                <ol className="list-decimal list-inside space-y-2 text-sm text-gray-300">
+                  <li><strong>Configure your RSS feed URLs</strong> in the <code className="bg-black/50 px-2 py-1 rounded">.env.local</code> file</li>
+                  <li><strong>Use Podcast 2.0 compatible feeds</strong> with value tags for Lightning payments</li>
+                  <li><strong>Support multiple artists</strong> by adding multiple feed URLs</li>
+                  <li><strong>Publisher feeds</strong> aggregate multiple albums from the same artist/label</li>
+                </ol>
+                <div className="mt-4 bg-blue-900/30 rounded-lg p-3">
+                  <p className="text-sm"><strong>Example RSS Sources:</strong></p>
+                  <ul className="list-disc list-inside space-y-1 text-xs text-gray-300 mt-2">
+                    <li>Wavlake.com artist feeds</li>
+                    <li>Fountain.fm podcast feeds</li>
+                    <li>Self-hosted RSS feeds with podcast namespace tags</li>
+                    <li>Any podcast 2.0 compatible music feed</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -166,8 +100,8 @@ export default function MusicGuidePage() {
                   <p className="text-sm mb-3">Full-length releases with 7+ tracks</p>
                   <div className="bg-black/30 rounded-lg p-3">
                     <p className="text-xs text-gray-300">Examples:</p>
-                    <p className="text-sm font-semibold">Bloodshot Lies - The Album</p>
-                    <p className="text-sm font-semibold">Music From The Doerfel-Verse</p>
+                    <p className="text-sm font-semibold">Your Band - Full Album</p>
+                    <p className="text-sm font-semibold">Greatest Hits Collection</p>
                   </div>
                 </div>
 
@@ -179,8 +113,8 @@ export default function MusicGuidePage() {
                   <p className="text-sm mb-3">Extended plays with 2-6 tracks</p>
                   <div className="bg-black/30 rounded-lg p-3">
                     <p className="text-xs text-gray-300">Examples:</p>
-                    <p className="text-sm font-semibold">Think EP</p>
-                    <p className="text-sm font-semibold">Various EPs</p>
+                    <p className="text-sm font-semibold">Acoustic Sessions EP</p>
+                    <p className="text-sm font-semibold">Live Performance EP</p>
                   </div>
                 </div>
 
@@ -275,7 +209,7 @@ export default function MusicGuidePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-black/70 rounded-lg p-4">
                   <h3 className="text-xl font-semibold mb-3 text-blue-400">📱 Progressive Web App</h3>
-                  <p className="mb-3">Install HPM Lightning as a mobile app:</p>
+                  <p className="mb-3">Install this music site as a mobile app:</p>
                   <ol className="list-decimal list-inside space-y-1 text-sm text-gray-300">
                     <li>Visit the site on your mobile browser</li>
                     <li>Look for the install prompt</li>
@@ -354,7 +288,7 @@ export default function MusicGuidePage() {
               <div className="space-y-6">
                 <div className="bg-black/70 rounded-lg p-4">
                   <h3 className="text-xl font-semibold mb-3 text-blue-400">🌐 Streaming Technology</h3>
-                  <p className="mb-3">HPM Lightning uses advanced streaming technology:</p>
+                  <p className="mb-3">This platform uses advanced streaming technology:</p>
                   <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
                     <li><strong>Direct RSS feed streaming</strong> - no intermediate servers</li>
                     <li><strong>HLS.js support</strong> for adaptive streaming</li>
@@ -455,10 +389,10 @@ export default function MusicGuidePage() {
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-center">
               <h2 className="text-3xl font-bold mb-4">🎵 Start Listening Now</h2>
               <p className="text-lg mb-6">
-                Discover amazing music from the DoerfelVerse and enjoy a premium streaming experience!
+                Discover amazing independent music and enjoy a premium streaming experience with Value4Value payments!
               </p>
               <div className="space-y-4">
-                <Link 
+                <Link
                   href="/"
                   className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
                 >

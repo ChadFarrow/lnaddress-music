@@ -1326,7 +1326,7 @@ export class RSSParser {
     let batchSize = 5; // Default batch size
     let delayMs = 500; // Default delay
     
-    // For large publisher feeds (like Doerfels with 36 feeds), use larger batches
+    // For large publisher feeds (with many sub-feeds), use larger batches
     if (musicFeedUrls.length > 20) {
       batchSize = 8; // Larger batches for efficiency
       delayMs = 300; // Shorter delays
