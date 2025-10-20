@@ -11,19 +11,65 @@ A Lightning Network-powered Value4Value music platform template for bands and ar
    npm install
    ```
 
-2. **Start development server:**
+2. **Set up environment:**
+   ```bash
+   # For Lightning-enabled development (recommended)
+   cp env.lightning.template .env.local
+   
+   # OR for basic music-only development
+   cp env.basic.template .env.local
+   ```
+
+3. **Start development server:**
    ```bash
    npm run dev
    ```
 
-3. **Open your browser:**
+4. **Open your browser:**
    Navigate to `http://localhost:3000`
+
+## Environment Configuration
+
+### Development Modes
+
+The template supports two development modes:
+
+#### Lightning Mode (Recommended)
+- **File**: `env.lightning.template` → `.env.local`
+- **Features**: Full Lightning Network payments, boost functionality, Nostr integration
+- **Use case**: Complete Value4Value music platform
+
+#### Basic Mode
+- **File**: `env.basic.template` → `.env.local`
+- **Features**: Music streaming only, no Lightning payments
+- **Use case**: Simple music site without payment features
+
+### Environment Variables
+
+Key environment variables you can customize in `.env.local`:
+
+```bash
+# Site Configuration
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+
+# Lightning Features (true/false)
+NEXT_PUBLIC_ENABLE_LIGHTNING=true
+
+# Optional: CDN for production
+# NEXT_PUBLIC_CDN_URL=https://your-cdn.com
+
+# Optional: Database (for advanced features)
+# POSTGRES_URL=postgresql://username:password@host:port/database
+
+# Optional: Podcast Index API
+# PODCAST_INDEX_API_KEY=your-api-key
+# PODCAST_INDEX_API_SECRET=your-api-secret
+```
 
 ## Configuration
 
 ### For Bands/Artists
-
-See [SETUP_TEMPLATE.md](SETUP_TEMPLATE.md) for detailed setup instructions.
 
 **Requirements:**
 - Existing RSS feeds with Podcasting 2.0 value tags
@@ -31,10 +77,9 @@ See [SETUP_TEMPLATE.md](SETUP_TEMPLATE.md) for detailed setup instructions.
 - At least one album or publisher feed
 
 **Quick Setup:**
-1. Copy `.env.example` to `.env.local`
-2. Update with your band name and info
-3. Edit `data/feeds.json` with your RSS feed URLs
-4. Run `npm run dev`
+1. Copy `env.lightning.template` to `.env.local`
+2. Edit `data/feeds.json` with your RSS feed URLs
+3. Run `npm run dev`
 
 ## Available Scripts
 
@@ -44,14 +89,13 @@ See [SETUP_TEMPLATE.md](SETUP_TEMPLATE.md) for detailed setup instructions.
 - `npm run dev-setup` - Check environment configuration
 - `npm run test-feeds` - Test RSS feed parsing
 - `npm run auto-add-publishers` - Auto-generate publisher feeds
-- `./scripts/update-static-data.sh` - Update static album cache
 
 ## Features
 
 ### Core Functionality
 - **Lightning Network Payments**: Instant Bitcoin payments via Bitcoin Connect
 - **Value4Value Model**: Support artists directly with Lightning zaps and value splits
-- **Auto Boost System**: Automatic 25 sat payments when songs complete (with NWC integration)
+- **Auto Boost System**: Automatic 25 sat payments when songs complete
 - **Boostagrams**: Custom 250-character messages with Lightning boost payments
 - **Nostr Integration**: NIP-57/NIP-73 compliant boost notes with boostagrams published to Nostr relays
 - **Multi-Payment Recipients**: Automatic splitting to multiple Lightning addresses and nodes
@@ -120,72 +164,6 @@ The app uses a hybrid approach:
 - **Intelligent caching** with unique cache keys to prevent feed collisions
 - **Comprehensive coverage** of all configured albums, EPs, and singles
 
-## Recent Improvements
-
-### UI/UX Improvements (September 2025)
-- **Boost Modal Popup System**: Replaced inline boost forms with elegant popup modals across the platform
-- **Album Artwork Headers**: Beautiful artwork headers in all boost modals (album, track, main page)
-- **Mobile-Centered Modals**: Optimized modal positioning for mobile devices with vertical centering
-- **Track Boost Artwork**: Individual track artwork display in track boost modals for consistency
-- **Unified Modal Design**: Consistent design language across all boost interfaces
-- **Performance Optimizations**: Reduced page load times from 17+ seconds to ~12 seconds
-- **Parallel API Loading**: Non-blocking external API calls with proper timeouts and request deduplication
-- **System Resource Cleanup**: Eliminated multiple accumulated Next.js servers consuming system memory
-- **Codebase Cleanup**: Removed 193+ unused files including test files, demo pages, and redundant tool directories
-
-### Lightning Network Integration (January 2025)
-- **Bitcoin Connect Integration**: Full WebLN and NWC wallet support
-- **Multi-Recipient Payments**: Automatic value splitting to multiple Lightning addresses/nodes
-- **Nostr Boost Notes**: NIP-57/NIP-73 compliant posts to Nostr relays
-- **Lightning Address Support**: Full LNURL resolution for email-style Lightning payments
-- **Payment Performance**: Fixed render loop causing excessive payment recipient checks
-- **Auto Boost NWC Integration**: Fixed auto boost to use NWC service for automatic payments
-- **Payment Method Prioritization**: Smart detection prioritizes connected NWC wallets over WebLN extensions
-
-### Auto Boost System (Latest)
-- **Automatic Song-End Payments**: 25 sats automatically sent when songs complete
-- **NWC Integration**: Uses connected NWC wallets (Coinos, Alby Hub, etc.) instead of browser extensions
-- **Dual Payment System**: Both Lightning payments and Nostr boost notes posted automatically
-- **User Control**: Simple toggle to enable/disable auto boost functionality
-- **Payment Method Detection**: Smart detection prioritizes NWC over WebLN to prevent unwanted popups
-
-### Boostagram Features (Latest)
-- **Custom Messages**: 250-character boostagram messages with Lightning payments
-- **Sender Names**: Persistent sender name storage across boost interfaces
-- **Custom Amounts**: User-defined boost amounts on all payment interfaces
-- **Compact UI**: Streamlined boost interface with improved spacing and layout
-- **Message Integration**: Boostagrams included in Lightning TLV records and Nostr boost posts
-- **Performance Optimization**: Removed failing payment recipients to improve boost speed
-
-### Helipad Integration (Testing - Not Live)
-- **Webhook System**: Receive boost notifications from Helipad instances via webhook API
-- **Platform Detection**: Visual badges distinguish between 🚁 Helipad, 📱 App, and 📡 Nostr boosts
-- **Security Features**: Authorization token validation and HMAC signature verification
-- **TOR Compatibility**: Works with Helipad instances behind TOR networks
-- **Deduplication**: Prevents duplicate boosts from appearing multiple times
-- **Nostr Publishing**: Automatically posts Helipad boosts to Nostr relays with #helipad tags
-- **Real-time Display**: Helipad boosts appear instantly on the boosts page
-- **In-memory Storage**: Temporary storage for development and testing purposes
-
-### Value4Value Implementation
-- **Podcasting 2.0 Value Tags**: Full parsing and support for Lightning Network value splits
-- **LNURL Testing Album**: Special test album with multiple payment recipients
-- **GitHub Integration**: Nostr boost posts link to project repository
-- **Real-time Payments**: Instant Bitcoin payments with preimage verification
-
-### RSS Cache System
-- **Unique cache keys** prevent feeds from sharing cached data
-- **No truncation bugs** in RSS cache key generation (`lib/rss-cache.ts`)
-- **Full album coverage** for all configured feeds
-- **Publisher feed support** for consolidated RSS subscriptions
-- **Static Album Fallback**: API routes support static album data when RSS feeds unavailable
-
-### Content Coverage
-- **Album feeds** for individual releases
-- **Publisher feeds** for RSS subscription consolidation  
-- **Robust parsing** with error handling
-- **Complete artist representation** for all configured feeds
-
 ## Lightning Network & Value4Value
 
 ### Payment Features
@@ -217,15 +195,8 @@ The app uses a hybrid approach:
 
 ### Feed Management
 - **RSS Cache Location**: `/data/rss-cache/`
-- **Feed Configuration**: `/data/feeds.json` (46 feeds total)
+- **Feed Configuration**: `/data/feeds.json`
 - **Static Data**: `/data/static/albums.json`
-- **LNURL Test Data**: Special album for Lightning payment testing
-
-### Helipad Integration (Testing)
-- `POST /api/helipad-webhook` - Webhook endpoint for Helipad boost notifications
-- `GET /api/helipad-boosts` - Retrieve stored Helipad boosts
-- `DELETE /api/helipad-boosts` - Clear Helipad boost storage (testing only)
-- `POST /api/test-helipad-webhook` - Test endpoint for webhook simulation
 
 ## Troubleshooting
 
@@ -245,7 +216,6 @@ If albums are not displaying:
 - **Slow loading**: Check CDN configuration and static generation
 - **Audio issues**: Verify HLS.js and AudioContext browser support
 - **Cache problems**: Clear browser cache and RSS cache directory
-- **Payment render loops**: Fixed in January 2025 - payment recipients now use React useMemo
 
 ### Lightning Payment Issues
 - **Wallet not connecting**: Check Bitcoin Connect status and wallet compatibility
@@ -253,20 +223,7 @@ If albums are not displaying:
 - **NWC issues**: Confirm Nostr Wallet Connect string and relay connectivity
 - **Missing recipients**: Check album value tags and payment recipient parsing
 
-### Helipad Integration Issues (Testing)
-- **Webhook not receiving boosts**: Verify webhook URL and authorization token configuration
-- **TOR connectivity**: Ensure Helipad instance can reach public webhook URL (not localhost/ngrok)
-- **Platform badges incorrect**: Check boost parsing logic and tag detection
-- **Duplicate boosts**: Verify deduplication logic is working correctly
-- **Storage resets**: In-memory storage clears on server restart (development only)
-
 ## Template Notes
-
-### Taskmaster Files
-The `.taskmaster/` directory contains development planning files from the original project. These can be:
-- **Kept for reference** - Shows the project's evolution
-- **Deleted** - Run `rm -rf .taskmaster/` if you don't need them
-- **Replaced** - Initialize new taskmaster for your project with `task-master init`
 
 ### Example Data
 All example data has been cleared from:
@@ -285,7 +242,7 @@ This is a template repository for musicians and bands. Fork it, customize it, an
 1. Add RSS feed URL to `/data/feeds.json`
 2. Test feed parsing with `npm run test-feeds`
 3. Update static data with `./scripts/update-static-data.sh`
-4. Verify content appears at `http://localhost:3001`
+4. Verify content appears at `http://localhost:3000`
 5. Test Lightning payments and value splits for new albums
 
 ### Lightning Integration
