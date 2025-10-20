@@ -91,7 +91,6 @@ See [SETUP_TEMPLATE.md](SETUP_TEMPLATE.md) for detailed setup instructions.
 - **Payment Methods**: Lightning addresses, node keysends, and multi-recipient splits
 - **Nostr Integration**: NIP-57/NIP-73 boost notes with automatic relay publishing
 - **Value Splits**: Lightning Network value tag parsing for payment distribution
-- **Metadata Collection**: Automatic 2 sat fee collection for platform analytics
 - **Deployment**: Vercel with automated builds and edge deployment
 
 ## Content Structure
@@ -139,7 +138,6 @@ The app uses a hybrid approach:
 - **Multi-Recipient Payments**: Automatic value splitting to multiple Lightning addresses/nodes
 - **Nostr Boost Notes**: NIP-57/NIP-73 compliant posts to Nostr relays
 - **Lightning Address Support**: Full LNURL resolution for email-style Lightning payments
-- **Metadata Fee Collection**: Automatic 2 sat fee collection for platform development
 - **Payment Performance**: Fixed render loop causing excessive payment recipient checks
 - **Auto Boost NWC Integration**: Fixed auto boost to use NWC service for automatic payments
 - **Payment Method Prioritization**: Smart detection prioritizes connected NWC wallets over WebLN extensions
@@ -196,7 +194,6 @@ The app uses a hybrid approach:
 - **Lightning Addresses**: Full LNURL support for email-style Lightning payments
 - **Node Keysends**: Direct payments to Lightning node public keys
 - **Value Splits**: Podcasting 2.0 value tag parsing for payment distribution
-- **Metadata Collection**: 2 sat fee per boost for platform analytics and development
 
 ### Nostr Integration
 - **Boost Notes**: NIP-57/NIP-73 compliant boost posts to Nostr relays
