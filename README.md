@@ -73,7 +73,7 @@ See [SETUP_TEMPLATE.md](SETUP_TEMPLATE.md) for detailed setup instructions.
 - **Mobile-First**: Touch-friendly controls and navigation
 
 ### Technical Features
-- **CDN Integration**: Optimized asset delivery via Bunny.net
+- **CDN Integration**: Optional CDN support for optimized asset delivery
 - **HLS Audio Support**: Adaptive streaming for various audio formats
 - **Service Worker**: Background updates and offline functionality
 - **Static Site Generation**: Pre-rendered pages for optimal performance

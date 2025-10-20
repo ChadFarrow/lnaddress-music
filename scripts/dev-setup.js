@@ -2,10 +2,10 @@
 
 /**
  * Development Setup Script
- * 
+ *
  * This script helps manage the environment configuration for:
  * - Local development (localhost:3000) - uses original RSS feed URLs
- * - Production (re.podtards.com) - uses Bunny.net CDN URLs
+ * - Production - optional CDN support for assets
  */
 
 import fs from 'fs/promises';
@@ -32,10 +32,7 @@ async function checkEnvironment() {
     
     console.log('📋 Current environment variables:');
     console.log('   NODE_ENV:', process.env.NODE_ENV || 'development');
-    console.log('   NEXT_PUBLIC_CDN_URL:', envVars.NEXT_PUBLIC_CDN_URL || 'Not set');
-    console.log('   BUNNY_CDN_HOSTNAME:', envVars.BUNNY_CDN_HOSTNAME || 'Not set');
-    console.log('   BUNNY_STORAGE_API_KEY:', envVars.BUNNY_STORAGE_API_KEY ? 'Set' : 'Not set');
-    console.log('   BUNNY_STORAGE_ZONE:', envVars.BUNNY_STORAGE_ZONE || 'Not set');
+    console.log('   NEXT_PUBLIC_CDN_URL:', envVars.NEXT_PUBLIC_CDN_URL || 'Not set (CDN optional)');
     
     console.log('\n🎯 Environment behavior:');
     if (process.env.NODE_ENV === 'production') {
@@ -61,22 +58,19 @@ async function showUsage() {
   console.log('   npm run start              - Start production server');
   console.log('   vercel --prod              - Deploy to production');
   
-  console.log('\n🔧 Environment Variables (for .env.local):');
-  console.log('   NEXT_PUBLIC_CDN_URL=https://re-podtards-cdn.b-cdn.net');
-console.log('   BUNNY_CDN_HOSTNAME=re-podtards-cdn.b-cdn.net');
-  console.log('   BUNNY_STORAGE_API_KEY=your_storage_api_key');
-  console.log('   BUNNY_STORAGE_ZONE=re-podtards-storage');
+  console.log('\n🔧 Optional Environment Variables (for .env.local):');
+  console.log('   NEXT_PUBLIC_CDN_URL=https://your-cdn.example.com (optional)');
   
   console.log('\n🚀 Workflow:');
-  console.log('   1. Seed database: npm run seed-db (loads feeds from feeds.json)');
-  console.log('   2. Local development: npm run dev (uses original URLs)');
+  console.log('   1. Configure feeds in data/feeds.json');
+  console.log('   2. Local development: npm run dev');
   console.log('   3. Test changes locally');
-  console.log('   4. Deploy to production: vercel --prod (uses CDN URLs)');
-  console.log('   5. Production site: re.podtards.com (served from CDN)');
+  console.log('   4. Deploy to production: vercel --prod (or your hosting platform)');
+  console.log('   5. Optional: Configure CDN for static assets');
 }
 
 async function main() {
-  console.log('🎵 FUCKIT - Development Environment Setup\n');
+  console.log('🎵 Music Site - Development Environment Setup\n');
   
   await checkEnvironment();
   await showUsage();

@@ -9,7 +9,7 @@ This is a Next.js web application template for musicians and bands to showcase t
 - Tailwind CSS
 - Service Workers for PWA functionality
 - RSS Feed parsing
-- CDN integration (Bunny.net)
+- Optional CDN integration
 
 ## Important Directories
 - `/app` - Next.js pages and routes
