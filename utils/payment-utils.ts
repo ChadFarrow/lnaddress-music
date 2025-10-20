@@ -127,9 +127,8 @@ export async function makeAutoBoostPayment({
       fallbackRecipient
     });
 
-    // Import NWC services dynamically
+    // Import NWC service dynamically
     const { getNWCService } = await import('@/lib/nwc-service');
-    const { getKeysendBridge } = await import('@/lib/nwc-keysend-bridge');
     
     // Check connection state similar to BitcoinConnect
     const weblnExists = !!(window as any).webln;
@@ -198,28 +197,26 @@ export async function makeAutoBoostPayment({
       console.log('💡 AUTO BOOST: NWC connection string length:', nwcConnectionString?.length);
       
       try {
-        // Initialize keysend bridge (same logic as BitcoinConnect manual boost)
-        console.log('💡 AUTO BOOST: Initializing keysend bridge...');
-        const bridge = getKeysendBridge();
-        
-        // Check if bridge needs initialization (same check as manual boost)
-        if (!bridge.getCapabilities().walletName || bridge.getCapabilities().walletName === 'Unknown') {
-          console.log('💡 AUTO BOOST: Bridge needs initialization, setting up...');
-          await bridge.initialize({ userWalletConnection: nwcConnectionString });
-        } else {
-          console.log('💡 AUTO BOOST: Bridge already initialized with wallet:', bridge.getCapabilities().walletName);
+        // Use NWC service directly for auto boost payments
+        console.log('💡 AUTO BOOST: Using NWC service for payments...');
+        const nwcService = getNWCService();
+
+        // Initialize NWC if needed
+        if (!nwcService.isInitialized()) {
+          console.log('💡 AUTO BOOST: Initializing NWC service...');
+          await nwcService.initialize(nwcConnectionString);
         }
-        console.log('💡 AUTO BOOST: Bridge ready for auto boost payments');
-        
+        console.log('💡 AUTO BOOST: NWC ready for auto boost payments');
+
         const paymentPromises = paymentsToMake.map(async (recipientData) => {
           const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
-          
+
           console.log(`💰 Auto boost sending ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
-          
-          // Create TLV records for boost metadata - all keysend payments should include TLVs
+
+          // Create TLV records for boost metadata
           const tlvRecords = boostMetadata ? createBoostTLVRecords(boostMetadata, recipientData.name, recipientAmount) : undefined;
-          
-          const result = await bridge.payKeysend({
+
+          const result = await nwcService.payKeysend({
             pubkey: recipientData.address,
             amount: recipientAmount,
             tlvRecords,

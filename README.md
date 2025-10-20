@@ -55,7 +55,6 @@ See [SETUP_TEMPLATE.md](SETUP_TEMPLATE.md) for detailed setup instructions.
 - **Boostagrams**: Custom 250-character messages with Lightning boost payments
 - **Nostr Integration**: NIP-57/NIP-73 compliant boost notes with boostagrams published to Nostr relays
 - **Multi-Payment Recipients**: Automatic splitting to multiple Lightning addresses and nodes
-- **NWC Bridge System**: Seamless payments for non-keysend wallets via Alby Hub relay
 - **RSS Feed Parsing**: Dynamic parsing of album and publisher feeds
 - **Complete Content Coverage**: All configured albums and tracks
 - **Publisher System**: Dedicated pages for music publishers with artwork  
@@ -142,14 +141,12 @@ The app uses a hybrid approach:
 - **Lightning Address Support**: Full LNURL resolution for email-style Lightning payments
 - **Metadata Fee Collection**: Automatic 2 sat fee collection for platform development
 - **Payment Performance**: Fixed render loop causing excessive payment recipient checks
-- **Auto Boost NWC Integration**: Fixed auto boost to use NWC bridge instead of triggering WebLN popups
-- **Bridge System**: Seamless integration with Alby Hub for non-keysend wallets (Coinos, Primal, etc.)
+- **Auto Boost NWC Integration**: Fixed auto boost to use NWC service for automatic payments
 - **Payment Method Prioritization**: Smart detection prioritizes connected NWC wallets over WebLN extensions
 
 ### Auto Boost System (Latest)
 - **Automatic Song-End Payments**: 25 sats automatically sent when songs complete
 - **NWC Integration**: Uses connected NWC wallets (Coinos, Alby Hub, etc.) instead of browser extensions
-- **Bridge Compatibility**: Seamless integration with Alby Hub bridge for non-keysend wallets
 - **Dual Payment System**: Both Lightning payments and Nostr boost notes posted automatically
 - **User Control**: Simple toggle to enable/disable auto boost functionality
 - **Payment Method Detection**: Smart detection prioritizes NWC over WebLN to prevent unwanted popups
