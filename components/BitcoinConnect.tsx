@@ -5,6 +5,7 @@ import { Zap, Wallet } from 'lucide-react';
 import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 import { useBoostToNostr } from '@/hooks/useBoostToNostr';
 import { useLightning } from '@/contexts/LightningContext';
+import { useBreez } from '@/hooks/useBreez';
 import AlbyGoConnect from './AlbyGoConnect';
 
 declare global {
@@ -203,6 +204,7 @@ export function BitcoinConnectPayment({
   const [loading, setLoading] = useState(false);
   const { isConnected } = useBitcoinConnect();
   const { isLightningEnabled } = useLightning();
+  const breez = useBreez();
 
   // Debug: Log when isConnected state changes
   useEffect(() => {
@@ -357,11 +359,85 @@ export function BitcoinConnectPayment({
       weblnExists,
       weblnEnabled,
       hasWeblnMethods,
-      weblnAvailable
+      weblnAvailable,
+      breezConnected: breez.isConnected
     });
-    
+
     setLoading(true);
     try {
+      // 🎯 PRIORITY 1: Check if Breez SDK is connected
+      if (breez.isConnected) {
+        console.log('⚡ Breez SDK is connected - using Breez for payment');
+
+        // Determine recipients to use
+        const paymentsToMake = recipients || [{ address: recipient, split: 100, name: 'Single recipient' }];
+        console.log(`⚡ Processing ${paymentsToMake.length} payments via Breez SDK:`, paymentsToMake);
+
+        // Calculate total split value for proportional payments
+        const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);
+        const results: any[] = [];
+
+        // Process each payment through Breez SDK
+        for (const paymentRecipient of paymentsToMake) {
+          try {
+            // Calculate proportional amount (or use fixed amount if specified)
+            const paymentAmount = paymentRecipient.fixedAmount ||
+                                 Math.floor((amount * paymentRecipient.split) / totalSplit);
+
+            if (paymentAmount <= 0) {
+              console.log(`⏭️ Skipping ${paymentRecipient.name || paymentRecipient.address}: amount is 0`);
+              continue;
+            }
+
+            console.log(`💳 Breez payment to ${paymentRecipient.name || paymentRecipient.address}: ${paymentAmount} sats`);
+
+            // Send payment via Breez SDK
+            const payment = await breez.sendPayment({
+              destination: paymentRecipient.address,
+              amountSats: paymentAmount,
+              label: paymentRecipient.name || description,
+              message: boostMetadata?.message
+            });
+
+            results.push({
+              success: true,
+              recipient: paymentRecipient.address,
+              amount: paymentAmount,
+              payment: payment
+            });
+
+            console.log(`✅ Breez payment successful:`, payment.id);
+          } catch (error) {
+            console.error(`❌ Breez payment failed for ${paymentRecipient.name}:`, error);
+            results.push({
+              success: false,
+              recipient: paymentRecipient.address,
+              error: error instanceof Error ? error.message : 'Payment failed'
+            });
+          }
+        }
+
+        // Check if all payments succeeded
+        const allSucceeded = results.every(r => r.success);
+        const anySucceeded = results.some(r => r.success);
+
+        setLoading(false);
+
+        if (allSucceeded) {
+          console.log('✅ All Breez payments succeeded');
+          await handleBoostCreation(results, amount);
+          onSuccess?.(results);
+        } else if (anySucceeded) {
+          console.warn('⚠️ Some Breez payments failed');
+          onSuccess?.(results);
+        } else {
+          console.error('❌ All Breez payments failed');
+          onError?.('All payments failed');
+        }
+
+        return;
+      }
+
       const webln = (window as any).webln;
       
       // Determine recipients to use

@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode, useRef } from 'react';
 import { useLightning } from './LightningContext';
+import { getBreezService } from '@/lib/breez-service';
 
 interface BitcoinConnectContextType {
   isConnected: boolean;
@@ -132,6 +133,17 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         console.warn('NWC service check failed:', error);
         nwcServiceConnected = false;
       }
+
+      // Check Breez SDK connection status
+      let breezConnected = false;
+      try {
+        const breezService = getBreezService();
+        breezConnected = breezService.isConnected();
+        console.log('🔍 Breez SDK connection status:', breezConnected);
+      } catch (error) {
+        console.warn('Breez SDK check failed:', error);
+        breezConnected = false;
+      }
       
       // More strict WebLN checks - methods must exist AND be enabled
       const hasWeblnMethods = weblnExists && (
@@ -143,12 +155,12 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
       // Only consider WebLN "connected" if it's actually enabled, not just if methods exist
       const finalWeblnStatus = weblnEnabledAfter && hasWeblnMethods;
 
-      const anyConnection = finalWeblnStatus || bcConnectorConnected || bcLibraryConnected || nwcConnected || nwcServiceConnected;
+      const anyConnection = finalWeblnStatus || bcConnectorConnected || bcLibraryConnected || nwcConnected || nwcServiceConnected || breezConnected;
 
       // Debug logging
       console.log('🔍 Connection check:', {
         weblnExists,
-        weblnEnabled: weblnEnabledAfter, 
+        weblnEnabled: weblnEnabledAfter,
         hasWeblnMethods,
         finalWeblnStatus,
         bcConnected: !!bcConnected,
@@ -156,6 +168,7 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         bcLibraryConnected,
         nwcConnected: !!nwcConnected,
         nwcServiceConnected,
+        breezConnected,
         anyConnection
       });
       
