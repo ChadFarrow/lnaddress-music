@@ -17,15 +17,24 @@ export async function GET() {
     // Read and return the pre-parsed data
     const parsedData = JSON.parse(fs.readFileSync(parsedFeedsPath, 'utf-8'));
 
+    // Extract albums from feeds
+    const albums = parsedData.feeds
+      ?.filter((feed: any) => feed.parsedData?.album)
+      .map((feed: any) => feed.parsedData.album) || [];
+
+    // Calculate total tracks
+    const totalTracks = albums.reduce((sum: number, album: any) =>
+      sum + (album.tracks?.length || 0), 0);
+
     // Transform to expected API format
     const response = {
-      albums: parsedData.albums || [],
+      albums,
       metadata: {
-        totalAlbums: parsedData.albums?.length || 0,
-        totalTracks: parsedData.totalTracks || 0,
+        totalAlbums: albums.length,
+        totalTracks,
         servedFrom: 'pre-parsed-feeds',
         servedAt: new Date().toISOString(),
-        parseTimestamp: parsedData.timestamp || null
+        parseTimestamp: parsedData.lastUpdated || null
       }
     };
 
