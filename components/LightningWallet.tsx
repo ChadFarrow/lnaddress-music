@@ -3,39 +3,59 @@
 import { useState, useEffect } from 'react';
 import { Zap, Wallet, X, Copy, Check, AlertCircle, Loader2 } from 'lucide-react';
 import { useNWC } from '@/hooks/useNWC';
+import { useBreez } from '@/hooks/useBreez';
+import BreezConnect from './BreezConnect';
+import AlbyGoConnect from './AlbyGoConnect';
+
+type WalletType = 'none' | 'alby' | 'breez' | 'nwc';
 
 export function LightningWallet() {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedWallet, setSelectedWallet] = useState<WalletType>('none');
   const [showConnectForm, setShowConnectForm] = useState(false);
   const [inputConnection, setInputConnection] = useState('');
   const [copied, setCopied] = useState(false);
-  
-  const {
-    isConnected,
-    balance,
-    error,
-    loading,
-    connect,
-    disconnect,
-    refreshBalance
-  } = useNWC();
+
+  const nwc = useNWC();
+  const breez = useBreez();
+
+  // Determine which wallet is connected
+  const isConnected = nwc.isConnected || breez.isConnected;
+  const balance = nwc.isConnected ? nwc.balance : breez.isConnected ? breez.balance : null;
+  const loading = nwc.loading || breez.loading;
+  const error = nwc.error || breez.error;
 
   useEffect(() => {
     if (isConnected) {
       setShowConnectForm(false);
       setInputConnection('');
+      setSelectedWallet('none');
     }
   }, [isConnected]);
 
-  const handleConnect = async () => {
+  const handleNWCConnect = async () => {
     if (inputConnection.trim()) {
-      await connect(inputConnection.trim());
+      await nwc.connect(inputConnection.trim());
     }
   };
 
   const handleDisconnect = () => {
     if (confirm('Are you sure you want to disconnect your wallet?')) {
-      disconnect();
+      if (nwc.isConnected) {
+        nwc.disconnect();
+      }
+      if (breez.isConnected) {
+        breez.disconnect();
+      }
+    }
+  };
+
+  const refreshBalance = async () => {
+    if (nwc.isConnected) {
+      await nwc.refreshBalance();
+    }
+    if (breez.isConnected) {
+      await breez.refreshBalance();
     }
   };
 
@@ -115,31 +135,110 @@ export function LightningWallet() {
                 </div>
               )}
 
-              {!loading && !isConnected && !showConnectForm && (
-                <div className="space-y-6">
-                  <div className="text-center">
+              {!loading && !isConnected && selectedWallet === 'none' && (
+                <div className="space-y-4">
+                  <div className="text-center mb-6">
                     <Wallet className="w-16 h-16 mx-auto mb-4 text-gray-500" />
-                    <p className="text-gray-400 mb-6">
-                      Connect your Lightning wallet to enable payments
+                    <p className="text-gray-400">
+                      Choose a wallet to connect
                     </p>
                   </div>
-                  
+
+                  {/* Alby Hub */}
                   <button
-                    onClick={() => setShowConnectForm(true)}
-                    className="w-full py-3 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg transition-colors"
+                    onClick={() => setSelectedWallet('alby')}
+                    className="w-full p-4 bg-gradient-to-r from-amber-900/20 to-yellow-900/20 hover:from-amber-900/30 hover:to-yellow-900/30 border border-amber-500/30 hover:border-amber-500/50 rounded-lg transition-all flex items-center gap-3"
                   >
-                    Connect with NWC
+                    <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Zap className="w-6 h-6 text-black" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-semibold text-white">Alby Hub</div>
+                      <div className="text-sm text-gray-400">One-tap connection</div>
+                    </div>
                   </button>
 
-                  <div className="text-sm text-gray-500 text-center">
-                    <p>Supported wallets:</p>
-                    <p className="mt-1">Alby, Mutiny, NWC-compatible wallets</p>
+                  {/* Breez SDK Spark */}
+                  <button
+                    onClick={() => setSelectedWallet('breez')}
+                    className="w-full p-4 bg-gradient-to-r from-purple-900/20 to-blue-900/20 hover:from-purple-900/30 hover:to-blue-900/30 border border-purple-500/30 hover:border-purple-500/50 rounded-lg transition-all flex items-center gap-3"
+                  >
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Zap className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-semibold text-white">Breez SDK Spark</div>
+                      <div className="text-sm text-gray-400">Self-custodial wallet</div>
+                    </div>
+                  </button>
+
+                  {/* NWC Manual */}
+                  <button
+                    onClick={() => setSelectedWallet('nwc')}
+                    className="w-full p-4 bg-gray-800/50 hover:bg-gray-800 border border-gray-700 hover:border-gray-600 rounded-lg transition-all flex items-center gap-3"
+                  >
+                    <div className="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Wallet className="w-6 h-6 text-gray-300" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-semibold text-white">Nostr Wallet Connect</div>
+                      <div className="text-sm text-gray-400">Connect any NWC wallet</div>
+                    </div>
+                  </button>
+
+                  <div className="pt-4 text-xs text-gray-500 text-center">
+                    <p>All wallets support Lightning payments</p>
                   </div>
                 </div>
               )}
 
-              {!loading && !isConnected && showConnectForm && (
+              {/* Alby Connection */}
+              {!loading && !isConnected && selectedWallet === 'alby' && (
                 <div className="space-y-4">
+                  <button
+                    onClick={() => setSelectedWallet('none')}
+                    className="text-sm text-gray-400 hover:text-white flex items-center gap-1"
+                  >
+                    ← Back
+                  </button>
+                  <AlbyGoConnect
+                    onSuccess={() => {
+                      setSelectedWallet('none');
+                      setIsOpen(false);
+                    }}
+                    onError={(err) => console.error('Alby connection error:', err)}
+                  />
+                </div>
+              )}
+
+              {/* Breez Connection */}
+              {!loading && !isConnected && selectedWallet === 'breez' && (
+                <div className="space-y-4">
+                  <button
+                    onClick={() => setSelectedWallet('none')}
+                    className="text-sm text-gray-400 hover:text-white flex items-center gap-1"
+                  >
+                    ← Back
+                  </button>
+                  <BreezConnect
+                    onSuccess={() => {
+                      setSelectedWallet('none');
+                      setIsOpen(false);
+                    }}
+                    onError={(err) => console.error('Breez connection error:', err)}
+                  />
+                </div>
+              )}
+
+              {/* NWC Manual Connection */}
+              {!loading && !isConnected && selectedWallet === 'nwc' && (
+                <div className="space-y-4">
+                  <button
+                    onClick={() => setSelectedWallet('none')}
+                    className="text-sm text-gray-400 hover:text-white flex items-center gap-1"
+                  >
+                    ← Back
+                  </button>
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
                       NWC Connection String
@@ -160,24 +259,13 @@ export function LightningWallet() {
                     </div>
                   )}
 
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => {
-                        setShowConnectForm(false);
-                        setInputConnection('');
-                      }}
-                      className="flex-1 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleConnect}
-                      disabled={!inputConnection.trim()}
-                      className="flex-1 py-2 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-700 disabled:text-gray-500 text-black font-semibold rounded-lg transition-colors"
-                    >
-                      Connect
-                    </button>
-                  </div>
+                  <button
+                    onClick={handleNWCConnect}
+                    disabled={!inputConnection.trim()}
+                    className="w-full py-2 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-700 disabled:text-gray-500 text-black font-semibold rounded-lg transition-colors"
+                  >
+                    Connect
+                  </button>
 
                   <div className="text-xs text-gray-500 text-center">
                     <p>Get your NWC connection string from your wallet app</p>
@@ -231,7 +319,8 @@ export function LightningWallet() {
 
                   <div className="pt-4 border-t border-gray-800">
                     <p className="text-xs text-gray-500 text-center">
-                      Your wallet is connected via NWC (Nostr Wallet Connect)
+                      {nwc.isConnected && 'Connected via NWC (Nostr Wallet Connect)'}
+                      {breez.isConnected && 'Connected via Breez SDK Spark'}
                     </p>
                   </div>
                 </div>

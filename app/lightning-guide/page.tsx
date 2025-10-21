@@ -131,6 +131,22 @@ export default function LightningGuidePage() {
                 </div>
 
                 <div className="bg-black/70 rounded-lg p-6">
+                  <h3 className="text-xl font-semibold mb-3 text-gradient bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">⚡ Breez SDK Spark</h3>
+                  <p className="mb-4">Self-custodial Lightning wallet powered by Breez SDK:</p>
+                  <div className="bg-black/30 rounded-lg p-4">
+                    <div className="space-y-2">
+                      <p className="text-sm"><strong className="text-purple-400">Features:</strong></p>
+                      <ul className="text-sm space-y-1 ml-4">
+                        <li>• Your keys, your bitcoin - complete self-custody</li>
+                        <li>• No third-party custodians</li>
+                        <li>• Real-time, low-fee Lightning payments</li>
+                        <li>• Supports Lightning addresses, invoices, and more</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-black/70 rounded-lg p-6">
                   <h3 className="text-xl font-semibold mb-3 text-yellow-400">📧 Lightning Addresses</h3>
                   <p className="mb-4">Email-style addresses for Lightning payments:</p>
                   <div className="bg-black/70 rounded-lg p-4">
@@ -159,7 +175,8 @@ export default function LightningGuidePage() {
                     <h3 className="text-xl font-semibold mb-2">Choose Your Wallet</h3>
                     <p className="mb-3">Select a Lightning wallet that works for you:</p>
                     <ul className="list-disc list-inside space-y-1 text-gray-300">
-                      <li><strong>For beginners:</strong> Alby browser extension</li>
+                      <li><strong>For beginners:</strong> Alby browser extension or Alby Hub</li>
+                      <li><strong>For self-custody:</strong> Breez SDK Spark (built-in option)</li>
                       <li><strong>For mobile users:</strong> Zeus or Phoenix wallet</li>
                       <li><strong>For privacy:</strong> Mutiny Wallet</li>
                     </ul>
@@ -187,7 +204,7 @@ export default function LightningGuidePage() {
                     <p className="mb-3">Connect your wallet to the platform:</p>
                     <ol className="list-decimal list-inside space-y-1 text-gray-300">
                       <li>Click the Lightning wallet button in the header</li>
-                      <li>Choose your connection method (WebLN, NWC, or Lightning Address)</li>
+                      <li>Choose your wallet: Alby Hub, Breez SDK Spark, or NWC</li>
                       <li>Follow the wallet&apos;s connection prompts</li>
                       <li>Verify your connection is successful</li>
                     </ol>
@@ -309,8 +326,9 @@ export default function LightningGuidePage() {
                   <ul className="list-disc list-inside space-y-1 text-gray-300">
                     <li><strong>Wallet not connecting:</strong> Check that your wallet is online and NWC is enabled</li>
                     <li><strong>Invalid connection string:</strong> Ensure the connection string is complete and valid</li>
+                    <li><strong>Breez SDK issues:</strong> Verify you have a valid API key and correct mnemonic phrase</li>
                     <li><strong>Try disconnecting and reconnecting:</strong> Sometimes a fresh connection helps</li>
-                    <li><strong>Use different wallet:</strong> Try WebLN if NWC doesn&apos;t work, or vice versa</li>
+                    <li><strong>Use different wallet:</strong> Try Alby Hub, Breez SDK, or manual NWC connection</li>
                   </ul>
                 </div>
 
