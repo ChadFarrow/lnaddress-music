@@ -37,7 +37,7 @@ export function BitcoinConnectWallet() {
         // Initialize Bitcoin Connect with basic configuration
         if (bc.init && !window.bitcoinConnectInitialized) {
           bc.init({
-            appName: 'HPM Lightning',
+            appName: 'lnaddress music',
             // Remove filters to show all wallet types including browser extensions
             showBalance: false, // Hide balance to keep UI clean
             // Enable all connectors including NWC
@@ -232,7 +232,7 @@ export function BitcoinConnectPayment({
         podcast: boostMetadata.artist || 'Unknown Artist',
         episode: boostMetadata.title || 'Unknown Title',
         action: 'boost',
-        app_name: boostMetadata.appName || 'HPM Lightning',
+        app_name: boostMetadata.appName || 'lnaddress music',
         // Use actual feed URL from metadata for proper Helipad recognition
         feed: boostMetadata.feedUrl || 'https://www.doerfelverse.com/feeds/intothedoerfelverse.xml',
         url: boostMetadata.feedUrl || 'https://www.doerfelverse.com/feeds/intothedoerfelverse.xml',
@@ -250,7 +250,7 @@ export function BitcoinConnectPayment({
         uuid: `boost-${Date.now()}-${Math.floor(Math.random() * 1000)}`, // Unique identifier
         app_version: '1.0.0', // App version
         value_msat: recipients ? Math.floor((amount * 1000) / recipients.length) : amount * 1000, // Individual payment amount
-        name: 'HPM Lightning' // App/service name
+        name: 'lnaddress music' // App/service name
       };
       
       // Log the exact TLV data for debugging (matching payment-utils.ts)
@@ -275,7 +275,7 @@ export function BitcoinConnectPayment({
         podcast: boostMetadata.artist || 'Unknown Artist',
         episode: boostMetadata.title || 'Unknown Title', 
         action: 'boost',
-        app: boostMetadata.appName || 'HPM Lightning',
+        app: boostMetadata.appName || 'lnaddress music',
         message: boostMetadata.message || '',
         amount: amount,
         sender: boostMetadata.senderName || 'Anonymous',
@@ -365,20 +365,9 @@ export function BitcoinConnectPayment({
       const webln = (window as any).webln;
       
       // Determine recipients to use
-      let paymentsToMake = recipients || [{ address: recipient, split: 100, name: 'Single recipient' }];
-      
-      // Always add 2 sat payment to site owner for metadata collection
-      const siteOwnerRecipient = {
-        address: '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
-        split: 0, // Will be handled separately as fixed 2 sats
-        name: 'HPM Site Metadata',
-        fee: false,
-        type: 'node',
-        fixedAmount: 2 // Fixed 2 sat payment
-      };
-      
-      paymentsToMake = [...paymentsToMake, siteOwnerRecipient];
-      console.log(`⚡ Processing payments to ${paymentsToMake.length} recipients (including 2 sat metadata fee):`, paymentsToMake);
+      const paymentsToMake = recipients || [{ address: recipient, split: 100, name: 'Single recipient' }];
+
+      console.log(`⚡ Processing payments to ${paymentsToMake.length} recipients:`, paymentsToMake);
       
       // Calculate total split value for proportional payments
       const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);
@@ -599,7 +588,7 @@ export function BitcoinConnectPayment({
               console.log('  feedID: 6590182 (numeric)');
               console.log('  episode_guid: b4578bea-855b-48a6-a747-1a09ed44a19a');
               console.log('  url: https://www.doerfelverse.com/feeds/intothedoerfelverse.xml');
-              console.log('❓ OUR APP (HPM Lightning):');
+              console.log('❓ OUR APP (lnaddress music):');
               console.log(`  feedId: ${boostMetadata?.feedUrl === 'https://www.doerfelverse.com/feeds/bloodshot-lies-album.xml' ? "6590183" : "6590182"} (FIXED: using lowercase feedId for Helipad)`);
               console.log(`  episode_guid: ${boostMetadata?.itemGuid || 'missing'}`);
               console.log(`  url: ${boostMetadata?.feedUrl || 'RSS feed URL'}`);
