@@ -33,7 +33,9 @@ async function main() {
     console.log('📁 Parsed data saved to: data/parsed-feeds.json');
     console.log('🎉 Ready for static build!\\n');
 
-    process.exit(report.failedParses > 0 ? 1 : 0);
+    // Only fail build if we have zero successful parses
+    // Some feeds may 404 but that's okay as long as we have content
+    process.exit(report.successfulParses === 0 ? 1 : 0);
 
   } catch (error) {
     console.error('❌ Failed to parse feeds:', error);
