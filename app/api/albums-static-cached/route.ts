@@ -4,38 +4,41 @@ import path from 'path';
 
 export async function GET() {
   try {
-    const staticFilePath = path.join(process.cwd(), 'public', 'albums-static-cached.json');
-    
-    // Check if static file exists
-    if (!fs.existsSync(staticFilePath)) {
-      return NextResponse.json({ 
-        error: 'Static album data not found. Run the build script to generate static data.' 
+    // Use pre-parsed feed data from data/parsed-feeds.json
+    const parsedFeedsPath = path.join(process.cwd(), 'data', 'parsed-feeds.json');
+
+    // Check if parsed feeds file exists
+    if (!fs.existsSync(parsedFeedsPath)) {
+      return NextResponse.json({
+        error: 'Parsed feed data not found. Run the feed parser to generate data.'
       }, { status: 404 });
     }
-    
-    // Read and return the static data
-    const staticData = JSON.parse(fs.readFileSync(staticFilePath, 'utf-8'));
-    
-    // Add metadata about the static data
+
+    // Read and return the pre-parsed data
+    const parsedData = JSON.parse(fs.readFileSync(parsedFeedsPath, 'utf-8'));
+
+    // Transform to expected API format
     const response = {
-      ...staticData,
+      albums: parsedData.albums || [],
       metadata: {
-        ...staticData.metadata,
-        servedFrom: 'static-file',
-        servedAt: new Date().toISOString()
+        totalAlbums: parsedData.albums?.length || 0,
+        totalTracks: parsedData.totalTracks || 0,
+        servedFrom: 'pre-parsed-feeds',
+        servedAt: new Date().toISOString(),
+        parseTimestamp: parsedData.timestamp || null
       }
     };
-    
+
     return NextResponse.json(response, {
       headers: {
-        'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+        'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400', // Cache for 1 hour, serve stale for 24 hours
       }
     });
-    
+
   } catch (error) {
-    console.error('❌ Error serving static albums:', error);
-    return NextResponse.json({ 
-      error: 'Failed to load static album data',
+    console.error('❌ Error serving albums:', error);
+    return NextResponse.json({
+      error: 'Failed to load album data',
       details: error instanceof Error ? error.message : String(error)
     }, { status: 500 });
   }
