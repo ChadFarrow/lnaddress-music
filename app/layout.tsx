@@ -23,7 +23,15 @@ export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_SITE_TITLE || 'Music Platform',
   description: 'Value4Value music platform powered by Lightning Network',
   manifest: '/manifest.json',
-  // Icons removed - add your own favicon and PWA icons
+  icons: {
+    icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',

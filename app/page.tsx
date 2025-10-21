@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef, Suspense, lazy, useCallback } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { getVersionString } from '@/lib/version';
@@ -515,21 +514,8 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
-      {/* Bloodshot Lies Album Art Background */}
-      <div className="fixed inset-0 z-0">
-        <Image
-          src="/bloodshot-lies-big.png"
-          alt="Bloodshot Lies Album Art"
-          fill
-          className="object-cover w-full h-full"
-          loading="eager"
-          quality={40}
-          sizes="100vw"
-          placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAA8A/9k="
-        />
-        <div className="absolute inset-0 bg-black/60"></div>
-      </div>
+      {/* Background gradient */}
+      <div className="fixed inset-0 z-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
 
       {/* Content overlay */}
       <div className="relative z-10">

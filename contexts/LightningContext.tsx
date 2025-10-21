@@ -11,7 +11,7 @@ interface LightningContextType {
 const LightningContext = createContext<LightningContextType | undefined>(undefined);
 
 export function LightningProvider({ children }: { children: ReactNode }) {
-  const [isLightningEnabled, setIsLightningEnabled] = useState(false);
+  const [isLightningEnabled, setIsLightningEnabled] = useState(true);
 
   // Load Lightning setting from localStorage on mount
   useEffect(() => {
@@ -19,7 +19,7 @@ export function LightningProvider({ children }: { children: ReactNode }) {
     if (saved !== null) {
       setIsLightningEnabled(saved === 'true');
     }
-    // If no saved preference exists, Lightning stays disabled by default
+    // If no saved preference exists, Lightning is enabled by default
   }, []);
 
   // Save to localStorage when setting changes
