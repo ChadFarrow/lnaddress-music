@@ -14,11 +14,11 @@ import confetti from 'canvas-confetti';
 import { isLightningEnabled } from '@/lib/feature-flags';
 
 // Lazy load Lightning components - not needed on initial page load
-const BitcoinConnectWallet = dynamic(
-  () => import('@/components/BitcoinConnect').then(mod => ({ default: mod.BitcoinConnectWallet })),
-  { 
-    loading: () => <div className="w-32 h-10 bg-gray-800/50 rounded-lg animate-pulse" />,
-    ssr: false 
+const LightningWallet = dynamic(
+  () => import('@/components/LightningWallet').then(mod => ({ default: mod.LightningWallet })),
+  {
+    loading: () => <div className="w-16 h-10 bg-gray-800/50 rounded-lg animate-pulse" />,
+    ssr: false
   }
 );
 
@@ -538,9 +538,9 @@ export default function HomePage() {
                   {/* Logo placeholder - add your own logo here */}
                 </div>
                 <div className="flex items-center gap-3">
-                  {isLightningEnabled && <BitcoinConnectWallet />}
-                  <Link 
-                    href="/about" 
+                  {isLightningEnabled && <LightningWallet />}
+                  <Link
+                    href="/about"
                     className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
                   >
                     <span className="text-sm">About</span>
@@ -578,9 +578,9 @@ export default function HomePage() {
 
                 </div>
                 <div className="absolute right-0 flex items-center gap-4">
-                  {isLightningEnabled && <BitcoinConnectWallet />}
-                  <Link 
-                    href="/about" 
+                  {isLightningEnabled && <LightningWallet />}
+                  <Link
+                    href="/about"
                     className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
