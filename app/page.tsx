@@ -1023,10 +1023,10 @@ export default function HomePage() {
 
               {/* Payment Splits */}
               {(() => {
-                const recipients = selectedAlbum.value?.type === 'lightning' && selectedAlbum.value?.method === 'keysend'
-                  ? selectedAlbum.value.recipients.filter((r: any) => r.type === 'node')
-                  : selectedAlbum.tracks?.[0]?.value?.type === 'lightning' && selectedAlbum.tracks[0].value.method === 'keysend'
-                  ? selectedAlbum.tracks[0].value.recipients.filter((r: any) => r.type === 'node')
+                const recipients = selectedAlbum.value?.type === 'lightning' && selectedAlbum.value?.recipients
+                  ? selectedAlbum.value.recipients
+                  : selectedAlbum.tracks?.[0]?.value?.type === 'lightning' && selectedAlbum.tracks[0].value.recipients
+                  ? selectedAlbum.tracks[0].value.recipients
                   : null;
 
                 if (recipients && recipients.length > 0) {
