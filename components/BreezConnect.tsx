@@ -15,6 +15,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [mnemonic, setMnemonic] = useState('');
   const [network, setNetwork] = useState<'mainnet' | 'regtest'>('mainnet');
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [generatedMnemonic, setGeneratedMnemonic] = useState('');
   const hasEnvApiKey = !!process.env.NEXT_PUBLIC_BREEZ_API_KEY;
 
   const handleConnect = async () => {
@@ -24,16 +25,10 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       return;
     }
 
-    if (!mnemonic) {
-      const errorMsg = 'Please enter your recovery mnemonic (12 or 24 words)';
-      onError?.(errorMsg);
-      return;
-    }
-
     try {
       await connect({
         apiKey,
-        mnemonic,
+        mnemonic: mnemonic || undefined, // Optional - will generate if not provided
         network,
         storageDir: './breez-sdk-data'
       });
@@ -111,17 +106,17 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       {/* Mnemonic Input */}
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-300 mb-2">
-          Recovery Mnemonic (12 or 24 words)
+          Recovery Mnemonic (Optional)
         </label>
         <textarea
           value={mnemonic}
           onChange={(e) => setMnemonic(e.target.value)}
-          placeholder="word1 word2 word3 ..."
+          placeholder="Leave empty to create a new wallet automatically"
           rows={3}
           className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 font-mono text-sm"
         />
-        <p className="mt-1 text-xs text-gray-400">
-          Enter your existing mnemonic or generate a new one securely
+        <p className="mt-1 text-xs text-green-400">
+          💡 Leave empty to create a new wallet, or enter your existing 12/24-word mnemonic to restore
         </p>
       </div>
 
@@ -168,7 +163,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       {/* Connect Button */}
       <button
         onClick={handleConnect}
-        disabled={loading || !apiKey || !mnemonic}
+        disabled={loading || !apiKey}
         className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {loading ? (

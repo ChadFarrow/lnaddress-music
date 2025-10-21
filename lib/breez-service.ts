@@ -106,9 +106,19 @@ class BreezService {
    * Generate a new mnemonic seed
    */
   private async generateSeed(): Promise<Seed> {
-    // For now, we'll require a mnemonic to be provided
-    // In a full implementation, you'd generate one securely
-    throw new Error('Mnemonic seed required. Please provide a mnemonic in the config.');
+    // Generate a new random mnemonic using Breez SDK
+    const { mnemonicGenerate } = await import('@breeztech/breez-sdk-spark/web');
+    const mnemonic = await mnemonicGenerate();
+
+    console.log('🔐 Generated new wallet mnemonic - SAVE THIS SECURELY!');
+    console.log('Mnemonic:', mnemonic);
+
+    // Store in localStorage as a backup (user should also save it manually)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('breez:generated-mnemonic', mnemonic);
+    }
+
+    return { type: 'mnemonic', mnemonic };
   }
 
   /**
