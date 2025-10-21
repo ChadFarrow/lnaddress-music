@@ -11,7 +11,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:18.187Z",
+      "lastParsed": "2025-10-21T00:39:32.642Z",
       "parsedData": {
         "album": {
           "title": "JUKEBOX",
@@ -77,7 +77,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-21T00:33:18.880Z",
+      "lastParsed": "2025-10-21T00:39:32.744Z",
       "parseError": "No album data found"
     },
     {
@@ -91,7 +91,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:24.757Z",
+      "lastParsed": "2025-10-21T00:39:39.915Z",
       "parsedData": {
         "album": {
           "title": "Lightswitch (album)",
@@ -239,7 +239,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:25.050Z",
+      "lastParsed": "2025-10-21T00:39:40.017Z",
       "parsedData": {
         "album": {
           "title": "Keep Walking",
@@ -306,7 +306,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:25.344Z",
+      "lastParsed": "2025-10-21T00:39:40.117Z",
       "parsedData": {
         "album": {
           "title": "My test music single",
@@ -380,7 +380,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:26.242Z",
+      "lastParsed": "2025-10-21T00:39:40.218Z",
       "parsedData": {
         "album": {
           "title": "Big Day (album)",
@@ -548,7 +548,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:26.699Z",
+      "lastParsed": "2025-10-21T00:39:40.319Z",
       "parsedData": {
         "album": {
           "title": "Worried",
@@ -615,7 +615,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:26.948Z",
+      "lastParsed": "2025-10-21T00:39:40.420Z",
       "parsedData": {
         "album": {
           "title": "No one left",
@@ -681,7 +681,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:27.156Z",
+      "lastParsed": "2025-10-21T00:39:40.521Z",
       "parsedData": {
         "album": {
           "title": "Gig Harbor Morning",
@@ -755,7 +755,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:27.395Z",
+      "lastParsed": "2025-10-21T00:39:40.622Z",
       "parsedData": {
         "album": {
           "title": "Somewhere Local",
@@ -821,7 +821,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:27.771Z",
+      "lastParsed": "2025-10-21T00:39:40.722Z",
       "parsedData": {
         "album": {
           "title": "No Shotgun",
@@ -888,7 +888,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:27.957Z",
+      "lastParsed": "2025-10-21T00:39:40.822Z",
       "parsedData": {
         "album": {
           "title": "Decisions to Make",
@@ -955,7 +955,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:28.166Z",
+      "lastParsed": "2025-10-21T00:39:40.923Z",
       "parsedData": {
         "album": {
           "title": "Hiking at Mohawk Lakes, CO",
@@ -1022,7 +1022,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:28.405Z",
+      "lastParsed": "2025-10-21T00:39:41.024Z",
       "parsedData": {
         "album": {
           "title": "Gunfiyas",
@@ -1098,7 +1098,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:28.871Z",
+      "lastParsed": "2025-10-21T00:39:41.125Z",
       "parsedData": {
         "album": {
           "title": "Ani Ohevet",
@@ -1165,7 +1165,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:29.076Z",
+      "lastParsed": "2025-10-21T00:39:41.226Z",
       "parsedData": {
         "album": {
           "title": "See the World in another Light",
@@ -1232,7 +1232,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:29.312Z",
+      "lastParsed": "2025-10-21T00:39:41.326Z",
       "parsedData": {
         "album": {
           "title": "Memories from Room 255 (In Memory of T.A.)",
@@ -1299,7 +1299,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:29.795Z",
+      "lastParsed": "2025-10-21T00:39:41.427Z",
       "parsedData": {
         "album": {
           "title": "Reasons You Know",
@@ -1366,7 +1366,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:30.152Z",
+      "lastParsed": "2025-10-21T00:39:41.527Z",
       "parsedData": {
         "album": {
           "title": "Tender Wolf (featured by InHale and The Flute Prayer)",
@@ -1433,7 +1433,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:30.513Z",
+      "lastParsed": "2025-10-21T00:39:41.628Z",
       "parsedData": {
         "album": {
           "title": "In From the Range",
@@ -1500,7 +1500,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:30.851Z",
+      "lastParsed": "2025-10-21T00:39:41.728Z",
       "parsedData": {
         "album": {
           "title": "King Size on the Floor",
@@ -1567,7 +1567,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:31.124Z",
+      "lastParsed": "2025-10-21T00:39:41.829Z",
       "parsedData": {
         "album": {
           "title": "Bitcoin on the Brink",
@@ -1633,7 +1633,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:31.533Z",
+      "lastParsed": "2025-10-21T00:39:41.930Z",
       "parsedData": {
         "album": {
           "title": "Dem Boiz",
@@ -1699,7 +1699,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:32.021Z",
+      "lastParsed": "2025-10-21T00:39:42.031Z",
       "parsedData": {
         "album": {
           "title": "Greatness",
@@ -1766,7 +1766,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:32.227Z",
+      "lastParsed": "2025-10-21T00:39:42.132Z",
       "parsedData": {
         "album": {
           "title": "OM Ganesha",
@@ -1839,7 +1839,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:32.581Z",
+      "lastParsed": "2025-10-21T00:39:42.232Z",
       "parsedData": {
         "album": {
           "title": "With Open Arms",
@@ -1912,7 +1912,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:32.977Z",
+      "lastParsed": "2025-10-21T00:39:42.333Z",
       "parsedData": {
         "album": {
           "title": "As You Were",
@@ -1981,7 +1981,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:33.173Z",
+      "lastParsed": "2025-10-21T00:39:42.434Z",
       "parsedData": {
         "album": {
           "title": "OM Vighnanashaya Namah",
@@ -2054,7 +2054,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:33.371Z",
+      "lastParsed": "2025-10-21T00:39:42.535Z",
       "parsedData": {
         "album": {
           "title": "When They Come Home",
@@ -2121,7 +2121,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:33.604Z",
+      "lastParsed": "2025-10-21T00:39:42.635Z",
       "parsedData": {
         "album": {
           "title": "Consciouseness",
@@ -2188,7 +2188,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:34.020Z",
+      "lastParsed": "2025-10-21T00:39:42.736Z",
       "parsedData": {
         "album": {
           "title": "Live at the Reader 2015",
@@ -2282,7 +2282,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:34.215Z",
+      "lastParsed": "2025-10-21T00:39:42.836Z",
       "parsedData": {
         "album": {
           "title": "A Phoenix Rising",
@@ -2349,7 +2349,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:34.410Z",
+      "lastParsed": "2025-10-21T00:39:42.937Z",
       "parsedData": {
         "album": {
           "title": "Om Biktaya Namah",
@@ -2423,7 +2423,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:34.621Z",
+      "lastParsed": "2025-10-21T00:39:43.038Z",
       "parsedData": {
         "album": {
           "title": "Whispers",
@@ -2490,7 +2490,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:34.824Z",
+      "lastParsed": "2025-10-21T00:39:43.138Z",
       "parsedData": {
         "album": {
           "title": "God, With You",
@@ -2557,7 +2557,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:35.013Z",
+      "lastParsed": "2025-10-21T00:39:43.239Z",
       "parsedData": {
         "album": {
           "title": "good old days",
@@ -2623,7 +2623,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:35.197Z",
+      "lastParsed": "2025-10-21T00:39:43.339Z",
       "parsedData": {
         "album": {
           "title": "ZIPPA",
@@ -2689,7 +2689,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:35.400Z",
+      "lastParsed": "2025-10-21T00:39:43.440Z",
       "parsedData": {
         "album": {
           "title": "seeing stars",
@@ -2755,7 +2755,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:35.598Z",
+      "lastParsed": "2025-10-21T00:39:43.540Z",
       "parsedData": {
         "album": {
           "title": "disco girl",
@@ -2821,7 +2821,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:35.801Z",
+      "lastParsed": "2025-10-21T00:39:43.641Z",
       "parsedData": {
         "album": {
           "title": "if the world stops",
@@ -2887,7 +2887,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:35.989Z",
+      "lastParsed": "2025-10-21T00:39:43.742Z",
       "parsedData": {
         "album": {
           "title": "Love Yourself 528Hz meditation - Haleen",
@@ -2954,7 +2954,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:36.208Z",
+      "lastParsed": "2025-10-21T00:39:43.842Z",
       "parsedData": {
         "album": {
           "title": "I Miss Home",
@@ -3021,7 +3021,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:36.437Z",
+      "lastParsed": "2025-10-21T00:39:43.943Z",
       "parsedData": {
         "album": {
           "title": "Om Namah Shivaya",
@@ -3088,7 +3088,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-21T00:33:36.627Z",
+      "lastParsed": "2025-10-21T00:39:44.043Z",
       "parseError": "No album data found"
     },
     {
@@ -3102,7 +3102,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-21T00:33:42.017Z",
+      "lastParsed": "2025-10-21T00:39:49.948Z",
       "parseError": "No album data found"
     },
     {
@@ -3116,7 +3116,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:47.181Z",
+      "lastParsed": "2025-10-21T00:39:54.847Z",
       "parsedData": {
         "album": {
           "title": "Confession Booth Blues",
@@ -3183,7 +3183,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:47.614Z",
+      "lastParsed": "2025-10-21T00:39:54.948Z",
       "parsedData": {
         "album": {
           "title": "Big Tings a Gwarn",
@@ -3250,7 +3250,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:48.060Z",
+      "lastParsed": "2025-10-21T00:39:55.052Z",
       "parsedData": {
         "album": {
           "title": "TYL001",
@@ -3326,7 +3326,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:48.267Z",
+      "lastParsed": "2025-10-21T00:39:55.153Z",
       "parsedData": {
         "album": {
           "title": "HYPHEN IS IN THE HOUSE",
@@ -3420,7 +3420,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:48.461Z",
+      "lastParsed": "2025-10-21T00:39:55.254Z",
       "parsedData": {
         "album": {
           "title": "A Lesson in August",
@@ -3494,7 +3494,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:48.740Z",
+      "lastParsed": "2025-10-21T00:39:55.354Z",
       "parsedData": {
         "album": {
           "title": "Flood Gates",
@@ -3641,7 +3641,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:49.077Z",
+      "lastParsed": "2025-10-21T00:39:55.455Z",
       "parsedData": {
         "album": {
           "title": "Running Like Poison",
@@ -3707,7 +3707,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:49.456Z",
+      "lastParsed": "2025-10-21T00:39:55.555Z",
       "parsedData": {
         "album": {
           "title": "Move To Da Riddim",
@@ -3794,7 +3794,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:49.663Z",
+      "lastParsed": "2025-10-21T00:39:55.655Z",
       "parsedData": {
         "album": {
           "title": "Bridge Back Over Again",
@@ -3868,7 +3868,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:49.967Z",
+      "lastParsed": "2025-10-21T00:39:55.756Z",
       "parsedData": {
         "album": {
           "title": "Collateral Damage",
@@ -3935,7 +3935,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:50.215Z",
+      "lastParsed": "2025-10-21T00:39:55.857Z",
       "parsedData": {
         "album": {
           "title": "TOLD YA",
@@ -4001,7 +4001,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:50.463Z",
+      "lastParsed": "2025-10-21T00:39:55.958Z",
       "parsedData": {
         "album": {
           "title": "404: Album Not Found",
@@ -4175,7 +4175,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:50.796Z",
+      "lastParsed": "2025-10-21T00:39:56.058Z",
       "parsedData": {
         "album": {
           "title": "Until its Beautiful",
@@ -4242,7 +4242,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:51.055Z",
+      "lastParsed": "2025-10-21T00:39:56.159Z",
       "parsedData": {
         "album": {
           "title": "Take Me",
@@ -4308,7 +4308,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:51.361Z",
+      "lastParsed": "2025-10-21T00:39:56.260Z",
       "parsedData": {
         "album": {
           "title": "Catacomb",
@@ -4375,7 +4375,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-21T00:33:51.592Z",
+      "lastParsed": "2025-10-21T00:39:56.361Z",
       "parseError": "No album data found"
     },
     {
@@ -4389,7 +4389,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:57.438Z",
+      "lastParsed": "2025-10-21T00:40:01.513Z",
       "parsedData": {
         "album": {
           "title": "twenties high",
@@ -4455,7 +4455,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:57.893Z",
+      "lastParsed": "2025-10-21T00:40:01.614Z",
       "parsedData": {
         "album": {
           "title": "The God You Are",
@@ -4522,7 +4522,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:58.862Z",
+      "lastParsed": "2025-10-21T00:40:01.715Z",
       "parsedData": {
         "album": {
           "title": "myself",
@@ -4588,7 +4588,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:59.179Z",
+      "lastParsed": "2025-10-21T00:40:01.816Z",
       "parsedData": {
         "album": {
           "title": "In Love and alliance ( Dance free - rewind )",
@@ -4662,7 +4662,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:33:59.898Z",
+      "lastParsed": "2025-10-21T00:40:01.916Z",
       "parsedData": {
         "album": {
           "title": "Sing Om",
@@ -4729,7 +4729,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:34:00.311Z",
+      "lastParsed": "2025-10-21T00:40:02.017Z",
       "parsedData": {
         "album": {
           "title": "wake up next to you",
@@ -4795,7 +4795,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-21T00:34:00.727Z",
+      "lastParsed": "2025-10-21T00:40:02.118Z",
       "parseError": "No album data found"
     },
     {
@@ -4809,7 +4809,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:34:06.449Z",
+      "lastParsed": "2025-10-21T00:40:07.457Z",
       "parsedData": {
         "album": {
           "title": "Healing",
@@ -4876,7 +4876,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:34:07.020Z",
+      "lastParsed": "2025-10-21T00:40:07.558Z",
       "parsedData": {
         "album": {
           "title": "The Silence",
@@ -4943,7 +4943,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:34:07.374Z",
+      "lastParsed": "2025-10-21T00:40:07.660Z",
       "parsedData": {
         "album": {
           "title": "Build on Stone",
@@ -5000,6 +5000,6 @@
       "trackCount": 1
     }
   ],
-  "lastUpdated": "2025-10-21T00:34:07.762Z",
+  "lastUpdated": "2025-10-21T00:40:07.761Z",
   "version": 1
 }

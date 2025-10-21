@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "npx tsx scripts/direct-parse-feeds.ts",
+    "prebuild": "echo 'Using pre-parsed feed data from data/parsed-feeds.json'",
     "build": "next build",
     "build:static": "npm run prebuild && next build",
     "build:lightning": "cp .env.lightning .env.local && npm run build",
