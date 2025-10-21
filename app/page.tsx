@@ -1023,29 +1023,21 @@ export default function HomePage() {
 
               {/* Payment Splits */}
               {(() => {
-                // COMPREHENSIVE DEBUG
-                console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-                console.log('🔍 SELECTED ALBUM:', selectedAlbum.title);
-                console.log('🔍 Full album object keys:', Object.keys(selectedAlbum));
-                console.log('🔍 Has value?', 'value' in selectedAlbum, selectedAlbum.value);
-                console.log('🔍 Has tracks?', 'tracks' in selectedAlbum, selectedAlbum.tracks?.length);
+                // Extract Lightning recipients from album or first track
+                let recipients = null;
 
-                if (selectedAlbum.value) {
-                  console.log('📦 Album value:', JSON.stringify(selectedAlbum.value, null, 2));
+                // Check album-level value
+                if (selectedAlbum.value?.type === 'lightning' && selectedAlbum.value?.recipients) {
+                  recipients = selectedAlbum.value.recipients;
                 }
 
-                if (selectedAlbum.tracks?.[0]?.value) {
-                  console.log('📦 First track value:', JSON.stringify(selectedAlbum.tracks[0].value, null, 2));
+                // Fallback to first track value
+                if (!recipients && selectedAlbum.tracks?.[0]?.value) {
+                  const trackValue = selectedAlbum.tracks[0].value;
+                  if (trackValue.type === 'lightning' && trackValue.recipients) {
+                    recipients = trackValue.recipients;
+                  }
                 }
-
-                const recipients = selectedAlbum.value?.type === 'lightning' && selectedAlbum.value?.recipients
-                  ? selectedAlbum.value.recipients
-                  : selectedAlbum.tracks?.[0]?.value?.type === 'lightning' && selectedAlbum.tracks[0].value.recipients
-                  ? selectedAlbum.tracks[0].value.recipients
-                  : null;
-
-                console.log('🎯 Recipients extracted:', recipients?.length || 0, recipients);
-                console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
                 if (recipients && recipients.length > 0) {
                   const totalSplit = recipients.reduce((sum: number, r: any) => sum + r.split, 0);
@@ -1087,31 +1079,29 @@ export default function HomePage() {
                 onError={handleBoostError}
                 className="w-full !mt-6"
                 recipients={(() => {
-                  // Get payment recipients from selected album
-                  if (selectedAlbum.value && selectedAlbum.value.type === 'lightning' && selectedAlbum.value.method === 'keysend') {
-                    return selectedAlbum.value.recipients
-                      .filter((r: any) => r.type === 'node')
-                      .map((r: any) => ({
-                        address: r.address,
-                        split: r.split,
-                        name: r.name,
-                        fee: r.fee,
-                        type: 'node'
-                      }));
+                  // Get payment recipients from album or first track
+                  let value = null;
+
+                  // Check album-level value
+                  if (selectedAlbum.value?.type === 'lightning' && selectedAlbum.value?.recipients) {
+                    value = selectedAlbum.value;
                   }
-                  // Check first track for value data
-                  const firstTrack = selectedAlbum.tracks?.[0];
-                  if (firstTrack?.value && firstTrack.value.type === 'lightning' && firstTrack.value.method === 'keysend') {
-                    return firstTrack.value.recipients
-                      .filter((r: any) => r.type === 'node')
-                      .map((r: any) => ({
-                        address: r.address,
-                        split: r.split,
-                        name: r.name,
-                        fee: r.fee,
-                        type: 'node'
-                      }));
+
+                  // Fallback to first track
+                  if (!value && selectedAlbum.tracks?.[0]?.value?.type === 'lightning') {
+                    value = selectedAlbum.tracks[0].value;
                   }
+
+                  if (value?.recipients) {
+                    return value.recipients.map((r: any) => ({
+                      address: r.address,
+                      split: r.split,
+                      name: r.name,
+                      fee: r.fee,
+                      type: r.type
+                    }));
+                  }
+
                   return undefined;
                 })()}
                 recipient="03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e"
