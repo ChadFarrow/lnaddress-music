@@ -14,9 +14,10 @@
 README.md
 *.md
 
-# Exclude scripts (except auto-version-update.js)
+# Exclude scripts (except auto-version-update.js and direct-parse-feeds.ts)
 scripts/*
 !scripts/auto-version-update.js
+!scripts/direct-parse-feeds.ts
 
 # Exclude cache files (now served from Bunny.net CDN)
 data/cache/
