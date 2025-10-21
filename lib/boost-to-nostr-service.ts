@@ -348,8 +348,8 @@ export class BoostToNostrService {
         eventTemplate.tags.push(['k', 'podcast:item:guid']);
         // i tag contains the actual identifier with URL hint
         const itemTag = ['i', `podcast:item:guid:${options.track.guid}`];
-        if (itdvUrl) {
-          itemTag.push(itdvUrl);
+        if (options.track.url) {
+          itemTag.push(options.track.url);
         }
         eventTemplate.tags.push(itemTag);
       }
@@ -360,8 +360,8 @@ export class BoostToNostrService {
         eventTemplate.tags.push(['k', 'podcast:guid']);
         // i tag contains the actual identifier with URL hint
         const feedTag = ['i', `podcast:guid:${options.track.feedGuid}`];
-        if (itdvUrl) {
-          feedTag.push(itdvUrl);
+        if (options.track.feedUrl) {
+          feedTag.push(options.track.feedUrl);
         }
         eventTemplate.tags.push(feedTag);
       }
@@ -371,8 +371,8 @@ export class BoostToNostrService {
         eventTemplate.tags.push(['k', 'podcast:publisher:guid']);
         // i tag contains the actual identifier with URL hint
         const publisherTag = ['i', `podcast:publisher:guid:${options.track.publisherGuid}`];
-        if (itdvUrl) {
-          publisherTag.push(itdvUrl);
+        if (options.track.publisherUrl) {
+          publisherTag.push(options.track.publisherUrl);
         }
         eventTemplate.tags.push(publisherTag);
       }

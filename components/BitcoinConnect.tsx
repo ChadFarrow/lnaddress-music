@@ -336,72 +336,9 @@ export function BitcoinConnectPayment({
 
   // Helper function to create Nostr boost notes after successful payments
   const handleBoostCreation = async (paymentResults: any[], totalAmount: number) => {
-    try {
-      console.log('🔍 Boost creation conditions check:', {
-        enableBoosts: !!enableBoosts,
-        boostMetadata: !!boostMetadata,
-        publicKey: !!publicKey,
-        postBoost: !!postBoost
-      });
-      
-      if (!enableBoosts || !boostMetadata || !publicKey) {
-        console.log('❌ Boost creation blocked - missing required conditions');
-        return;
-      }
-
-      console.log('🎵 Creating Nostr boost note for successful payments...');
-      console.log('🔍 Raw boostMetadata received:', JSON.stringify(boostMetadata, null, 2));
-      console.log('🔍 boostMetadata keys:', Object.keys(boostMetadata || {}));
-      console.log('🔍 boostMetadata values:', {
-        itemGuid: boostMetadata?.itemGuid,
-        podcastFeedGuid: boostMetadata?.podcastFeedGuid,
-        podcastGuid: boostMetadata?.podcastGuid,
-        publisherGuid: boostMetadata?.publisherGuid
-      });
-      
-      // Use the intended amount rather than actual amount paid
-      // This shows what the user intended to boost, not just what succeeded
-      
-      // Create boost note using the Nostr boost system
-      if (!postBoost) {
-        console.warn('⚠️ postBoost function not available');
-        return;
-      }
-      
-      // Create boost with intended amount and metadata
-      // Map boostMetadata to TrackMetadata format using correct property names
-      const trackMetadata = {
-        title: boostMetadata.title,
-        artist: boostMetadata.artist,
-        album: boostMetadata.album,
-        url: boostMetadata.url,
-        imageUrl: boostMetadata.imageUrl,
-        senderName: boostMetadata.senderName,
-        guid: boostMetadata.itemGuid, // Map itemGuid to guid
-        podcastGuid: boostMetadata.podcastGuid,
-        feedGuid: boostMetadata.podcastFeedGuid, // Map podcastFeedGuid to feedGuid
-        feedUrl: boostMetadata.feedUrl,
-        publisherGuid: boostMetadata.publisherGuid,
-        publisherUrl: boostMetadata.publisherUrl
-      };
-      
-      console.log('🔍 Mapped trackMetadata:', JSON.stringify(trackMetadata, null, 2));
-      
-      const boostResult = await postBoost(
-        totalAmount, 
-        trackMetadata,
-        boostMetadata.message // Pass custom message as comment
-      );
-      
-      if (boostResult.success) {
-        console.log('✅ Nostr boost note created:', boostResult.eventId);
-        console.log('📝 Boost note published to Nostr with podcast metadata');
-      } else {
-        console.warn('⚠️ Failed to create boost note:', boostResult.error);
-      }
-    } catch (error) {
-      console.warn('⚠️ Failed to create boost note:', error);
-    }
+    // Nostr boost posting disabled for now
+    console.log('ℹ️ Nostr boost posting is currently disabled');
+    return;
   };
 
   const handlePayment = async () => {
