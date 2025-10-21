@@ -1051,11 +1051,12 @@ export default function HomePage() {
                         {recipients.map((recipient: any, index: number) => {
                           const percentage = ((recipient.split / totalSplit) * 100).toFixed(1);
                           const amount = Math.floor((boostAmount * recipient.split) / totalSplit);
+                          const displayName = recipient.name || selectedAlbum.artist || 'Artist';
                           return (
                             <div key={index} className="flex items-center justify-between text-sm">
                               <div className="flex items-center gap-2 flex-1 min-w-0">
                                 <div className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
-                                <span className="text-gray-300 truncate">{recipient.name || 'Recipient'}</span>
+                                <span className="text-gray-300 truncate">{displayName}</span>
                               </div>
                               <div className="flex items-center gap-3 flex-shrink-0">
                                 <span className="text-gray-400">{percentage}%</span>
