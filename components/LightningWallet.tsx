@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Zap, Wallet, X, Copy, Check, AlertCircle, Loader2 } from 'lucide-react';
 import { useNWC } from '@/hooks/useNWC';
 import { useBreez } from '@/hooks/useBreez';
@@ -15,9 +16,14 @@ export function LightningWallet() {
   const [showConnectForm, setShowConnectForm] = useState(false);
   const [inputConnection, setInputConnection] = useState('');
   const [copied, setCopied] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const nwc = useNWC();
   const breez = useBreez();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Determine which wallet is connected
   const isConnected = nwc.isConnected || breez.isConnected;
@@ -107,10 +113,10 @@ export function LightningWallet() {
         )}
       </button>
 
-      {/* Wallet Modal */}
-      {isOpen && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" style={{ zIndex: 9999 }}>
-          <div className="relative w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl mx-auto my-auto">
+      {/* Wallet Modal - rendered via portal to document body */}
+      {mounted && isOpen && createPortal(
+        <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" style={{ zIndex: 999999 }}>
+          <div className="relative w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl">
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-800">
               <div className="flex items-center gap-3">
@@ -327,7 +333,8 @@ export function LightningWallet() {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
