@@ -1023,11 +1023,23 @@ export default function HomePage() {
 
               {/* Payment Splits */}
               {(() => {
+                // Debug logging
+                console.log('🔍 Payment Splits Debug:', {
+                  hasAlbumValue: !!selectedAlbum.value,
+                  albumValueType: selectedAlbum.value?.type,
+                  albumValueRecipients: selectedAlbum.value?.recipients?.length,
+                  hasTrackValue: !!selectedAlbum.tracks?.[0]?.value,
+                  trackValueType: selectedAlbum.tracks?.[0]?.value?.type,
+                  trackValueRecipients: selectedAlbum.tracks?.[0]?.value?.recipients?.length
+                });
+
                 const recipients = selectedAlbum.value?.type === 'lightning' && selectedAlbum.value?.recipients
                   ? selectedAlbum.value.recipients
                   : selectedAlbum.tracks?.[0]?.value?.type === 'lightning' && selectedAlbum.tracks[0].value.recipients
                   ? selectedAlbum.tracks[0].value.recipients
                   : null;
+
+                console.log('🎯 Recipients found:', recipients?.length || 0);
 
                 if (recipients && recipients.length > 0) {
                   const totalSplit = recipients.reduce((sum: number, r: any) => sum + r.split, 0);
