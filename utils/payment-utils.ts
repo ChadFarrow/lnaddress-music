@@ -202,9 +202,9 @@ export async function makeAutoBoostPayment({
         const nwcService = getNWCService();
 
         // Initialize NWC if needed
-        if (!nwcService.isInitialized()) {
+        if (!nwcService.isConnected()) {
           console.log('💡 AUTO BOOST: Initializing NWC service...');
-          await nwcService.initialize(nwcConnectionString);
+          await nwcService.connect(nwcConnectionString);
         }
         console.log('💡 AUTO BOOST: NWC ready for auto boost payments');
 
@@ -216,19 +216,18 @@ export async function makeAutoBoostPayment({
           // Create TLV records for boost metadata
           const tlvRecords = boostMetadata ? createBoostTLVRecords(boostMetadata, recipientData.name, recipientAmount) : undefined;
 
-          const result = await nwcService.payKeysend({
-            pubkey: recipientData.address,
-            amount: recipientAmount,
-            tlvRecords,
-            description: `Auto boost to ${recipientData.name || 'recipient'}`
-          });
-          
-          if (result.success) {
-            console.log(`✅ Auto boost payment successful: ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
-            return { recipient: recipientData.name || recipientData.address, amount: recipientAmount, preimage: result.preimage };
-          } else {
-            throw new Error(result.error || 'Payment failed');
+          const result = await nwcService.payKeysend(
+            recipientData.address,
+            recipientAmount,
+            tlvRecords
+          );
+
+          if (result.error) {
+            throw new Error(result.error);
           }
+
+          console.log(`✅ Auto boost payment successful: ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
+          return { recipient: recipientData.name || recipientData.address, amount: recipientAmount, preimage: result.preimage };
         });
 
         const paymentResults = await Promise.allSettled(paymentPromises);
