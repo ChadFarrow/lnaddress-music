@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "echo 'Skipping static data generation during build'",
+    "prebuild": "npx tsx scripts/direct-parse-feeds.ts",
     "build": "next build",
+    "build:static": "npm run prebuild && next build",
     "build:lightning": "cp .env.lightning .env.local && npm run build",
     "build:basic": "cp .env.basic .env.local && npm run build",
     "build:both": "./scripts/build-versions.sh",
