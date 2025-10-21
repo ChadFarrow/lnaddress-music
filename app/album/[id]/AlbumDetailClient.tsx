@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ArrowLeft, Play, Pause, SkipBack, SkipForward, Volume2, Zap } from 'lucide-react';
 import { useAudio } from '@/contexts/AudioContext';
 import { useLightning } from '@/contexts/LightningContext';
+import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
 import type { RSSValue } from '@/lib/rss-parser';
 import dynamic from 'next/dynamic';
@@ -96,6 +97,7 @@ interface AlbumDetailClientProps {
 
 export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDetailClientProps) {
   const { isLightningEnabled } = useLightning();
+  const { checkConnection } = useBitcoinConnect();
   const [album, setAlbum] = useState<Album | null>(initialAlbum);
   const [isLoading, setIsLoading] = useState(!initialAlbum);
   const [error, setError] = useState<string | null>(null);
@@ -924,7 +926,10 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   {/* Album Boost Button */}
                   {isLightningEnabled && (
                     <button
-                      onClick={() => setShowAlbumBoostModal(true)}
+                      onClick={async () => {
+                        await checkConnection();
+                        setShowAlbumBoostModal(true);
+                      }}
                       className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-yellow-500 to-orange-600 text-white rounded-full font-semibold transition-all duration-200 hover:from-yellow-400 hover:to-orange-500 hover:shadow-lg transform hover:scale-105 active:scale-95"
                     >
                       <Zap className="w-4 h-4" />
@@ -1033,8 +1038,9 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                           }}
                         >
                           <button
-                            onClick={(e) => {
+                            onClick={async (e) => {
                               e.stopPropagation();
+                              await checkConnection();
                               setSelectedTrack(track);
                               setShowTrackBoostModal(true);
                             }}

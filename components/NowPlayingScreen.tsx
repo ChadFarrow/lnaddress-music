@@ -580,8 +580,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           {isLightningEnabled && (
             <div className="flex items-center justify-center w-full relative">
               <button
-                onClick={() => {
-                  checkConnection();
+                onClick={async () => {
+                  await checkConnection();
                   setShowBoostModal(true);
                 }}
                 className="flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transform hover:scale-105 transition-all duration-150 text-sm"

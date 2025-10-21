@@ -6,7 +6,7 @@ import { useLightning } from './LightningContext';
 interface BitcoinConnectContextType {
   isConnected: boolean;
   setIsConnected: (connected: boolean) => void;
-  checkConnection: () => void;
+  checkConnection: () => Promise<boolean>;
 }
 
 const BitcoinConnectContext = createContext<BitcoinConnectContextType | undefined>(undefined);
