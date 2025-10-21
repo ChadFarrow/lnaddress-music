@@ -793,11 +793,9 @@ export default function HomePage() {
                                 className="group flex items-center gap-4 p-4 bg-white/5 backdrop-blur-sm rounded-xl hover:bg-white/10 transition-all duration-200 border border-white/10 hover:border-white/20"
                               >
                                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                                  <Image 
-                                    src={album.coverArt} 
+                                  <img
+                                    src={album.coverArt}
                                     alt={album.title}
-                                    width={64}
-                                    height={64}
                                     className="w-full h-full object-cover"
                                   />
                                 </div>
@@ -848,11 +846,9 @@ export default function HomePage() {
                                 className="group flex items-center gap-4 p-4 bg-white/5 backdrop-blur-sm rounded-xl hover:bg-white/10 transition-all duration-200 border border-white/10 hover:border-white/20"
                               >
                                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                                  <Image 
-                                    src={album.coverArt} 
+                                  <img
+                                    src={album.coverArt}
                                     alt={album.title}
-                                    width={64}
-                                    height={64}
                                     className="w-full h-full object-cover"
                                   />
                                 </div>
@@ -901,11 +897,9 @@ export default function HomePage() {
                         className="group flex items-center gap-4 p-4 bg-white/5 backdrop-blur-sm rounded-xl hover:bg-white/10 transition-all duration-200 border border-white/10 hover:border-white/20"
                       >
                         <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                          <Image 
-                            src={album.coverArt} 
+                          <img
+                            src={album.coverArt}
                             alt={album.title}
-                            width={64}
-                            height={64}
                             className="w-full h-full object-cover"
                           />
                         </div>
@@ -954,11 +948,9 @@ export default function HomePage() {
             {/* Header with Album Art */}
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10" />
-              <Image
+              <img
                 src={selectedAlbum.coverArt}
                 alt={selectedAlbum.title}
-                width={400}
-                height={200}
                 className="w-full h-32 sm:h-40 object-cover"
               />
               <button
