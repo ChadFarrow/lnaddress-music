@@ -1133,7 +1133,38 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                     rows={3}
                   />
                 </div>
-                
+
+                {/* Payment Splits */}
+                {paymentRecipients && paymentRecipients.length > 0 && (() => {
+                  const totalSplit = paymentRecipients.reduce((sum: number, r: any) => sum + (r.split || 0), 0);
+                  return (
+                    <div className="border border-gray-700 rounded-xl p-4 bg-gray-800/30">
+                      <h4 className="text-gray-300 text-sm font-medium mb-3 flex items-center gap-2">
+                        <Zap className="w-4 h-4 text-yellow-500" />
+                        Payment Splits
+                      </h4>
+                      <div className="space-y-2">
+                        {paymentRecipients.map((recipient: any, index: number) => {
+                          const percentage = totalSplit > 0 ? ((recipient.split / totalSplit) * 100).toFixed(1) : '0.0';
+                          const amount = totalSplit > 0 ? Math.floor((boostAmount * recipient.split) / totalSplit) : 0;
+                          return (
+                            <div key={index} className="flex items-center justify-between text-sm">
+                              <div className="flex items-center gap-2 flex-1 min-w-0">
+                                <div className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
+                                <span className="text-gray-300 truncate">{recipient.name || 'Recipient'}</span>
+                              </div>
+                              <div className="flex items-center gap-3 flex-shrink-0">
+                                <span className="text-gray-400">{percentage}%</span>
+                                <span className="text-yellow-500 font-medium">{amount} sats</span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })()}
+
                 {/* Boost Button */}
                 <BitcoinConnectPayment
                   amount={boostAmount}
@@ -1247,7 +1278,42 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                     rows={3}
                   />
                 </div>
-                
+
+                {/* Payment Splits */}
+                {(() => {
+                  const trackRecipients = getTrackPaymentRecipients(selectedTrack);
+                  if (trackRecipients && trackRecipients.length > 0) {
+                    const totalSplit = trackRecipients.reduce((sum: number, r: any) => sum + (r.split || 0), 0);
+                    return (
+                      <div className="border border-gray-700 rounded-xl p-4 bg-gray-800/30">
+                        <h4 className="text-gray-300 text-sm font-medium mb-3 flex items-center gap-2">
+                          <Zap className="w-4 h-4 text-yellow-500" />
+                          Payment Splits
+                        </h4>
+                        <div className="space-y-2">
+                          {trackRecipients.map((recipient: any, index: number) => {
+                            const percentage = totalSplit > 0 ? ((recipient.split / totalSplit) * 100).toFixed(1) : '0.0';
+                            const amount = totalSplit > 0 ? Math.floor((trackBoostAmount * recipient.split) / totalSplit) : 0;
+                            return (
+                              <div key={index} className="flex items-center justify-between text-sm">
+                                <div className="flex items-center gap-2 flex-1 min-w-0">
+                                  <div className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
+                                  <span className="text-gray-300 truncate">{recipient.name || 'Recipient'}</span>
+                                </div>
+                                <div className="flex items-center gap-3 flex-shrink-0">
+                                  <span className="text-gray-400">{percentage}%</span>
+                                  <span className="text-yellow-500 font-medium">{amount} sats</span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
+                })()}
+
                 {/* Boost Button */}
                 <BitcoinConnectPayment
                   amount={trackBoostAmount}
