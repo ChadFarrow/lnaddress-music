@@ -299,6 +299,20 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      // Fountain.fm feed images
+      {
+        protocol: 'https',
+        hostname: 'feeds.fountain.fm',
+        port: '',
+        pathname: '/**',
+      },
+      // StrangeTextures feed images
+      {
+        protocol: 'https',
+        hostname: 'f.strangetextures.com',
+        port: '',
+        pathname: '/**',
+      },
       // Heycitizen domain
       {
         protocol: 'https',
