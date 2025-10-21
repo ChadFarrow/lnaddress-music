@@ -262,18 +262,18 @@ export default function HomePage() {
       const firstAlbumTitles = allAlbums.slice(0, 10).map((album: any) => album.title);
       preloadCriticalColors(firstAlbumTitles).catch(console.warn);
       
-      // Load static publisher data
+      // Load publisher data from API
       try {
-        const publisherResponse = await fetch('/publishers.json');
+        const publisherResponse = await fetch('/api/publishers');
         if (publisherResponse.ok) {
-          const staticPublishers = await publisherResponse.json();
-          setPublishers(staticPublishers);
-          console.log('📦 Loaded static publisher data:', staticPublishers.map((p: any) => p.name));
+          const publisherData = await publisherResponse.json();
+          setPublishers(publisherData.publishers || []);
+          console.log('📦 Loaded publisher data:', publisherData.publishers?.length || 0, 'publishers');
         } else {
-          console.warn('Failed to load static publisher data');
+          console.warn('Failed to load publisher data');
         }
       } catch (error) {
-        console.error('Error loading static publisher data:', error);
+        console.error('Error loading publisher data:', error);
       }
       
       setLoadingProgress(100);

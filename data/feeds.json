@@ -780,9 +780,605 @@
       "addedAt": "2025-10-20T00:00:00.000Z",
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual"
+    },
+    {
+      "id": "publisher-Ags07cJin5xPdvFebV81",
+      "originalUrl": "https://feeds.fountain.fm/Ags07cJin5xPdvFebV81",
+      "type": "publisher",
+      "title": "Amelia Leigh Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "f5f9661d-080a-510f-b639-b0d2bcf0a6f3",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-D2lIcE9rg5uggpQgPPqH",
+      "originalUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+      "type": "publisher",
+      "title": "Jim Costello Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
+        "albumCount": 13
+      }
+    },
+    {
+      "id": "publisher-VUDmJJ8Eo1byHznQtHIn",
+      "originalUrl": "https://feeds.fountain.fm/VUDmJJ8Eo1byHznQtHIn",
+      "type": "publisher",
+      "title": "Haleen Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "64569161-a8f7-52e5-8aae-9e0385043149",
+        "albumCount": 19
+      }
+    },
+    {
+      "id": "publisher-f0WjAlcgVSpHbouFETDQ",
+      "originalUrl": "https://feeds.fountain.fm/f0WjAlcgVSpHbouFETDQ",
+      "type": "publisher",
+      "title": "Artist X Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-NjTmcKvDEj4DJvN2Hbpq",
+      "originalUrl": "https://feeds.fountain.fm/NjTmcKvDEj4DJvN2Hbpq",
+      "type": "publisher",
+      "title": "Suzanne Santo Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
+        "albumCount": 2
+      }
+    },
+    {
+      "id": "publisher-1qcjK7cJrMeOPPqegiHt",
+      "originalUrl": "https://feeds.fountain.fm/1qcjK7cJrMeOPPqegiHt",
+      "type": "publisher",
+      "title": "FSHR Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "7f918bb0-a80c-5a48-b5df-4d2686f2e843",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-ZlfcyJqyrF81npKi3kWI",
+      "originalUrl": "https://feeds.fountain.fm/ZlfcyJqyrF81npKi3kWI",
+      "type": "publisher",
+      "title": "PHJ Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "8b6435be-ad4c-55eb-9470-5df152e7639f",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-ISYjnqqqwmoaVfVABBHT",
+      "originalUrl": "https://feeds.fountain.fm/ISYjnqqqwmoaVfVABBHT",
+      "type": "publisher",
+      "title": "Lucas Maddy Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "6c5357da-0f8a-5450-b595-6ee8be334fb3",
+        "albumCount": 3
+      }
+    },
+    {
+      "id": "publisher-7dGAmcvUQsKDUNvmJ1xt",
+      "originalUrl": "https://feeds.fountain.fm/7dGAmcvUQsKDUNvmJ1xt",
+      "type": "publisher",
+      "title": "Sid Tyler Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "babc93f7-2eec-568a-8c01-4f60ffff9528",
+        "albumCount": 2
+      }
+    },
+    {
+      "id": "publisher-zcn6PiZ0ff0N6oSlZKoq",
+      "originalUrl": "https://feeds.fountain.fm/zcn6PiZ0ff0N6oSlZKoq",
+      "type": "publisher",
+      "title": "Theo Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "33faf933-4125-5518-9f29-98e088301bca",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-G9duBbc3BPvt4ntv0adA",
+      "originalUrl": "https://feeds.fountain.fm/G9duBbc3BPvt4ntv0adA",
+      "type": "publisher",
+      "title": "The Crypto Donkey Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "c9d29a1f-08ac-518b-947b-d47f2fbeaac4",
+        "albumCount": 2
+      }
+    },
+    {
+      "id": "publisher-VQNWukSp2Be1KgFrLff2",
+      "originalUrl": "https://feeds.fountain.fm/VQNWukSp2Be1KgFrLff2",
+      "type": "publisher",
+      "title": "Gabreal Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "03ad419a-d854-56bf-9dcc-6b419eee7c3a",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-nVPz5gu1UK4KmwYtmPTN",
+      "originalUrl": "https://feeds.fountain.fm/nVPz5gu1UK4KmwYtmPTN",
+      "type": "publisher",
+      "title": "Justin Lantrip Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "0709a0ae-e835-5129-86d6-7b2ad3c8adf1",
+        "albumCount": 3
+      }
+    },
+    {
+      "id": "publisher-aC3EJELuxRlXUjMPMDEw",
+      "originalUrl": "https://feeds.fountain.fm/aC3EJELuxRlXUjMPMDEw",
+      "type": "publisher",
+      "title": "Ben Kai Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "55aab371-a1d8-5883-b463-c743947e66ee",
+        "albumCount": 7
+      }
+    },
+    {
+      "id": "publisher-dvo7rfd8OCTE4L2Si6BF",
+      "originalUrl": "https://feeds.fountain.fm/dvo7rfd8OCTE4L2Si6BF",
+      "type": "publisher",
+      "title": "PJ Statham Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-zEvhVqkAnTM0vOR9zdWC",
+      "originalUrl": "https://feeds.fountain.fm/zEvhVqkAnTM0vOR9zdWC",
+      "type": "publisher",
+      "title": "The Karamazov Sons Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "9a0e2f8c-80d5-581e-a826-1aec566b9a6d",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-32l2wHklZ3A1K0yNLRzC",
+      "originalUrl": "https://feeds.fountain.fm/32l2wHklZ3A1K0yNLRzC",
+      "type": "publisher",
+      "title": "Telforo Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "b6ea1713-05f0-5e53-88dd-966f13edb219",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-KVP4my9qEcllJs2YgTTp",
+      "originalUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+      "type": "publisher",
+      "title": "Hyphen Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-SpUDSnbdBkJayRJFUEHl",
+      "originalUrl": "https://feeds.fountain.fm/SpUDSnbdBkJayRJFUEHl",
+      "type": "publisher",
+      "title": "Milzy Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "5ee6b931-0591-58e9-83de-da8cfcdab6d3",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-iPx50GOtSYDMin2HUefk",
+      "originalUrl": "https://feeds.fountain.fm/iPx50GOtSYDMin2HUefk",
+      "type": "publisher",
+      "title": "ADDAX Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "a300cf10-434c-5ae3-837a-ed0c899694af",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-wBop10K9SPqMILSOfPb4",
+      "originalUrl": "https://feeds.fountain.fm/wBop10K9SPqMILSOfPb4",
+      "type": "publisher",
+      "title": "Juliana Hale Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "0819da5f-1386-5295-af6d-95d14044045d",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-kAul1B7Ver6XOB7avJ1O",
+      "originalUrl": "https://feeds.fountain.fm/kAul1B7Ver6XOB7avJ1O",
+      "type": "publisher",
+      "title": "TABZ Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "5b8ba101-6af2-53b6-a376-414c290665f4",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-0GWoySzOHV9P7a9vpEG8",
+      "originalUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
+      "type": "publisher",
+      "title": "SKYHIGH Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "pending",
+      "metadata": {
+        "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
+        "albumCount": 1
+      }
+    },
+    {
+      "id": "publisher-item-YbqPMpZ8WyvyEbtS0rOC",
+      "originalUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC",
+      "type": "album",
+      "title": "Big Day (album)",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.007Z",
+      "lastUpdated": "2025-10-21T22:47:27.007Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Jim Costello",
+        "publisherFeedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+        "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
+        "itemGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1"
+      }
+    },
+    {
+      "id": "publisher-item-oU2YfTFLK4er61p1uNAQ",
+      "originalUrl": "https://feeds.fountain.fm/oU2YfTFLK4er61p1uNAQ",
+      "type": "album",
+      "title": "Jim Costello Album",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.007Z",
+      "lastUpdated": "2025-10-21T22:47:27.007Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Jim Costello",
+        "publisherFeedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+        "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
+        "itemGuid": "d7f37903-1bf3-5e23-a46f-cc6f1f740c4c"
+      }
+    },
+    {
+      "id": "publisher-item-xeHg25lVueiVSCf1yIxE",
+      "originalUrl": "https://feeds.fountain.fm/xeHg25lVueiVSCf1yIxE",
+      "type": "album",
+      "title": "Jim Costello Album",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.007Z",
+      "lastUpdated": "2025-10-21T22:47:27.007Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Jim Costello",
+        "publisherFeedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+        "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
+        "itemGuid": "dbe4a32c-eea1-5824-81e8-6403d0a0146a"
+      }
+    },
+    {
+      "id": "publisher-item-MXfzmaDzg11cSw8cOSIo",
+      "originalUrl": "https://feeds.fountain.fm/MXfzmaDzg11cSw8cOSIo",
+      "type": "album",
+      "title": "My test music single",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Artist X",
+        "publisherFeedUrl": "https://feeds.fountain.fm/f0WjAlcgVSpHbouFETDQ",
+        "publisherGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
+        "itemGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7"
+      }
+    },
+    {
+      "id": "publisher-item-aCFEYwJijoBbZSUP32JA",
+      "originalUrl": "https://feeds.fountain.fm/aCFEYwJijoBbZSUP32JA",
+      "type": "album",
+      "title": "Worried",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Suzanne Santo",
+        "publisherFeedUrl": "https://feeds.fountain.fm/NjTmcKvDEj4DJvN2Hbpq",
+        "publisherGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
+        "itemGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b"
+      }
+    },
+    {
+      "id": "publisher-item-Sycr0zCVktlab3jpA6ar",
+      "originalUrl": "https://feeds.fountain.fm/Sycr0zCVktlab3jpA6ar",
+      "type": "album",
+      "title": "Money Money",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "PJ Statham",
+        "publisherFeedUrl": "https://feeds.fountain.fm/dvo7rfd8OCTE4L2Si6BF",
+        "publisherGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
+        "itemGuid": "22468782-f3d9-5f1f-9e56-a2dc42bf22eb"
+      }
+    },
+    {
+      "id": "publisher-item-3fW99GhMJgY4EOQ87y6P",
+      "originalUrl": "https://feeds.fountain.fm/3fW99GhMJgY4EOQ87y6P",
+      "type": "album",
+      "title": "The Party House",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Hyphen",
+        "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+        "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+        "itemGuid": "6ad2a9af-a980-548c-808f-4870e1d5f4c9"
+      }
+    },
+    {
+      "id": "publisher-item-46jAB1CWf2eBjnU7pyQx",
+      "originalUrl": "https://feeds.fountain.fm/46jAB1CWf2eBjnU7pyQx",
+      "type": "album",
+      "title": "Steezin' EP",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Hyphen",
+        "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+        "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+        "itemGuid": "8ebc9bd3-b093-56d2-8c13-ace2a11abb56"
+      }
+    },
+    {
+      "id": "publisher-item-NU9WiOkaYgPDsz0xmfXo",
+      "originalUrl": "https://feeds.fountain.fm/NU9WiOkaYgPDsz0xmfXo",
+      "type": "album",
+      "title": "Badu Thick",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Hyphen",
+        "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+        "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+        "itemGuid": "10d388d4-8d49-5308-9586-f37c1be02892"
+      }
+    },
+    {
+      "id": "publisher-item-j0ZWXTkpfI1WUFfy8Q4g",
+      "originalUrl": "https://feeds.fountain.fm/j0ZWXTkpfI1WUFfy8Q4g",
+      "type": "album",
+      "title": "Lemon N Lime",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Hyphen",
+        "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+        "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+        "itemGuid": "91bca062-3855-5d68-a58f-187900068c95"
+      }
+    },
+    {
+      "id": "publisher-item-K3lq2cJltR8yJQ7lycGY",
+      "originalUrl": "https://feeds.fountain.fm/K3lq2cJltR8yJQ7lycGY",
+      "type": "album",
+      "title": "See This",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "SKYHIGH",
+        "publisherFeedUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
+        "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
+        "itemGuid": "1e6e5b57-e827-571f-8575-848921b647cb"
+      }
+    },
+    {
+      "id": "publisher-item-XkKpNohr6rl35XLidXYi",
+      "originalUrl": "https://feeds.fountain.fm/XkKpNohr6rl35XLidXYi",
+      "type": "album",
+      "title": "SKYHIGH Album",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "SKYHIGH",
+        "publisherFeedUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
+        "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
+        "itemGuid": "de5b9554-5c0d-5e2a-a3a9-7cfda11b21a9"
+      }
     }
   ],
-  "lastUpdated": "2025-10-20T00:00:00.000Z",
+  "lastUpdated": "2025-10-21T22:47:27.008Z",
   "version": 2,
   "notes": {
     "feedTypes": {

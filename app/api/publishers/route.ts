@@ -19,11 +19,17 @@ interface Album {
 
 interface Publisher {
   name: string;
+  feedGuid: string;
   guid: string;
   feedUrl: string;
   medium: string;
   albumCount: number;
   firstAlbumCover?: string;
+  latestAlbum?: {
+    title: string;
+    coverArt: string;
+    releaseDate: string;
+  };
 }
 
 export async function GET(request: NextRequest) {
@@ -60,11 +66,17 @@ export async function GET(request: NextRequest) {
       if (!publishersMap.has(publisherKey)) {
         publishersMap.set(publisherKey, {
           name: album.artist,
+          feedGuid: album.publisher.feedGuid,
           guid: album.publisher.feedGuid,
           feedUrl: album.publisher.feedUrl,
           medium: album.publisher.medium,
           albumCount: 0,
-          firstAlbumCover: album.coverArt
+          firstAlbumCover: album.coverArt,
+          latestAlbum: {
+            title: album.title,
+            coverArt: album.coverArt,
+            releaseDate: album.releaseDate
+          }
         });
       }
 

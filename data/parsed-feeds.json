@@ -11,7 +11,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:32.642Z",
+      "lastParsed": "2025-10-21T22:47:35.113Z",
       "parsedData": {
         "album": {
           "title": "JUKEBOX",
@@ -77,7 +77,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-21T00:39:32.744Z",
+      "lastParsed": "2025-10-21T22:47:35.216Z",
       "parseError": "No album data found"
     },
     {
@@ -91,7 +91,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:39.915Z",
+      "lastParsed": "2025-10-21T22:47:41.162Z",
       "parsedData": {
         "album": {
           "title": "Lightswitch (album)",
@@ -239,7 +239,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:40.017Z",
+      "lastParsed": "2025-10-21T22:47:41.264Z",
       "parsedData": {
         "album": {
           "title": "Keep Walking",
@@ -306,7 +306,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:40.117Z",
+      "lastParsed": "2025-10-21T22:47:41.365Z",
       "parsedData": {
         "album": {
           "title": "My test music single",
@@ -380,7 +380,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:40.218Z",
+      "lastParsed": "2025-10-21T22:47:41.466Z",
       "parsedData": {
         "album": {
           "title": "Big Day (album)",
@@ -548,7 +548,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:40.319Z",
+      "lastParsed": "2025-10-21T22:47:41.566Z",
       "parsedData": {
         "album": {
           "title": "Worried",
@@ -615,7 +615,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:40.420Z",
+      "lastParsed": "2025-10-21T22:47:41.667Z",
       "parsedData": {
         "album": {
           "title": "No one left",
@@ -681,7 +681,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:40.521Z",
+      "lastParsed": "2025-10-21T22:47:41.767Z",
       "parsedData": {
         "album": {
           "title": "Gig Harbor Morning",
@@ -755,7 +755,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:40.622Z",
+      "lastParsed": "2025-10-21T22:47:41.869Z",
       "parsedData": {
         "album": {
           "title": "Somewhere Local",
@@ -821,7 +821,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:40.722Z",
+      "lastParsed": "2025-10-21T22:47:41.970Z",
       "parsedData": {
         "album": {
           "title": "No Shotgun",
@@ -888,7 +888,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:40.822Z",
+      "lastParsed": "2025-10-21T22:47:42.071Z",
       "parsedData": {
         "album": {
           "title": "Decisions to Make",
@@ -955,7 +955,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:40.923Z",
+      "lastParsed": "2025-10-21T22:47:42.172Z",
       "parsedData": {
         "album": {
           "title": "Hiking at Mohawk Lakes, CO",
@@ -1022,7 +1022,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:41.024Z",
+      "lastParsed": "2025-10-21T22:47:42.273Z",
       "parsedData": {
         "album": {
           "title": "Gunfiyas",
@@ -1098,7 +1098,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:41.125Z",
+      "lastParsed": "2025-10-21T22:47:42.374Z",
       "parsedData": {
         "album": {
           "title": "Ani Ohevet",
@@ -1165,7 +1165,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:41.226Z",
+      "lastParsed": "2025-10-21T22:47:42.474Z",
       "parsedData": {
         "album": {
           "title": "See the World in another Light",
@@ -1232,7 +1232,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:41.326Z",
+      "lastParsed": "2025-10-21T22:47:42.575Z",
       "parsedData": {
         "album": {
           "title": "Memories from Room 255 (In Memory of T.A.)",
@@ -1299,7 +1299,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:41.427Z",
+      "lastParsed": "2025-10-21T22:47:42.676Z",
       "parsedData": {
         "album": {
           "title": "Reasons You Know",
@@ -1366,7 +1366,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:41.527Z",
+      "lastParsed": "2025-10-21T22:47:42.776Z",
       "parsedData": {
         "album": {
           "title": "Tender Wolf (featured by InHale and The Flute Prayer)",
@@ -1433,7 +1433,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:41.628Z",
+      "lastParsed": "2025-10-21T22:47:42.877Z",
       "parsedData": {
         "album": {
           "title": "In From the Range",
@@ -1500,7 +1500,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:41.728Z",
+      "lastParsed": "2025-10-21T22:47:42.978Z",
       "parsedData": {
         "album": {
           "title": "King Size on the Floor",
@@ -1567,7 +1567,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:41.829Z",
+      "lastParsed": "2025-10-21T22:47:43.079Z",
       "parsedData": {
         "album": {
           "title": "Bitcoin on the Brink",
@@ -1633,7 +1633,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:41.930Z",
+      "lastParsed": "2025-10-21T22:47:43.179Z",
       "parsedData": {
         "album": {
           "title": "Dem Boiz",
@@ -1699,7 +1699,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:42.031Z",
+      "lastParsed": "2025-10-21T22:47:43.280Z",
       "parsedData": {
         "album": {
           "title": "Greatness",
@@ -1766,7 +1766,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:42.132Z",
+      "lastParsed": "2025-10-21T22:47:43.380Z",
       "parsedData": {
         "album": {
           "title": "OM Ganesha",
@@ -1839,7 +1839,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:42.232Z",
+      "lastParsed": "2025-10-21T22:47:43.481Z",
       "parsedData": {
         "album": {
           "title": "With Open Arms",
@@ -1912,7 +1912,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:42.333Z",
+      "lastParsed": "2025-10-21T22:47:43.582Z",
       "parsedData": {
         "album": {
           "title": "As You Were",
@@ -1981,7 +1981,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:42.434Z",
+      "lastParsed": "2025-10-21T22:47:43.683Z",
       "parsedData": {
         "album": {
           "title": "OM Vighnanashaya Namah",
@@ -2054,7 +2054,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:42.535Z",
+      "lastParsed": "2025-10-21T22:47:43.783Z",
       "parsedData": {
         "album": {
           "title": "When They Come Home",
@@ -2121,7 +2121,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:42.635Z",
+      "lastParsed": "2025-10-21T22:47:43.884Z",
       "parsedData": {
         "album": {
           "title": "Consciouseness",
@@ -2188,7 +2188,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:42.736Z",
+      "lastParsed": "2025-10-21T22:47:43.984Z",
       "parsedData": {
         "album": {
           "title": "Live at the Reader 2015",
@@ -2282,7 +2282,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:42.836Z",
+      "lastParsed": "2025-10-21T22:47:44.084Z",
       "parsedData": {
         "album": {
           "title": "A Phoenix Rising",
@@ -2349,7 +2349,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:42.937Z",
+      "lastParsed": "2025-10-21T22:47:44.185Z",
       "parsedData": {
         "album": {
           "title": "Om Biktaya Namah",
@@ -2423,7 +2423,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:43.038Z",
+      "lastParsed": "2025-10-21T22:47:44.286Z",
       "parsedData": {
         "album": {
           "title": "Whispers",
@@ -2490,7 +2490,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:43.138Z",
+      "lastParsed": "2025-10-21T22:47:44.386Z",
       "parsedData": {
         "album": {
           "title": "God, With You",
@@ -2557,7 +2557,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:43.239Z",
+      "lastParsed": "2025-10-21T22:47:44.487Z",
       "parsedData": {
         "album": {
           "title": "good old days",
@@ -2623,7 +2623,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:43.339Z",
+      "lastParsed": "2025-10-21T22:47:44.588Z",
       "parsedData": {
         "album": {
           "title": "ZIPPA",
@@ -2689,7 +2689,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:43.440Z",
+      "lastParsed": "2025-10-21T22:47:44.688Z",
       "parsedData": {
         "album": {
           "title": "seeing stars",
@@ -2755,7 +2755,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:43.540Z",
+      "lastParsed": "2025-10-21T22:47:44.789Z",
       "parsedData": {
         "album": {
           "title": "disco girl",
@@ -2821,7 +2821,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:43.641Z",
+      "lastParsed": "2025-10-21T22:47:44.889Z",
       "parsedData": {
         "album": {
           "title": "if the world stops",
@@ -2887,7 +2887,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:43.742Z",
+      "lastParsed": "2025-10-21T22:47:44.990Z",
       "parsedData": {
         "album": {
           "title": "Love Yourself 528Hz meditation - Haleen",
@@ -2954,7 +2954,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:43.842Z",
+      "lastParsed": "2025-10-21T22:47:45.091Z",
       "parsedData": {
         "album": {
           "title": "I Miss Home",
@@ -3021,7 +3021,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:43.943Z",
+      "lastParsed": "2025-10-21T22:47:45.192Z",
       "parsedData": {
         "album": {
           "title": "Om Namah Shivaya",
@@ -3088,7 +3088,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-21T00:39:44.043Z",
+      "lastParsed": "2025-10-21T22:47:45.293Z",
       "parseError": "No album data found"
     },
     {
@@ -3102,7 +3102,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-21T00:39:49.948Z",
+      "lastParsed": "2025-10-21T22:47:50.933Z",
       "parseError": "No album data found"
     },
     {
@@ -3116,7 +3116,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:54.847Z",
+      "lastParsed": "2025-10-21T22:47:56.049Z",
       "parsedData": {
         "album": {
           "title": "Confession Booth Blues",
@@ -3183,7 +3183,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:54.948Z",
+      "lastParsed": "2025-10-21T22:47:56.150Z",
       "parsedData": {
         "album": {
           "title": "Big Tings a Gwarn",
@@ -3250,7 +3250,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:55.052Z",
+      "lastParsed": "2025-10-21T22:47:56.251Z",
       "parsedData": {
         "album": {
           "title": "TYL001",
@@ -3326,7 +3326,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:55.153Z",
+      "lastParsed": "2025-10-21T22:47:56.352Z",
       "parsedData": {
         "album": {
           "title": "HYPHEN IS IN THE HOUSE",
@@ -3420,7 +3420,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:55.254Z",
+      "lastParsed": "2025-10-21T22:47:56.453Z",
       "parsedData": {
         "album": {
           "title": "A Lesson in August",
@@ -3494,7 +3494,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:55.354Z",
+      "lastParsed": "2025-10-21T22:47:56.554Z",
       "parsedData": {
         "album": {
           "title": "Flood Gates",
@@ -3641,7 +3641,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:55.455Z",
+      "lastParsed": "2025-10-21T22:47:56.654Z",
       "parsedData": {
         "album": {
           "title": "Running Like Poison",
@@ -3707,7 +3707,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:55.555Z",
+      "lastParsed": "2025-10-21T22:47:56.755Z",
       "parsedData": {
         "album": {
           "title": "Move To Da Riddim",
@@ -3794,7 +3794,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:55.655Z",
+      "lastParsed": "2025-10-21T22:47:56.855Z",
       "parsedData": {
         "album": {
           "title": "Bridge Back Over Again",
@@ -3868,7 +3868,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:55.756Z",
+      "lastParsed": "2025-10-21T22:47:56.956Z",
       "parsedData": {
         "album": {
           "title": "Collateral Damage",
@@ -3935,7 +3935,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:55.857Z",
+      "lastParsed": "2025-10-21T22:47:57.056Z",
       "parsedData": {
         "album": {
           "title": "TOLD YA",
@@ -4001,7 +4001,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:55.958Z",
+      "lastParsed": "2025-10-21T22:47:57.157Z",
       "parsedData": {
         "album": {
           "title": "404: Album Not Found",
@@ -4175,7 +4175,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:56.058Z",
+      "lastParsed": "2025-10-21T22:47:57.258Z",
       "parsedData": {
         "album": {
           "title": "Until its Beautiful",
@@ -4242,7 +4242,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:56.159Z",
+      "lastParsed": "2025-10-21T22:47:57.359Z",
       "parsedData": {
         "album": {
           "title": "Take Me",
@@ -4308,7 +4308,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:39:56.260Z",
+      "lastParsed": "2025-10-21T22:47:57.460Z",
       "parsedData": {
         "album": {
           "title": "Catacomb",
@@ -4375,7 +4375,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-21T00:39:56.361Z",
+      "lastParsed": "2025-10-21T22:47:57.561Z",
       "parseError": "No album data found"
     },
     {
@@ -4389,7 +4389,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:40:01.513Z",
+      "lastParsed": "2025-10-21T22:48:02.372Z",
       "parsedData": {
         "album": {
           "title": "twenties high",
@@ -4455,7 +4455,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:40:01.614Z",
+      "lastParsed": "2025-10-21T22:48:02.473Z",
       "parsedData": {
         "album": {
           "title": "The God You Are",
@@ -4522,7 +4522,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:40:01.715Z",
+      "lastParsed": "2025-10-21T22:48:02.574Z",
       "parsedData": {
         "album": {
           "title": "myself",
@@ -4588,7 +4588,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:40:01.816Z",
+      "lastParsed": "2025-10-21T22:48:02.675Z",
       "parsedData": {
         "album": {
           "title": "In Love and alliance ( Dance free - rewind )",
@@ -4662,7 +4662,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:40:01.916Z",
+      "lastParsed": "2025-10-21T22:48:02.775Z",
       "parsedData": {
         "album": {
           "title": "Sing Om",
@@ -4729,7 +4729,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:40:02.017Z",
+      "lastParsed": "2025-10-21T22:48:02.875Z",
       "parsedData": {
         "album": {
           "title": "wake up next to you",
@@ -4795,7 +4795,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-21T00:40:02.118Z",
+      "lastParsed": "2025-10-21T22:48:02.976Z",
       "parseError": "No album data found"
     },
     {
@@ -4809,7 +4809,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:40:07.457Z",
+      "lastParsed": "2025-10-21T22:48:07.690Z",
       "parsedData": {
         "album": {
           "title": "Healing",
@@ -4876,7 +4876,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:40:07.558Z",
+      "lastParsed": "2025-10-21T22:48:07.791Z",
       "parsedData": {
         "album": {
           "title": "The Silence",
@@ -4943,7 +4943,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-21T00:40:07.660Z",
+      "lastParsed": "2025-10-21T22:48:07.892Z",
       "parsedData": {
         "album": {
           "title": "Build on Stone",
@@ -4998,8 +4998,1668 @@
         }
       },
       "trackCount": 1
+    },
+    {
+      "id": "publisher-Ags07cJin5xPdvFebV81",
+      "originalUrl": "https://feeds.fountain.fm/Ags07cJin5xPdvFebV81",
+      "type": "publisher",
+      "title": "Amelia Leigh Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "f5f9661d-080a-510f-b639-b0d2bcf0a6f3",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:07.993Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Amelia Leigh",
+          "description": "<p>melia Leigh is a DJ and producer based in Newcastle Upon Tyne. Amelia Leigh is quickly becoming a standout name in Newcastle’s underground music scene. With her eclectic mix of bouncy basslines, energetic 4x4 beats, and a fusion of footwork with breaky rhythms. Her DJ sets are high-energy, genre-blending affairs that are anything but ordinary.</p>\n<p>Amelia has recently become a resident of BIG Fat Rave and currently manages two events 'ROOD!' playing a significant role in shaping the scene through her work and producing on the side. She’s shared the stage with respected artists like Serum, [IVY], Sammy Virji, Sota, Pola and Bryson, Disrupta, Oldboy, KARA and many more.</p>",
+          "artist": "Amelia Leigh",
+          "coverArt": "https://feeds.fountain.fm/Ags07cJin5xPdvFebV81/files/COVER_ART---DEFAULT---968344cf-8450-46f5-b2c9-641d6b7adeeb.jpg"
+        },
+        "publisherItems": []
+      }
+    },
+    {
+      "id": "publisher-D2lIcE9rg5uggpQgPPqH",
+      "originalUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+      "type": "publisher",
+      "title": "Jim Costello Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
+        "albumCount": 13
+      },
+      "lastParsed": "2025-10-21T22:48:08.716Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Jim Costello",
+          "description": "<p>Nashville based musician and event promoter, focused on getting independent musicians paid in BTC. On Fountain you'll find my singer-songwriter album (Lightswitch), my album with Local Zero, and my solo piano work (listed as James Costello). Enjoy!</p>",
+          "artist": "Jim Costello",
+          "coverArt": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH/files/COVER_ART---DEFAULT---03bdea68-4e09-4bec-b1cf-bf4dba5efa87.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "a351816d-fbc3-5965-8a5a-31c1720b9d2a",
+            "feedUrl": "https://feeds.fountain.fm/3G0Tk0rZl9isOZexA0uw",
+            "medium": "music",
+            "title": "Hiking at Mohawk Lakes, CO"
+          },
+          {
+            "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336",
+            "feedUrl": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk",
+            "medium": "music",
+            "title": "Lightswitch (album)"
+          },
+          {
+            "feedGuid": "e5c27a40-0763-52c2-923c-847ca8bfb630",
+            "feedUrl": "https://feeds.fountain.fm/A5Gwak2jhw8gEUuZFH86",
+            "medium": "music",
+            "title": "I Miss Home"
+          },
+          {
+            "feedGuid": "025ad614-f9f5-5547-863a-3469be606400",
+            "feedUrl": "https://feeds.fountain.fm/B5qgnnd2WkFcnMZvZtIe",
+            "medium": "music",
+            "title": "Decisions to Make"
+          },
+          {
+            "feedGuid": "c17b43a2-7a97-504b-883d-ac1b68335bec",
+            "feedUrl": "https://feeds.fountain.fm/EHyzgnq22DmGbcnVSLu7",
+            "medium": "music",
+            "title": "As You Were"
+          },
+          {
+            "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+            "feedUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC",
+            "medium": "music",
+            "title": "Big Day (album)"
+          },
+          {
+            "feedGuid": "5888ede6-1656-43cb-9c4a-50c05abcc2a0",
+            "feedUrl": "https://feeds.fountain.fm/gwHF787p8qI7YJZ9i3zm",
+            "medium": "music",
+            "title": "Catacomb"
+          },
+          {
+            "feedGuid": "d7f37903-1bf3-5e23-a46f-cc6f1f740c4c",
+            "feedUrl": "https://feeds.fountain.fm/oU2YfTFLK4er61p1uNAQ",
+            "medium": "music",
+            "title": ""
+          },
+          {
+            "feedGuid": "dbe4a32c-eea1-5824-81e8-6403d0a0146a",
+            "feedUrl": "https://feeds.fountain.fm/xeHg25lVueiVSCf1yIxE",
+            "medium": "music",
+            "title": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-VUDmJJ8Eo1byHznQtHIn",
+      "originalUrl": "https://feeds.fountain.fm/VUDmJJ8Eo1byHznQtHIn",
+      "type": "publisher",
+      "title": "Haleen Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "64569161-a8f7-52e5-8aae-9e0385043149",
+        "albumCount": 19
+      },
+      "lastParsed": "2025-10-21T22:48:09.146Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Haleen",
+          "description": "<p>Haleen, a musical project by a Belgian couple based in off-grid Portugal, has crafted a distinctive genre inspired by their energy shift and consciousness transformation. Their music is described as mind-opening, hypnotic, and uplifting, providing courage and improving listeners' moods. Hans, starting his musical journey at a young age, transitioned from the metal scene to an acoustic guitar tuned to 432Hz. Embracing electronic music, he blended diverse genres, creating a unique symphony that transcends boundaries. Kath, with a rapid shift in musical taste, moved from mainstream hits to Electronic Dance Music, influenced by artists resonating with a powerful energy. Her evolving musical palette includes sounds from Sam Garrett, Mose, Peia, Yaima, and Ajeet, mirroring her inner transformation. They actively perform live, connecting with audiences through their love and acceptance.</p>",
+          "artist": "Haleen",
+          "coverArt": "https://feeds.fountain.fm/VUDmJJ8Eo1byHznQtHIn/files/COVER_ART---DEFAULT---3ad4a961-fbde-436c-bb94-650a7bac3cdb.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "2d9fcf5d-6bab-57e0-b63e-a0ee19d11e9a",
+            "feedUrl": "https://feeds.fountain.fm/0jTqX1XMHw3P6dNstBRg",
+            "medium": "music",
+            "title": "Love Yourself 528Hz meditation - Haleen"
+          },
+          {
+            "feedGuid": "46a82cad-b9ef-534a-9c72-e6dc4ba8994f",
+            "feedUrl": "https://feeds.fountain.fm/1qybQ9cyDoa0X6ylGH3n",
+            "medium": "music",
+            "title": "Om Namah Shivaya"
+          },
+          {
+            "feedGuid": "d3849a74-91f6-5044-8698-0398fd1042a1",
+            "feedUrl": "https://feeds.fountain.fm/2LAkQVbuWCIhgBKulNNk",
+            "medium": "music",
+            "title": "The God You Are"
+          },
+          {
+            "feedGuid": "56558e2b-cc2f-5c16-b104-6e3eee500402",
+            "feedUrl": "https://feeds.fountain.fm/3K44iUwcYOQhFdHvTjZn",
+            "medium": "music",
+            "title": "Om Biktaya Namah"
+          },
+          {
+            "feedGuid": "6ff779fa-f4ea-5a48-b45f-658346e64ae1",
+            "feedUrl": "https://feeds.fountain.fm/AgOHjxN1MI6uXK1lZMPm",
+            "medium": "music",
+            "title": "Build on Stone"
+          },
+          {
+            "feedGuid": "d76e9783-0b8e-51db-8922-97c917d9f4fc",
+            "feedUrl": "https://feeds.fountain.fm/CHknZYUzFqv6Q0AE5uoy",
+            "medium": "music",
+            "title": "Sing Om"
+          },
+          {
+            "feedGuid": "5d218bd0-3b8f-597b-a58e-c7f38e801a0e",
+            "feedUrl": "https://feeds.fountain.fm/CRBbOcxJL7c1WxT1C7UA",
+            "medium": "music",
+            "title": "OM Ganesha"
+          },
+          {
+            "feedGuid": "9d500597-5fb9-5265-94c0-929686afea6f",
+            "feedUrl": "https://feeds.fountain.fm/Fjg1w0TDSvh62jPwxGCJ",
+            "medium": "music",
+            "title": "Greatness"
+          },
+          {
+            "feedGuid": "93b87051-e176-586a-b45f-dc56c22d304d",
+            "feedUrl": "https://feeds.fountain.fm/GmNPfL20WkoyXsDa5Uuc",
+            "medium": "music",
+            "title": "A Phoenix Rising"
+          },
+          {
+            "feedGuid": "71229772-0692-5139-b7f5-a0961b9a074b",
+            "feedUrl": "https://feeds.fountain.fm/LMMkitUpsEICX82elS1R",
+            "medium": "music",
+            "title": "Healing"
+          },
+          {
+            "feedGuid": "893c21c1-79af-582a-b11c-7886abf3a235",
+            "feedUrl": "https://feeds.fountain.fm/T9DRdlluhdwmf3VRtARJ",
+            "medium": "music",
+            "title": "With Open Arms"
+          },
+          {
+            "feedGuid": "38c26e83-a642-58a6-96d0-0e9dd95cf091",
+            "feedUrl": "https://feeds.fountain.fm/lL6MEcwn09g5qbjWTvH6",
+            "medium": "music",
+            "title": "Consciouseness"
+          },
+          {
+            "feedGuid": "7a847b60-5c5c-5257-8dd2-b062b8df9040",
+            "feedUrl": "https://feeds.fountain.fm/ovW4DibooYs19qzFBQvp",
+            "medium": "music",
+            "title": "In Love and alliance ( Dance free - rewind )"
+          },
+          {
+            "feedGuid": "9797bece-64d1-53bb-9eeb-7c3eab4628d1",
+            "feedUrl": "https://feeds.fountain.fm/tH0cyRAvMeWE8KS9aohT",
+            "medium": "music",
+            "title": "Keep Walking"
+          },
+          {
+            "feedGuid": "09b1bf8b-998f-58f3-ac8f-6f9e283dca1b",
+            "feedUrl": "https://feeds.fountain.fm/uGyN3vE3oVoshkInRwKJ",
+            "medium": "music",
+            "title": "Whispers"
+          },
+          {
+            "feedGuid": "626c72df-c2de-5b4e-9594-76a68e8cbedd",
+            "feedUrl": "https://feeds.fountain.fm/vu8OWxdvYHg75EcRi8nm",
+            "medium": "music",
+            "title": "OM Vighnanashaya Namah"
+          },
+          {
+            "feedGuid": "64e5badd-e2e0-5e3b-a8a9-1075cf1b04f9",
+            "feedUrl": "https://feeds.fountain.fm/wCfIBd1BiCQ20cNRw8FX",
+            "medium": "music",
+            "title": "The Silence"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-f0WjAlcgVSpHbouFETDQ",
+      "originalUrl": "https://feeds.fountain.fm/f0WjAlcgVSpHbouFETDQ",
+      "type": "publisher",
+      "title": "Artist X Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:09.449Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Artist X",
+          "description": "<p>This is the publisher feed of Artist X.</p>",
+          "artist": "Artist X",
+          "coverArt": "https://feeds.fountain.fm/f0WjAlcgVSpHbouFETDQ/files/COVER_ART---DEFAULT---5986c1b5-ce86-4fb1-8bb6-5d67a5182913.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7",
+            "feedUrl": "https://feeds.fountain.fm/MXfzmaDzg11cSw8cOSIo",
+            "medium": "music",
+            "title": "My test music single"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-NjTmcKvDEj4DJvN2Hbpq",
+      "originalUrl": "https://feeds.fountain.fm/NjTmcKvDEj4DJvN2Hbpq",
+      "type": "publisher",
+      "title": "Suzanne Santo Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
+        "albumCount": 2
+      },
+      "lastParsed": "2025-10-21T22:48:10.129Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Suzanne Santo",
+          "description": "<p>S<strong>uzanne Santo has never been afraid to blur the lines. A tireless creator, she's built her sound in the grey area between Americana, Southern-gothic soul, and forward-thinking rock & roll. It's a sound that nods to her past — a childhood spent in the Rust Belt; a decade logged as a member of the L.A.-based duo HoneyHoney; the acclaimed solo album, <em>Ruby Red</em>, that launched a new phase of her career in 2017; and the world tour that took her from Greece to Glastonbury as a member of Hozier's band — while still exploring new territory. With 2022's <em>Yard Sale</em>, Santo boldly moved forward, staking her claim once again as an Americana innovator. It's an album inspired by the past, written by an artist who's only interested in the here-and-now. And for Suzanne Santo, the here-and-now sounds pretty good.</strong></p>\n<p><strong>Santo's new album, Sympathetic Magic expands beyond the boundaries of the Americana she became known for, infusing the bluesy, emotional resonance of her voice with electronica and multi-part harmonies to create songs that are simultaneously for this moment and also timeless. Through songs that speak to the anxiety of our times and the uncertainty of the human condition, there is an expansiveness to the panoply of emotion Santo summons through her music, touching aspects of grief, crisis, loneliness while pushing past them to locate resilience, devotion and love as a path into the light. Again and again, Santo finds relief and solace in the saving graces of love- love for a husband, for a child, for family and for all those who are lost, and the passion of her voice burns through this album like lightning on a dark sky. With lyrics that evoke everything from the individual's isolation against the crowd to transcendent experiences of God through life cycles, these songs represent an extension and expansion of everything she's done before, a maturation of artistic vision and skill.</strong></p>",
+          "artist": "Suzanne Santo",
+          "coverArt": "https://feeds.fountain.fm/NjTmcKvDEj4DJvN2Hbpq/files/COVER_ART---DEFAULT---35a5023a-b537-43f8-9219-f997beb2618b.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b",
+            "feedUrl": "https://feeds.fountain.fm/aCFEYwJijoBbZSUP32JA",
+            "medium": "music",
+            "title": "Worried"
+          },
+          {
+            "feedGuid": "f298dbe0-7e1a-5e44-93be-07e910477bc0",
+            "feedUrl": "https://feeds.fountain.fm/uBap29oJjwRgYbzWMqba",
+            "medium": "music",
+            "title": "God, With You"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-1qcjK7cJrMeOPPqegiHt",
+      "originalUrl": "https://feeds.fountain.fm/1qcjK7cJrMeOPPqegiHt",
+      "type": "publisher",
+      "title": "FSHR Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.035Z",
+      "lastUpdated": "2025-10-21T22:45:19.035Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "7f918bb0-a80c-5a48-b5df-4d2686f2e843",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:10.556Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "FSHR",
+          "description": "<p>UKG</p>",
+          "artist": "FSHR",
+          "coverArt": "https://feeds.fountain.fm/1qcjK7cJrMeOPPqegiHt/files/COVER_ART---DEFAULT---ee403a34-517b-4542-8636-5792dcf8e7e1.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "6c431a3e-7482-524e-86b3-3754d042ecf2",
+            "feedUrl": "https://feeds.fountain.fm/pgZdJEJKYMHYI7aIytJc",
+            "medium": "music",
+            "title": "No one left"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-ZlfcyJqyrF81npKi3kWI",
+      "originalUrl": "https://feeds.fountain.fm/ZlfcyJqyrF81npKi3kWI",
+      "type": "publisher",
+      "title": "PHJ Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "8b6435be-ad4c-55eb-9470-5df152e7639f",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:11.085Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "PHJ",
+          "description": "<p>DJ & Producer originally from Edinburgh.</p>\n<p>Founder of Underground Sound.</p>",
+          "artist": "PHJ",
+          "coverArt": "https://feeds.fountain.fm/ZlfcyJqyrF81npKi3kWI/files/COVER_ART---DEFAULT---d4b01f88-5acb-4d0e-a297-c5613e1996a1.jpg"
+        },
+        "publisherItems": []
+      }
+    },
+    {
+      "id": "publisher-ISYjnqqqwmoaVfVABBHT",
+      "originalUrl": "https://feeds.fountain.fm/ISYjnqqqwmoaVfVABBHT",
+      "type": "publisher",
+      "title": "Lucas Maddy Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "6c5357da-0f8a-5450-b595-6ee8be334fb3",
+        "albumCount": 3
+      },
+      "lastParsed": "2025-10-21T22:48:11.460Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Lucas Maddy",
+          "description": "<p>Country rock americana blues grunge…kinda.</p>",
+          "artist": "Lucas Maddy",
+          "coverArt": "https://feeds.fountain.fm/ISYjnqqqwmoaVfVABBHT/files/COVER_ART---DEFAULT---80341db8-3a53-4870-8c81-cfc1136c0793.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "357739a2-2ab0-5f74-a4ac-be8d80199dc9",
+            "feedUrl": "https://feeds.fountain.fm/UR5rjgL09imVtQJ7D309",
+            "medium": "music",
+            "title": "Reasons You Know"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-7dGAmcvUQsKDUNvmJ1xt",
+      "originalUrl": "https://feeds.fountain.fm/7dGAmcvUQsKDUNvmJ1xt",
+      "type": "publisher",
+      "title": "Sid Tyler Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "babc93f7-2eec-568a-8c01-4f60ffff9528",
+        "albumCount": 2
+      },
+      "lastParsed": "2025-10-21T22:48:11.896Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Sid Tyler",
+          "description": "<p>I'm a UKG DJ/Producer based in the UK</p>",
+          "artist": "Sid Tyler",
+          "coverArt": "https://feeds.fountain.fm/7dGAmcvUQsKDUNvmJ1xt/files/COVER_ART---DEFAULT---60a02bc0-8fd2-4b03-926c-6a2762f14dc7.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "75803897-f9e6-5c7a-81e1-77af029d00dd",
+            "feedUrl": "https://feeds.fountain.fm/cev2UTfIYNxrmo7aRpdv",
+            "medium": "music",
+            "title": "Gunfiyas"
+          },
+          {
+            "feedGuid": "59089109-473d-5572-9b89-56daa9919c97",
+            "feedUrl": "https://feeds.fountain.fm/pl0avXNfWFS8R4OrwswA",
+            "medium": "music",
+            "title": "TYL001"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-zcn6PiZ0ff0N6oSlZKoq",
+      "originalUrl": "https://feeds.fountain.fm/zcn6PiZ0ff0N6oSlZKoq",
+      "type": "publisher",
+      "title": "Theo Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "33faf933-4125-5518-9f29-98e088301bca",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:12.303Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Theo",
+          "description": "<p>London.</p>",
+          "artist": "Theo",
+          "coverArt": "https://feeds.fountain.fm/zcn6PiZ0ff0N6oSlZKoq/files/COVER_ART---DEFAULT---0748d791-d37b-4506-8fa2-0c1479ee35e2.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "54e811c7-ebfa-5abc-91ee-02841add5677",
+            "feedUrl": "https://feeds.fountain.fm/Omy7ecTnhzDYs68v4xH6",
+            "medium": "music",
+            "title": "Ani Ohevet"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-G9duBbc3BPvt4ntv0adA",
+      "originalUrl": "https://feeds.fountain.fm/G9duBbc3BPvt4ntv0adA",
+      "type": "publisher",
+      "title": "The Crypto Donkey Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "c9d29a1f-08ac-518b-947b-d47f2fbeaac4",
+        "albumCount": 2
+      },
+      "lastParsed": "2025-10-21T22:48:12.808Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "The Crypto Donkey",
+          "description": "<p>Bitcoin fuelled music for a post fiat world</p>",
+          "artist": "The Crypto Donkey",
+          "coverArt": "https://feeds.fountain.fm/G9duBbc3BPvt4ntv0adA/files/COVER_ART---DEFAULT---ff7280c7-cb58-4b27-becb-d997068e6c74.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "6ef0ca21-307a-511b-b0a1-c7c0d3932773",
+            "feedUrl": "https://feeds.fountain.fm/6SMkQgK0KNJV2VrEeho6",
+            "medium": "music",
+            "title": "Bitcoin on the Brink"
+          },
+          {
+            "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5",
+            "feedUrl": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI",
+            "medium": "music",
+            "title": "404: Album Not Found"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-VQNWukSp2Be1KgFrLff2",
+      "originalUrl": "https://feeds.fountain.fm/VQNWukSp2Be1KgFrLff2",
+      "type": "publisher",
+      "title": "Gabreal Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "03ad419a-d854-56bf-9dcc-6b419eee7c3a",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:13.110Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Gabreal",
+          "description": "<p>contact: <a href=\"mailto:gabreal.dj@gmail.com\">gabreal.dj@gmail.com</a></p>",
+          "artist": "Gabreal",
+          "coverArt": "https://feeds.fountain.fm/VQNWukSp2Be1KgFrLff2/files/COVER_ART---DEFAULT---db384063-dbf2-4a7f-82a4-a30bb6a64939.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "6a0533de-992f-5466-813c-97e3a7489dc1",
+            "feedUrl": "https://feeds.fountain.fm/U5hnCkHONC2f7ttVeNe9",
+            "medium": "music",
+            "title": "Dem Boiz"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-nVPz5gu1UK4KmwYtmPTN",
+      "originalUrl": "https://feeds.fountain.fm/nVPz5gu1UK4KmwYtmPTN",
+      "type": "publisher",
+      "title": "Justin Lantrip Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "0709a0ae-e835-5129-86d6-7b2ad3c8adf1",
+        "albumCount": 3
+      },
+      "lastParsed": "2025-10-21T22:48:13.408Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Justin Lantrip",
+          "description": "<p>Singer Songwriter from North Idaho</p>",
+          "artist": "Justin Lantrip",
+          "coverArt": "https://feeds.fountain.fm/nVPz5gu1UK4KmwYtmPTN/files/COVER_ART---DEFAULT---b5442dc0-4dd0-4ac7-9680-c2644fc03148.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8",
+            "feedUrl": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a",
+            "medium": "music",
+            "title": "Flood Gates"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-aC3EJELuxRlXUjMPMDEw",
+      "originalUrl": "https://feeds.fountain.fm/aC3EJELuxRlXUjMPMDEw",
+      "type": "publisher",
+      "title": "Ben Kai Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "55aab371-a1d8-5883-b463-c743947e66ee",
+        "albumCount": 7
+      },
+      "lastParsed": "2025-10-21T22:48:13.669Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Ben Kai",
+          "description": "<p>Ben Kai is an indie folk artist from Woodside, CA. His raw and introspective songs reflect on life as a 20-something in today's world. Ben's musical roots run deep, starting with classical guitar at the age of 3. Ben went on to find himself crafting the iconic soundtracks for EA Sports video games before ultimately going full time artist.</p>",
+          "artist": "Ben Kai",
+          "coverArt": "https://feeds.fountain.fm/aC3EJELuxRlXUjMPMDEw/files/COVER_ART---DEFAULT---1dd30b99-15fa-4145-ae3e-7d194c474937.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "4b7dcd08-9b4e-5026-a58a-22a9438edba5",
+            "feedUrl": "https://feeds.fountain.fm/2tkWeg3Bo5jwKAFCVNZo",
+            "medium": "music",
+            "title": "seeing stars"
+          },
+          {
+            "feedGuid": "46620f3b-07b7-5344-af81-dc4012dd494c",
+            "feedUrl": "https://feeds.fountain.fm/uV8REr9zILyiZko9LMLh",
+            "medium": "music",
+            "title": "good old days"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-dvo7rfd8OCTE4L2Si6BF",
+      "originalUrl": "https://feeds.fountain.fm/dvo7rfd8OCTE4L2Si6BF",
+      "type": "publisher",
+      "title": "PJ Statham Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:13.967Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "PJ Statham",
+          "description": "<p>garage producer and dj from the UK.</p>",
+          "artist": "PJ Statham",
+          "coverArt": "https://feeds.fountain.fm/dvo7rfd8OCTE4L2Si6BF/files/COVER_ART---DEFAULT---b37b622b-74cf-4401-9847-3def58fbaab9.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "22468782-f3d9-5f1f-9e56-a2dc42bf22eb",
+            "feedUrl": "https://feeds.fountain.fm/Sycr0zCVktlab3jpA6ar",
+            "medium": "music",
+            "title": "Money Money"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-zEvhVqkAnTM0vOR9zdWC",
+      "originalUrl": "https://feeds.fountain.fm/zEvhVqkAnTM0vOR9zdWC",
+      "type": "publisher",
+      "title": "The Karamazov Sons Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "9a0e2f8c-80d5-581e-a826-1aec566b9a6d",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:14.243Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "The Karamazov Sons",
+          "description": "<p>…</p>",
+          "artist": "The Karamazov Sons",
+          "coverArt": "https://feeds.fountain.fm/zEvhVqkAnTM0vOR9zdWC/files/COVER_ART---DEFAULT---ed4ffc2f-3374-4aee-aaed-9884beb333f9.jpg"
+        },
+        "publisherItems": []
+      }
+    },
+    {
+      "id": "publisher-32l2wHklZ3A1K0yNLRzC",
+      "originalUrl": "https://feeds.fountain.fm/32l2wHklZ3A1K0yNLRzC",
+      "type": "publisher",
+      "title": "Telforo Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "b6ea1713-05f0-5e53-88dd-966f13edb219",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:14.529Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Telforo",
+          "description": "<p>garage and house</p>",
+          "artist": "Telforo",
+          "coverArt": "https://feeds.fountain.fm/32l2wHklZ3A1K0yNLRzC/files/COVER_ART---DEFAULT---52c30612-2fb3-4e61-b730-8dff732ddb90.jpg"
+        },
+        "publisherItems": []
+      }
+    },
+    {
+      "id": "publisher-KVP4my9qEcllJs2YgTTp",
+      "originalUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+      "type": "publisher",
+      "title": "Hyphen Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:14.822Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Hyphen",
+          "description": "<p>Newcastle based producer/DJ Hyphen is best known for his bumpy house/garage productions which, alongside being Co-Founder and owner of Profound Sound, has cemented himself as an upcoming name in the scene.</p>\n<p>Hyphen’s tunes have also gained traction among some of UKG/House’s biggest names, garnering support from the likes of Main Phase, Izco, DJ EZ, Interplanetary Criminal, Silva Bumpa, Dr Dubplate, Julian Anthony and more.</p>\n<p>His productions have led him to landing label releases with ATW Records, FLAT 22, God Gives Recs, Underground Sound and of course Profound Sound, with some exciting forthcoming releases on labels such as EC2A on the way.</p>\n<p>Over the last 2 years Hyphen has supported figurehead DJs such as Interplanetary Criminal at Big Fat Rave as well as Conducta, Bakey, Oldboy, YUQT, Scruz, Silva Bumpa & Skeptic at his collectives’ own events.</p>",
+          "artist": "Hyphen",
+          "coverArt": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp/files/COVER_ART---DEFAULT---ce369dc6-16eb-445f-86a1-0e9bef2db1f7.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "6ad2a9af-a980-548c-808f-4870e1d5f4c9",
+            "feedUrl": "https://feeds.fountain.fm/3fW99GhMJgY4EOQ87y6P",
+            "medium": "music",
+            "title": "The Party House"
+          },
+          {
+            "feedGuid": "8ebc9bd3-b093-56d2-8c13-ace2a11abb56",
+            "feedUrl": "https://feeds.fountain.fm/46jAB1CWf2eBjnU7pyQx",
+            "medium": "music",
+            "title": "Steezin' EP"
+          },
+          {
+            "feedGuid": "10d388d4-8d49-5308-9586-f37c1be02892",
+            "feedUrl": "https://feeds.fountain.fm/NU9WiOkaYgPDsz0xmfXo",
+            "medium": "music",
+            "title": "Badu Thick"
+          },
+          {
+            "feedGuid": "91bca062-3855-5d68-a58f-187900068c95",
+            "feedUrl": "https://feeds.fountain.fm/j0ZWXTkpfI1WUFfy8Q4g",
+            "medium": "music",
+            "title": "Lemon N Lime"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-SpUDSnbdBkJayRJFUEHl",
+      "originalUrl": "https://feeds.fountain.fm/SpUDSnbdBkJayRJFUEHl",
+      "type": "publisher",
+      "title": "Milzy Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "5ee6b931-0591-58e9-83de-da8cfcdab6d3",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:15.129Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Milzy",
+          "description": "<p>One Half of the masterminds behind Psyked, Milzy is a true genre-bending talent, creating, playing and enjoying dance music across the broadest of spectrums. Milzy’s fast paced mixing style, laced with choppy blends and incredibly refined selections characterise her unique sets alongside her infectious energy behind the decks. With her first few releases appearing on the iconic Locked on Records, EC2A and of course Psyked, Milzy has far more to come over the next few years.</p>",
+          "artist": "Milzy",
+          "coverArt": "https://feeds.fountain.fm/SpUDSnbdBkJayRJFUEHl/files/COVER_ART---DEFAULT---d4cf27f0-42e6-4e72-b7ab-da0ab3c2fdfb.jpg"
+        },
+        "publisherItems": []
+      }
+    },
+    {
+      "id": "publisher-iPx50GOtSYDMin2HUefk",
+      "originalUrl": "https://feeds.fountain.fm/iPx50GOtSYDMin2HUefk",
+      "type": "publisher",
+      "title": "ADDAX Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "a300cf10-434c-5ae3-837a-ed0c899694af",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:15.489Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "ADDAX",
+          "description": "<p>Upcoming Australian Garage Artist</p>\n<p>Club resident at One22 Canberra, Australia</p>",
+          "artist": "ADDAX",
+          "coverArt": "https://feeds.fountain.fm/iPx50GOtSYDMin2HUefk/files/COVER_ART---DEFAULT---ffc54386-da04-4490-83fd-4fb72c4e35b3.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "034e795e-a8e9-5455-a9be-7d96afe75ec3",
+            "feedUrl": "https://feeds.fountain.fm/eJ09yoOnjNDa9tP01ngW",
+            "medium": "music",
+            "title": "Move To Da Riddim"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-wBop10K9SPqMILSOfPb4",
+      "originalUrl": "https://feeds.fountain.fm/wBop10K9SPqMILSOfPb4",
+      "type": "publisher",
+      "title": "Juliana Hale Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "0819da5f-1386-5295-af6d-95d14044045d",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:15.877Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "Juliana Hale",
+          "description": "<p>Recently charting on the iTunes pop charts at #6 with her single “Head in the clouds” , Nashville’s self-proclaimed Pirate Pop Princess, Juliana Hale has an evocative voice and the ability to bring her stories to life in vivid detail. Hale has established herself as one of the most unique and promising talents in indie-pop. She is a true Renaissance artist, combining her multi-instrumental, production, and vocal abilities with a love of visual arts to create an unforgettable experience. Hale has rocked major shows across the nation, performing at festivals like Breakaway, SXSW, and Common Ground, and sharing stages with industry titans like Halsey, Snoop Dogg, Flo Rida, and Berlin. Additionally, she has begun popping up in several independent films, proving that her artistry isn’t limited to the stage. She has been on a creative hot streak since and is getting ready to release an album that expresses her artistry in a whole new light. In the crowded world of modern singer/songwriters, Juliana’s emotionally direct storytelling and retro and pirate-inspired aesthetics set her apart. She is an exceptionally versatile writer, capable of summer party anthems, emotionally intense ballads, and everything in between. Hale connects deeply with fans online and has built a solid base of supporters. She transparently shares her chronic health struggles and provides a positive community to those who relate.</p>",
+          "artist": "Juliana Hale",
+          "coverArt": "https://feeds.fountain.fm/wBop10K9SPqMILSOfPb4/files/COVER_ART---DEFAULT---34a90faa-3013-41d6-99a0-06f250a5e0f8.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "bae24096-5d60-58cd-8b6b-ea413ce09194",
+            "feedUrl": "https://feeds.fountain.fm/fyK4N0muoFLT8eNS1g94",
+            "medium": "music",
+            "title": "Collateral Damage"
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-kAul1B7Ver6XOB7avJ1O",
+      "originalUrl": "https://feeds.fountain.fm/kAul1B7Ver6XOB7avJ1O",
+      "type": "publisher",
+      "title": "TABZ Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "5b8ba101-6af2-53b6-a376-414c290665f4",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:16.167Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "TABZ",
+          "description": "<p>UKG / 140 and all things with a kick and bass</p>",
+          "artist": "TABZ",
+          "coverArt": "https://feeds.fountain.fm/kAul1B7Ver6XOB7avJ1O/files/COVER_ART---DEFAULT---f030f2f5-4e81-4f9c-9d7c-98790a92c51c.jpg"
+        },
+        "publisherItems": []
+      }
+    },
+    {
+      "id": "publisher-0GWoySzOHV9P7a9vpEG8",
+      "originalUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
+      "type": "publisher",
+      "title": "SKYHIGH Publisher Feed",
+      "priority": "standard",
+      "status": "active",
+      "addedAt": "2025-10-21T22:45:19.036Z",
+      "lastUpdated": "2025-10-21T22:45:19.036Z",
+      "source": "auto-discovered",
+      "parseStatus": "success",
+      "metadata": {
+        "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
+        "albumCount": 1
+      },
+      "lastParsed": "2025-10-21T22:48:16.478Z",
+      "parsedData": {
+        "publisherInfo": {
+          "title": "SKYHIGH",
+          "description": "<p>NUKG vibes</p>",
+          "artist": "SKYHIGH",
+          "coverArt": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8/files/COVER_ART---DEFAULT---bb48289c-9958-46b8-b3b5-439af2b129f6.jpg"
+        },
+        "publisherItems": [
+          {
+            "feedGuid": "1e6e5b57-e827-571f-8575-848921b647cb",
+            "feedUrl": "https://feeds.fountain.fm/K3lq2cJltR8yJQ7lycGY",
+            "medium": "music",
+            "title": "See This"
+          },
+          {
+            "feedGuid": "de5b9554-5c0d-5e2a-a3a9-7cfda11b21a9",
+            "feedUrl": "https://feeds.fountain.fm/XkKpNohr6rl35XLidXYi",
+            "medium": "music",
+            "title": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "publisher-item-YbqPMpZ8WyvyEbtS0rOC",
+      "originalUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC",
+      "type": "album",
+      "title": "Big Day (album)",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.007Z",
+      "lastUpdated": "2025-10-21T22:47:27.007Z",
+      "source": "publisher-discovery",
+      "parseStatus": "success",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Jim Costello",
+        "publisherFeedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+        "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
+        "itemGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1"
+      },
+      "lastParsed": "2025-10-21T22:48:16.839Z",
+      "parsedData": {
+        "album": {
+          "title": "Big Day (album)",
+          "artist": "Local Zero",
+          "description": "Local Zero ©2001 Angel Feathers Publishing Produced & Recorded at Hollywood Sound, Los Angeles CA.",
+          "coverArt": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/files/COVER_ART---DEFAULT---951c113c-8295-4904-a9ad-cc15edc8670a.jpg",
+          "tracks": [
+            {
+              "title": "You Are Not",
+              "duration": "4:11",
+              "url": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/9o6IlNpf3zPnshoY1yol/files/AUDIO---DEFAULT---1688c32c-2a7f-407b-a551-c68ac8c7cbd8.mp3",
+              "trackNumber": 1,
+              "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/9o6IlNpf3zPnshoY1yol/files/COVER_ART---DEFAULT---6b72fd22-b150-4246-be95-940335be2513.jpg",
+              "explicit": false,
+              "guid": "2b3a10b6-ec5e-4347-9bfe-9d4ee157af9f",
+              "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+              "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/9o6IlNpf3zPnshoY1yol/files/COVER_ART---DEFAULT---6b72fd22-b150-4246-be95-940335be2513.jpg"
+            },
+            {
+              "title": "Taught",
+              "duration": "3:45",
+              "url": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/a526HOP5zA52T1ZAkuwU/files/AUDIO---DEFAULT---8fd554cc-8bb4-4b2d-966c-0244aef80cb5.mp3",
+              "trackNumber": 2,
+              "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/a526HOP5zA52T1ZAkuwU/files/COVER_ART---DEFAULT---821ef9b4-cfe1-4432-96fb-4d38525843d4.jpg",
+              "explicit": false,
+              "guid": "93916790-f243-4f42-ae27-64109e76f4c1",
+              "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+              "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/a526HOP5zA52T1ZAkuwU/files/COVER_ART---DEFAULT---821ef9b4-cfe1-4432-96fb-4d38525843d4.jpg"
+            },
+            {
+              "title": "Dancing in the Red",
+              "duration": "3:22",
+              "url": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/3fO1IaERrMyIcJVxP16J/files/AUDIO---DEFAULT---26a02dad-d372-462a-8ab6-7ca83b9f3905.mp3",
+              "trackNumber": 3,
+              "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/3fO1IaERrMyIcJVxP16J/files/COVER_ART---DEFAULT---a6a02ec5-b6ff-46ca-a99f-4acc057ef277.jpg",
+              "explicit": false,
+              "guid": "92f09452-7012-45c8-b921-5e4fa52fc3e2",
+              "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+              "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/3fO1IaERrMyIcJVxP16J/files/COVER_ART---DEFAULT---a6a02ec5-b6ff-46ca-a99f-4acc057ef277.jpg"
+            },
+            {
+              "title": "Jonathan",
+              "duration": "4:16",
+              "url": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LoYew6r8pcIjiVxNIK5c/files/AUDIO---DEFAULT---82109142-1d0a-4690-8470-ae1444a31128.mp3",
+              "trackNumber": 4,
+              "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LoYew6r8pcIjiVxNIK5c/files/COVER_ART---DEFAULT---fabab0c9-f7c9-4666-83ce-c4612920614b.jpg",
+              "explicit": false,
+              "guid": "58b6530d-2150-4fe8-b445-7c241c2a548f",
+              "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+              "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LoYew6r8pcIjiVxNIK5c/files/COVER_ART---DEFAULT---fabab0c9-f7c9-4666-83ce-c4612920614b.jpg"
+            },
+            {
+              "title": "4th & Final",
+              "duration": "3:52",
+              "url": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LNFa35O0zx5Q5mYUVI3B/files/AUDIO---DEFAULT---418688e0-1935-4152-95ab-c2e4e83f7248.mp3",
+              "trackNumber": 5,
+              "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LNFa35O0zx5Q5mYUVI3B/files/COVER_ART---DEFAULT---52831e33-8737-4eb3-9ac7-381060c7a0d3.jpg",
+              "explicit": false,
+              "guid": "f8757397-4f62-4dd7-82ca-03fabe7045a5",
+              "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+              "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LNFa35O0zx5Q5mYUVI3B/files/COVER_ART---DEFAULT---52831e33-8737-4eb3-9ac7-381060c7a0d3.jpg"
+            },
+            {
+              "title": "As You Were",
+              "duration": "4:38",
+              "url": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/SMSNNHlFNaux97mmdnmo/files/AUDIO---DEFAULT---70f10172-6c44-4a57-8a1e-9d16fb248b13.mp3",
+              "trackNumber": 6,
+              "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/SMSNNHlFNaux97mmdnmo/files/COVER_ART---DEFAULT---013364f2-fbe0-421c-a155-9000e4809414.jpg",
+              "explicit": false,
+              "guid": "44b68fd7-4bdf-445e-9581-0596038c0ccc",
+              "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+              "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/SMSNNHlFNaux97mmdnmo/files/COVER_ART---DEFAULT---013364f2-fbe0-421c-a155-9000e4809414.jpg"
+            },
+            {
+              "title": "Catacomb",
+              "duration": "3:32",
+              "url": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/QvPbINlsM0K1dmogHJf4/files/AUDIO---DEFAULT---e8967035-44b2-4b24-ab65-d839ec3fd919.mp3",
+              "trackNumber": 7,
+              "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/QvPbINlsM0K1dmogHJf4/files/COVER_ART---DEFAULT---3410f79b-3d66-462c-9150-051a6210e13f.jpg",
+              "explicit": false,
+              "guid": "78a357ce-8d57-4635-a66e-1363ed789896",
+              "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+              "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/QvPbINlsM0K1dmogHJf4/files/COVER_ART---DEFAULT---3410f79b-3d66-462c-9150-051a6210e13f.jpg"
+            },
+            {
+              "title": "Spinster Tale",
+              "duration": "3:54",
+              "url": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/l9EBcOImpqpFfzjMxtWt/files/AUDIO---DEFAULT---94603ef7-ae4a-49b3-b293-5561cd0df0cf.mp3",
+              "trackNumber": 8,
+              "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/l9EBcOImpqpFfzjMxtWt/files/COVER_ART---DEFAULT---88c13430-83a0-4801-88c6-480598c11f2d.jpg",
+              "explicit": false,
+              "guid": "57fb2560-02e3-45f6-a15b-88088b58f614",
+              "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+              "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/l9EBcOImpqpFfzjMxtWt/files/COVER_ART---DEFAULT---88c13430-83a0-4801-88c6-480598c11f2d.jpg"
+            },
+            {
+              "title": "I Don't Share",
+              "duration": "3:20",
+              "url": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/r0zLgYBAFYSGXbpb91G9/files/AUDIO---DEFAULT---6155b3d3-cde9-4078-b48e-9fec2ae19a62.mp3",
+              "trackNumber": 9,
+              "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/r0zLgYBAFYSGXbpb91G9/files/COVER_ART---DEFAULT---55fd31ef-920c-41ce-9c43-9950382d5624.jpg",
+              "explicit": false,
+              "guid": "a496ae6f-021d-43fe-aabf-1608e5ff10a3",
+              "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+              "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/r0zLgYBAFYSGXbpb91G9/files/COVER_ART---DEFAULT---55fd31ef-920c-41ce-9c43-9950382d5624.jpg"
+            },
+            {
+              "title": "Welcome Back",
+              "duration": "4:04",
+              "url": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/oleyU4i7z5jQkqawVAy3/files/AUDIO---DEFAULT---ba2ffe93-598d-46cc-afa1-0f61ec3be151.mp3",
+              "trackNumber": 10,
+              "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/oleyU4i7z5jQkqawVAy3/files/COVER_ART---DEFAULT---0f180796-2cb3-4a27-ac10-f630f943e9e2.jpg",
+              "explicit": false,
+              "guid": "d1cb548b-0263-4430-bfce-321fbb5aae04",
+              "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+              "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/oleyU4i7z5jQkqawVAy3/files/COVER_ART---DEFAULT---0f180796-2cb3-4a27-ac10-f630f943e9e2.jpg"
+            }
+          ],
+          "releaseDate": "Tue, 10 Oct 2023 20:32:50 GMT",
+          "link": "",
+          "value": {
+            "type": "lightning",
+            "method": "lnaddress",
+            "recipients": [
+              {
+                "type": "lnaddress",
+                "address": "jamespcostello@getalby.com",
+                "split": 98,
+                "name": "Jim Costello",
+                "fee": false
+              },
+              {
+                "type": "lnaddress",
+                "address": "boostbot@fountain.fm",
+                "split": 2,
+                "name": "Fountain",
+                "fee": false
+              }
+            ]
+          },
+          "explicit": false,
+          "language": "en",
+          "publisher": {
+            "feedGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
+            "feedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+            "medium": "publisher"
+          },
+          "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+          "feedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+          "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
+          "publisherUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+          "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/files/COVER_ART---DEFAULT---951c113c-8295-4904-a9ad-cc15edc8670a.jpg"
+        }
+      },
+      "trackCount": 10
+    },
+    {
+      "id": "publisher-item-oU2YfTFLK4er61p1uNAQ",
+      "originalUrl": "https://feeds.fountain.fm/oU2YfTFLK4er61p1uNAQ",
+      "type": "album",
+      "title": "Jim Costello Album",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.007Z",
+      "lastUpdated": "2025-10-21T22:47:27.007Z",
+      "source": "publisher-discovery",
+      "parseStatus": "error",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Jim Costello",
+        "publisherFeedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+        "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
+        "itemGuid": "d7f37903-1bf3-5e23-a46f-cc6f1f740c4c"
+      },
+      "lastParsed": "2025-10-21T22:48:17.044Z",
+      "parseError": "No album data found"
+    },
+    {
+      "id": "publisher-item-xeHg25lVueiVSCf1yIxE",
+      "originalUrl": "https://feeds.fountain.fm/xeHg25lVueiVSCf1yIxE",
+      "type": "album",
+      "title": "Jim Costello Album",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.007Z",
+      "lastUpdated": "2025-10-21T22:47:27.007Z",
+      "source": "publisher-discovery",
+      "parseStatus": "error",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Jim Costello",
+        "publisherFeedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
+        "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
+        "itemGuid": "dbe4a32c-eea1-5824-81e8-6403d0a0146a"
+      },
+      "lastParsed": "2025-10-21T22:48:20.828Z",
+      "parseError": "No album data found"
+    },
+    {
+      "id": "publisher-item-MXfzmaDzg11cSw8cOSIo",
+      "originalUrl": "https://feeds.fountain.fm/MXfzmaDzg11cSw8cOSIo",
+      "type": "album",
+      "title": "My test music single",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "success",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Artist X",
+        "publisherFeedUrl": "https://feeds.fountain.fm/f0WjAlcgVSpHbouFETDQ",
+        "publisherGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
+        "itemGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7"
+      },
+      "lastParsed": "2025-10-21T22:48:24.684Z",
+      "parsedData": {
+        "album": {
+          "title": "My test music single",
+          "artist": "Artist X",
+          "description": "Test",
+          "coverArt": "https://feeds.fountain.fm/MXfzmaDzg11cSw8cOSIo/files/COVER_ART---DEFAULT---f8759cda-e030-4926-98a8-06fa49409e92.jpg",
+          "tracks": [
+            {
+              "title": "My test music single",
+              "duration": "1:46",
+              "url": "https://feeds.fountain.fm/MXfzmaDzg11cSw8cOSIo/items/eu4Tmctmu435On6orAXP/files/AUDIO---DEFAULT---f125b350-1945-4d38-980d-925863e9e88c.m4a",
+              "trackNumber": 1,
+              "explicit": false,
+              "guid": "e0cc5c1e-476c-5ff2-af28-1b6a5517f91c",
+              "feedGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7"
+            }
+          ],
+          "releaseDate": "Mon, 20 Nov 2023 20:01:59 GMT",
+          "link": "",
+          "value": {
+            "type": "lightning",
+            "method": "lnaddress",
+            "recipients": [
+              {
+                "type": "lnaddress",
+                "address": "karamazov@fountain.fm",
+                "split": 96,
+                "name": "Karamazov",
+                "fee": false
+              },
+              {
+                "type": "lnaddress",
+                "address": "phantompower@strike.me",
+                "split": 2,
+                "name": "Phantom Power",
+                "fee": false
+              },
+              {
+                "type": "lnaddress",
+                "address": "boostbot@fountain.fm",
+                "split": 2,
+                "name": "Fountain",
+                "fee": false
+              }
+            ]
+          },
+          "explicit": false,
+          "language": "en",
+          "publisher": {
+            "feedGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
+            "feedUrl": "https://feeds.fountain.fm/f0WjAlcgVSpHbouFETDQ",
+            "medium": "publisher"
+          },
+          "feedGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7",
+          "feedUrl": "https://feeds.fountain.fm/f0WjAlcgVSpHbouFETDQ",
+          "publisherGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
+          "publisherUrl": "https://feeds.fountain.fm/f0WjAlcgVSpHbouFETDQ",
+          "imageUrl": "https://feeds.fountain.fm/MXfzmaDzg11cSw8cOSIo/files/COVER_ART---DEFAULT---f8759cda-e030-4926-98a8-06fa49409e92.jpg"
+        }
+      },
+      "trackCount": 1
+    },
+    {
+      "id": "publisher-item-aCFEYwJijoBbZSUP32JA",
+      "originalUrl": "https://feeds.fountain.fm/aCFEYwJijoBbZSUP32JA",
+      "type": "album",
+      "title": "Worried",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "success",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Suzanne Santo",
+        "publisherFeedUrl": "https://feeds.fountain.fm/NjTmcKvDEj4DJvN2Hbpq",
+        "publisherGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
+        "itemGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b"
+      },
+      "lastParsed": "2025-10-21T22:48:24.912Z",
+      "parsedData": {
+        "album": {
+          "title": "Worried",
+          "artist": "Suzanne Santo",
+          "description": "Written & Performed by Suzanne Santo",
+          "coverArt": "https://feeds.fountain.fm/aCFEYwJijoBbZSUP32JA/files/COVER_ART---DEFAULT---967a135d-04d5-4f59-9836-c9d0f0998c54.jpg",
+          "tracks": [
+            {
+              "title": "Worried",
+              "duration": "4:20",
+              "url": "https://feeds.fountain.fm/aCFEYwJijoBbZSUP32JA/items/9zDVqrKCHwMZMvOpQAv1/files/AUDIO---DEFAULT---df67f97a-f73e-4c0c-a4dc-4e238e8feaa1.mp3",
+              "trackNumber": 1,
+              "explicit": false,
+              "guid": "405be9f7-684f-54b8-9035-009111f1933f",
+              "feedGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b"
+            }
+          ],
+          "releaseDate": "Mon, 18 Nov 2024 03:11:32 GMT",
+          "link": "",
+          "value": {
+            "type": "lightning",
+            "method": "lnaddress",
+            "recipients": [
+              {
+                "type": "lnaddress",
+                "address": "suzannesanto@fountain.fm",
+                "split": 98,
+                "name": "Suzanne Santo",
+                "fee": false
+              },
+              {
+                "type": "lnaddress",
+                "address": "boostbot@fountain.fm",
+                "split": 2,
+                "name": "Fountain",
+                "fee": false
+              }
+            ]
+          },
+          "explicit": false,
+          "language": "en",
+          "publisher": {
+            "feedGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
+            "feedUrl": "https://feeds.fountain.fm/NjTmcKvDEj4DJvN2Hbpq",
+            "medium": "publisher"
+          },
+          "feedGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b",
+          "feedUrl": "https://feeds.fountain.fm/NjTmcKvDEj4DJvN2Hbpq",
+          "publisherGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
+          "publisherUrl": "https://feeds.fountain.fm/NjTmcKvDEj4DJvN2Hbpq",
+          "imageUrl": "https://feeds.fountain.fm/aCFEYwJijoBbZSUP32JA/files/COVER_ART---DEFAULT---967a135d-04d5-4f59-9836-c9d0f0998c54.jpg"
+        }
+      },
+      "trackCount": 1
+    },
+    {
+      "id": "publisher-item-Sycr0zCVktlab3jpA6ar",
+      "originalUrl": "https://feeds.fountain.fm/Sycr0zCVktlab3jpA6ar",
+      "type": "album",
+      "title": "Money Money",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "success",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "PJ Statham",
+        "publisherFeedUrl": "https://feeds.fountain.fm/dvo7rfd8OCTE4L2Si6BF",
+        "publisherGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
+        "itemGuid": "22468782-f3d9-5f1f-9e56-a2dc42bf22eb"
+      },
+      "lastParsed": "2025-10-21T22:48:25.407Z",
+      "parsedData": {
+        "album": {
+          "title": "Money Money",
+          "artist": "PJ Statham",
+          "description": "",
+          "coverArt": "https://feeds.fountain.fm/Sycr0zCVktlab3jpA6ar/files/COVER_ART---DEFAULT---404e8cf3-6ca7-4bce-8980-af67ec5df3e5.jpg",
+          "tracks": [],
+          "releaseDate": "Tue, 05 Aug 2025 16:20:21 GMT",
+          "link": "",
+          "value": {
+            "type": "lightning",
+            "method": "lnaddress",
+            "recipients": [
+              {
+                "type": "lnaddress",
+                "address": "user72422843@fountain.fm",
+                "split": 98,
+                "fee": false
+              },
+              {
+                "type": "lnaddress",
+                "address": "boostbot@fountain.fm",
+                "split": 2,
+                "name": "Fountain",
+                "fee": false
+              }
+            ]
+          },
+          "explicit": false,
+          "language": "en",
+          "publisher": {
+            "feedGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
+            "feedUrl": "https://feeds.fountain.fm/dvo7rfd8OCTE4L2Si6BF",
+            "medium": "publisher"
+          },
+          "feedGuid": "22468782-f3d9-5f1f-9e56-a2dc42bf22eb",
+          "feedUrl": "https://feeds.fountain.fm/dvo7rfd8OCTE4L2Si6BF",
+          "publisherGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
+          "publisherUrl": "https://feeds.fountain.fm/dvo7rfd8OCTE4L2Si6BF",
+          "imageUrl": "https://feeds.fountain.fm/Sycr0zCVktlab3jpA6ar/files/COVER_ART---DEFAULT---404e8cf3-6ca7-4bce-8980-af67ec5df3e5.jpg"
+        }
+      },
+      "trackCount": 0
+    },
+    {
+      "id": "publisher-item-3fW99GhMJgY4EOQ87y6P",
+      "originalUrl": "https://feeds.fountain.fm/3fW99GhMJgY4EOQ87y6P",
+      "type": "album",
+      "title": "The Party House",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "success",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Hyphen",
+        "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+        "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+        "itemGuid": "6ad2a9af-a980-548c-808f-4870e1d5f4c9"
+      },
+      "lastParsed": "2025-10-21T22:48:26.021Z",
+      "parsedData": {
+        "album": {
+          "title": "The Party House",
+          "artist": "Hyphen",
+          "description": "WERK Records 004: Hyphen - The Party House",
+          "coverArt": "https://feeds.fountain.fm/3fW99GhMJgY4EOQ87y6P/files/COVER_ART---DEFAULT---c8556ca3-5798-4cae-ae49-ab73efe63097.jpg",
+          "tracks": [],
+          "releaseDate": "Tue, 09 Sep 2025 14:18:07 GMT",
+          "link": "",
+          "value": {
+            "type": "lightning",
+            "method": "lnaddress",
+            "recipients": [
+              {
+                "type": "lnaddress",
+                "address": "hyphennn@fountain.fm",
+                "split": 100,
+                "name": "user23644971@fountain.fm",
+                "fee": false
+              }
+            ]
+          },
+          "explicit": false,
+          "language": "en",
+          "publisher": {
+            "feedGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+            "feedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+            "medium": "publisher"
+          },
+          "feedGuid": "6ad2a9af-a980-548c-808f-4870e1d5f4c9",
+          "feedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+          "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+          "publisherUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+          "imageUrl": "https://feeds.fountain.fm/3fW99GhMJgY4EOQ87y6P/files/COVER_ART---DEFAULT---c8556ca3-5798-4cae-ae49-ab73efe63097.jpg"
+        }
+      },
+      "trackCount": 0
+    },
+    {
+      "id": "publisher-item-46jAB1CWf2eBjnU7pyQx",
+      "originalUrl": "https://feeds.fountain.fm/46jAB1CWf2eBjnU7pyQx",
+      "type": "album",
+      "title": "Steezin' EP",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "success",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Hyphen",
+        "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+        "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+        "itemGuid": "8ebc9bd3-b093-56d2-8c13-ace2a11abb56"
+      },
+      "lastParsed": "2025-10-21T22:48:26.431Z",
+      "parsedData": {
+        "album": {
+          "title": "Steezin' EP",
+          "artist": "Hyphen",
+          "description": "US038: Hyphen - Steezin' EP\nThis was my first EP project with label Underground Sound who play an integral part in the contemporary Underground Garage/House culture in the UK especially. \nFour tracks with varied flavours.\nHyphen",
+          "coverArt": "https://feeds.fountain.fm/46jAB1CWf2eBjnU7pyQx/files/COVER_ART---DEFAULT---0c44074f-d1ef-45f8-9299-dab4361c744c.jpg",
+          "tracks": [],
+          "releaseDate": "Tue, 09 Sep 2025 14:18:07 GMT",
+          "link": "",
+          "value": {
+            "type": "lightning",
+            "method": "lnaddress",
+            "recipients": [
+              {
+                "type": "lnaddress",
+                "address": "hyphennn@fountain.fm",
+                "split": 98,
+                "fee": false
+              },
+              {
+                "type": "lnaddress",
+                "address": "boostbot@fountain.fm",
+                "split": 2,
+                "name": "Fountain",
+                "fee": false
+              }
+            ]
+          },
+          "explicit": false,
+          "language": "en",
+          "publisher": {
+            "feedGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+            "feedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+            "medium": "publisher"
+          },
+          "feedGuid": "8ebc9bd3-b093-56d2-8c13-ace2a11abb56",
+          "feedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+          "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+          "publisherUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+          "imageUrl": "https://feeds.fountain.fm/46jAB1CWf2eBjnU7pyQx/files/COVER_ART---DEFAULT---0c44074f-d1ef-45f8-9299-dab4361c744c.jpg"
+        }
+      },
+      "trackCount": 0
+    },
+    {
+      "id": "publisher-item-NU9WiOkaYgPDsz0xmfXo",
+      "originalUrl": "https://feeds.fountain.fm/NU9WiOkaYgPDsz0xmfXo",
+      "type": "album",
+      "title": "Badu Thick",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "success",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Hyphen",
+        "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+        "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+        "itemGuid": "10d388d4-8d49-5308-9586-f37c1be02892"
+      },
+      "lastParsed": "2025-10-21T22:48:26.660Z",
+      "parsedData": {
+        "album": {
+          "title": "Badu Thick",
+          "artist": "Hyphen",
+          "description": "Hyphen x 3dm - Badu Thick (God Gives Recs)",
+          "coverArt": "https://feeds.fountain.fm/NU9WiOkaYgPDsz0xmfXo/files/COVER_ART---DEFAULT---2a2686eb-a873-4e56-af38-ce2fbe0ab56e.jpg",
+          "tracks": [],
+          "releaseDate": "Tue, 09 Sep 2025 14:18:07 GMT",
+          "link": "",
+          "value": {
+            "type": "lightning",
+            "method": "lnaddress",
+            "recipients": [
+              {
+                "type": "lnaddress",
+                "address": "hyphennn@fountain.fm",
+                "split": 100,
+                "fee": false
+              }
+            ]
+          },
+          "explicit": false,
+          "language": "en",
+          "publisher": {
+            "feedGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+            "feedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+            "medium": "publisher"
+          },
+          "feedGuid": "10d388d4-8d49-5308-9586-f37c1be02892",
+          "feedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+          "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+          "publisherUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+          "imageUrl": "https://feeds.fountain.fm/NU9WiOkaYgPDsz0xmfXo/files/COVER_ART---DEFAULT---2a2686eb-a873-4e56-af38-ce2fbe0ab56e.jpg"
+        }
+      },
+      "trackCount": 0
+    },
+    {
+      "id": "publisher-item-j0ZWXTkpfI1WUFfy8Q4g",
+      "originalUrl": "https://feeds.fountain.fm/j0ZWXTkpfI1WUFfy8Q4g",
+      "type": "album",
+      "title": "Lemon N Lime",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "success",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "Hyphen",
+        "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+        "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+        "itemGuid": "91bca062-3855-5d68-a58f-187900068c95"
+      },
+      "lastParsed": "2025-10-21T22:48:27.058Z",
+      "parsedData": {
+        "album": {
+          "title": "Lemon N Lime",
+          "artist": "Hyphen",
+          "description": "Hyphen - Lemon N Lime (PFS005)",
+          "coverArt": "https://feeds.fountain.fm/j0ZWXTkpfI1WUFfy8Q4g/files/COVER_ART---DEFAULT---33c4c5b9-43d5-419e-bfba-1ade7c928987.jpg",
+          "tracks": [],
+          "releaseDate": "Tue, 09 Sep 2025 14:18:07 GMT",
+          "link": "",
+          "value": {
+            "type": "lightning",
+            "method": "lnaddress",
+            "recipients": [
+              {
+                "type": "lnaddress",
+                "address": "hyphennn@fountain.fm",
+                "split": 100,
+                "fee": false
+              }
+            ]
+          },
+          "explicit": false,
+          "language": "en",
+          "publisher": {
+            "feedGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+            "feedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+            "medium": "publisher"
+          },
+          "feedGuid": "91bca062-3855-5d68-a58f-187900068c95",
+          "feedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+          "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
+          "publisherUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
+          "imageUrl": "https://feeds.fountain.fm/j0ZWXTkpfI1WUFfy8Q4g/files/COVER_ART---DEFAULT---33c4c5b9-43d5-419e-bfba-1ade7c928987.jpg"
+        }
+      },
+      "trackCount": 0
+    },
+    {
+      "id": "publisher-item-K3lq2cJltR8yJQ7lycGY",
+      "originalUrl": "https://feeds.fountain.fm/K3lq2cJltR8yJQ7lycGY",
+      "type": "album",
+      "title": "See This",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "success",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "SKYHIGH",
+        "publisherFeedUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
+        "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
+        "itemGuid": "1e6e5b57-e827-571f-8575-848921b647cb"
+      },
+      "lastParsed": "2025-10-21T22:48:27.410Z",
+      "parsedData": {
+        "album": {
+          "title": "See This",
+          "artist": "SKYHIGH",
+          "description": "",
+          "coverArt": "https://feeds.fountain.fm/K3lq2cJltR8yJQ7lycGY/files/COVER_ART---DEFAULT---34d4a715-89d7-4c20-8166-906774d63e62.jpg",
+          "tracks": [],
+          "releaseDate": "Thu, 21 Aug 2025 10:18:36 GMT",
+          "link": "",
+          "value": {
+            "type": "lightning",
+            "method": "lnaddress",
+            "recipients": [
+              {
+                "type": "lnaddress",
+                "address": "user40304767@fountain.fm",
+                "split": 98,
+                "fee": false
+              },
+              {
+                "type": "lnaddress",
+                "address": "boostbot@fountain.fm",
+                "split": 2,
+                "name": "Fountain",
+                "fee": false
+              }
+            ]
+          },
+          "explicit": false,
+          "language": "en",
+          "publisher": {
+            "feedGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
+            "feedUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
+            "medium": "publisher"
+          },
+          "feedGuid": "1e6e5b57-e827-571f-8575-848921b647cb",
+          "feedUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
+          "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
+          "publisherUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
+          "imageUrl": "https://feeds.fountain.fm/K3lq2cJltR8yJQ7lycGY/files/COVER_ART---DEFAULT---34d4a715-89d7-4c20-8166-906774d63e62.jpg"
+        }
+      },
+      "trackCount": 0
+    },
+    {
+      "id": "publisher-item-XkKpNohr6rl35XLidXYi",
+      "originalUrl": "https://feeds.fountain.fm/XkKpNohr6rl35XLidXYi",
+      "type": "album",
+      "title": "SKYHIGH Album",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "source": "publisher-discovery",
+      "parseStatus": "error",
+      "metadata": {
+        "discoveredFrom": "publisher",
+        "publisherName": "SKYHIGH",
+        "publisherFeedUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
+        "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
+        "itemGuid": "de5b9554-5c0d-5e2a-a3a9-7cfda11b21a9"
+      },
+      "lastParsed": "2025-10-21T22:48:27.861Z",
+      "parseError": "No album data found"
     }
   ],
-  "lastUpdated": "2025-10-21T00:40:07.761Z",
+  "lastUpdated": "2025-10-21T22:48:31.657Z",
   "version": 1
 }

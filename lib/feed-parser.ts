@@ -353,18 +353,34 @@ export class FeedParser {
    */
   private static async saveParsedFeeds(parsedFeeds: ParsedFeedData[]): Promise<void> {
     try {
+      // Load existing feeds to preserve feeds that weren't parsed in this run
+      let existingFeeds: ParsedFeedData[] = [];
+      if (fs.existsSync(this.parsedDataPath)) {
+        const existingData = JSON.parse(fs.readFileSync(this.parsedDataPath, 'utf8'));
+        existingFeeds = existingData.feeds || [];
+      }
+
+      // Create a map of parsed feed IDs for quick lookup
+      const parsedFeedIds = new Set(parsedFeeds.map(f => f.id));
+
+      // Merge: keep existing feeds that weren't parsed, replace those that were
+      const mergedFeeds = [
+        ...parsedFeeds,
+        ...existingFeeds.filter(f => !parsedFeedIds.has(f.id))
+      ];
+
       const data = {
-        feeds: parsedFeeds,
+        feeds: mergedFeeds,
         lastUpdated: new Date().toISOString(),
         version: 1
       };
-      
+
       // Ensure directory exists
       const dir = path.dirname(this.parsedDataPath);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
-      
+
       fs.writeFileSync(this.parsedDataPath, JSON.stringify(data, null, 2));
       console.log(`💾 Saved parsed feeds to ${this.parsedDataPath}`);
     } catch (error) {
