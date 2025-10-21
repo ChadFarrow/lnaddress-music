@@ -1023,15 +1023,20 @@ export default function HomePage() {
 
               {/* Payment Splits */}
               {(() => {
-                // Debug logging
-                console.log('🔍 Payment Splits Debug:', {
-                  hasAlbumValue: !!selectedAlbum.value,
-                  albumValueType: selectedAlbum.value?.type,
-                  albumValueRecipients: selectedAlbum.value?.recipients?.length,
-                  hasTrackValue: !!selectedAlbum.tracks?.[0]?.value,
-                  trackValueType: selectedAlbum.tracks?.[0]?.value?.type,
-                  trackValueRecipients: selectedAlbum.tracks?.[0]?.value?.recipients?.length
-                });
+                // COMPREHENSIVE DEBUG
+                console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+                console.log('🔍 SELECTED ALBUM:', selectedAlbum.title);
+                console.log('🔍 Full album object keys:', Object.keys(selectedAlbum));
+                console.log('🔍 Has value?', 'value' in selectedAlbum, selectedAlbum.value);
+                console.log('🔍 Has tracks?', 'tracks' in selectedAlbum, selectedAlbum.tracks?.length);
+
+                if (selectedAlbum.value) {
+                  console.log('📦 Album value:', JSON.stringify(selectedAlbum.value, null, 2));
+                }
+
+                if (selectedAlbum.tracks?.[0]?.value) {
+                  console.log('📦 First track value:', JSON.stringify(selectedAlbum.tracks[0].value, null, 2));
+                }
 
                 const recipients = selectedAlbum.value?.type === 'lightning' && selectedAlbum.value?.recipients
                   ? selectedAlbum.value.recipients
@@ -1039,7 +1044,8 @@ export default function HomePage() {
                   ? selectedAlbum.tracks[0].value.recipients
                   : null;
 
-                console.log('🎯 Recipients found:', recipients?.length || 0);
+                console.log('🎯 Recipients extracted:', recipients?.length || 0, recipients);
+                console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
                 if (recipients && recipients.length > 0) {
                   const totalSplit = recipients.reduce((sum: number, r: any) => sum + r.split, 0);
