@@ -34,26 +34,23 @@ interface Publisher {
 
 export async function GET(request: NextRequest) {
   try {
-    // Get fresh albums data from database-free endpoint
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
-                   (process.env.NODE_ENV === 'production' 
-                     ? 'https://itdv-site.vercel.app' 
-                     : 'http://localhost:3002');
-    
-    const response = await fetch(`${baseUrl}/api/albums-no-db`, {
-      next: { revalidate: 60 }, // Cache for 1 minute
-    });
+    // Load albums from local parsed-feeds.json
+    const parsedFeedsPath = path.join(process.cwd(), 'data', 'parsed-feeds.json');
+    const parsedFeedsData = JSON.parse(fs.readFileSync(parsedFeedsPath, 'utf8'));
 
-    if (!response.ok) {
-      console.error('Failed to fetch albums:', response.status);
-      return NextResponse.json(
-        { error: 'Failed to fetch albums data' },
-        { status: 500 }
-      );
-    }
-
-    const data = await response.json();
-    const albums: Album[] = data.albums || [];
+    // Extract albums from parsed feeds
+    const albums: Album[] = parsedFeedsData.feeds
+      .filter((feed: any) => feed.type === 'album' && feed.parseStatus === 'success' && feed.parsedData?.album)
+      .map((feed: any) => ({
+        title: feed.parsedData.album.title,
+        artist: feed.parsedData.album.artist,
+        description: feed.parsedData.album.description || '',
+        coverArt: feed.parsedData.album.coverArt,
+        releaseDate: feed.parsedData.album.releaseDate,
+        feedId: feed.id,
+        feedUrl: feed.originalUrl,
+        publisher: feed.parsedData.album.publisher
+      }));
 
     // Group albums by publisher
     const publishersMap = new Map<string, Publisher>();
