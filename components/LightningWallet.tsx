@@ -109,7 +109,7 @@ export function LightningWallet() {
 
       {/* Wallet Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="relative w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl">
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-800">
