@@ -439,18 +439,28 @@ export function BitcoinConnectPayment({
       // Comprehensive automatic routing: analyze all scenarios
       let useNWC = shouldUseNWC;
       let routingReason = 'default preference';
-      
+
       // Bridge functionality removed - using direct NWC/WebLN only
       const bridgeAvailable = false;
-      
-      // 🎯 PRIORITY: WebLN for Helipad compatibility
-      // Direct WebLN (browser extensions like Alby) provides the best compatibility
-      // with podcast apps like Helipad that monitor specific Lightning nodes
-      if (weblnAvailable && nodeRecipients.length > 0) {
+
+      // 🎯 ABSOLUTE PRIORITY: Respect user's explicit Bitcoin Connect wallet choice
+      // If user connected a wallet through Bitcoin Connect, ALWAYS use that
+      const hasExplicitBCConnection = !!bcConnectorType;
+
+      if (hasExplicitBCConnection) {
+        // User made an explicit choice through Bitcoin Connect - ALWAYS respect it
+        console.log('🧠 Smart routing: User explicitly connected via Bitcoin Connect → Using their wallet');
+        useNWC = shouldUseNWC;
+        routingReason = 'User selected Bitcoin Connect wallet (explicit choice overrides all defaults)';
+      } else if (weblnAvailable && nodeRecipients.length > 0) {
+        // Only use WebLN fallback if user didn't explicitly connect through Bitcoin Connect
         console.log('🧠 Smart routing: WebLN available for keysend → Prioritizing for podcast compatibility (Helipad)');
         useNWC = false;
         routingReason = 'WebLN keysend ensures Helipad compatibility';
-      } else if (shouldUseNWC && isCashuWallet) {
+      }
+
+      // Continue with Cashu-specific logic only if no explicit BC connection
+      if (!hasExplicitBCConnection && shouldUseNWC && isCashuWallet) {
         // CASHU WALLET SCENARIOS
         if (nodeRecipients.length > 0 && lnAddressRecipients.length > 0) {
           // Mixed recipients: keysend + Lightning addresses
