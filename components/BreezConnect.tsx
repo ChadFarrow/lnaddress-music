@@ -11,10 +11,11 @@ interface BreezConnectProps {
 
 export default function BreezConnect({ onSuccess, onError, className = '' }: BreezConnectProps) {
   const { connect, isConnected, loading, error } = useBreez();
-  const [apiKey, setApiKey] = useState('');
+  const [apiKey, setApiKey] = useState(process.env.NEXT_PUBLIC_BREEZ_API_KEY || '');
   const [mnemonic, setMnemonic] = useState('');
   const [network, setNetwork] = useState<'mainnet' | 'regtest'>('mainnet');
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const hasEnvApiKey = !!process.env.NEXT_PUBLIC_BREEZ_API_KEY;
 
   const handleConnect = async () => {
     if (!apiKey) {
@@ -75,25 +76,36 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-300 mb-2">
           Breez API Key
+          {hasEnvApiKey && (
+            <span className="ml-2 text-xs text-green-400">(configured)</span>
+          )}
         </label>
         <input
-          type="text"
+          type={hasEnvApiKey ? "password" : "text"}
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
-          placeholder="Enter your Breez API key"
-          className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          placeholder={hasEnvApiKey ? "••••••••••••••••" : "Enter your Breez API key"}
+          disabled={hasEnvApiKey}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
         />
-        <p className="mt-1 text-xs text-gray-400">
-          Get a free API key at{' '}
-          <a
-            href="https://breez.technology/request-api-key/#contact-us-form-sdk"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-purple-400 hover:text-purple-300"
-          >
-            breez.technology
-          </a>
-        </p>
+        {!hasEnvApiKey && (
+          <p className="mt-1 text-xs text-gray-400">
+            Get a free API key at{' '}
+            <a
+              href="https://breez.technology/request-api-key/#contact-us-form-sdk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purple-400 hover:text-purple-300"
+            >
+              breez.technology
+            </a>
+          </p>
+        )}
+        {hasEnvApiKey && (
+          <p className="mt-1 text-xs text-green-400">
+            ✓ API key loaded from environment configuration
+          </p>
+        )}
       </div>
 
       {/* Mnemonic Input */}
