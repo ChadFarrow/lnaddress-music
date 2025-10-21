@@ -1063,7 +1063,7 @@ export default function HomePage() {
                   artist: selectedAlbum.artist,
                   album: selectedAlbum.title,
                   url: `https://zaps.podtards.com/album/${encodeURIComponent(selectedAlbum.feedId || selectedAlbum.title)}`,
-                  appName: 'HPM Lightning',
+                  appName: 'lnaddress music',
                   senderName: senderName?.trim() || 'Super Fan',
                   message: boostMessage?.trim() || undefined,
                   itemGuid: selectedAlbum.tracks?.[0]?.guid,

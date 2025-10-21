@@ -1149,7 +1149,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                     artist: album.artist,
                     album: album.title,
                     url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
-                    appName: 'HPM Lightning',
+                    appName: 'lnaddress music',
                     senderName: senderName?.trim() || 'Super Fan',
                     message: boostMessage?.trim() || undefined,
                     itemGuid: album.tracks?.[0]?.guid,
@@ -1269,7 +1269,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                     album: album?.title || 'Unknown Album',
                     episode: selectedTrack.title,
                     url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
-                    appName: 'HPM Lightning',
+                    appName: 'lnaddress music',
                     senderName: senderName?.trim() || undefined,
                     message: trackBoostMessage?.trim() || undefined,
                     // Include RSS podcast GUIDs for proper Nostr tagging

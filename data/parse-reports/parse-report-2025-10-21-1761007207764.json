@@ -1,0 +1,40 @@
+{
+  "totalFeeds": 71,
+  "successfulParses": 66,
+  "failedParses": 5,
+  "albumsFound": 66,
+  "publishersFound": 0,
+  "totalTracks": 113,
+  "totalDuration": "00:00",
+  "podRollFeeds": 0,
+  "fundingFeeds": 0,
+  "parseTime": 35122,
+  "timestamp": "2025-10-21T00:40:07.764Z",
+  "errors": [
+    {
+      "feedId": "strangetextures-connector",
+      "feedUrl": "https://f.strangetextures.com/@connector/feed.xml",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "strangetextures-hc",
+      "feedUrl": "https://f.strangetextures.com/@hc/feed.xml",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "strangetextures-endless",
+      "feedUrl": "https://f.strangetextures.com/@endless/feed.xml",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "strangetextures-aoe",
+      "feedUrl": "https://f.strangetextures.com/@aoe/feed.xml",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "strangetextures-ee",
+      "feedUrl": "https://f.strangetextures.com/@ee/feed.xml",
+      "error": "No album data found"
+    }
+  ]
+}
