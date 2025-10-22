@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Zap, Wallet, X, Copy, Check, AlertCircle, Loader2 } from 'lucide-react';
 import { useNWC } from '@/hooks/useNWC';
 import { useBreez } from '@/hooks/useBreez';
 import BreezConnect from './BreezConnect';
 import AlbyGoConnect from './AlbyGoConnect';
+import QRCode from 'qrcode';
 
 type WalletType = 'none' | 'alby' | 'breez' | 'nwc';
 
@@ -26,6 +27,8 @@ export function LightningWallet() {
   const [invoiceCopied, setInvoiceCopied] = useState(false);
   const [showMnemonic, setShowMnemonic] = useState(false);
   const [mnemonicCopied, setMnemonicCopied] = useState(false);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
+  const qrCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const nwc = useNWC();
   const breez = useBreez();
@@ -75,7 +78,10 @@ export function LightningWallet() {
 
       setSelectedWallet('none');
     } else {
+      // Reset state when disconnected
       setConnectedWalletType(null);
+      setSelectedWallet('none');
+      setShowConnectForm(false);
     }
   }, [isConnected, nwc.isConnected, breez.isConnected, connectedWalletType]);
 
@@ -123,6 +129,21 @@ export function LightningWallet() {
       });
       setGeneratedInvoice(invoice);
       console.log('✅ Invoice created:', invoice);
+
+      // Generate QR code
+      try {
+        const qrDataUrl = await QRCode.toDataURL(invoice.toUpperCase(), {
+          width: 256,
+          margin: 2,
+          color: {
+            dark: '#000000',
+            light: '#FFFFFF'
+          }
+        });
+        setQrCodeDataUrl(qrDataUrl);
+      } catch (qrErr) {
+        console.error('❌ Failed to generate QR code:', qrErr);
+      }
     } catch (err) {
       console.error('❌ Failed to create invoice:', err);
     }
@@ -481,10 +502,20 @@ export function LightningWallet() {
                     {generatedInvoice && (
                       <div className="space-y-3 p-4 bg-green-900/20 border border-green-500/30 rounded-lg">
                         <h3 className="font-semibold text-green-400">Invoice Created!</h3>
-                        <p className="text-xs text-gray-400">Pay this from your Breez mobile app</p>
-                        <div className="p-2 bg-gray-900 rounded break-all text-xs text-gray-300 max-h-32 overflow-y-auto">
+                        <p className="text-xs text-gray-400">Scan with any Lightning wallet</p>
+
+                        {/* QR Code */}
+                        {qrCodeDataUrl && (
+                          <div className="flex justify-center p-4 bg-white rounded-lg">
+                            <img src={qrCodeDataUrl} alt="Invoice QR Code" className="w-48 h-48" />
+                          </div>
+                        )}
+
+                        {/* Invoice String */}
+                        <div className="p-2 bg-gray-900 rounded break-all text-xs text-gray-300 max-h-24 overflow-y-auto">
                           {generatedInvoice}
                         </div>
+
                         <button
                           onClick={copyInvoice}
                           className="w-full py-2 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
@@ -496,6 +527,7 @@ export function LightningWallet() {
                           onClick={() => {
                             setShowInvoiceForm(false);
                             setGeneratedInvoice('');
+                            setQrCodeDataUrl('');
                             setInvoiceAmount('1000');
                             setInvoiceDescription('');
                           }}
