@@ -120,32 +120,34 @@ export default function TestPaymentsPage() {
       // Calculate total splits for Lightning addresses only
       const totalLnSplit = lnAddressRecipients.reduce((sum, r) => sum + r.split, 0);
 
-      console.log(`Sending ${amount} sats split among ${lnAddressRecipients.length} recipients`);
+      console.log(`Sending ${amount} sats split among ${lnAddressRecipients.length} recipients in parallel`);
 
-      // Send payments to each Lightning address recipient based on their split
-      let successCount = 0;
-      let failedRecipients: string[] = [];
-
-      for (const recipient of lnAddressRecipients) {
-        // Calculate this recipient's amount based on their split percentage
+      // Send all payments in parallel for faster processing
+      const paymentPromises = lnAddressRecipients.map(async (recipient) => {
         const recipientAmount = Math.floor((amount * recipient.split) / totalLnSplit);
 
         if (recipientAmount > 0) {
-          try {
-            console.log(`Sending ${recipientAmount} sats (${recipient.split}%) to ${recipient.name} (${recipient.address})`);
-            await breez.sendPayment({
-              destination: recipient.address,
-              amountSats: recipientAmount,
-              label: `Test payment for: ${episode.title} - ${recipient.name}`,
-              message: `Payment from test feed`
+          console.log(`Sending ${recipientAmount} sats (${recipient.split}%) to ${recipient.name} (${recipient.address})`);
+          return breez.sendPayment({
+            destination: recipient.address,
+            amountSats: recipientAmount,
+            label: `Test payment for: ${episode.title} - ${recipient.name}`,
+            message: `Payment from test feed`
+          }).then(() => ({ success: true, name: recipient.name }))
+            .catch((err) => {
+              console.error(`Failed to send to ${recipient.name}:`, err);
+              return { success: false, name: recipient.name };
             });
-            successCount++;
-          } catch (err) {
-            console.error(`Failed to send to ${recipient.name}:`, err);
-            failedRecipients.push(recipient.name);
-          }
         }
-      }
+        return { success: false, name: recipient.name, skipped: true };
+      });
+
+      // Wait for all payments to complete
+      const results = await Promise.all(paymentPromises);
+
+      // Count successes and failures
+      const successCount = results.filter(r => r.success).length;
+      const failedRecipients = results.filter(r => !r.success && !r.skipped).map(r => r.name);
 
       if (successCount === lnAddressRecipients.length) {
         // Show success modal
