@@ -229,7 +229,7 @@ export function LightningWallet() {
 
   const formatBalance = (sats: number) => {
     console.log('🎯 Formatting balance - input:', sats, 'type:', typeof sats);
-    // Fix: Correct thresholds for sat formatting
+    // Format balance with appropriate units
     if (sats >= 100000000) { // 100 million sats = 1 BTC
       const formatted = `${(sats / 100000000).toFixed(2)} BTC`;
       console.log('🎯 Formatted as BTC:', formatted);
@@ -238,12 +238,13 @@ export function LightningWallet() {
       const formatted = `${(sats / 1000000).toFixed(2)}M sats`;
       console.log('🎯 Formatted as M sats:', formatted);
       return formatted;
-    } else if (sats >= 1000) { // 1 thousand sats
-      const formatted = `${(sats / 1000).toFixed(1)}k sats`;
-      console.log('🎯 Formatted as k sats:', formatted);
+    } else if (sats >= 100000) { // 100k+ sats - show as whole k
+      const formatted = `${Math.floor(sats / 1000)}k sats`;
+      console.log('🎯 Formatted as whole k sats:', formatted);
       return formatted;
     }
-    const formatted = `${sats} sats`;
+    // Under 100k sats - show exact amount
+    const formatted = `${sats.toLocaleString()} sats`;
     console.log('🎯 Formatted as plain sats:', formatted);
     return formatted;
   };
