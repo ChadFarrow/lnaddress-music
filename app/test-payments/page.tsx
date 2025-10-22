@@ -102,9 +102,9 @@ export default function TestPaymentsPage() {
       return;
     }
 
-    // Get the first Lightning address recipient
-    const lnAddressRecipient = episode.valueRecipients?.find(r => r.type === 'lnaddress');
-    if (!lnAddressRecipient) {
+    // Get all Lightning address recipients
+    const lnAddressRecipients = episode.valueRecipients?.filter(r => r.type === 'lnaddress') || [];
+    if (lnAddressRecipients.length === 0) {
       alert('No Lightning address found for this episode');
       return;
     }
@@ -112,15 +112,43 @@ export default function TestPaymentsPage() {
     try {
       setProcessingPayment(episode.guid);
 
-      console.log(`Sending ${amount} sats to ${lnAddressRecipient.address}`);
-      await breez.sendPayment({
-        destination: lnAddressRecipient.address,
-        amountSats: amount,
-        label: `Test payment for: ${episode.title}`,
-        message: `Payment from test feed`
-      });
+      // Calculate total splits for Lightning addresses only
+      const totalLnSplit = lnAddressRecipients.reduce((sum, r) => sum + r.split, 0);
 
-      alert(`Successfully sent ${amount} sats!`);
+      console.log(`Sending ${amount} sats split among ${lnAddressRecipients.length} recipients`);
+
+      // Send payments to each Lightning address recipient based on their split
+      let successCount = 0;
+      let failedRecipients: string[] = [];
+
+      for (const recipient of lnAddressRecipients) {
+        // Calculate this recipient's amount based on their split percentage
+        const recipientAmount = Math.floor((amount * recipient.split) / totalLnSplit);
+
+        if (recipientAmount > 0) {
+          try {
+            console.log(`Sending ${recipientAmount} sats (${recipient.split}%) to ${recipient.name} (${recipient.address})`);
+            await breez.sendPayment({
+              destination: recipient.address,
+              amountSats: recipientAmount,
+              label: `Test payment for: ${episode.title} - ${recipient.name}`,
+              message: `Payment from test feed`
+            });
+            successCount++;
+          } catch (err) {
+            console.error(`Failed to send to ${recipient.name}:`, err);
+            failedRecipients.push(recipient.name);
+          }
+        }
+      }
+
+      if (successCount === lnAddressRecipients.length) {
+        alert(`Successfully sent ${amount} sats split among ${successCount} recipients!`);
+      } else if (successCount > 0) {
+        alert(`Partially successful: Sent to ${successCount}/${lnAddressRecipients.length} recipients.\nFailed: ${failedRecipients.join(', ')}`);
+      } else {
+        alert(`All payments failed. Check console for details.`);
+      }
     } catch (err) {
       console.error('Payment failed:', err);
       alert(`Payment failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
