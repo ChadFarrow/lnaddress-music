@@ -48,13 +48,19 @@ class BreezService {
     this.config = config;
 
     try {
+      // Import and initialize Breez SDK WASM module
       const breezSDK = await import('@breeztech/breez-sdk-spark/web');
-      console.log('🔍 Breez SDK imported:', Object.keys(breezSDK));
+      const initBreezSDK = breezSDK.default;
 
-      const { connect } = breezSDK;
+      // Initialize the WASM module first
+      console.log('🔧 Initializing Breez SDK WASM module...');
+      await initBreezSDK();
+      console.log('✅ Breez SDK WASM initialized');
 
-      if (!connect) {
-        throw new Error('Breez SDK connect function not found');
+      const { connect, defaultConfig } = breezSDK;
+
+      if (!connect || !defaultConfig) {
+        throw new Error('Breez SDK connect or defaultConfig function not found');
       }
 
       // Set up storage directory
@@ -62,13 +68,6 @@ class BreezService {
 
       // Create default config for the network
       const network: Network = config.network === 'regtest' ? 'regtest' : 'mainnet';
-
-      // Try to get defaultConfig from the SDK
-      const defaultConfig = (breezSDK as any).defaultConfig;
-      if (!defaultConfig) {
-        throw new Error('Breez SDK defaultConfig not found. Available exports: ' + Object.keys(breezSDK).join(', '));
-      }
-
       const sdkConfig: Config = defaultConfig(network);
 
       // Set API key if provided
