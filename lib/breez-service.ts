@@ -48,18 +48,32 @@ class BreezService {
     this.config = config;
 
     try {
-      const { connect, defaultConfig, defaultStorage } = await import('@breeztech/breez-sdk-spark/web');
+      const breezSDK = await import('@breeztech/breez-sdk-spark/web');
+      console.log('🔍 Breez SDK imported:', Object.keys(breezSDK));
+
+      const { connect } = breezSDK;
+
+      if (!connect) {
+        throw new Error('Breez SDK connect function not found');
+      }
 
       // Set up storage directory
       const storageDir = config.storageDir || './breez-sdk-data';
 
       // Create default config for the network
       const network: Network = config.network === 'regtest' ? 'regtest' : 'mainnet';
+
+      // Try to get defaultConfig from the SDK
+      const defaultConfig = (breezSDK as any).defaultConfig;
+      if (!defaultConfig) {
+        throw new Error('Breez SDK defaultConfig not found. Available exports: ' + Object.keys(breezSDK).join(', '));
+      }
+
       const sdkConfig: Config = defaultConfig(network);
 
       // Set API key if provided
       if (config.apiKey) {
-        (sdkConfig as any).apiKey = config.apiKey;
+        sdkConfig.apiKey = config.apiKey;
       }
 
       // Create seed from mnemonic or generate new one
