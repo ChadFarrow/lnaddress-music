@@ -87,13 +87,25 @@ export default function AlbyGoConnect({ onSuccess, onError, className = '' }: Al
 
       // The proper URL for Alby Hub one-tap connections
       const albyHubUrl = `https://nwc.getalby.com/apps/new?${connectionParams.toString()}`;
-      
+
       // Check if we're on mobile
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      
+
       if (isMobile) {
-        // On mobile, this will open Alby Go if installed, or the web version
-        window.location.href = albyHubUrl;
+        // Try to open Alby Go app using deep link, fallback to web
+        // The alby:// scheme will open the Alby Go app if installed
+        const albyGoDeepLink = `alby://nwc/new?${connectionParams.toString()}`;
+
+        // Try the deep link first
+        const deepLinkWindow = window.open(albyGoDeepLink, '_blank');
+
+        // If deep link fails (app not installed), fallback to web after short delay
+        setTimeout(() => {
+          if (!deepLinkWindow || deepLinkWindow.closed) {
+            // Deep link didn't work, open web version
+            window.open(albyHubUrl, '_blank');
+          }
+        }, 500);
       } else {
         // On desktop, open in a new window
         const popup = window.open(albyHubUrl, 'alby-connect', 'width=400,height=700');
