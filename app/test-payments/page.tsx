@@ -131,28 +131,28 @@ export default function TestPaymentsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
       </div>
     );
   }
 
   if (error || !feed) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Error Loading Feed</h1>
-          <p className="text-gray-600">{error || 'Feed not found'}</p>
+          <h1 className="text-2xl font-bold text-white mb-2">Error Loading Feed</h1>
+          <p className="text-gray-400">{error || 'Feed not found'}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 py-8">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Feed Header */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 mb-6">
           <div className="flex items-start space-x-4">
             {feed.image && (
               <img
@@ -162,22 +162,22 @@ export default function TestPaymentsPage() {
               />
             )}
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">{feed.title}</h1>
-              <p className="text-gray-600">{feed.description}</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{feed.title}</h1>
+              <p className="text-gray-300">{feed.description}</p>
               <div className="mt-4 flex items-center space-x-2">
-                <Zap className="w-4 h-4 text-purple-600" />
-                <span className="text-sm text-purple-600 font-medium">Lightning Payments Enabled</span>
+                <Zap className="w-4 h-4 text-purple-400" />
+                <span className="text-sm text-purple-400 font-medium">Lightning Payments Enabled</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Wallet Status */}
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+        <div className="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4 mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-semibold text-purple-900">Wallet Status</h3>
-              <p className="text-sm text-purple-700">
+              <h3 className="font-semibold text-purple-300">Wallet Status</h3>
+              <p className="text-sm text-purple-200">
                 {breez.isConnected ? (
                   <>Connected • Balance: {breez.balance?.toLocaleString() || 0} sats</>
                 ) : (
@@ -190,34 +190,34 @@ export default function TestPaymentsPage() {
                 type="number"
                 value={paymentAmount}
                 onChange={(e) => setPaymentAmount(e.target.value)}
-                className="w-24 px-3 py-2 border border-purple-300 rounded-lg text-sm"
+                className="w-24 px-3 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg text-sm focus:outline-none focus:border-purple-400"
                 placeholder="Amount"
                 min="1"
               />
-              <span className="text-sm text-purple-700">sats</span>
+              <span className="text-sm text-purple-300">sats</span>
             </div>
           </div>
         </div>
 
         {/* Episodes */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Episodes</h2>
+          <h2 className="text-xl font-bold text-white mb-4">Episodes</h2>
           {feed.episodes.map((episode) => (
-            <div key={episode.guid} className="bg-white rounded-lg shadow-sm p-6">
+            <div key={episode.guid} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 hover:bg-white/10 transition-colors">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">{episode.title}</h3>
-                  <p className="text-sm text-gray-600 mb-3">{episode.description}</p>
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
+                  <h3 className="text-lg font-semibold text-white mb-2">{episode.title}</h3>
+                  <p className="text-sm text-gray-300 mb-3">{episode.description}</p>
+                  <div className="flex items-center space-x-4 text-sm text-gray-400">
                     <span>{episode.duration}</span>
                     <span>{new Date(episode.pubDate).toLocaleDateString()}</span>
                   </div>
 
                   {/* Value Recipients */}
                   {episode.valueRecipients && episode.valueRecipients.length > 0 && (
-                    <div className="mt-3 p-3 bg-gray-50 rounded-lg">
-                      <p className="text-xs font-semibold text-gray-700 mb-2">Payment Split:</p>
-                      <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                    <div className="mt-3 p-3 bg-gray-800/50 border border-gray-700 rounded-lg">
+                      <p className="text-xs font-semibold text-gray-300 mb-2">Payment Split:</p>
+                      <div className="grid grid-cols-2 gap-2 text-xs text-gray-400">
                         {episode.valueRecipients.map((recipient, idx) => (
                           <div key={idx} className="flex items-center justify-between">
                             <span className="truncate">{recipient.name}</span>
@@ -252,7 +252,7 @@ export default function TestPaymentsPage() {
                     href={episode.enclosureUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                    className="flex items-center justify-center space-x-2 px-4 py-2 bg-gray-700 text-gray-200 rounded-lg hover:bg-gray-600 transition-colors"
                   >
                     <Play className="w-4 h-4" />
                     <span className="text-sm">Play</span>
