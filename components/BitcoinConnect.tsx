@@ -402,47 +402,43 @@ export function BitcoinConnectPayment({
 
         // Calculate total split value for proportional payments
         const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);
-        const results: any[] = [];
 
-        // Process each payment through Breez SDK
-        for (const paymentRecipient of paymentsToMake) {
-          try {
-            // Calculate proportional amount (or use fixed amount if specified)
-            const paymentAmount = paymentRecipient.fixedAmount ||
-                                 Math.floor((amount * paymentRecipient.split) / totalSplit);
+        // Process all payments in parallel for maximum speed
+        const paymentPromises = paymentsToMake.map(async (paymentRecipient) => {
+          const paymentAmount = paymentRecipient.fixedAmount ||
+                               Math.floor((amount * paymentRecipient.split) / totalSplit);
 
-            if (paymentAmount <= 0) {
-              console.log(`⏭️ Skipping ${paymentRecipient.name || paymentRecipient.address}: amount is 0`);
-              continue;
-            }
+          if (paymentAmount <= 0) {
+            console.log(`⏭️ Skipping ${paymentRecipient.name || paymentRecipient.address}: amount is 0`);
+            return { success: false, skipped: true, recipient: paymentRecipient.address };
+          }
 
-            console.log(`💳 Breez payment to ${paymentRecipient.name || paymentRecipient.address}: ${paymentAmount} sats`);
+          console.log(`💳 Breez payment to ${paymentRecipient.name || paymentRecipient.address}: ${paymentAmount} sats`);
 
-            // Send payment via Breez SDK
-            const payment = await breez.sendPayment({
-              destination: paymentRecipient.address,
-              amountSats: paymentAmount,
-              label: paymentRecipient.name || description,
-              message: boostMetadata?.message
-            });
-
-            results.push({
+          return breez.sendPayment({
+            destination: paymentRecipient.address,
+            amountSats: paymentAmount,
+            label: paymentRecipient.name || description,
+            message: boostMetadata?.message
+          }).then((payment) => {
+            console.log(`✅ Breez payment successful:`, payment.id);
+            return {
               success: true,
               recipient: paymentRecipient.address,
               amount: paymentAmount,
               payment: payment
-            });
-
-            console.log(`✅ Breez payment successful:`, payment.id);
-          } catch (error) {
+            };
+          }).catch((error) => {
             console.error(`❌ Breez payment failed for ${paymentRecipient.name}:`, error);
-            results.push({
+            return {
               success: false,
               recipient: paymentRecipient.address,
               error: error instanceof Error ? error.message : 'Payment failed'
-            });
-          }
-        }
+            };
+          });
+        });
+
+        const results = await Promise.all(paymentPromises);
 
         // Check if all payments succeeded
         const allSucceeded = results.every(r => r.success);
@@ -486,44 +482,43 @@ export function BitcoinConnectPayment({
         }
 
         const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);
-        const results: any[] = [];
 
-        for (const paymentRecipient of paymentsToMake) {
-          try {
-            const paymentAmount = paymentRecipient.fixedAmount ||
-                                 Math.floor((amount * paymentRecipient.split) / totalSplit);
+        // Process all payments in parallel for maximum speed
+        const paymentPromises = paymentsToMake.map(async (paymentRecipient) => {
+          const paymentAmount = paymentRecipient.fixedAmount ||
+                               Math.floor((amount * paymentRecipient.split) / totalSplit);
 
-            if (paymentAmount <= 0) {
-              console.log(`⏭️ Skipping ${paymentRecipient.name || paymentRecipient.address}: amount is 0`);
-              continue;
-            }
+          if (paymentAmount <= 0) {
+            console.log(`⏭️ Skipping ${paymentRecipient.name || paymentRecipient.address}: amount is 0`);
+            return { success: false, skipped: true, recipient: paymentRecipient.address };
+          }
 
-            console.log(`💳 Breez payment to ${paymentRecipient.name || paymentRecipient.address}: ${paymentAmount} sats`);
+          console.log(`💳 Breez payment to ${paymentRecipient.name || paymentRecipient.address}: ${paymentAmount} sats`);
 
-            const payment = await breez.sendPayment({
-              destination: paymentRecipient.address,
-              amountSats: paymentAmount,
-              label: paymentRecipient.name || description,
-              message: boostMetadata?.message
-            });
-
-            results.push({
+          return breez.sendPayment({
+            destination: paymentRecipient.address,
+            amountSats: paymentAmount,
+            label: paymentRecipient.name || description,
+            message: boostMetadata?.message
+          }).then((payment) => {
+            console.log(`✅ Breez payment successful:`, payment.id);
+            return {
               success: true,
               recipient: paymentRecipient.address,
               amount: paymentAmount,
               payment: payment
-            });
-
-            console.log(`✅ Breez payment successful:`, payment.id);
-          } catch (error) {
+            };
+          }).catch((error) => {
             console.error(`❌ Breez payment failed for ${paymentRecipient.name}:`, error);
-            results.push({
+            return {
               success: false,
               recipient: paymentRecipient.address,
               error: error instanceof Error ? error.message : 'Payment failed'
-            });
-          }
-        }
+            };
+          });
+        });
+
+        const results = await Promise.all(paymentPromises);
 
         const allSucceeded = results.every(r => r.success);
         const anySucceeded = results.some(r => r.success);
