@@ -164,25 +164,29 @@ class BreezService {
    * Disconnect from Breez SDK
    */
   async disconnect(): Promise<void> {
-    if (!this.sdk) {
-      return;
-    }
-
     try {
-      await this.sdk.disconnect();
+      if (this.sdk) {
+        await this.sdk.disconnect();
+      }
+    } catch (error) {
+      console.error('Error disconnecting SDK:', error);
+      // Continue with cleanup even if SDK disconnect fails
+    } finally {
+      // Always clean up state
       this.sdk = null;
       this.initialized = false;
+      this.connecting = false;
+      this.connectPromise = null;
 
       if (typeof window !== 'undefined') {
         localStorage.removeItem('breez:connected');
         localStorage.removeItem('breez:config');
         localStorage.removeItem('breez:mnemonic');
+        localStorage.removeItem('breez:generated-mnemonic');
+        console.log('✅ Cleared all Breez localStorage data');
       }
 
-      console.log('Disconnected from Breez SDK');
-    } catch (error) {
-      console.error('Error disconnecting from Breez SDK:', error);
-      throw error;
+      console.log('✅ Disconnected from Breez SDK');
     }
   }
 

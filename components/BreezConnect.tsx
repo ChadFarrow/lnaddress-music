@@ -19,6 +19,9 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [forceShowForm, setForceShowForm] = useState(false);
   const hasEnvApiKey = !!process.env.NEXT_PUBLIC_BREEZ_API_KEY;
 
+  // Debug logging
+  console.log('🔍 BreezConnect render:', { isConnected, loading, error, forceShowForm });
+
   const handleConnect = async () => {
     if (!apiKey) {
       const errorMsg = 'Please enter your Breez API key';
@@ -56,9 +59,17 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   if (isConnected && !forceShowForm) {
     return (
       <div className={`${className} bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-lg p-6`}>
-        <div className="flex items-center justify-center gap-3 py-4">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          <p className="text-green-400 font-medium">Breez wallet already connected</p>
+        <div className="flex flex-col items-center gap-3 py-4">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <p className="text-green-400 font-medium">Breez wallet already connected</p>
+          </div>
+          <button
+            onClick={() => setForceShowForm(true)}
+            className="text-sm text-gray-400 hover:text-white underline"
+          >
+            Connect a different wallet
+          </button>
         </div>
       </div>
     );
@@ -132,6 +143,27 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         )}
       </div>
 
+      {/* Network Selection - More Prominent */}
+      <div className="mb-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
+        <label className="block text-sm font-medium text-yellow-300 mb-2">
+          ⚠️ Network Selection
+        </label>
+        <select
+          value={network}
+          onChange={(e) => setNetwork(e.target.value as 'mainnet' | 'regtest')}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+        >
+          <option value="mainnet">Mainnet (Real Bitcoin)</option>
+          <option value="regtest">Regtest (Testing - Breez Misty)</option>
+        </select>
+        <p className="mt-2 text-xs text-yellow-300">
+          {network === 'mainnet' ?
+            '💰 Mainnet uses real Bitcoin. Funds have real value.' :
+            '🧪 Regtest is for testing only. Use this for Breez Misty test wallets.'
+          }
+        </p>
+      </div>
+
       {/* Mnemonic Input */}
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -149,38 +181,6 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         </p>
       </div>
 
-      {/* Advanced Options */}
-      <div className="mb-4">
-        <button
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          className="text-sm text-purple-400 hover:text-purple-300 flex items-center gap-1"
-        >
-          <svg
-            className={`w-4 h-4 transition-transform ${showAdvanced ? 'rotate-90' : ''}`}
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-          </svg>
-          Advanced Options
-        </button>
-
-        {showAdvanced && (
-          <div className="mt-3 p-3 bg-gray-800/50 rounded-lg">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Network
-            </label>
-            <select
-              value={network}
-              onChange={(e) => setNetwork(e.target.value as 'mainnet' | 'regtest')}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            >
-              <option value="mainnet">Mainnet</option>
-              <option value="regtest">Regtest (Testing)</option>
-            </select>
-          </div>
-        )}
-      </div>
 
       {/* Error Display */}
       {error && (
