@@ -17,6 +17,8 @@ export function LightningWallet() {
   const [inputConnection, setInputConnection] = useState('');
   const [copied, setCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [connectedWalletType, setConnectedWalletType] = useState<'alby' | 'breez' | 'nwc' | null>(null);
 
   const nwc = useNWC();
   const breez = useBreez();
@@ -31,13 +33,34 @@ export function LightningWallet() {
   const loading = nwc.loading || breez.loading;
   const error = nwc.error || breez.error;
 
+  // Track wallet type and show success notification
   useEffect(() => {
     if (isConnected) {
       setShowConnectForm(false);
       setInputConnection('');
+
+      // Determine which wallet type connected
+      let walletType: 'alby' | 'breez' | 'nwc' | null = null;
+      if (breez.isConnected) {
+        walletType = 'breez';
+      } else if (nwc.isConnected) {
+        // Check if it's Alby by examining the connection string or metadata
+        // For now, we'll assume generic NWC unless we add Alby detection
+        walletType = 'nwc';
+      }
+
+      // Only show success toast if wallet type changed (new connection)
+      if (walletType && walletType !== connectedWalletType) {
+        setConnectedWalletType(walletType);
+        setShowSuccessToast(true);
+        setTimeout(() => setShowSuccessToast(false), 5000);
+      }
+
       setSelectedWallet('none');
+    } else {
+      setConnectedWalletType(null);
     }
-  }, [isConnected]);
+  }, [isConnected, nwc.isConnected, breez.isConnected, connectedWalletType]);
 
   const handleNWCConnect = async () => {
     if (inputConnection.trim()) {
@@ -92,8 +115,28 @@ export function LightningWallet() {
     return formatted;
   };
 
+  const getWalletName = () => {
+    if (connectedWalletType === 'breez') return 'Breez SDK Spark';
+    if (connectedWalletType === 'alby') return 'Alby Hub';
+    if (connectedWalletType === 'nwc') return 'Nostr Wallet Connect';
+    return 'Lightning Wallet';
+  };
+
   return (
     <>
+      {/* Success Toast */}
+      {showSuccessToast && (
+        <div className="fixed top-4 right-4 z-[999999] animate-in slide-in-from-top-5 duration-300">
+          <div className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-2xl flex items-center gap-3">
+            <Check className="w-5 h-5" />
+            <div>
+              <p className="font-semibold">Wallet Connected!</p>
+              <p className="text-sm text-green-100">Successfully connected to {getWalletName()}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Wallet Button */}
       <button
         onClick={() => setIsOpen(true)}
@@ -289,6 +332,14 @@ export function LightningWallet() {
 
               {!loading && isConnected && (
                 <div className="space-y-6">
+                  {/* Wallet Type Badge */}
+                  <div className="flex items-center justify-center">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-600/20 border border-green-500/30 rounded-full">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                      <p className="text-sm font-medium text-green-400">Connected to {getWalletName()}</p>
+                    </div>
+                  </div>
+
                   {/* Balance */}
                   <div className="text-center">
                     <p className="text-sm text-gray-400 mb-2">Balance</p>
@@ -298,12 +349,6 @@ export function LightningWallet() {
                         {balance !== null ? formatBalance(balance) : '---'}
                       </p>
                     </div>
-                  </div>
-
-                  {/* Status */}
-                  <div className="flex items-center justify-center gap-2 text-green-500">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <p className="text-sm font-medium">Connected</p>
                   </div>
 
                   {/* Actions */}
@@ -325,8 +370,7 @@ export function LightningWallet() {
 
                   <div className="pt-4 border-t border-gray-800">
                     <p className="text-xs text-gray-500 text-center">
-                      {nwc.isConnected && 'Connected via NWC (Nostr Wallet Connect)'}
-                      {breez.isConnected && 'Connected via Breez SDK Spark'}
+                      All transactions are secured by Lightning Network
                     </p>
                   </div>
                 </div>
