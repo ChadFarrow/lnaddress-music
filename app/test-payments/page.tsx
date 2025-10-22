@@ -133,10 +133,10 @@ export default function TestPaymentsPage() {
             amountSats: recipientAmount,
             label: `Test payment for: ${episode.title} - ${recipient.name}`,
             message: `Payment from test feed`
-          }).then(() => ({ success: true, name: recipient.name }))
+          }).then(() => ({ success: true, name: recipient.name, skipped: false }))
             .catch((err) => {
               console.error(`Failed to send to ${recipient.name}:`, err);
-              return { success: false, name: recipient.name };
+              return { success: false, name: recipient.name, skipped: false };
             });
         }
         return { success: false, name: recipient.name, skipped: true };
