@@ -10,12 +10,13 @@ interface BreezConnectProps {
 }
 
 export default function BreezConnect({ onSuccess, onError, className = '' }: BreezConnectProps) {
-  const { connect, isConnected, loading, error } = useBreez();
+  const { connect, isConnected, loading, error, disconnect } = useBreez();
   const [apiKey, setApiKey] = useState(process.env.NEXT_PUBLIC_BREEZ_API_KEY || '');
   const [mnemonic, setMnemonic] = useState('');
   const [network, setNetwork] = useState<'mainnet' | 'regtest'>('mainnet');
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [generatedMnemonic, setGeneratedMnemonic] = useState('');
+  const [forceShowForm, setForceShowForm] = useState(false);
   const hasEnvApiKey = !!process.env.NEXT_PUBLIC_BREEZ_API_KEY;
 
   const handleConnect = async () => {
@@ -41,14 +42,42 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     }
   };
 
-  // If already connected, show a message instead of the form
-  if (isConnected) {
+  const handleRetry = async () => {
+    // Clear any existing connection state and retry
+    setForceShowForm(true);
+    try {
+      await disconnect();
+    } catch (err) {
+      console.error('Error disconnecting:', err);
+    }
+  };
+
+  // If already connected and no error, show a success message
+  if (isConnected && !forceShowForm) {
     return (
       <div className={`${className} bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-lg p-6`}>
         <div className="flex items-center justify-center gap-3 py-4">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
           <p className="text-green-400 font-medium">Breez wallet already connected</p>
         </div>
+      </div>
+    );
+  }
+
+  // If there's an error, allow retry
+  if (error && !forceShowForm && !loading) {
+    return (
+      <div className={`${className} bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-lg p-6`}>
+        <div className="mb-4 p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
+          <p className="text-red-400 text-sm font-medium mb-2">Connection Error</p>
+          <p className="text-red-400 text-sm">{error}</p>
+        </div>
+        <button
+          onClick={handleRetry}
+          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200"
+        >
+          Retry Connection
+        </button>
       </div>
     );
   }

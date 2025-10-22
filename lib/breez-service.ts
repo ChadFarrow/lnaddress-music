@@ -29,24 +29,43 @@ class BreezService {
   private sdk: BreezSdk | null = null;
   private initialized: boolean = false;
   private connecting: boolean = false;
+  private connectPromise: Promise<void> | null = null;
   private config: BreezConfig | null = null;
 
   /**
    * Initialize and connect to Breez SDK
    */
   async connect(config: BreezConfig): Promise<void> {
-    if (this.connecting) {
-      throw new Error('Connection already in progress');
+    // If already connected, return immediately
+    if (this.isConnected()) {
+      console.log('✅ Already connected to Breez SDK');
+      return;
     }
 
-    if (this.isConnected()) {
-      console.log('Already connected to Breez SDK');
-      return;
+    // If connection is in progress, wait for it to complete
+    if (this.connecting && this.connectPromise) {
+      console.log('⏳ Connection already in progress, waiting...');
+      return this.connectPromise;
     }
 
     this.connecting = true;
     this.config = config;
 
+    // Store the connection promise so concurrent calls can wait for it
+    this.connectPromise = this._performConnect(config);
+
+    try {
+      await this.connectPromise;
+    } finally {
+      this.connecting = false;
+      this.connectPromise = null;
+    }
+  }
+
+  /**
+   * Internal method to perform the actual connection
+   */
+  private async _performConnect(config: BreezConfig): Promise<void> {
     try {
       // Import and initialize Breez SDK WASM module
       const breezSDK = await import('@breeztech/breez-sdk-spark/web');
@@ -112,12 +131,10 @@ class BreezService {
       }
 
     } catch (error) {
-      console.error('Failed to connect to Breez SDK:', error);
+      console.error('❌ Failed to connect to Breez SDK:', error);
       this.sdk = null;
       this.initialized = false;
       throw error;
-    } finally {
-      this.connecting = false;
     }
   }
 

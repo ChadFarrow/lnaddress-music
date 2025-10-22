@@ -120,27 +120,40 @@ export function useBreez(): UseBreezReturn {
    * Connect to Breez SDK
    */
   const connect = useCallback(async (config: BreezConfig) => {
+    console.log('🔌 useBreez.connect() called');
     setLoading(true);
     setError(null);
 
     try {
+      console.log('📡 Calling breezService.connect()...');
       await breezService.connect(config);
-      console.log('✅ Breez connected - setting isConnected to TRUE');
-      setIsConnected(true);
-      console.log('✅ setIsConnected(true) called');
+      console.log('✅ breezService.connect() completed');
 
-      // Sync wallet with network first to get latest balance
-      console.log('🔄 Syncing Breez wallet with network...');
-      try {
-        await breezService.syncWallet();
-        console.log('✅ Wallet synced successfully');
-      } catch (syncError) {
-        console.warn('⚠️ Wallet sync failed, balance may be outdated:', syncError);
+      // Verify we're actually connected
+      const actuallyConnected = breezService.isConnected();
+      console.log('🔍 Checking connection status:', actuallyConnected);
+
+      setIsConnected(actuallyConnected);
+      console.log('✅ setIsConnected(' + actuallyConnected + ') called');
+
+      if (actuallyConnected) {
+        // Sync wallet with network first to get latest balance
+        console.log('🔄 Syncing Breez wallet with network...');
+        try {
+          await breezService.syncWallet();
+          console.log('✅ Wallet synced successfully');
+        } catch (syncError) {
+          console.warn('⚠️ Wallet sync failed, balance may be outdated:', syncError);
+        }
+
+        await refreshBalance();
+      } else {
+        console.error('❌ Connection completed but service reports not connected');
+        throw new Error('Connection completed but service is not connected');
       }
-
-      await refreshBalance();
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to connect to Breez';
+      console.error('❌ Connection error:', errorMessage);
       setError(errorMessage);
       setIsConnected(false);
       throw err;
