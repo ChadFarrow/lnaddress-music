@@ -19,6 +19,13 @@ export function LightningWallet() {
   const [mounted, setMounted] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [connectedWalletType, setConnectedWalletType] = useState<'alby' | 'breez' | 'nwc' | null>(null);
+  const [showInvoiceForm, setShowInvoiceForm] = useState(false);
+  const [invoiceAmount, setInvoiceAmount] = useState('1000');
+  const [invoiceDescription, setInvoiceDescription] = useState('');
+  const [generatedInvoice, setGeneratedInvoice] = useState('');
+  const [invoiceCopied, setInvoiceCopied] = useState(false);
+  const [showMnemonic, setShowMnemonic] = useState(false);
+  const [mnemonicCopied, setMnemonicCopied] = useState(false);
 
   const nwc = useNWC();
   const breez = useBreez();
@@ -32,6 +39,16 @@ export function LightningWallet() {
   const balance = nwc.isConnected ? nwc.balance : breez.isConnected ? breez.balance : null;
   const loading = nwc.loading || breez.loading;
   const error = nwc.error || breez.error;
+
+  // Debug logging
+  console.log('💡 LightningWallet state:', {
+    isConnected,
+    breezIsConnected: breez.isConnected,
+    nwcIsConnected: nwc.isConnected,
+    selectedWallet,
+    loading,
+    balance
+  });
 
   // Track wallet type and show success notification
   useEffect(() => {
@@ -92,6 +109,43 @@ export function LightningWallet() {
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleCreateInvoice = async () => {
+    if (!breez.isConnected) {
+      return;
+    }
+
+    try {
+      const invoice = await breez.receivePayment({
+        amountSats: parseInt(invoiceAmount),
+        description: invoiceDescription || 'Fund Breez wallet'
+      });
+      setGeneratedInvoice(invoice);
+      console.log('✅ Invoice created:', invoice);
+    } catch (err) {
+      console.error('❌ Failed to create invoice:', err);
+    }
+  };
+
+  const copyInvoice = () => {
+    navigator.clipboard.writeText(generatedInvoice);
+    setInvoiceCopied(true);
+    setTimeout(() => setInvoiceCopied(false), 2000);
+  };
+
+  const getMnemonic = () => {
+    if (typeof window === 'undefined') return null;
+    return localStorage.getItem('breez:mnemonic') || localStorage.getItem('breez:generated-mnemonic');
+  };
+
+  const copyMnemonic = () => {
+    const mnemonic = getMnemonic();
+    if (mnemonic) {
+      navigator.clipboard.writeText(mnemonic);
+      setMnemonicCopied(true);
+      setTimeout(() => setMnemonicCopied(false), 2000);
+    }
   };
 
   const formatBalance = (sats: number) => {
@@ -178,6 +232,11 @@ export function LightningWallet() {
 
             {/* Content */}
             <div className="p-6">
+              {/* Debug info */}
+              <div className="mb-4 p-2 bg-blue-900/20 border border-blue-500/30 rounded text-xs text-blue-300">
+                Debug: isConnected={String(isConnected)}, breez={String(breez.isConnected)}, nwc={String(nwc.isConnected)}, selectedWallet={selectedWallet}, loading={String(loading)}
+              </div>
+
               {loading && (
                 <div className="flex items-center justify-center py-8">
                   <Loader2 className="w-8 h-8 text-yellow-500 animate-spin" />
@@ -353,13 +412,134 @@ export function LightningWallet() {
 
                   {/* Actions */}
                   <div className="space-y-3">
+                    {breez.isConnected && !showInvoiceForm && (
+                      <button
+                        onClick={() => setShowInvoiceForm(true)}
+                        className="w-full py-2 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg transition-colors"
+                      >
+                        Create Invoice
+                      </button>
+                    )}
+
+                    {showInvoiceForm && !generatedInvoice && (
+                      <div className="space-y-3 p-4 bg-gray-800/50 rounded-lg">
+                        <h3 className="font-semibold text-white">Create Lightning Invoice</h3>
+                        <div>
+                          <label className="block text-sm text-gray-400 mb-1">Amount (sats)</label>
+                          <input
+                            type="number"
+                            value={invoiceAmount}
+                            onChange={(e) => setInvoiceAmount(e.target.value)}
+                            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                            placeholder="1000"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm text-gray-400 mb-1">Description (optional)</label>
+                          <input
+                            type="text"
+                            value={invoiceDescription}
+                            onChange={(e) => setInvoiceDescription(e.target.value)}
+                            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                            placeholder="Fund Breez wallet"
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={handleCreateInvoice}
+                            className="flex-1 py-2 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg transition-colors"
+                          >
+                            Generate
+                          </button>
+                          <button
+                            onClick={() => {
+                              setShowInvoiceForm(false);
+                              setGeneratedInvoice('');
+                            }}
+                            className="flex-1 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {generatedInvoice && (
+                      <div className="space-y-3 p-4 bg-green-900/20 border border-green-500/30 rounded-lg">
+                        <h3 className="font-semibold text-green-400">Invoice Created!</h3>
+                        <p className="text-xs text-gray-400">Pay this from your Breez mobile app</p>
+                        <div className="p-2 bg-gray-900 rounded break-all text-xs text-gray-300 max-h-32 overflow-y-auto">
+                          {generatedInvoice}
+                        </div>
+                        <button
+                          onClick={copyInvoice}
+                          className="w-full py-2 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+                        >
+                          {invoiceCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          {invoiceCopied ? 'Copied!' : 'Copy Invoice'}
+                        </button>
+                        <button
+                          onClick={() => {
+                            setShowInvoiceForm(false);
+                            setGeneratedInvoice('');
+                            setInvoiceAmount('1000');
+                            setInvoiceDescription('');
+                          }}
+                          className="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                        >
+                          Close
+                        </button>
+                      </div>
+                    )}
+
                     <button
                       onClick={refreshBalance}
                       className="w-full py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors"
                     >
                       Refresh Balance
                     </button>
-                    
+
+                    {breez.isConnected && !showMnemonic && (
+                      <button
+                        onClick={() => setShowMnemonic(true)}
+                        className="w-full py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-500 rounded-lg transition-colors"
+                      >
+                        Show Recovery Phrase
+                      </button>
+                    )}
+
+                    {showMnemonic && (
+                      <div className="space-y-3 p-4 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
+                        <div className="flex items-start gap-2">
+                          <AlertCircle className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
+                          <div>
+                            <h3 className="font-semibold text-yellow-400">Recovery Phrase</h3>
+                            <p className="text-xs text-yellow-300 mt-1">
+                              These 12 words can recover your wallet. Never share them with anyone!
+                            </p>
+                          </div>
+                        </div>
+                        <div className="p-3 bg-gray-900 rounded text-sm text-gray-300 font-mono break-words">
+                          {getMnemonic()}
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={copyMnemonic}
+                            className="flex-1 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+                          >
+                            {mnemonicCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                            {mnemonicCopied ? 'Copied!' : 'Copy to Clipboard'}
+                          </button>
+                          <button
+                            onClick={() => setShowMnemonic(false)}
+                            className="flex-1 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                          >
+                            Hide
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
                     <button
                       onClick={handleDisconnect}
                       className="w-full py-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors"

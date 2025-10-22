@@ -202,7 +202,7 @@ export function BitcoinConnectPayment({
 }) {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { isConnected } = useBitcoinConnect();
+  const { isConnected, connectedWalletType } = useBitcoinConnect();
   const { isLightningEnabled } = useLightning();
   const breez = useBreez();
 
@@ -356,6 +356,7 @@ export function BitcoinConnectPayment({
     
     console.log('🔌 Bitcoin Connect payment attempt:', {
       isConnected,
+      connectedWalletType,
       weblnExists,
       weblnEnabled,
       hasWeblnMethods,
@@ -363,15 +364,41 @@ export function BitcoinConnectPayment({
       breezConnected: breez.isConnected
     });
 
+    console.log('🚀 sendPayment called with:', { recipient, amount, description, enableBoosts, connectedWalletType });
     setLoading(true);
     try {
-      // 🎯 PRIORITY 1: Check if Breez SDK is connected
-      if (breez.isConnected) {
-        console.log('⚡ Breez SDK is connected - using Breez for payment');
+      // 🎯 PRIORITY 1: Respect the user's explicitly connected wallet type
+      console.log('🔍 User connected wallet type:', connectedWalletType);
 
-        // Determine recipients to use
-        const paymentsToMake = recipients || [{ address: recipient, split: 100, name: 'Single recipient' }];
+      // Determine recipients to use
+      const paymentsToMake = recipients || [{ address: recipient, split: 100, name: 'Single recipient' }];
+
+      // Check if any payment is a Lightning Address
+      // Breez SDK has strict LNURL security validation that may fail with some providers
+      const hasLightningAddress = paymentsToMake.some(p =>
+        p.address.includes('@') && !p.address.startsWith('lnbc')
+      );
+
+      // 🎯 PRIORITY: Use the wallet type the user explicitly connected
+      if (connectedWalletType === 'breez' && breez.isConnected && !hasLightningAddress) {
+        // User connected Breez on the main page - use it for keysend/invoice payments
+        console.log('⚡ Breez SDK is connected - using Breez for payment');
         console.log(`⚡ Processing ${paymentsToMake.length} payments via Breez SDK:`, paymentsToMake);
+
+        // Check if wallet has sufficient funds before attempting payment
+        try {
+          const breezService = (await import('@/lib/breez-service')).getBreezService();
+          const fundCheck = await breezService.canPay(amount);
+          if (!fundCheck.canPay) {
+            console.error('❌ Insufficient Breez funds:', fundCheck.message);
+            setLoading(false);
+            onError?.(fundCheck.message || 'Insufficient funds');
+            return;
+          }
+          console.log('✅ Sufficient funds available:', fundCheck);
+        } catch (checkError) {
+          console.warn('⚠️ Could not check balance, attempting payment anyway:', checkError);
+        }
 
         // Calculate total split value for proportional payments
         const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);
@@ -436,12 +463,89 @@ export function BitcoinConnectPayment({
         }
 
         return;
+      } else if (connectedWalletType === 'breez' && hasLightningAddress) {
+        console.log('⚠️ User connected Breez, but payment has Lightning Addresses');
+        console.log('⚠️ Breez SDK has strict LNURL validation - this may fail');
+        console.log('⚠️ Consider connecting an NWC wallet for Lightning Address payments');
+        // Still try with Breez since that's what the user connected
+        console.log('⚡ Attempting Breez payment anyway (user choice)...');
+
+        // Check if wallet has sufficient funds before attempting payment
+        try {
+          const breezService = (await import('@/lib/breez-service')).getBreezService();
+          const fundCheck = await breezService.canPay(amount);
+          if (!fundCheck.canPay) {
+            console.error('❌ Insufficient Breez funds:', fundCheck.message);
+            setLoading(false);
+            onError?.(fundCheck.message || 'Insufficient funds');
+            return;
+          }
+          console.log('✅ Sufficient funds available:', fundCheck);
+        } catch (checkError) {
+          console.warn('⚠️ Could not check balance, attempting payment anyway:', checkError);
+        }
+
+        const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);
+        const results: any[] = [];
+
+        for (const paymentRecipient of paymentsToMake) {
+          try {
+            const paymentAmount = paymentRecipient.fixedAmount ||
+                                 Math.floor((amount * paymentRecipient.split) / totalSplit);
+
+            if (paymentAmount <= 0) {
+              console.log(`⏭️ Skipping ${paymentRecipient.name || paymentRecipient.address}: amount is 0`);
+              continue;
+            }
+
+            console.log(`💳 Breez payment to ${paymentRecipient.name || paymentRecipient.address}: ${paymentAmount} sats`);
+
+            const payment = await breez.sendPayment({
+              destination: paymentRecipient.address,
+              amountSats: paymentAmount,
+              label: paymentRecipient.name || description,
+              message: boostMetadata?.message
+            });
+
+            results.push({
+              success: true,
+              recipient: paymentRecipient.address,
+              amount: paymentAmount,
+              payment: payment
+            });
+
+            console.log(`✅ Breez payment successful:`, payment.id);
+          } catch (error) {
+            console.error(`❌ Breez payment failed for ${paymentRecipient.name}:`, error);
+            results.push({
+              success: false,
+              recipient: paymentRecipient.address,
+              error: error instanceof Error ? error.message : 'Payment failed'
+            });
+          }
+        }
+
+        const allSucceeded = results.every(r => r.success);
+        const anySucceeded = results.some(r => r.success);
+
+        setLoading(false);
+
+        if (allSucceeded) {
+          console.log('✅ All Breez payments succeeded');
+          await handleBoostCreation(results, amount);
+          onSuccess?.(results);
+        } else if (anySucceeded) {
+          console.warn('⚠️ Some Breez payments failed');
+          onSuccess?.(results);
+        } else {
+          console.error('❌ All Breez payments failed');
+          onError?.('All payments failed. Breez SDK may not support these Lightning Addresses. Try connecting an NWC wallet instead.');
+        }
+
+        return;
       }
 
       const webln = (window as any).webln;
-      
-      // Determine recipients to use
-      const paymentsToMake = recipients || [{ address: recipient, split: 100, name: 'Single recipient' }];
 
       console.log(`⚡ Processing payments to ${paymentsToMake.length} recipients:`, paymentsToMake);
       
@@ -519,24 +623,27 @@ export function BitcoinConnectPayment({
       // Bridge functionality removed - using direct NWC/WebLN only
       const bridgeAvailable = false;
 
-      // 🎯 ABSOLUTE PRIORITY: Respect user's explicit Bitcoin Connect wallet choice
-      // If user connected a wallet through Bitcoin Connect, ALWAYS use that
-      const hasExplicitBCConnection = !!bcConnectorType;
-
-      if (hasExplicitBCConnection) {
-        // User made an explicit choice through Bitcoin Connect - ALWAYS respect it
-        console.log('🧠 Smart routing: User explicitly connected via Bitcoin Connect → Using their wallet');
+      // 🎯 ABSOLUTE PRIORITY: Respect user's explicit wallet type selection
+      // connectedWalletType tells us what the user explicitly connected on the main page
+      if (connectedWalletType === 'nwc' || connectedWalletType === 'bitcoin-connect') {
+        // User explicitly connected NWC or Bitcoin Connect wallet
+        console.log('🧠 Smart routing: User explicitly connected', connectedWalletType, '→ Using their wallet');
         useNWC = shouldUseNWC;
-        routingReason = 'User selected Bitcoin Connect wallet (explicit choice overrides all defaults)';
+        routingReason = `User selected ${connectedWalletType} wallet (explicit choice overrides all defaults)`;
+      } else if (connectedWalletType === 'webln' && weblnAvailable) {
+        // User explicitly connected WebLN wallet
+        console.log('🧠 Smart routing: User explicitly connected WebLN → Using WebLN');
+        useNWC = false;
+        routingReason = 'User selected WebLN wallet (explicit choice)';
       } else if (weblnAvailable && nodeRecipients.length > 0) {
-        // Only use WebLN fallback if user didn't explicitly connect through Bitcoin Connect
+        // Fallback for legacy behavior
         console.log('🧠 Smart routing: WebLN available for keysend → Prioritizing for podcast compatibility (Helipad)');
         useNWC = false;
         routingReason = 'WebLN keysend ensures Helipad compatibility';
       }
 
-      // Continue with Cashu-specific logic only if no explicit BC connection
-      if (!hasExplicitBCConnection && shouldUseNWC && isCashuWallet) {
+      // Continue with Cashu-specific logic only if no explicit wallet type set
+      if (connectedWalletType === null && shouldUseNWC && isCashuWallet) {
         // CASHU WALLET SCENARIOS
         if (nodeRecipients.length > 0 && lnAddressRecipients.length > 0) {
           // Mixed recipients: keysend + Lightning addresses
@@ -970,13 +1077,24 @@ export function BitcoinConnectPayment({
             throw new Error(`All payments failed: ${errors.join(', ')}`);
           }
         } else {
+          // Check if we're trying to pay Lightning Addresses with only Breez connected
+          if (hasLightningAddress && breez.isConnected) {
+            throw new Error('Breez SDK has strict LNURL validation that may not work with all Lightning Address providers. Please connect an NWC wallet (like Alby Hub) for best Lightning Address compatibility.');
+          }
           throw new Error('No wallet connection available');
         }
       }
       
     } catch (error) {
-      console.error('Payment failed:', error);
-      onError?.(error instanceof Error ? error.message : 'Payment failed');
+      console.error('❌ Payment failed:', error);
+      console.error('❌ Error details:', {
+        message: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        errorType: typeof error,
+        fullError: error
+      });
+      const errorMessage = error instanceof Error ? error.message : 'Payment failed';
+      onError?.(errorMessage);
     } finally {
       setLoading(false);
     }

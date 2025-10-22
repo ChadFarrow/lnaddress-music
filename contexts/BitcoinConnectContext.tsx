@@ -4,16 +4,20 @@ import { createContext, useContext, useState, useEffect, ReactNode, useRef } fro
 import { useLightning } from './LightningContext';
 import { getBreezService } from '@/lib/breez-service';
 
+export type WalletType = 'breez' | 'webln' | 'nwc' | 'bitcoin-connect' | null;
+
 interface BitcoinConnectContextType {
   isConnected: boolean;
   setIsConnected: (connected: boolean) => void;
   checkConnection: () => Promise<boolean>;
+  connectedWalletType: WalletType;
 }
 
 const BitcoinConnectContext = createContext<BitcoinConnectContextType | undefined>(undefined);
 
 export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
+  const [connectedWalletType, setConnectedWalletType] = useState<WalletType>(null);
   const { isLightningEnabled } = useLightning();
   const lastCheckRef = useRef<number>(0);
   const checkInProgressRef = useRef<boolean>(false);
@@ -157,6 +161,18 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
 
       const anyConnection = finalWeblnStatus || bcConnectorConnected || bcLibraryConnected || nwcConnected || nwcServiceConnected || breezConnected;
 
+      // Determine which wallet type is connected (priority order: Breez > NWC > Bitcoin Connect > WebLN)
+      let walletType: WalletType = null;
+      if (breezConnected) {
+        walletType = 'breez';
+      } else if (nwcServiceConnected || (nwcConnected && !bcConnectorConnected)) {
+        walletType = 'nwc';
+      } else if (bcConnectorConnected || bcLibraryConnected) {
+        walletType = 'bitcoin-connect';
+      } else if (finalWeblnStatus) {
+        walletType = 'webln';
+      }
+
       // Debug logging
       console.log('🔍 Connection check:', {
         weblnExists,
@@ -169,16 +185,18 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         nwcConnected: !!nwcConnected,
         nwcServiceConnected,
         breezConnected,
-        anyConnection
+        anyConnection,
+        walletType
       });
-      
+
       // Only log if connection status actually changed to reduce console spam
       const currentStatus = !!anyConnection;
-      if (isConnected !== currentStatus) {
-        console.log('🔄 Bitcoin Connect status changed:', currentStatus ? 'connected' : 'disconnected');
+      if (isConnected !== currentStatus || connectedWalletType !== walletType) {
+        console.log('🔄 Bitcoin Connect status changed:', currentStatus ? 'connected' : 'disconnected', 'Wallet type:', walletType);
       }
-      
+
       setIsConnected(currentStatus);
+      setConnectedWalletType(walletType);
       return !!anyConnection;
     } catch (error) {
       console.error('Error checking connection:', error);
@@ -198,12 +216,13 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
       // Force immediate state update when BC reports connected - bypass all checks
       setIsConnected(true);
       console.log('💡 INSTANT: Set isConnected = true immediately on bc:connected event');
-      
+
       // Still do background verification, but don't wait for it
+      // Give Breez SDK time to fully initialize before re-checking
       setTimeout(() => {
         console.log('🔄 Background verification: Re-checking connection after wallet action');
         checkConnection();
-      }, 100);
+      }, 500);
     };
 
     // Add comprehensive event monitoring to debug what's actually happening
@@ -224,6 +243,10 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
     // Core Bitcoin Connect events
     window.addEventListener('bc:connected', handleConnected);
     window.addEventListener('bc:disconnected', handleDisconnected);
+
+    // Breez SDK events
+    window.addEventListener('breez:connected', handleConnected);
+    window.addEventListener('breez:disconnected', handleDisconnected);
     
     // Debug: Monitor ALL possible Bitcoin Connect related events
     const possibleEvents = [
@@ -330,6 +353,8 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
     return () => {
       window.removeEventListener('bc:connected', handleConnected);
       window.removeEventListener('bc:disconnected', handleDisconnected);
+      window.removeEventListener('breez:connected', handleConnected);
+      window.removeEventListener('breez:disconnected', handleDisconnected);
       window.removeEventListener('storage', handleStorageChange);
       
       // Remove debug event listeners
@@ -350,7 +375,7 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
   }, [isLightningEnabled]);
 
   return (
-    <BitcoinConnectContext.Provider value={{ isConnected, setIsConnected, checkConnection }}>
+    <BitcoinConnectContext.Provider value={{ isConnected, setIsConnected, checkConnection, connectedWalletType }}>
       {children}
     </BitcoinConnectContext.Provider>
   );

@@ -103,6 +103,12 @@ class BreezService {
           // Note: In production, you'd want to encrypt this or use secure storage
           localStorage.setItem('breez:mnemonic', config.mnemonic);
         }
+
+        // Dispatch event to notify components that Breez is connected
+        window.dispatchEvent(new CustomEvent('breez:connected', {
+          detail: { walletType: 'breez' }
+        }));
+        console.log('📢 Dispatched breez:connected event');
       }
 
     } catch (error) {
@@ -186,7 +192,31 @@ class BreezService {
    */
   async getBalance(): Promise<number> {
     const info = await this.getInfo();
+    console.log('🔍 Full Breez getInfo() response:', JSON.stringify(info, null, 2));
     return info.balanceSats;
+  }
+
+  /**
+   * Get maximum payable amount (accounts for fees and reserves)
+   */
+  async getMaxPayable(): Promise<number> {
+    const info = await this.getInfo();
+    return info.maxPayableSats;
+  }
+
+  /**
+   * Check if wallet has sufficient funds for a payment
+   */
+  async canPay(amountSats: number): Promise<{ canPay: boolean; maxPayable: number; balance: number; message?: string }> {
+    const info = await this.getInfo();
+    const canPay = amountSats <= info.maxPayableSats;
+
+    return {
+      canPay,
+      maxPayable: info.maxPayableSats,
+      balance: info.balanceSats,
+      message: canPay ? undefined : `Insufficient funds. Need ${amountSats} sats but can only pay ${info.maxPayableSats} sats (balance: ${info.balanceSats} sats)`
+    };
   }
 
   /**
@@ -200,26 +230,59 @@ class BreezService {
     try {
       // Parse the destination to determine the payment type
       const { parse } = await import('@breeztech/breez-sdk-spark/web');
+      console.log('🔍 Parsing payment destination:', request.destination);
       const inputType = await parse(request.destination);
+      console.log('✅ Parsed input type:', inputType.type);
 
-      // Prepare the payment
-      const prepareRequest = {
-        paymentRequest: request.destination,
-        amount: BigInt(request.amountSats)
-      };
+      // Handle Lightning Address / LNURL-Pay separately
+      if (inputType.type === 'lightningAddress' || inputType.type === 'lnurlPay') {
+        console.log('💡 Detected Lightning Address/LNURL - using LNURL payment flow');
 
-      const prepareResponse = await this.sdk.prepareSendPayment(prepareRequest);
+        // Prepare LNURL payment
+        const prepareLnurlRequest = {
+          payRequest: inputType.type === 'lightningAddress' ? inputType.payRequest : inputType,
+          amountSats: request.amountSats,
+          // Disable strict success action URL validation to allow payments to services like Fountain
+          // that use different domains for success actions (which is safe and common)
+          validateSuccessActionUrl: false
+        };
 
-      // Send the payment
-      const sendRequest: SendPaymentRequest = {
-        prepareResponse
-      };
+        console.log('📤 Preparing LNURL payment:', prepareLnurlRequest);
+        const prepareLnurlResponse = await this.sdk.prepareLnurlPay(prepareLnurlRequest);
+        console.log('✅ LNURL payment prepared:', prepareLnurlResponse);
 
-      const sendResponse = await this.sdk.sendPayment(sendRequest);
+        // Execute LNURL payment
+        const lnurlPayRequest = {
+          prepareResponse: prepareLnurlResponse
+        };
 
-      console.log('✅ Payment sent via Breez SDK:', sendResponse.payment.id);
+        const lnurlPayResponse = await this.sdk.lnurlPay(lnurlPayRequest);
+        console.log('✅ LNURL payment sent:', lnurlPayResponse);
 
-      return sendResponse.payment;
+        return lnurlPayResponse.payment;
+      } else {
+        // Regular invoice payment
+        console.log('💡 Using regular invoice payment flow');
+
+        const prepareRequest = {
+          paymentRequest: request.destination,
+          amount: BigInt(request.amountSats)
+        };
+
+        console.log('📤 Preparing payment with request:', prepareRequest);
+        const prepareResponse = await this.sdk.prepareSendPayment(prepareRequest);
+        console.log('✅ Payment prepared:', prepareResponse);
+
+        // Send the payment
+        const sendRequest: SendPaymentRequest = {
+          prepareResponse
+        };
+
+        const sendResponse = await this.sdk.sendPayment(sendRequest);
+        console.log('✅ Payment sent via Breez SDK:', sendResponse.payment.id);
+
+        return sendResponse.payment;
+      }
     } catch (error) {
       console.error('Failed to send payment via Breez SDK:', error);
       throw error;
