@@ -87,7 +87,10 @@ export function useBreez(): UseBreezReturn {
    * Refresh balance
    */
   const refreshBalance = useCallback(async () => {
+    console.log('🔄 refreshBalance called, isConnected:', breezService.isConnected());
+
     if (!breezService.isConnected()) {
+      console.log('⚠️ Breez not connected, setting balance to null');
       setBalance(null);
       return;
     }
@@ -97,15 +100,18 @@ export function useBreez(): UseBreezReturn {
       console.log('🔄 Syncing wallet before balance refresh...');
       try {
         await breezService.syncWallet();
+        console.log('✅ Wallet sync completed');
       } catch (syncErr) {
         console.warn('⚠️ Sync during balance refresh failed:', syncErr);
       }
 
+      console.log('📊 Fetching balance from Breez...');
       const balanceSats = await breezService.getBalance();
-      console.log('💰 Breez balance after sync:', balanceSats, 'sats');
+      console.log('💰 Breez balance fetched:', balanceSats, 'sats (type:', typeof balanceSats, ')');
       setBalance(balanceSats);
+      console.log('✅ Balance state updated to:', balanceSats);
     } catch (err) {
-      console.error('Error refreshing Breez balance:', err);
+      console.error('❌ Error refreshing Breez balance:', err);
       setError(err instanceof Error ? err.message : 'Failed to get balance');
     }
   }, [breezService]);
