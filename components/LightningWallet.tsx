@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { Zap, Wallet, X, Copy, Check, AlertCircle, Loader2 } from 'lucide-react';
+import { Zap, Wallet, X, Copy, Check, AlertCircle, Loader2, ArrowUpRight, ArrowDownLeft, Clock } from 'lucide-react';
 import { useNWC } from '@/hooks/useNWC';
 import { useBreez } from '@/hooks/useBreez';
 import BreezConnect from './BreezConnect';
@@ -33,6 +33,9 @@ export function LightningWallet() {
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
   const [showPaymentReceived, setShowPaymentReceived] = useState(false);
   const [receivedAmount, setReceivedAmount] = useState(0);
+  const [showTransactions, setShowTransactions] = useState(false);
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [loadingTransactions, setLoadingTransactions] = useState(false);
 
   const nwc = useNWC();
   const breez = useBreez();
@@ -225,6 +228,26 @@ export function LightningWallet() {
       setMnemonicCopied(true);
       setTimeout(() => setMnemonicCopied(false), 2000);
     }
+  };
+
+  const loadTransactions = async () => {
+    if (!breez.isConnected) return;
+
+    setLoadingTransactions(true);
+    try {
+      const payments = await breez.listPayments({ limit: 50 });
+      setTransactions(payments);
+      console.log('📜 Loaded', payments.length, 'transactions');
+    } catch (err) {
+      console.error('❌ Failed to load transactions:', err);
+    } finally {
+      setLoadingTransactions(false);
+    }
+  };
+
+  const formatDate = (timestamp: number) => {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   const formatBalance = (sats: number) => {
@@ -610,6 +633,92 @@ export function LightningWallet() {
                     >
                       Refresh Balance
                     </button>
+
+                    {breez.isConnected && !showTransactions && (
+                      <button
+                        onClick={() => {
+                          setShowTransactions(true);
+                          loadTransactions();
+                        }}
+                        className="w-full py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors"
+                      >
+                        View Transaction History
+                      </button>
+                    )}
+
+                    {showTransactions && (
+                      <div className="space-y-3 p-4 bg-gray-800/50 rounded-lg max-h-96 overflow-y-auto">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="font-semibold text-white">Transaction History</h3>
+                          <button
+                            onClick={() => setShowTransactions(false)}
+                            className="text-gray-400 hover:text-white"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {loadingTransactions && (
+                          <div className="flex items-center justify-center py-8">
+                            <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
+                          </div>
+                        )}
+
+                        {!loadingTransactions && transactions.length === 0 && (
+                          <p className="text-center text-gray-400 py-8">No transactions yet</p>
+                        )}
+
+                        {!loadingTransactions && transactions.length > 0 && (
+                          <div className="space-y-2">
+                            {transactions.map((tx) => (
+                              <div
+                                key={tx.id}
+                                className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg hover:bg-gray-900/70 transition-colors"
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className={`p-2 rounded-lg ${
+                                    tx.paymentType === 'receive'
+                                      ? 'bg-green-500/10'
+                                      : 'bg-red-500/10'
+                                  }`}>
+                                    {tx.paymentType === 'receive' ? (
+                                      <ArrowDownLeft className={`w-4 h-4 ${
+                                        tx.status === 'pending' ? 'text-yellow-500' : 'text-green-500'
+                                      }`} />
+                                    ) : (
+                                      <ArrowUpRight className={`w-4 h-4 ${
+                                        tx.status === 'pending' ? 'text-yellow-500' : 'text-red-500'
+                                      }`} />
+                                    )}
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-medium text-white">
+                                      {tx.paymentType === 'receive' ? 'Received' : 'Sent'}
+                                    </p>
+                                    <p className="text-xs text-gray-400">
+                                      {tx.timestamp ? formatDate(tx.timestamp) : 'Unknown date'}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <p className={`font-semibold ${
+                                    tx.paymentType === 'receive' ? 'text-green-400' : 'text-red-400'
+                                  }`}>
+                                    {tx.paymentType === 'receive' ? '+' : '-'}{Number(tx.amount).toLocaleString()} sats
+                                  </p>
+                                  {tx.status === 'pending' && (
+                                    <div className="flex items-center gap-1 text-xs text-yellow-500">
+                                      <Clock className="w-3 h-3" />
+                                      Pending
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
 
                     {breez.isConnected && !showMnemonic && (
                       <button
