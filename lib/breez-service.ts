@@ -197,25 +197,18 @@ class BreezService {
   }
 
   /**
-   * Get maximum payable amount (accounts for fees and reserves)
-   */
-  async getMaxPayable(): Promise<number> {
-    const info = await this.getInfo();
-    return info.maxPayableSats;
-  }
-
-  /**
    * Check if wallet has sufficient funds for a payment
+   * Note: Breez SDK Spark doesn't provide maxPayable, so we use balance as approximation
    */
-  async canPay(amountSats: number): Promise<{ canPay: boolean; maxPayable: number; balance: number; message?: string }> {
+  async canPay(amountSats: number): Promise<{ canPay: boolean; balance: number; message?: string }> {
     const info = await this.getInfo();
-    const canPay = amountSats <= info.maxPayableSats;
+    // For Breez SDK Spark, we approximate with balance since maxPayable isn't available
+    const canPay = amountSats <= info.balanceSats;
 
     return {
       canPay,
-      maxPayable: info.maxPayableSats,
       balance: info.balanceSats,
-      message: canPay ? undefined : `Insufficient funds. Need ${amountSats} sats but can only pay ${info.maxPayableSats} sats (balance: ${info.balanceSats} sats)`
+      message: canPay ? undefined : `Insufficient funds. Need ${amountSats} sats but balance is ${info.balanceSats} sats`
     };
   }
 
