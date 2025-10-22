@@ -75,10 +75,26 @@ export function useBreez(): UseBreezReturn {
       }
     };
 
+    // Listen for Breez connection events
+    const handleBreezConnected = () => {
+      console.log('📢 Received breez:connected event in useBreez hook');
+      if (breezService.isConnected()) {
+        setIsConnected(true);
+        refreshBalance();
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('breez:connected', handleBreezConnected);
+    }
+
     checkConnection();
 
     return () => {
       isSubscribed = false;
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('breez:connected', handleBreezConnected);
+      }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Run only once on mount - connect and refreshBalance are stable callbacks

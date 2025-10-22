@@ -23,13 +23,23 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   console.log('🔍 BreezConnect render:', { isConnected, loading, error, forceShowForm });
 
   const handleConnect = async () => {
+    console.log('🔘 Connect button clicked');
+    console.log('📋 Connection params:', {
+      hasApiKey: !!apiKey,
+      hasMnemonic: !!mnemonic,
+      network,
+      mnemonicWordCount: mnemonic ? mnemonic.trim().split(/\s+/).length : 0
+    });
+
     if (!apiKey) {
       const errorMsg = 'Please enter your Breez API key';
+      console.error('❌ No API key provided');
       onError?.(errorMsg);
       return;
     }
 
     try {
+      console.log('🚀 Starting connection...');
       await connect({
         apiKey,
         mnemonic: mnemonic || undefined, // Optional - will generate if not provided
@@ -37,10 +47,13 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         storageDir: './breez-sdk-data'
       });
 
+      console.log('✅ Connection successful, calling onSuccess');
       // Only call onSuccess when user explicitly connects, not when already connected
       onSuccess?.();
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect to Breez SDK';
+      console.error('❌ Connection failed:', errorMsg);
+      console.error('Full error:', err);
       onError?.(errorMsg);
     }
   };
