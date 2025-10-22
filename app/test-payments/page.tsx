@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Play, Zap, Loader2 } from 'lucide-react';
+import { Play, Zap, Loader2, CheckCircle2, X } from 'lucide-react';
 import { useBreez } from '@/hooks/useBreez';
 
 interface Episode {
@@ -33,6 +33,11 @@ export default function TestPaymentsPage() {
   const [error, setError] = useState<string | null>(null);
   const [paymentAmount, setPaymentAmount] = useState('100');
   const [processingPayment, setProcessingPayment] = useState<string | null>(null);
+  const [paymentSuccess, setPaymentSuccess] = useState<{
+    amount: number;
+    recipientCount: number;
+    episodeTitle: string;
+  } | null>(null);
 
   const breez = useBreez();
 
@@ -143,7 +148,12 @@ export default function TestPaymentsPage() {
       }
 
       if (successCount === lnAddressRecipients.length) {
-        alert(`Successfully sent ${amount} sats split among ${successCount} recipients!`);
+        // Show success modal
+        setPaymentSuccess({
+          amount,
+          recipientCount: successCount,
+          episodeTitle: episode.title
+        });
       } else if (successCount > 0) {
         alert(`Partially successful: Sent to ${successCount}/${lnAddressRecipients.length} recipients.\nFailed: ${failedRecipients.join(', ')}`);
       } else {
@@ -291,6 +301,66 @@ export default function TestPaymentsPage() {
           ))}
         </div>
       </div>
+
+      {/* Payment Success Modal */}
+      {paymentSuccess && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-green-500/30 rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
+            {/* Close button */}
+            <button
+              onClick={() => setPaymentSuccess(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Success Icon */}
+            <div className="flex justify-center mb-6">
+              <div className="bg-green-500/20 rounded-full p-4">
+                <CheckCircle2 className="w-16 h-16 text-green-500" />
+              </div>
+            </div>
+
+            {/* Success Message */}
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">Payment Successful! ⚡</h2>
+              <p className="text-gray-300">
+                Your boost has been sent
+              </p>
+            </div>
+
+            {/* Payment Details */}
+            <div className="bg-black/30 rounded-lg p-4 mb-6 space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Amount</span>
+                <span className="text-white font-semibold text-lg">
+                  {paymentSuccess.amount.toLocaleString()} sats
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Recipients</span>
+                <span className="text-white font-semibold">
+                  {paymentSuccess.recipientCount}
+                </span>
+              </div>
+              <div className="flex flex-col pt-2 border-t border-gray-700">
+                <span className="text-gray-400 text-sm mb-1">Episode</span>
+                <span className="text-white font-medium">
+                  {paymentSuccess.episodeTitle}
+                </span>
+              </div>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setPaymentSuccess(null)}
+              className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
+            >
+              Awesome!
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
