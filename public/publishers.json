@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "name": "LNURL Test Podcast",
+    "slug": "lnurl-test-podcast",
+    "description": "Test podcast for LNURL payments - use this to test Lightning wallet functionality",
+    "feedUrl": "https://raw.githubusercontent.com/ChadFarrow/lnurl-test-feed/main/public/lnurl-test-feed.xml",
+    "website": "https://github.com/ChadFarrow/lnurl-test-feed",
+    "image": "https://raw.githubusercontent.com/ChadFarrow/lnurl-test-feed/main/public/cover-art.jpg"
+  }
+]

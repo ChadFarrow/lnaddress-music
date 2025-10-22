@@ -45,7 +45,18 @@ export default function Header() {
               <TestTube className="h-4 w-4" />
               <span>Feed Tester</span>
             </Link>
-            {isLightningEnabled() && <ClientOnlyLightningWallet />}
+            {isLightningEnabled() && (
+              <>
+                <Link
+                  href="/test-payments"
+                  className="flex items-center space-x-1 text-purple-600 hover:text-purple-700 transition-colors font-medium"
+                >
+                  <Zap className="h-4 w-4" />
+                  <span>Test Payments</span>
+                </Link>
+                <ClientOnlyLightningWallet />
+              </>
+            )}
           </nav>
         </div>
       </div>
