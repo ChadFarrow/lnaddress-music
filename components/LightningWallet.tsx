@@ -12,6 +12,8 @@ import QRCode from 'qrcode';
 type WalletType = 'none' | 'alby' | 'breez' | 'nwc';
 
 export function LightningWallet() {
+  console.log('🏗️ LightningWallet component rendering/mounting');
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState<WalletType>('none');
   const [showConnectForm, setShowConnectForm] = useState(false);
@@ -29,12 +31,56 @@ export function LightningWallet() {
   const [mnemonicCopied, setMnemonicCopied] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
+  const [showPaymentReceived, setShowPaymentReceived] = useState(false);
+  const [receivedAmount, setReceivedAmount] = useState(0);
 
   const nwc = useNWC();
   const breez = useBreez();
 
+  // Use a ref to track if event listener is registered (prevents duplicate registrations)
+  const eventListenerRegistered = useRef(false);
+
   useEffect(() => {
     setMounted(true);
+
+    // Only register the event listener ONCE across all re-renders
+    if (!eventListenerRegistered.current && typeof window !== 'undefined') {
+      console.log('👂👂👂 [PERSISTENT] LightningWallet: Setting up breez:payment-received listener (one-time setup)');
+
+      const handlePaymentReceived = (event: Event) => {
+        const customEvent = event as CustomEvent;
+        const amount = customEvent.detail?.amount || 0;
+
+        console.log('💸💸💸 [PERSISTENT] Payment received in LightningWallet:', amount, 'sats');
+        console.log('💸 [PERSISTENT] Full event detail:', customEvent.detail);
+
+        // Show payment received notification
+        setReceivedAmount(amount);
+        setShowPaymentReceived(true);
+
+        console.log('✅ [PERSISTENT] Payment notification state updated, showPaymentReceived:', true);
+
+        // Auto-close the invoice display after 3 seconds
+        setTimeout(() => {
+          console.log('⏰ [PERSISTENT] Auto-closing payment notification and invoice...');
+          setShowPaymentReceived(false);
+          setShowInvoiceForm(false);
+          setGeneratedInvoice('');
+          setQrCodeDataUrl('');
+          setInvoiceAmount('1000');
+          setInvoiceDescription('');
+          console.log('✅ [PERSISTENT] Invoice popup closed');
+        }, 3000);
+      };
+
+      window.addEventListener('breez:payment-received', handlePaymentReceived);
+      eventListenerRegistered.current = true;
+      console.log('✅✅✅ [PERSISTENT] Event listener registered and marked as active');
+    } else if (eventListenerRegistered.current) {
+      console.log('⏭️ [PERSISTENT] Event listener already registered, skipping...');
+    }
+
+    // NO cleanup function - we want this listener to persist for the lifetime of the app
   }, []);
 
   // Determine which wallet is connected
@@ -144,9 +190,21 @@ export function LightningWallet() {
       } catch (qrErr) {
         console.error('❌ Failed to generate QR code:', qrErr);
       }
+
+      // Start polling for payment after invoice is created
+      console.log('🔄 Starting to poll for invoice payment...');
+      startPaymentPolling(invoice);
     } catch (err) {
       console.error('❌ Failed to create invoice:', err);
     }
+  };
+
+  // DISABLED: Polling is no longer needed since we have persistent event listener
+  // The event listener at line 62 will catch payment events automatically
+  const startPaymentPolling = (invoice: string) => {
+    console.log('ℹ️ Payment polling disabled - using event listener instead');
+    // No-op function - event listener will handle payment detection
+    return () => {};
   };
 
   const copyInvoice = () => {
@@ -439,9 +497,16 @@ export function LightningWallet() {
                     <p className="text-sm text-gray-400 mb-2">Balance</p>
                     <div className="flex items-center justify-center gap-2">
                       <Zap className="w-8 h-8 text-yellow-500" />
-                      <p className="text-3xl font-bold text-white">
-                        {balance !== null ? formatBalance(balance) : '---'}
-                      </p>
+                      {loading && balance === null ? (
+                        <div className="flex items-center gap-2">
+                          <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
+                          <p className="text-xl text-gray-400">Syncing...</p>
+                        </div>
+                      ) : (
+                        <p className="text-3xl font-bold text-white">
+                          {balance !== null ? formatBalance(balance) : '---'}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -499,7 +564,7 @@ export function LightningWallet() {
                       </div>
                     )}
 
-                    {generatedInvoice && (
+                    {generatedInvoice && !showPaymentReceived && (
                       <div className="space-y-3 p-4 bg-green-900/20 border border-green-500/30 rounded-lg">
                         <h3 className="font-semibold text-green-400">Invoice Created!</h3>
                         <p className="text-xs text-gray-400">Scan with any Lightning wallet</p>
@@ -538,11 +603,43 @@ export function LightningWallet() {
                       </div>
                     )}
 
+                    {showPaymentReceived && (
+                      <div className="space-y-3 p-6 bg-gradient-to-br from-green-900/30 to-emerald-900/30 border-2 border-green-500/50 rounded-lg animate-in zoom-in duration-300">
+                        <div className="flex items-center justify-center">
+                          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center animate-bounce">
+                            <Check className="w-10 h-10 text-white" />
+                          </div>
+                        </div>
+                        <div className="text-center">
+                          <h3 className="text-2xl font-bold text-green-400 mb-2">Payment Received!</h3>
+                          <div className="flex items-center justify-center gap-2 text-white">
+                            <Zap className="w-6 h-6 text-yellow-500" />
+                            <p className="text-3xl font-bold">{receivedAmount.toLocaleString()}</p>
+                            <p className="text-xl text-gray-300">sats</p>
+                          </div>
+                          <p className="text-sm text-green-300 mt-3">Closing automatically in 3 seconds...</p>
+                        </div>
+                      </div>
+                    )}
+
                     <button
                       onClick={refreshBalance}
                       className="w-full py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors"
                     >
                       Refresh Balance
+                    </button>
+
+                    {/* Debug button to test payment notification */}
+                    <button
+                      onClick={() => {
+                        console.log('🧪 TEST: Manually triggering payment-received event');
+                        window.dispatchEvent(new CustomEvent('breez:payment-received', {
+                          detail: { amount: 999 }
+                        }));
+                      }}
+                      className="w-full py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 text-xs rounded-lg transition-colors"
+                    >
+                      🧪 Test Payment Notification
                     </button>
 
                     {breez.isConnected && !showMnemonic && (

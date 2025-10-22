@@ -17,6 +17,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [generatedMnemonic, setGeneratedMnemonic] = useState('');
   const [forceShowForm, setForceShowForm] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState<string>('');
   const hasEnvApiKey = !!process.env.NEXT_PUBLIC_BREEZ_API_KEY;
 
   // Debug logging
@@ -40,6 +41,14 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
 
     try {
       console.log('🚀 Starting connection...');
+
+      // Show progressive status updates
+      setConnectionStatus('Initializing Breez SDK...');
+
+      // Small delay to show the first status
+      await new Promise(resolve => setTimeout(resolve, 300));
+      setConnectionStatus('Connecting to Lightning Network...');
+
       await connect({
         apiKey,
         mnemonic: mnemonic || undefined, // Optional - will generate if not provided
@@ -47,13 +56,21 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         storageDir: './breez-sdk-data'
       });
 
+      setConnectionStatus('Syncing wallet balance...');
+
+      // Give it a moment to sync
+      await new Promise(resolve => setTimeout(resolve, 500));
+
       console.log('✅ Connection successful, calling onSuccess');
+      setConnectionStatus('');
+
       // Only call onSuccess when user explicitly connects, not when already connected
       onSuccess?.();
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect to Breez SDK';
       console.error('❌ Connection failed:', errorMsg);
       console.error('Full error:', err);
+      setConnectionStatus('');
       onError?.(errorMsg);
     }
   };
@@ -214,7 +231,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
             </svg>
-            Connecting...
+            <span>{connectionStatus || 'Connecting...'}</span>
           </>
         ) : (
           <>

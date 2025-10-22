@@ -1,4 +1,4 @@
-import type { BreezSdk, ConnectRequest, SendPaymentRequest, ReceivePaymentRequest, GetInfoResponse, Payment, Config, Network, Seed } from '@breeztech/breez-sdk-spark/web';
+import type { BreezSdk, ConnectRequest, SendPaymentRequest, ReceivePaymentRequest, GetInfoResponse, Payment, Config, Network, Seed, EventListener, SdkEvent } from '@breeztech/breez-sdk-spark/web';
 
 /**
  * Breez SDK Spark Service
@@ -31,6 +31,7 @@ class BreezService {
   private connecting: boolean = false;
   private connectPromise: Promise<void> | null = null;
   private config: BreezConfig | null = null;
+  private eventListenerId: string | null = null;
 
   /**
    * Initialize and connect to Breez SDK
@@ -111,6 +112,9 @@ class BreezService {
 
       console.log('✅ Connected to Breez SDK Spark');
 
+      // Set up event listener for payment events
+      await this.setupEventListener();
+
       // Store connection info in localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem('breez:connected', 'true');
@@ -161,11 +165,73 @@ class BreezService {
   }
 
   /**
+   * Set up event listener for Breez SDK events
+   */
+  private async setupEventListener(): Promise<void> {
+    if (!this.sdk) {
+      return;
+    }
+
+    try {
+      const eventListener: EventListener = {
+        onEvent: (event: SdkEvent) => {
+          console.log('📢 Breez SDK Event:', event.type);
+
+          if (event.type === 'paymentSucceeded') {
+            console.log('✅ Payment succeeded:', event.payment.id);
+            console.log('💳 Payment type:', event.payment.paymentType);
+            console.log('📊 Payment status:', event.payment.status);
+            const amountSats = Number(event.payment.amount);
+            console.log('💰 Payment amount:', amountSats, 'sats');
+
+            // Only dispatch event for INCOMING payments (receive type)
+            if (event.payment.paymentType === 'receive') {
+              console.log('📥 INCOMING payment detected!');
+
+              // Dispatch custom event to notify UI components to refresh balance
+              if (typeof window !== 'undefined') {
+                window.dispatchEvent(new CustomEvent('breez:payment-received', {
+                  detail: {
+                    payment: event.payment,
+                    amount: amountSats
+                  }
+                }));
+                console.log('📢 Dispatched breez:payment-received event');
+              }
+            } else {
+              console.log('📤 Outgoing payment (send) - not dispatching event');
+            }
+          } else if (event.type === 'paymentFailed') {
+            console.log('❌ Payment failed:', event.payment.id);
+          } else if (event.type === 'synced') {
+            console.log('🔄 Wallet synced');
+          }
+        }
+      };
+
+      this.eventListenerId = await this.sdk.addEventListener(eventListener);
+      console.log('✅ Event listener registered with ID:', this.eventListenerId);
+    } catch (error) {
+      console.error('❌ Failed to set up event listener:', error);
+    }
+  }
+
+  /**
    * Disconnect from Breez SDK
    */
   async disconnect(): Promise<void> {
     try {
       if (this.sdk) {
+        // Remove event listener if registered
+        if (this.eventListenerId) {
+          try {
+            await this.sdk.removeEventListener(this.eventListenerId);
+            console.log('✅ Event listener removed');
+          } catch (err) {
+            console.error('❌ Failed to remove event listener:', err);
+          }
+        }
+
         await this.sdk.disconnect();
       }
     } catch (error) {
@@ -177,6 +243,7 @@ class BreezService {
       this.initialized = false;
       this.connecting = false;
       this.connectPromise = null;
+      this.eventListenerId = null;
 
       if (typeof window !== 'undefined') {
         localStorage.removeItem('breez:connected');
