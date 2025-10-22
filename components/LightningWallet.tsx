@@ -311,25 +311,6 @@ export function LightningWallet() {
 
             {/* Content */}
             <div className="p-6">
-              {/* Debug info */}
-              <div className="mb-4 p-3 bg-blue-900/20 border border-blue-500/30 rounded text-xs font-mono">
-                <div className="text-blue-200 font-semibold mb-2">Connection Debug Info:</div>
-                <div className="text-blue-300 space-y-1">
-                  <div>isConnected: <span className="text-white">{String(isConnected)}</span></div>
-                  <div>breez.isConnected: <span className="text-white">{String(breez.isConnected)}</span></div>
-                  <div>nwc.isConnected: <span className="text-white">{String(nwc.isConnected)}</span></div>
-                  <div>balance: <span className="text-white">{balance !== null ? `${balance} sats` : 'null'}</span></div>
-                  <div>breez.balance: <span className="text-white">{breez.balance !== null ? `${breez.balance} sats` : 'null'}</span></div>
-                  <div>nwc.balance: <span className="text-white">{nwc.balance !== null ? `${nwc.balance} sats` : 'null'}</span></div>
-                  <div>loading: <span className="text-white">{String(loading)}</span></div>
-                  <div>breez.loading: <span className="text-white">{String(breez.loading)}</span></div>
-                  <div>error: <span className="text-white">{error || 'null'}</span></div>
-                  <div>breez.error: <span className="text-white">{breez.error || 'null'}</span></div>
-                  <div>selectedWallet: <span className="text-white">{selectedWallet}</span></div>
-                  <div>connectedWalletType: <span className="text-white">{connectedWalletType || 'null'}</span></div>
-                </div>
-              </div>
-
               {loading && (
                 <div className="flex items-center justify-center py-8">
                   <Loader2 className="w-8 h-8 text-yellow-500 animate-spin" />
@@ -627,19 +608,6 @@ export function LightningWallet() {
                       className="w-full py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors"
                     >
                       Refresh Balance
-                    </button>
-
-                    {/* Debug button to test payment notification */}
-                    <button
-                      onClick={() => {
-                        console.log('🧪 TEST: Manually triggering payment-received event');
-                        window.dispatchEvent(new CustomEvent('breez:payment-received', {
-                          detail: { amount: 999 }
-                        }));
-                      }}
-                      className="w-full py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 text-xs rounded-lg transition-colors"
-                    >
-                      🧪 Test Payment Notification
                     </button>
 
                     {breez.isConnected && !showMnemonic && (
