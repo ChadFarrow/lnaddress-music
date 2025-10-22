@@ -18,13 +18,6 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [generatedMnemonic, setGeneratedMnemonic] = useState('');
   const hasEnvApiKey = !!process.env.NEXT_PUBLIC_BREEZ_API_KEY;
 
-  // Call onSuccess when connection succeeds
-  useEffect(() => {
-    if (isConnected) {
-      onSuccess?.();
-    }
-  }, [isConnected, onSuccess]);
-
   const handleConnect = async () => {
     if (!apiKey) {
       const errorMsg = 'Please enter your Breez API key';
@@ -40,6 +33,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         storageDir: './breez-sdk-data'
       });
 
+      // Only call onSuccess when user explicitly connects, not when already connected
       onSuccess?.();
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect to Breez SDK';
@@ -47,10 +41,16 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     }
   };
 
-  // Don't show the form if already connected - just return null
-  // The useEffect above will call onSuccess
+  // If already connected, show a message instead of the form
   if (isConnected) {
-    return null;
+    return (
+      <div className={`${className} bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-lg p-6`}>
+        <div className="flex items-center justify-center gap-3 py-4">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          <p className="text-green-400 font-medium">Breez wallet already connected</p>
+        </div>
+      </div>
+    );
   }
 
   return (
