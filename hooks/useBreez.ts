@@ -55,15 +55,11 @@ export function useBreez(): UseBreezReturn {
         const storedConfig = BreezServiceClass.getStoredConfig?.();
 
         if (storedConfig && isSubscribed) {
-          // If we have stored config but not connected, reconnect automatically
-          if (!breezService.isConnected()) {
-            console.log('🔄 Found stored Breez config, reconnecting...');
-            reconnectAttempted.current = true; // Mark that we've attempted reconnection
-            await connect(storedConfig);
-          } else {
-            setIsConnected(true);
-            await refreshBalance();
-          }
+          // DISABLED: Auto-reconnect disabled to allow users to choose their wallet
+          // Users must explicitly click the connect button even if they connected before
+          console.log('ℹ️ Found stored Breez config, but auto-reconnect is disabled');
+          console.log('ℹ️ User must manually click wallet button to reconnect');
+          setIsConnected(false);
         } else if (isSubscribed) {
           setIsConnected(false);
         }
