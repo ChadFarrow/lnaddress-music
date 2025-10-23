@@ -8,7 +8,7 @@ import { useBreez } from '@/hooks/useBreez';
 import BreezConnect from './BreezConnect';
 import QRCode from 'qrcode';
 
-type WalletType = 'none' | 'alby' | 'breez' | 'nwc';
+type WalletType = 'none' | 'breez' | 'nwc';
 
 export function LightningWallet() {
   console.log('🏗️ LightningWallet component rendering/mounting');
@@ -281,7 +281,6 @@ export function LightningWallet() {
 
   const getWalletName = () => {
     if (connectedWalletType === 'breez') return 'Breez SDK Spark';
-    if (connectedWalletType === 'alby') return 'Alby Hub';
     if (connectedWalletType === 'nwc') return 'Nostr Wallet Connect';
     return 'Lightning Wallet';
   };
@@ -357,20 +356,6 @@ export function LightningWallet() {
                     </p>
                   </div>
 
-                  {/* Alby Hub */}
-                  <button
-                    onClick={() => setSelectedWallet('alby')}
-                    className="w-full p-4 bg-gradient-to-r from-amber-900/20 to-yellow-900/20 hover:from-amber-900/30 hover:to-yellow-900/30 border border-amber-500/30 hover:border-amber-500/50 rounded-lg transition-all flex items-center gap-3"
-                  >
-                    <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Zap className="w-6 h-6 text-black" />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-semibold text-white">Alby Hub</div>
-                      <div className="text-sm text-gray-400">One-tap connection</div>
-                    </div>
-                  </button>
-
                   {/* Breez SDK Spark */}
                   <button
                     onClick={() => setSelectedWallet('breez')}
@@ -401,33 +386,6 @@ export function LightningWallet() {
 
                   <div className="pt-4 text-xs text-gray-500 text-center">
                     <p>All wallets support Lightning payments</p>
-                  </div>
-                </div>
-              )}
-
-              {/* Alby Connection */}
-              {!loading && !isConnected && selectedWallet === 'alby' && (
-                <div className="space-y-4">
-                  <button
-                    onClick={() => setSelectedWallet('none')}
-                    className="text-sm text-gray-400 hover:text-white flex items-center gap-1"
-                  >
-                    ← Back
-                  </button>
-                  <div className="bg-gradient-to-r from-amber-900/20 to-yellow-900/20 border border-amber-500/30 rounded-lg p-6">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
-                        <Zap className="w-6 h-6 text-black" />
-                      </div>
-                      <div>
-                        <h3 className="text-white font-semibold">Alby Hub</h3>
-                        <p className="text-gray-400 text-sm">Connect with one tap</p>
-                      </div>
-                    </div>
-                    <bc-button class="w-full"></bc-button>
-                    <p className="mt-4 text-xs text-gray-400 text-center">
-                      Connects to Alby Hub or Alby Go. Supports Lightning payments and boosts.
-                    </p>
                   </div>
                 </div>
               )}
