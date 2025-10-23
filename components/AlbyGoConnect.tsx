@@ -17,9 +17,11 @@ export default function AlbyGoConnect({ onSuccess, onError, className = '' }: Al
   useEffect(() => {
     const handleNWCFromURL = async () => {
       // Check if we have an NWC connection string in the URL (from Alby Go redirect)
+      // Check both query params and hash params (Alby uses hash #nwc=)
       const urlParams = new URLSearchParams(window.location.search);
-      const nwcString = urlParams.get('nwc') || urlParams.get('connectionString');
-      
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const nwcString = urlParams.get('nwc') || hashParams.get('nwc') || urlParams.get('connectionString');
+
       if (nwcString) {
         setIsConnecting(true);
         
@@ -34,10 +36,11 @@ export default function AlbyGoConnect({ onSuccess, onError, className = '' }: Al
           await nwcService.connect(nwcString);
           await checkConnection();
           
-          // Clean the URL
+          // Clean the URL (remove both query and hash params)
           const newUrl = new URL(window.location.href);
           newUrl.searchParams.delete('nwc');
           newUrl.searchParams.delete('connectionString');
+          newUrl.hash = ''; // Clear the hash
           window.history.replaceState({}, '', newUrl.toString());
           
           onSuccess?.();
@@ -61,7 +64,8 @@ export default function AlbyGoConnect({ onSuccess, onError, className = '' }: Al
       // The user should get this URL from their Alby Hub's one-tap connection setup
       
       const appName = 'lnaddress music';
-      const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}?nwc=` : '';
+      // Use hash parameter for NWC connection string (Alby standard)
+      const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#nwc=` : '';
       
       // Build the connection request for Alby Hub/Go
       // This URL format works with Alby Hub's one-tap connection feature
@@ -92,20 +96,12 @@ export default function AlbyGoConnect({ onSuccess, onError, className = '' }: Al
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
       if (isMobile) {
-        // Try to open Alby Go app using deep link, fallback to web
-        // The alby:// scheme will open the Alby Go app if installed
-        const albyGoDeepLink = `alby://nwc/new?${connectionParams.toString()}`;
+        // Use the Alby Hub mobile deep link that will redirect to Alby Go app if installed
+        // According to Alby docs, this should open Alby Go and return to our app with NWC string
+        const mobileUrl = `https://nwc.getalby.com/apps/new?${connectionParams.toString()}`;
 
-        // Try the deep link first
-        const deepLinkWindow = window.open(albyGoDeepLink, '_blank');
-
-        // If deep link fails (app not installed), fallback to web after short delay
-        setTimeout(() => {
-          if (!deepLinkWindow || deepLinkWindow.closed) {
-            // Deep link didn't work, open web version
-            window.open(albyHubUrl, '_blank');
-          }
-        }, 500);
+        // On mobile, open the Alby Hub URL which will handle deep linking to Alby Go
+        window.location.href = mobileUrl;
       } else {
         // On desktop, open in a new window
         const popup = window.open(albyHubUrl, 'alby-connect', 'width=400,height=700');
