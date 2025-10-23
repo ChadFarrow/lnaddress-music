@@ -16,6 +16,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [generatedMnemonic, setGeneratedMnemonic] = useState('');
   const [forceShowForm, setForceShowForm] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<string>('');
+  const [showSuccess, setShowSuccess] = useState(false);
   // Always use mainnet
   const network = 'mainnet';
 
@@ -62,11 +63,13 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       // Give it a moment to sync
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      console.log('✅ Connection successful, calling onSuccess');
+      console.log('✅ Connection successful, showing success message');
       setConnectionStatus('');
 
-      // Only call onSuccess when user explicitly connects, not when already connected
-      onSuccess?.();
+      // Show success message instead of immediately closing
+      setShowSuccess(true);
+
+      // Don't call onSuccess automatically - let user close the modal manually
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect to Breez SDK';
       console.error('❌ Connection failed:', errorMsg);
@@ -85,6 +88,41 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       console.error('Error disconnecting:', err);
     }
   };
+
+  // If showing success message after new connection
+  if (showSuccess) {
+    return (
+      <div className={`${className} bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-500/30 rounded-lg p-6`}>
+        <div className="flex flex-col items-center gap-4 py-4">
+          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <div className="text-center">
+            <h3 className="text-xl font-bold text-green-400 mb-2">Wallet Created Successfully!</h3>
+            <p className="text-gray-300 text-sm">Your Breez SDK Spark wallet is ready to use.</p>
+          </div>
+          <div className="w-full pt-2">
+            <div className="p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg mb-4">
+              <p className="text-yellow-400 text-xs">
+                <strong>Important:</strong> Make sure to save your recovery phrase! You can view it in the wallet settings.
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setShowSuccess(false);
+                onSuccess?.();
+              }}
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // If already connected and no error, show a success message
   if (isConnected && !forceShowForm) {
