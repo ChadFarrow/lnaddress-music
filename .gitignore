@@ -168,3 +168,4 @@ data/rss-cache/
 # Task files
 # tasks.json
 # tasks/ 
+.env.local.backup
