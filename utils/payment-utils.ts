@@ -31,72 +31,41 @@ interface BoostMetadata {
 }
 
 /**
- * Create TLV records for Lightning boost payments (matching manual boost format)
- * Returns array format compatible with NWC bridge system
+ * Create basic TLV records for Lightning boost payments
+ * Returns array format compatible with NWC system
  */
 function createBoostTLVRecords(metadata: BoostMetadata, recipientName?: string, amount?: number) {
   const tlvRecords = [];
 
-  // Use the same format as manual boosts from BitcoinConnect component
-  // 7629169 - Podcast metadata JSON (bLIP-10 standard - Breez/Fountain compatible)
-  const podcastMetadata = {
+  // Basic boost metadata (Podcasting 2.0 compatible)
+  const boostMetadata = {
     podcast: metadata.artist || 'Unknown Artist',
     episode: metadata.title || 'Unknown Title',
     action: 'boost',
     app_name: metadata.appName || 'lnaddress music',
-    // Use actual feed URL from metadata, fallback to main podcast feed
-    feed: metadata.feedUrl || 'https://www.doerfelverse.com/feeds/intothedoerfelverse.xml',
-    url: metadata.feedUrl || 'https://www.doerfelverse.com/feeds/intothedoerfelverse.xml',
-    message: metadata.message || '',
+    ...(metadata.feedUrl && { feed: metadata.feedUrl }),
+    ...(metadata.message && { message: metadata.message }),
     ...(metadata.timestamp && { ts: metadata.timestamp }),
-    // Use proper feedId (lowercase 'd') for Helipad compatibility - it expects feedId not feedID
-    feedId: metadata.feedUrl === 'https://www.doerfelverse.com/feeds/bloodshot-lies-album.xml' ? "6590183" : "6590182",
-    // Add Helipad-specific GUID fields
-    ...(metadata.itemGuid && { episode_guid: metadata.itemGuid }),
-    ...(metadata.itemGuid && { remote_item_guid: metadata.itemGuid }),
-    ...(metadata.podcastFeedGuid && { remote_feed_guid: metadata.podcastFeedGuid }),
     ...(metadata.album && { album: metadata.album }),
-    ...(amount && { value_msat_total: amount * 1000 }),
-    sender_name: metadata.senderName || 'Anonymous',
-    uuid: `boost-${Date.now()}-${Math.floor(Math.random() * 1000)}`, // Unique identifier
-    app_version: '1.0.0', // App version
-    ...(amount && { value_msat: amount * 1000 }), // Individual payment amount
-    name: 'lnaddress music' // App/service name
+    ...(amount && { value_msat: amount * 1000 }),
+    sender_name: metadata.senderName || 'Anonymous'
   };
-  
-  // Log the exact TLV data for debugging
-  console.log('🔍 HELIPAD DEBUG - Exact TLV 7629169 data being sent:');
-  console.log(JSON.stringify(podcastMetadata, null, 2));
-  
+
+  console.log('🔍 Boost TLV data:', JSON.stringify(boostMetadata, null, 2));
+
+  // 7629169 - Podcast boost metadata (bLIP-10 standard)
   tlvRecords.push({
     type: 7629169,
-    value: Buffer.from(JSON.stringify(podcastMetadata), 'utf8').toString('hex')
+    value: Buffer.from(JSON.stringify(boostMetadata), 'utf8').toString('hex')
   });
-  
-  // 7629171 - Tip note/message (Lightning spec compliant) - only if custom message provided
+
+  // 7629171 - Message (if provided)
   if (metadata.message) {
     tlvRecords.push({
       type: 7629171,
       value: Buffer.from(metadata.message, 'utf8').toString('hex')
     });
   }
-  
-  // 133773310 - Sphinx compatibility (JSON encoded data)
-  const sphinxData = {
-    podcast: metadata.artist || 'Unknown Artist',
-    episode: metadata.title || 'Unknown Title', 
-    action: 'boost',
-    app: metadata.appName || 'lnaddress music',
-    message: metadata.message || '',
-    ...(amount && { amount: amount }),
-    sender: metadata.senderName || 'Anonymous',
-    ...(metadata.timestamp && { timestamp: metadata.timestamp })
-  };
-  
-  tlvRecords.push({
-    type: 133773310,
-    value: Buffer.from(JSON.stringify(sphinxData), 'utf8').toString('hex')
-  });
 
   return tlvRecords;
 }
