@@ -180,46 +180,33 @@ export default function HomePage() {
 
       toast.info('Loading tracks...');
 
-      // Fetch all tracks from all albums
+      // Fetch all albums with tracks from the API
+      console.log('📥 Fetching all albums from API...');
+      const response = await fetch('/api/albums');
+      const data = await response.json();
+
+      console.log('📦 API Response:', data);
+
       const allTracks: any[] = [];
 
-      // Use Promise.all to fetch all albums in parallel
-      console.log('📥 Fetching album details...');
-      await Promise.all(
-        filteredAlbums.slice(0, 20).map(async (album) => { // Limit to first 20 albums for performance
-          try {
-            console.log('🔍 Fetching album:', album.title);
-            // Fetch the full album data with tracks
-            const response = await fetch(`/api/albums?feedGuid=${album.feedGuid}&publisherGuid=${album.publisherGuid || album.feedGuid}`);
-            const data = await response.json();
-
-            console.log('📦 Response for', album.title, ':', data);
-
-            if (data.albums && data.albums.length > 0) {
-              const fullAlbum = data.albums[0];
-              if (fullAlbum.items && fullAlbum.items.length > 0) {
-                console.log('✅ Found', fullAlbum.items.length, 'tracks in', album.title);
-                fullAlbum.items.forEach((item: any) => {
-                  allTracks.push({
-                    ...item,
-                    album: album.title,
-                    artist: album.artist || album.title,
-                    imageUrl: album.imageUrl,
-                    feedGuid: album.feedGuid,
-                    publisherGuid: album.publisherGuid
-                  });
-                });
-              } else {
-                console.warn('⚠️ No items in album:', album.title);
-              }
-            } else {
-              console.warn('⚠️ No albums in response for:', album.title);
-            }
-          } catch (err) {
-            console.error(`❌ Error loading album ${album.title}:`, err);
+      // Extract tracks from all albums
+      if (data.albums && Array.isArray(data.albums)) {
+        data.albums.forEach((album: any) => {
+          if (album.tracks && Array.isArray(album.tracks) && album.tracks.length > 0) {
+            console.log(`✅ Found ${album.tracks.length} tracks in ${album.title}`);
+            album.tracks.forEach((track: any) => {
+              allTracks.push({
+                ...track,
+                album: album.title,
+                artist: album.artist || album.title,
+                image: track.image || album.coverArt,
+                feedGuid: album.feedGuid,
+                publisherGuid: album.publisherGuid
+              });
+            });
           }
-        })
-      );
+        });
+      }
 
       console.log('📊 Total tracks collected:', allTracks.length);
 
