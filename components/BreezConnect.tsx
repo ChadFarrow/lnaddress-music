@@ -11,13 +11,11 @@ interface BreezConnectProps {
 
 export default function BreezConnect({ onSuccess, onError, className = '' }: BreezConnectProps) {
   const { connect, isConnected, loading, error, disconnect } = useBreez();
-  const [apiKey, setApiKey] = useState(process.env.NEXT_PUBLIC_BREEZ_API_KEY || '');
   const [mnemonic, setMnemonic] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [generatedMnemonic, setGeneratedMnemonic] = useState('');
   const [forceShowForm, setForceShowForm] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<string>('');
-  const hasEnvApiKey = !!process.env.NEXT_PUBLIC_BREEZ_API_KEY;
   // Always use mainnet
   const network = 'mainnet';
 
@@ -27,15 +25,17 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const handleConnect = async () => {
     console.log('🔘 Connect button clicked');
     console.log('📋 Connection params:', {
-      hasApiKey: !!apiKey,
       hasMnemonic: !!mnemonic,
       network,
       mnemonicWordCount: mnemonic ? mnemonic.trim().split(/\s+/).length : 0
     });
 
-    if (!apiKey) {
-      const errorMsg = 'Please enter your Breez API key';
-      console.error('❌ No API key provided');
+    // Use API key from environment variable
+    const breezApiKey = process.env.NEXT_PUBLIC_BREEZ_API_KEY;
+
+    if (!breezApiKey) {
+      const errorMsg = 'Breez API key not configured. Please contact the site administrator.';
+      console.error('❌ No API key in environment');
       onError?.(errorMsg);
       return;
     }
@@ -51,7 +51,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       setConnectionStatus('Connecting to Lightning Network...');
 
       await connect({
-        apiKey,
+        apiKey: breezApiKey,
         mnemonic: mnemonic || undefined, // Optional - will generate if not provided
         network,
         storageDir: './breez-sdk-data'
@@ -136,42 +136,6 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
           <h3 className="text-white font-semibold">Breez SDK Spark</h3>
           <p className="text-gray-400 text-sm">Self-custodial Lightning wallet</p>
         </div>
-      </div>
-
-      {/* API Key Input */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-300 mb-2">
-          Breez API Key
-          {hasEnvApiKey && (
-            <span className="ml-2 text-xs text-green-400">(configured)</span>
-          )}
-        </label>
-        <input
-          type={hasEnvApiKey ? "password" : "text"}
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          placeholder={hasEnvApiKey ? "••••••••••••••••" : "Enter your Breez API key"}
-          disabled={hasEnvApiKey}
-          className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        />
-        {!hasEnvApiKey && (
-          <p className="mt-1 text-xs text-gray-400">
-            Get a free API key at{' '}
-            <a
-              href="https://breez.technology/request-api-key/#contact-us-form-sdk"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-purple-400 hover:text-purple-300"
-            >
-              breez.technology
-            </a>
-          </p>
-        )}
-        {hasEnvApiKey && (
-          <p className="mt-1 text-xs text-green-400">
-            ✓ API key loaded from environment configuration
-          </p>
-        )}
       </div>
 
       {/* Mnemonic Input */}
