@@ -13,12 +13,13 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const { connect, isConnected, loading, error, disconnect } = useBreez();
   const [apiKey, setApiKey] = useState(process.env.NEXT_PUBLIC_BREEZ_API_KEY || '');
   const [mnemonic, setMnemonic] = useState('');
-  const [network, setNetwork] = useState<'mainnet' | 'regtest'>('mainnet');
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [generatedMnemonic, setGeneratedMnemonic] = useState('');
   const [forceShowForm, setForceShowForm] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<string>('');
   const hasEnvApiKey = !!process.env.NEXT_PUBLIC_BREEZ_API_KEY;
+  // Always use mainnet
+  const network = 'mainnet';
 
   // Debug logging
   console.log('🔍 BreezConnect render:', { isConnected, loading, error, forceShowForm });
@@ -171,27 +172,6 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
             ✓ API key loaded from environment configuration
           </p>
         )}
-      </div>
-
-      {/* Network Selection - More Prominent */}
-      <div className="mb-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
-        <label className="block text-sm font-medium text-yellow-300 mb-2">
-          ⚠️ Network Selection
-        </label>
-        <select
-          value={network}
-          onChange={(e) => setNetwork(e.target.value as 'mainnet' | 'regtest')}
-          className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
-        >
-          <option value="mainnet">Mainnet (Real Bitcoin)</option>
-          <option value="regtest">Regtest (Testing - Breez Misty)</option>
-        </select>
-        <p className="mt-2 text-xs text-yellow-300">
-          {network === 'mainnet' ?
-            '💰 Mainnet uses real Bitcoin. Funds have real value.' :
-            '🧪 Regtest is for testing only. Use this for Breez Misty test wallets.'
-          }
-        </p>
       </div>
 
       {/* Mnemonic Input */}
