@@ -180,9 +180,9 @@ export default function HomePage() {
 
       toast.info('Loading tracks...');
 
-      // Fetch all albums with tracks from the API
-      console.log('📥 Fetching all albums from API...');
-      const response = await fetch('/api/albums');
+      // Fetch all albums with tracks from the static cache API (same as main page uses)
+      console.log('📥 Fetching all albums from static cache API...');
+      const response = await fetch('/api/albums-static-cached');
       const data = await response.json();
 
       console.log('📦 API Response:', data);
