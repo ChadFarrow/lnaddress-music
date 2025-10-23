@@ -57,10 +57,10 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         storageDir: './breez-sdk-data'
       });
 
-      setConnectionStatus('Syncing wallet balance...');
+      setConnectionStatus('Wallet connected! Balance syncing...');
 
       // Give it a moment to sync
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       console.log('✅ Connection successful, calling onSuccess');
       setConnectionStatus('');

@@ -472,17 +472,31 @@ export function LightningWallet() {
 
                   {/* Balance */}
                   <div className="text-center">
-                    <p className="text-sm text-gray-400 mb-2">Balance</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm text-gray-400">Balance</p>
+                      {breez.isConnected && (
+                        <button
+                          onClick={() => breez.refreshBalance()}
+                          className="text-xs text-gray-400 hover:text-white flex items-center gap-1 transition-colors"
+                          title="Refresh balance"
+                        >
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                          Refresh
+                        </button>
+                      )}
+                    </div>
                     <div className="flex items-center justify-center gap-2">
                       <Zap className="w-8 h-8 text-yellow-500" />
-                      {loading && balance === null ? (
+                      {balance === null ? (
                         <div className="flex items-center gap-2">
                           <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
                           <p className="text-xl text-gray-400">Syncing...</p>
                         </div>
                       ) : (
                         <p className="text-3xl font-bold text-white">
-                          {balance !== null ? formatBalance(balance) : '---'}
+                          {formatBalance(balance)}
                         </p>
                       )}
                     </div>
