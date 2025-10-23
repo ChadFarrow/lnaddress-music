@@ -147,7 +147,7 @@ export class BoostToNostrService {
    * Generate HPM site URL for track/album
    */
   private generateHPMUrl(track: TrackMetadata): string | null {
-    const baseUrl = 'https://zaps.podtards.com';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app';
     
     // Special case for LNURL Testing Podcast - use GitHub repo
     if (track.album && track.album.toLowerCase().includes('lnurl testing')) {
@@ -348,8 +348,9 @@ export class BoostToNostrService {
         eventTemplate.tags.push(['k', 'podcast:item:guid']);
         // i tag contains the actual identifier with URL hint
         const itemTag = ['i', `podcast:item:guid:${options.track.guid}`];
-        if (options.track.url) {
-          itemTag.push(options.track.url);
+        // Use HPM URL instead of original track URL
+        if (hpmUrl) {
+          itemTag.push(hpmUrl);
         }
         eventTemplate.tags.push(itemTag);
       }
@@ -360,8 +361,9 @@ export class BoostToNostrService {
         eventTemplate.tags.push(['k', 'podcast:guid']);
         // i tag contains the actual identifier with URL hint
         const feedTag = ['i', `podcast:guid:${options.track.feedGuid}`];
-        if (options.track.feedUrl) {
-          feedTag.push(options.track.feedUrl);
+        // Use HPM URL instead of original feed URL
+        if (hpmUrl) {
+          feedTag.push(hpmUrl);
         }
         eventTemplate.tags.push(feedTag);
       }
@@ -371,8 +373,9 @@ export class BoostToNostrService {
         eventTemplate.tags.push(['k', 'podcast:publisher:guid']);
         // i tag contains the actual identifier with URL hint
         const publisherTag = ['i', `podcast:publisher:guid:${options.track.publisherGuid}`];
-        if (options.track.publisherUrl) {
-          publisherTag.push(options.track.publisherUrl);
+        // Use HPM URL instead of original publisher URL
+        if (hpmUrl) {
+          publisherTag.push(hpmUrl);
         }
         eventTemplate.tags.push(publisherTag);
       }

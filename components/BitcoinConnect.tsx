@@ -219,7 +219,7 @@ export function BitcoinConnectPayment({
   
   // Initialize Nostr boost system if boosts are enabled
   const { postBoost, generateKeys, publicKey } = useBoostToNostr({ 
-    autoGenerateKeys: enableBoosts && typeof window !== 'undefined'
+    autoGenerateKeys: enableBoosts
   });
 
 
@@ -338,9 +338,59 @@ export function BitcoinConnectPayment({
 
   // Helper function to create Nostr boost notes after successful payments
   const handleBoostCreation = async (paymentResults: any[], totalAmount: number) => {
-    // Nostr boost posting disabled for now
-    console.log('ℹ️ Nostr boost posting is currently disabled');
-    return;
+    if (!enableBoosts || !boostMetadata) {
+      console.log('ℹ️ Boosts not enabled or no boost metadata provided');
+      return;
+    }
+
+    try {
+      console.log('🚀 Creating Nostr boost for payment results:', paymentResults);
+      
+      // Create track metadata for Nostr posting
+      const trackMetadata = {
+        title: boostMetadata.title,
+        artist: boostMetadata.artist,
+        album: boostMetadata.album,
+        url: boostMetadata.url,
+        imageUrl: boostMetadata.imageUrl,
+        timestamp: boostMetadata.timestamp,
+        duration: undefined, // Not available in boost metadata
+        senderName: boostMetadata.senderName,
+        guid: boostMetadata.itemGuid,
+        podcastGuid: boostMetadata.podcastGuid,
+        feedGuid: boostMetadata.podcastFeedGuid,
+        feedUrl: boostMetadata.feedUrl,
+        publisherGuid: boostMetadata.publisherGuid,
+        publisherUrl: boostMetadata.publisherUrl
+      };
+
+      // Post boost to Nostr
+      const result = await postBoost(
+        totalAmount,
+        trackMetadata,
+        boostMetadata.message
+      );
+
+      if (result.success) {
+        console.log('✅ Boost posted to Nostr successfully:', result.eventId);
+        
+        // Trigger a custom event for other components to listen to
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('newBoost', { 
+            detail: { 
+              event: result.event, 
+              track: trackMetadata, 
+              amount: totalAmount, 
+              comment: boostMetadata.message 
+            } 
+          }));
+        }
+      } else {
+        console.warn('⚠️ Failed to post boost to Nostr:', result.error);
+      }
+    } catch (error) {
+      console.error('❌ Error creating Nostr boost:', error);
+    }
   };
 
   const handlePayment = async () => {
