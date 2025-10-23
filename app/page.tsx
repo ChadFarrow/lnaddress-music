@@ -168,29 +168,46 @@ export default function HomePage() {
   const [viewType, setViewType] = useState<ViewType>('grid');
 
   // Global shuffle functionality - shuffles all albums and starts playing
-  const handleShuffle = () => {
+  const handleShuffle = async () => {
     try {
       if (filteredAlbums.length === 0) {
         toast.error('No albums to shuffle');
         return;
       }
 
-      // Create a shuffled list of all tracks from all albums
+      toast.info('Loading tracks...');
+
+      // Fetch all tracks from all albums
       const allTracks: any[] = [];
-      filteredAlbums.forEach(album => {
-        if (album.items && album.items.length > 0) {
-          album.items.forEach(item => {
-            allTracks.push({
-              ...item,
-              album: album.title,
-              artist: album.artist || album.title,
-              imageUrl: album.imageUrl,
-              feedGuid: album.feedGuid,
-              publisherGuid: album.publisherGuid
-            });
-          });
-        }
-      });
+
+      // Use Promise.all to fetch all albums in parallel
+      await Promise.all(
+        filteredAlbums.map(async (album) => {
+          try {
+            // Fetch the full album data with tracks
+            const response = await fetch(`/api/albums?feedGuid=${album.feedGuid}&publisherGuid=${album.publisherGuid || album.feedGuid}`);
+            const data = await response.json();
+
+            if (data.albums && data.albums.length > 0) {
+              const fullAlbum = data.albums[0];
+              if (fullAlbum.items && fullAlbum.items.length > 0) {
+                fullAlbum.items.forEach((item: any) => {
+                  allTracks.push({
+                    ...item,
+                    album: album.title,
+                    artist: album.artist || album.title,
+                    imageUrl: album.imageUrl,
+                    feedGuid: album.feedGuid,
+                    publisherGuid: album.publisherGuid
+                  });
+                });
+              }
+            }
+          } catch (err) {
+            console.error(`Error loading album ${album.title}:`, err);
+          }
+        })
+      );
 
       if (allTracks.length === 0) {
         toast.error('No tracks found to shuffle');
