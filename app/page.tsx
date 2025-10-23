@@ -170,6 +170,9 @@ export default function HomePage() {
   // Global shuffle functionality - shuffles all albums and starts playing
   const handleShuffle = async () => {
     try {
+      console.log('🎲 Starting global shuffle...');
+      console.log('📊 Filtered albums count:', filteredAlbums.length);
+
       if (filteredAlbums.length === 0) {
         toast.error('No albums to shuffle');
         return;
@@ -181,16 +184,21 @@ export default function HomePage() {
       const allTracks: any[] = [];
 
       // Use Promise.all to fetch all albums in parallel
+      console.log('📥 Fetching album details...');
       await Promise.all(
-        filteredAlbums.map(async (album) => {
+        filteredAlbums.slice(0, 20).map(async (album) => { // Limit to first 20 albums for performance
           try {
+            console.log('🔍 Fetching album:', album.title);
             // Fetch the full album data with tracks
             const response = await fetch(`/api/albums?feedGuid=${album.feedGuid}&publisherGuid=${album.publisherGuid || album.feedGuid}`);
             const data = await response.json();
 
+            console.log('📦 Response for', album.title, ':', data);
+
             if (data.albums && data.albums.length > 0) {
               const fullAlbum = data.albums[0];
               if (fullAlbum.items && fullAlbum.items.length > 0) {
+                console.log('✅ Found', fullAlbum.items.length, 'tracks in', album.title);
                 fullAlbum.items.forEach((item: any) => {
                   allTracks.push({
                     ...item,
@@ -201,13 +209,19 @@ export default function HomePage() {
                     publisherGuid: album.publisherGuid
                   });
                 });
+              } else {
+                console.warn('⚠️ No items in album:', album.title);
               }
+            } else {
+              console.warn('⚠️ No albums in response for:', album.title);
             }
           } catch (err) {
-            console.error(`Error loading album ${album.title}:`, err);
+            console.error(`❌ Error loading album ${album.title}:`, err);
           }
         })
       );
+
+      console.log('📊 Total tracks collected:', allTracks.length);
 
       if (allTracks.length === 0) {
         toast.error('No tracks found to shuffle');
@@ -221,11 +235,13 @@ export default function HomePage() {
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
 
+      console.log('🎵 Starting playback with', shuffled.length, 'shuffled tracks');
+
       // Play the shuffled playlist
       globalPlayAlbum(shuffled, 0);
       toast.success(`🎲 Shuffling ${allTracks.length} tracks!`);
     } catch (error) {
-      console.error('Error shuffling:', error);
+      console.error('❌ Error shuffling:', error);
       toast.error('Error shuffling tracks');
     }
   };
