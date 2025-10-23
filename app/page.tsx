@@ -167,13 +167,49 @@ export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
   const [viewType, setViewType] = useState<ViewType>('grid');
 
-  // Shuffle functionality
+  // Global shuffle functionality - shuffles all albums and starts playing
   const handleShuffle = () => {
     try {
-      toggleShuffle();
-      toast.success('🎲 Shuffle toggled!');
+      if (filteredAlbums.length === 0) {
+        toast.error('No albums to shuffle');
+        return;
+      }
+
+      // Create a shuffled list of all tracks from all albums
+      const allTracks: any[] = [];
+      filteredAlbums.forEach(album => {
+        if (album.items && album.items.length > 0) {
+          album.items.forEach(item => {
+            allTracks.push({
+              ...item,
+              album: album.title,
+              artist: album.artist || album.title,
+              imageUrl: album.imageUrl,
+              feedGuid: album.feedGuid,
+              publisherGuid: album.publisherGuid
+            });
+          });
+        }
+      });
+
+      if (allTracks.length === 0) {
+        toast.error('No tracks found to shuffle');
+        return;
+      }
+
+      // Fisher-Yates shuffle
+      const shuffled = [...allTracks];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+
+      // Play the shuffled playlist
+      globalPlayAlbum(shuffled, 0);
+      toast.success(`🎲 Shuffling ${allTracks.length} tracks!`);
     } catch (error) {
-      toast.error('Error toggling shuffle');
+      console.error('Error shuffling:', error);
+      toast.error('Error shuffling tracks');
     }
   };
 
