@@ -214,7 +214,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
           )}
         </button>
         <p className="mt-2 text-xs text-gray-400">
-          Only enter this if you're restoring an existing wallet
+          Only enter this if you&apos;re restoring an existing wallet
         </p>
       </div>
 
