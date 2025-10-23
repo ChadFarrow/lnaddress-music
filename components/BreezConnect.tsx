@@ -138,36 +138,11 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         </div>
       </div>
 
-      {/* Mnemonic Input */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-300 mb-2">
-          Recovery Mnemonic (Optional)
-        </label>
-        <textarea
-          value={mnemonic}
-          onChange={(e) => setMnemonic(e.target.value)}
-          placeholder="Leave empty to create a new wallet automatically"
-          rows={3}
-          className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 font-mono text-sm"
-        />
-        <p className="mt-1 text-xs text-green-400">
-          💡 Leave empty to create a new wallet, or enter your existing 12/24-word mnemonic to restore
-        </p>
-      </div>
-
-
-      {/* Error Display */}
-      {error && (
-        <div className="mb-4 p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
-          <p className="text-red-400 text-sm">{error}</p>
-        </div>
-      )}
-
-      {/* Connect Button */}
+      {/* Create Wallet Button */}
       <button
         onClick={handleConnect}
         disabled={loading}
-        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-6"
       >
         {loading ? (
           <>
@@ -180,15 +155,49 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         ) : (
           <>
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
             </svg>
-            Connect to Breez SDK
+            Create Wallet
           </>
         )}
       </button>
 
+      {/* Divider */}
+      <div className="relative mb-6">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-700"></div>
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="px-2 bg-gray-900 text-gray-400">or restore existing wallet</span>
+        </div>
+      </div>
+
+      {/* Error Display */}
+      {error && (
+        <div className="mb-4 p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
+          <p className="text-red-400 text-sm">{error}</p>
+        </div>
+      )}
+
+      {/* Restore Wallet Section */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Recovery Mnemonic
+        </label>
+        <textarea
+          value={mnemonic}
+          onChange={(e) => setMnemonic(e.target.value)}
+          placeholder="Enter your 12 or 24-word recovery phrase"
+          rows={3}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 font-mono text-sm"
+        />
+        <p className="mt-1 text-xs text-gray-400">
+          Only enter this if you're restoring an existing wallet
+        </p>
+      </div>
+
       {/* Info Box */}
-      <div className="mt-4 p-3 bg-blue-900/10 border border-blue-500/20 rounded-lg">
+      <div className="p-3 bg-blue-900/10 border border-blue-500/20 rounded-lg">
         <p className="text-xs text-gray-400">
           <strong className="text-blue-400">Note:</strong> Breez SDK Spark provides self-custodial Lightning payments.
           Your keys stay on your device. Keep your mnemonic safe!
