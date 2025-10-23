@@ -6,7 +6,6 @@ import { Zap, Wallet, X, Copy, Check, AlertCircle, Loader2, ArrowUpRight, ArrowD
 import { useNWC } from '@/hooks/useNWC';
 import { useBreez } from '@/hooks/useBreez';
 import BreezConnect from './BreezConnect';
-import AlbyGoConnect from './AlbyGoConnect';
 import QRCode from 'qrcode';
 
 type WalletType = 'none' | 'alby' | 'breez' | 'nwc';
@@ -48,7 +47,7 @@ export function LightningWallet() {
 
     // Only register the event listener ONCE across all re-renders
     if (!eventListenerRegistered.current && typeof window !== 'undefined') {
-      console.log('👂👂👂 [PERSISTENT] LightningWallet: Setting up breez:payment-received listener (one-time setup)');
+      console.log('👂👂👂 [PERSISTENT] LightningWallet: Setting up event listeners (one-time setup)');
 
       const handlePaymentReceived = (event: Event) => {
         const customEvent = event as CustomEvent;
@@ -76,11 +75,19 @@ export function LightningWallet() {
         }, 3000);
       };
 
+      // Listen for Bitcoin Connect connection to close modal
+      const handleBitcoinConnectConnected = () => {
+        console.log('🔗 Bitcoin Connect connected - closing wallet modal');
+        setSelectedWallet('none');
+        setIsOpen(false);
+      };
+
       window.addEventListener('breez:payment-received', handlePaymentReceived);
+      window.addEventListener('bc:connected', handleBitcoinConnectConnected);
       eventListenerRegistered.current = true;
-      console.log('✅✅✅ [PERSISTENT] Event listener registered and marked as active');
+      console.log('✅✅✅ [PERSISTENT] Event listeners registered and marked as active');
     } else if (eventListenerRegistered.current) {
-      console.log('⏭️ [PERSISTENT] Event listener already registered, skipping...');
+      console.log('⏭️ [PERSISTENT] Event listeners already registered, skipping...');
     }
 
     // NO cleanup function - we want this listener to persist for the lifetime of the app
@@ -407,13 +414,21 @@ export function LightningWallet() {
                   >
                     ← Back
                   </button>
-                  <AlbyGoConnect
-                    onSuccess={() => {
-                      setSelectedWallet('none');
-                      setIsOpen(false);
-                    }}
-                    onError={(err) => console.error('Alby connection error:', err)}
-                  />
+                  <div className="bg-gradient-to-r from-amber-900/20 to-yellow-900/20 border border-amber-500/30 rounded-lg p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
+                        <Zap className="w-6 h-6 text-black" />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-semibold">Alby Hub</h3>
+                        <p className="text-gray-400 text-sm">Connect with one tap</p>
+                      </div>
+                    </div>
+                    <bc-button class="w-full"></bc-button>
+                    <p className="mt-4 text-xs text-gray-400 text-center">
+                      Connects to Alby Hub or Alby Go. Supports Lightning payments and boosts.
+                    </p>
+                  </div>
                 </div>
               )}
 
