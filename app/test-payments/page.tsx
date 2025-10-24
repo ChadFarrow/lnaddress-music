@@ -28,7 +28,8 @@ interface PodcastFeed {
 }
 
 export default function TestPaymentsPage() {
-  const [feed, setFeed] = useState<PodcastFeed | null>(null);
+  const [testFeed, setTestFeed] = useState<PodcastFeed | null>(null);
+  const [pc20Feed, setPC20Feed] = useState<PodcastFeed | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [paymentAmount, setPaymentAmount] = useState('100');
@@ -65,11 +66,14 @@ export default function TestPaymentsPage() {
       // Parse test feed
       const testDoc = parser.parseFromString(testFeedXml, 'text/xml');
       const testTitle = testDoc.querySelector('channel > title')?.textContent || 'LNURL Test Podcast';
+      const testDescription = testDoc.querySelector('channel > description')?.textContent || '';
       const testImage = testDoc.querySelector('channel > image > url')?.textContent || '';
       const testItems = Array.from(testDoc.querySelectorAll('item'));
 
       // Parse PC20 feed
       const pc20Doc = parser.parseFromString(pc20Xml, 'text/xml');
+      const pc20Title = pc20Doc.querySelector('channel > title')?.textContent || 'Podcasting 2.0';
+      const pc20Description = pc20Doc.querySelector('channel > description')?.textContent || '';
       const pc20Image = pc20Doc.querySelector('channel image url')?.textContent ||
                         pc20Doc.querySelector('channel itunes\\:image')?.getAttribute('href') || '';
 
@@ -79,16 +83,8 @@ export default function TestPaymentsPage() {
         item.querySelector('title')?.textContent?.includes('Episode 239')
       );
 
-      // Combine episodes from both feeds
-      const allItems = [...testItems];
-      if (episode239) {
-        allItems.push(episode239);
-      }
-
-      const episodes: Episode[] = allItems.map((item, idx) => {
-        const isPC20 = item === episode239;
-        const feedImage = isPC20 ? pc20Image : testImage;
-
+      // Parse test feed episodes
+      const testEpisodes: Episode[] = testItems.map(item => {
         const episode: Episode = {
           title: item.querySelector('title')?.textContent || 'Untitled',
           description: item.querySelector('description')?.textContent || '',
@@ -98,7 +94,7 @@ export default function TestPaymentsPage() {
           guid: item.querySelector('guid')?.textContent || Math.random().toString(),
           image: item.querySelector('itunes\\:image')?.getAttribute('href') ||
                  item.querySelector('image')?.getAttribute('href') ||
-                 feedImage
+                 testImage
         };
 
         // Parse value recipients from episode-specific value block
@@ -115,11 +111,47 @@ export default function TestPaymentsPage() {
         return episode;
       });
 
-      setFeed({
-        title: 'Test Payments Feed',
-        description: 'Combined test feeds for Lightning payments',
+      // Parse PC20 episode 239
+      const pc20Episodes: Episode[] = [];
+      if (episode239) {
+        const episode: Episode = {
+          title: episode239.querySelector('title')?.textContent || 'Untitled',
+          description: episode239.querySelector('description')?.textContent || '',
+          enclosureUrl: episode239.querySelector('enclosure')?.getAttribute('url') || '',
+          duration: episode239.querySelector('itunes\\:duration, duration')?.textContent || '',
+          pubDate: episode239.querySelector('pubDate')?.textContent || '',
+          guid: episode239.querySelector('guid')?.textContent || Math.random().toString(),
+          image: episode239.querySelector('itunes\\:image')?.getAttribute('href') ||
+                 episode239.querySelector('image')?.getAttribute('href') ||
+                 pc20Image
+        };
+
+        // Parse value recipients from episode-specific value block
+        const valueRecipients = Array.from(episode239.querySelectorAll('podcast\\:value > podcast\\:valueRecipient, value > valueRecipient'));
+        if (valueRecipients.length > 0) {
+          episode.valueRecipients = valueRecipients.map(recipient => ({
+            name: recipient.getAttribute('name') || '',
+            address: recipient.getAttribute('address') || '',
+            type: recipient.getAttribute('type') || '',
+            split: parseInt(recipient.getAttribute('split') || '0')
+          }));
+        }
+
+        pc20Episodes.push(episode);
+      }
+
+      setTestFeed({
+        title: testTitle,
+        description: testDescription,
         image: testImage,
-        episodes
+        episodes: testEpisodes
+      });
+
+      setPC20Feed({
+        title: pc20Title,
+        description: pc20Description,
+        image: pc20Image,
+        episodes: pc20Episodes
       });
     } catch (err) {
       console.error('Failed to fetch feed:', err);
@@ -213,56 +245,40 @@ export default function TestPaymentsPage() {
     );
   }
 
-  if (error || !feed) {
+  if (error || (!testFeed && !pc20Feed)) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-2">Error Loading Feed</h1>
-          <p className="text-gray-400">{error || 'Feed not found'}</p>
+          <h1 className="text-2xl font-bold text-white mb-2">Error Loading Feeds</h1>
+          <p className="text-gray-400">{error || 'Feeds not found'}</p>
         </div>
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 py-4">
-      <div className="container mx-auto px-4 max-w-6xl">
-        {/* Compact Header */}
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 mb-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              {feed.image && (
-                <img src={feed.image} alt={feed.title} className="w-12 h-12 rounded object-cover" />
-              )}
-              <div>
-                <h1 className="text-xl font-bold text-white">{feed.title}</h1>
-                <div className="flex items-center gap-2 text-xs text-gray-400">
-                  <Zap className="w-3 h-3 text-purple-400" />
-                  <span>Lightning Enabled</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-right text-sm">
-                <div className="text-purple-300 font-medium">
-                  {breez.isConnected ? `${breez.balance?.toLocaleString() || 0} sats` : 'Not connected'}
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={paymentAmount}
-                  onChange={(e) => setPaymentAmount(e.target.value)}
-                  className="w-20 px-2 py-1 bg-gray-800 border border-purple-500/30 text-white rounded text-sm focus:outline-none focus:border-purple-400"
-                  min="1"
-                />
-                <span className="text-xs text-purple-300">sats</span>
+  // Helper function to render a feed table
+  const renderFeedTable = (feed: PodcastFeed | null, feedName: string) => {
+    if (!feed || feed.episodes.length === 0) return null;
+
+    return (
+      <div key={feedName} className="mb-6">
+        {/* Feed Header */}
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 mb-2">
+          <div className="flex items-center space-x-3">
+            {feed.image && (
+              <img src={feed.image} alt={feed.title} className="w-12 h-12 rounded object-cover" />
+            )}
+            <div>
+              <h2 className="text-lg font-bold text-white">{feed.title}</h2>
+              <div className="flex items-center gap-2 text-xs text-gray-400">
+                <Zap className="w-3 h-3 text-purple-400" />
+                <span>{feed.episodes.length} episode{feed.episodes.length !== 1 ? 's' : ''}</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Compact Episode Table */}
+        {/* Episode Table */}
         <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden">
           <table className="w-full">
             <thead className="bg-white/5 border-b border-white/10">
@@ -338,6 +354,46 @@ export default function TestPaymentsPage() {
             </tbody>
           </table>
         </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 py-4">
+      <div className="container mx-auto px-4 max-w-6xl">
+        {/* Page Header */}
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-xl font-bold text-white mb-1">Test Lightning Payments</h1>
+              <div className="flex items-center gap-2 text-xs text-gray-400">
+                <Zap className="w-3 h-3 text-purple-400" />
+                <span>Multiple test feeds with Lightning value splits</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-right text-sm">
+                <div className="text-purple-300 font-medium">
+                  {breez.isConnected ? `${breez.balance?.toLocaleString() || 0} sats` : 'Not connected'}
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={paymentAmount}
+                  onChange={(e) => setPaymentAmount(e.target.value)}
+                  className="w-20 px-2 py-1 bg-gray-800 border border-purple-500/30 text-white rounded text-sm focus:outline-none focus:border-purple-400"
+                  min="1"
+                />
+                <span className="text-xs text-purple-300">sats</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Render both feeds */}
+        {renderFeedTable(testFeed, 'test-feed')}
+        {renderFeedTable(pc20Feed, 'pc20-feed')}
       </div>
 
       {/* Payment Success Modal */}
