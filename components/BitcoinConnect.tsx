@@ -410,6 +410,8 @@ export function BitcoinConnectPayment({
   };
 
   const handlePayment = async () => {
+    console.log('🎯 handlePayment CLICKED!');
+
     // Use enhanced detection logic similar to context
     const weblnExists = !!(window as any).webln;
     const weblnEnabled = weblnExists && !!(window as any).webln?.enabled;
@@ -421,7 +423,7 @@ export function BitcoinConnectPayment({
     // Only allow WebLN if user explicitly connected a WebLN wallet (not Breez)
     // This prevents WebLN from being used when user connected Breez
     const weblnAvailable = (weblnEnabled || hasWeblnMethods) && connectedWalletType !== 'breez';
-    
+
     console.log('🔌 Bitcoin Connect payment attempt:', {
       isConnected,
       isActuallyConnected,
