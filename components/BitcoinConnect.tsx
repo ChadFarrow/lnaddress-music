@@ -518,7 +518,7 @@ export function BitcoinConnectPayment({
 
         // Check if all payments succeeded
         const successfulPayments = results.filter(r => r.success);
-        const failedPayments = results.filter(r => !r.success && !r.skipped);
+        const failedPayments = results.filter(r => !r.success && !('skipped' in r && r.skipped));
         const allSucceeded = results.every(r => r.success);
         const anySucceeded = results.some(r => r.success);
 
@@ -606,7 +606,7 @@ export function BitcoinConnectPayment({
         const results = await Promise.all(paymentPromises);
 
         const successfulPayments = results.filter(r => r.success);
-        const failedPayments = results.filter(r => !r.success && !r.skipped);
+        const failedPayments = results.filter(r => !r.success && !('skipped' in r && r.skipped));
         const allSucceeded = results.every(r => r.success);
         const anySucceeded = results.some(r => r.success);
 
