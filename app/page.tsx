@@ -134,6 +134,13 @@ export default function HomePage() {
     setShowBoostModal(false);
     setBoostMessage(''); // Clear the message input after successful boost
     
+    // Trigger wallet balance refresh
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('boost:payment-sent', { 
+        detail: { response, amount: boostAmount } 
+      }));
+    }
+    
     // Trigger confetti animation
     const count = 200;
     const defaults = {

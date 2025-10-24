@@ -93,9 +93,23 @@ export function useBreez(): UseBreezReturn {
       }
     };
 
+    // Listen for boost payment events to auto-refresh balance
+    const handleBoostPaymentSent = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      console.log('🚀 Boost payment sent event in useBreez:', customEvent.detail);
+      console.log('🚀 Boost amount:', customEvent.detail?.amount, 'sats');
+      
+      // Automatically refresh balance when boost payment is sent
+      if (breezService.isConnected()) {
+        console.log('🔄 Auto-refreshing balance after boost payment...');
+        refreshBalance();
+      }
+    };
+
     if (typeof window !== 'undefined') {
       window.addEventListener('breez:connected', handleBreezConnected);
       window.addEventListener('breez:payment-received', handlePaymentReceived);
+      window.addEventListener('boost:payment-sent', handleBoostPaymentSent);
     }
 
     checkConnection();
@@ -105,6 +119,7 @@ export function useBreez(): UseBreezReturn {
       if (typeof window !== 'undefined') {
         window.removeEventListener('breez:connected', handleBreezConnected);
         window.removeEventListener('breez:payment-received', handlePaymentReceived);
+        window.removeEventListener('boost:payment-sent', handleBoostPaymentSent);
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps

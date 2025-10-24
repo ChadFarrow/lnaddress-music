@@ -695,7 +695,10 @@ export function LightningWallet() {
 
                         {!loadingTransactions && transactions.length > 0 && (
                           <div className="space-y-2">
-                            {transactions.map((tx) => (
+                            {transactions.map((tx) => {
+                              // Debug: Log transaction structure to see available fields
+                              console.log('🔍 Transaction data:', tx);
+                              return (
                               <div
                                 key={tx.id}
                                 className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg hover:bg-gray-900/70 transition-colors"
@@ -731,6 +734,11 @@ export function LightningWallet() {
                                   }`}>
                                     {tx.paymentType === 'receive' ? '+' : '-'}{Number(tx.amount).toLocaleString()} sats
                                   </p>
+                                  {tx.feeSat && tx.feeSat > 0 && tx.paymentType === 'send' && (
+                                    <p className="text-xs text-gray-500">
+                                      Fee: {Number(tx.feeSat).toLocaleString()} sats
+                                    </p>
+                                  )}
                                   {tx.status === 'pending' && (
                                     <div className="flex items-center gap-1 text-xs text-yellow-500">
                                       <Clock className="w-3 h-3" />
@@ -739,7 +747,8 @@ export function LightningWallet() {
                                   )}
                                 </div>
                               </div>
-                            ))}
+                            );
+                            })}
                             {hasMoreTransactions && !loadingTransactions && (
                               <button
                                 onClick={() => loadTransactions(true)}
