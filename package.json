@@ -31,7 +31,7 @@
     "fix-all": "node scripts/fix-all-issues.js"
   },
   "dependencies": {
-    "@breeztech/breez-sdk-spark": "^0.3.1",
+    "@breeztech/breez-sdk-spark": "^0.3.2",
     "@getalby/bitcoin-connect": "^3.10.0",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/core": "^2.0.1",
