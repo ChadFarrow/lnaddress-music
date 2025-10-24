@@ -418,7 +418,9 @@ export function BitcoinConnectPayment({
       typeof (window as any).webln?.sendPayment === 'function' ||
       typeof (window as any).webln?.keysend === 'function'
     );
-    const weblnAvailable = weblnEnabled || hasWeblnMethods;
+    // Only allow WebLN if user explicitly connected a WebLN wallet (not Breez)
+    // This prevents WebLN from being used when user connected Breez
+    const weblnAvailable = (weblnEnabled || hasWeblnMethods) && connectedWalletType !== 'breez';
     
     console.log('🔌 Bitcoin Connect payment attempt:', {
       isConnected,
@@ -515,6 +517,8 @@ export function BitcoinConnectPayment({
         const results = await Promise.all(paymentPromises);
 
         // Check if all payments succeeded
+        const successfulPayments = results.filter(r => r.success);
+        const failedPayments = results.filter(r => !r.success && !r.skipped);
         const allSucceeded = results.every(r => r.success);
         const anySucceeded = results.some(r => r.success);
 
@@ -525,8 +529,15 @@ export function BitcoinConnectPayment({
           await handleBoostCreation(results, amount);
           onSuccess?.(results);
         } else if (anySucceeded) {
-          console.warn('⚠️ Some Breez payments failed');
+          console.warn('⚠️ Some Breez payments failed:', failedPayments.length, 'failed,', successfulPayments.length, 'succeeded');
+          // Still create boost and call success for partial payments
+          await handleBoostCreation(successfulPayments, amount);
           onSuccess?.(results);
+          // Show a warning toast about partial failure
+          if (typeof window !== 'undefined') {
+            const { toast } = await import('@/components/Toast');
+            toast.warning(`Payment partially succeeded. ${successfulPayments.length} of ${results.length} payments completed.`);
+          }
         } else {
           console.error('❌ All Breez payments failed');
           onError?.('All payments failed');
@@ -594,6 +605,8 @@ export function BitcoinConnectPayment({
 
         const results = await Promise.all(paymentPromises);
 
+        const successfulPayments = results.filter(r => r.success);
+        const failedPayments = results.filter(r => !r.success && !r.skipped);
         const allSucceeded = results.every(r => r.success);
         const anySucceeded = results.some(r => r.success);
 
@@ -604,8 +617,15 @@ export function BitcoinConnectPayment({
           await handleBoostCreation(results, amount);
           onSuccess?.(results);
         } else if (anySucceeded) {
-          console.warn('⚠️ Some Breez payments failed');
+          console.warn('⚠️ Some Breez payments failed:', failedPayments.length, 'failed,', successfulPayments.length, 'succeeded');
+          // Still create boost and call success for partial payments
+          await handleBoostCreation(successfulPayments, amount);
           onSuccess?.(results);
+          // Show a warning toast about partial failure
+          if (typeof window !== 'undefined') {
+            const { toast } = await import('@/components/Toast');
+            toast.warning(`Payment partially succeeded. ${successfulPayments.length} of ${results.length} payments completed.`);
+          }
         } else {
           console.error('❌ All Breez payments failed');
           onError?.('All payments failed. Breez SDK may not support these Lightning Addresses. Try connecting an NWC wallet instead.');

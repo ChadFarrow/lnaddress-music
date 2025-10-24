@@ -118,21 +118,27 @@ export default function HomePage() {
   const [boostAmount, setBoostAmount] = useState(50);
   const [senderName, setSenderName] = useState('');
   const [boostMessage, setBoostMessage] = useState('');
-  
+  const [paymentResults, setPaymentResults] = useState<any[] | null>(null);
+
   // Global audio context
   const { playAlbumAndOpenNowPlaying: globalPlayAlbum, toggleShuffle } = useAudio();
   const hasLoadedRef = useRef(false);
-  
+
   // Handle boost button click from album card
   const handleBoostClick = (album: Album) => {
     setSelectedAlbum(album);
     setShowBoostModal(true);
+    setPaymentResults(null); // Reset payment results when opening modal
   };
-  
+
   // Handle boost success
   const handleBoostSuccess = (response: any) => {
-    setShowBoostModal(false);
-    setBoostMessage(''); // Clear the message input after successful boost
+    // Store payment results but keep modal open
+    setPaymentResults(response);
+    // Don't close modal anymore - let user close it manually
+    // setShowBoostModal(false);
+    // Don't clear message - keep it visible
+    // setBoostMessage('');
     
     // Trigger wallet balance refresh
     if (typeof window !== 'undefined') {
@@ -1083,15 +1089,45 @@ export default function HomePage() {
                           const percentage = ((recipient.split / totalSplit) * 100).toFixed(1);
                           const amount = Math.floor((boostAmount * recipient.split) / totalSplit);
                           const displayName = recipient.name || selectedAlbum.artist || 'Artist';
+
+                          // Check payment status from results
+                          let paymentStatus: 'pending' | 'success' | 'failed' = 'pending';
+                          if (paymentResults) {
+                            const result = paymentResults.find((r: any) =>
+                              r.recipient === recipient.address ||
+                              (r.recipient && recipient.address && r.recipient.includes(recipient.address.split('@')[0]))
+                            );
+                            if (result) {
+                              paymentStatus = result.success ? 'success' : (result.skipped ? 'pending' : 'failed');
+                            }
+                          }
+
+                          // Determine indicator color based on status
+                          const indicatorColor = paymentStatus === 'success'
+                            ? 'bg-green-500'
+                            : paymentStatus === 'failed'
+                            ? 'bg-red-500'
+                            : 'bg-yellow-500';
+
+                          const textColor = paymentStatus === 'success'
+                            ? 'text-green-400'
+                            : paymentStatus === 'failed'
+                            ? 'text-red-400'
+                            : 'text-yellow-500';
+
                           return (
                             <div key={index} className="flex items-center justify-between text-sm">
                               <div className="flex items-center gap-2 flex-1 min-w-0">
-                                <div className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
+                                <div className={`w-2 h-2 rounded-full ${indicatorColor} flex-shrink-0`} />
                                 <span className="text-gray-300 truncate">{displayName}</span>
                               </div>
                               <div className="flex items-center gap-3 flex-shrink-0">
                                 <span className="text-gray-400">{percentage}%</span>
-                                <span className="text-yellow-500 font-medium">{amount} sats</span>
+                                <span className={`${textColor} font-medium`}>
+                                  {amount} sats
+                                  {paymentStatus === 'success' && ' ✓'}
+                                  {paymentStatus === 'failed' && ' ✗'}
+                                </span>
                               </div>
                             </div>
                           );

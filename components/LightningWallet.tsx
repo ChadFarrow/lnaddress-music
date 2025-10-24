@@ -19,7 +19,6 @@ export function LightningWallet() {
   const [inputConnection, setInputConnection] = useState('');
   const [copied, setCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [connectedWalletType, setConnectedWalletType] = useState<'alby' | 'breez' | 'nwc' | null>(null);
   const [showInvoiceForm, setShowInvoiceForm] = useState(false);
   const [invoiceAmount, setInvoiceAmount] = useState('1000');
@@ -128,11 +127,9 @@ export function LightningWallet() {
         walletType = 'nwc';
       }
 
-      // Only show success toast if wallet type changed (new connection)
+      // Track connected wallet type
       if (walletType && walletType !== connectedWalletType) {
         setConnectedWalletType(walletType);
-        setShowSuccessToast(true);
-        setTimeout(() => setShowSuccessToast(false), 5000);
       }
 
       setSelectedWallet('none');
@@ -308,19 +305,6 @@ export function LightningWallet() {
 
   return (
     <>
-      {/* Success Toast */}
-      {showSuccessToast && (
-        <div className="fixed top-4 right-4 z-[999999] animate-in slide-in-from-top-5 duration-300">
-          <div className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-2xl flex items-center gap-3">
-            <Check className="w-5 h-5" />
-            <div>
-              <p className="font-semibold">Wallet Connected!</p>
-              <p className="text-sm text-green-100">Successfully connected to {getWalletName()}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Wallet Button */}
       <button
         onClick={() => setIsOpen(true)}
@@ -336,7 +320,7 @@ export function LightningWallet() {
           )}
         </div>
         {isConnected && (
-          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full" />
         )}
       </button>
 

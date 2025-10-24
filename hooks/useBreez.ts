@@ -55,11 +55,17 @@ export function useBreez(): UseBreezReturn {
         const storedConfig = BreezServiceClass.getStoredConfig?.();
 
         if (storedConfig && isSubscribed) {
-          // DISABLED: Auto-reconnect disabled to allow users to choose their wallet
-          // Users must explicitly click the connect button even if they connected before
-          console.log('ℹ️ Found stored Breez config, but auto-reconnect is disabled');
-          console.log('ℹ️ User must manually click wallet button to reconnect');
-          setIsConnected(false);
+          // ENABLED: Auto-reconnect to restore wallet session on page reload
+          console.log('🔄 Found stored Breez config, attempting auto-reconnect...');
+          reconnectAttempted.current = true;
+
+          try {
+            await connect(storedConfig);
+            console.log('✅ Auto-reconnected to Breez wallet successfully');
+          } catch (error) {
+            console.error('❌ Auto-reconnect failed:', error);
+            setIsConnected(false);
+          }
         } else if (isSubscribed) {
           setIsConnected(false);
         }
