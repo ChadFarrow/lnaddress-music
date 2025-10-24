@@ -48,32 +48,61 @@ export default function TestPaymentsPage() {
   const fetchFeed = async () => {
     try {
       setLoading(true);
-      const response = await fetch('https://raw.githubusercontent.com/ChadFarrow/lnurl-test-feed/main/public/lnurl-test-feed.xml');
-      const xmlText = await response.text();
+
+      // Fetch both feeds in parallel
+      const [testFeedResponse, pc20Response] = await Promise.all([
+        fetch('https://raw.githubusercontent.com/ChadFarrow/lnurl-test-feed/main/public/lnurl-test-feed.xml'),
+        fetch('https://feeds.podcastindex.org/pc20.xml')
+      ]);
+
+      const [testFeedXml, pc20Xml] = await Promise.all([
+        testFeedResponse.text(),
+        pc20Response.text()
+      ]);
 
       const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
 
-      // Parse feed info
-      const title = xmlDoc.querySelector('channel > title')?.textContent || 'LNURL Test Podcast';
-      const description = xmlDoc.querySelector('channel > description')?.textContent || '';
-      const image = xmlDoc.querySelector('channel > image > url')?.textContent || '';
+      // Parse test feed
+      const testDoc = parser.parseFromString(testFeedXml, 'text/xml');
+      const testTitle = testDoc.querySelector('channel > title')?.textContent || 'LNURL Test Podcast';
+      const testImage = testDoc.querySelector('channel > image > url')?.textContent || '';
+      const testItems = Array.from(testDoc.querySelectorAll('item'));
 
-      // Parse episodes
-      const items = Array.from(xmlDoc.querySelectorAll('item'));
-      const episodes: Episode[] = items.map(item => {
+      // Parse PC20 feed
+      const pc20Doc = parser.parseFromString(pc20Xml, 'text/xml');
+      const pc20Image = pc20Doc.querySelector('channel image url')?.textContent ||
+                        pc20Doc.querySelector('channel itunes\\:image')?.getAttribute('href') || '';
+
+      // Find episode 239 from PC20 feed
+      const pc20Items = Array.from(pc20Doc.querySelectorAll('item'));
+      const episode239 = pc20Items.find(item =>
+        item.querySelector('title')?.textContent?.includes('Episode 239')
+      );
+
+      // Combine episodes from both feeds
+      const allItems = [...testItems];
+      if (episode239) {
+        allItems.push(episode239);
+      }
+
+      const episodes: Episode[] = allItems.map((item, idx) => {
+        const isPC20 = item === episode239;
+        const feedImage = isPC20 ? pc20Image : testImage;
+
         const episode: Episode = {
           title: item.querySelector('title')?.textContent || 'Untitled',
           description: item.querySelector('description')?.textContent || '',
           enclosureUrl: item.querySelector('enclosure')?.getAttribute('url') || '',
-          duration: item.querySelector('duration')?.textContent || '',
+          duration: item.querySelector('itunes\\:duration, duration')?.textContent || '',
           pubDate: item.querySelector('pubDate')?.textContent || '',
           guid: item.querySelector('guid')?.textContent || Math.random().toString(),
-          image: item.querySelector('image')?.getAttribute('href') || image
+          image: item.querySelector('itunes\\:image')?.getAttribute('href') ||
+                 item.querySelector('image')?.getAttribute('href') ||
+                 feedImage
         };
 
         // Parse value recipients from episode-specific value block
-        const valueRecipients = Array.from(item.querySelectorAll('value > valueRecipient'));
+        const valueRecipients = Array.from(item.querySelectorAll('podcast\\:value > podcast\\:valueRecipient, value > valueRecipient'));
         if (valueRecipients.length > 0) {
           episode.valueRecipients = valueRecipients.map(recipient => ({
             name: recipient.getAttribute('name') || '',
@@ -86,7 +115,12 @@ export default function TestPaymentsPage() {
         return episode;
       });
 
-      setFeed({ title, description, image, episodes });
+      setFeed({
+        title: 'Test Payments Feed',
+        description: 'Combined test feeds for Lightning payments',
+        image: testImage,
+        episodes
+      });
     } catch (err) {
       console.error('Failed to fetch feed:', err);
       setError('Failed to load test feed');
