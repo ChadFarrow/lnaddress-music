@@ -491,11 +491,16 @@ export function BitcoinConnectPayment({
 
           console.log(`💳 Breez payment to ${paymentRecipient.name || paymentRecipient.address}: ${paymentAmount} sats`);
 
+          // Create a message that includes the Lightning address for transaction history
+          const paymentMessage = boostMetadata?.message
+            ? `${boostMetadata.message} → ${paymentRecipient.address}`
+            : paymentRecipient.address;
+
           return breez.sendPayment({
             destination: paymentRecipient.address,
             amountSats: paymentAmount,
             label: paymentRecipient.name || description,
-            message: boostMetadata?.message
+            message: paymentMessage
           }).then((payment) => {
             console.log(`✅ Breez payment successful:`, payment.id);
             return {
@@ -580,11 +585,16 @@ export function BitcoinConnectPayment({
 
           console.log(`💳 Breez payment to ${paymentRecipient.name || paymentRecipient.address}: ${paymentAmount} sats`);
 
+          // Create a message that includes the Lightning address for transaction history
+          const paymentMessage = boostMetadata?.message
+            ? `${boostMetadata.message} → ${paymentRecipient.address}`
+            : paymentRecipient.address;
+
           return breez.sendPayment({
             destination: paymentRecipient.address,
             amountSats: paymentAmount,
             label: paymentRecipient.name || description,
-            message: boostMetadata?.message
+            message: paymentMessage
           }).then((payment) => {
             console.log(`✅ Breez payment successful:`, payment.id);
             return {

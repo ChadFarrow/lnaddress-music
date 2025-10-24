@@ -682,54 +682,84 @@ export function LightningWallet() {
                             {transactions.map((tx) => {
                               // Debug: Log transaction structure to see available fields
                               console.log('🔍 Transaction data:', tx);
+
+                              // Extract memo and destination from payment details
+                              let memo = '';
+                              let destination = '';
+
+                              if (tx.details?.type === 'lightning') {
+                                memo = tx.details.description || tx.details.lnurlPayInfo?.comment || '';
+                                destination = tx.details.lnurlPayInfo?.lnAddress ||
+                                             (tx.details.destinationPubkey ? `${tx.details.destinationPubkey.substring(0, 16)}...` : '');
+                              }
+
                               return (
                               <div
                                 key={tx.id}
-                                className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg hover:bg-gray-900/70 transition-colors"
+                                className="flex flex-col p-3 bg-gray-900/50 rounded-lg hover:bg-gray-900/70 transition-colors"
                               >
-                                <div className="flex items-center gap-3">
-                                  <div className={`p-2 rounded-lg ${
-                                    tx.paymentType === 'receive'
-                                      ? 'bg-green-500/10'
-                                      : 'bg-red-500/10'
-                                  }`}>
-                                    {tx.paymentType === 'receive' ? (
-                                      <ArrowDownLeft className={`w-4 h-4 ${
-                                        tx.status === 'pending' ? 'text-yellow-500' : 'text-green-500'
-                                      }`} />
-                                    ) : (
-                                      <ArrowUpRight className={`w-4 h-4 ${
-                                        tx.status === 'pending' ? 'text-yellow-500' : 'text-red-500'
-                                      }`} />
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-3">
+                                    <div className={`p-2 rounded-lg ${
+                                      tx.paymentType === 'receive'
+                                        ? 'bg-green-500/10'
+                                        : 'bg-red-500/10'
+                                    }`}>
+                                      {tx.paymentType === 'receive' ? (
+                                        <ArrowDownLeft className={`w-4 h-4 ${
+                                          tx.status === 'pending' ? 'text-yellow-500' : 'text-green-500'
+                                        }`} />
+                                      ) : (
+                                        <ArrowUpRight className={`w-4 h-4 ${
+                                          tx.status === 'pending' ? 'text-yellow-500' : 'text-red-500'
+                                        }`} />
+                                      )}
+                                    </div>
+                                    <div>
+                                      <p className="text-sm font-medium text-white">
+                                        {tx.paymentType === 'receive' ? 'Received' : 'Sent'}
+                                      </p>
+                                      <p className="text-xs text-gray-400">
+                                        {tx.timestamp ? formatDate(tx.timestamp) : 'Unknown date'}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="text-right">
+                                    <p className={`font-semibold ${
+                                      tx.paymentType === 'receive' ? 'text-green-400' : 'text-red-400'
+                                    }`}>
+                                      {tx.paymentType === 'receive' ? '+' : '-'}{Number(tx.amount).toLocaleString()} sats
+                                    </p>
+                                    {tx.fees && tx.fees > 0 && tx.paymentType === 'send' && (
+                                      <p className="text-xs text-gray-500">
+                                        Fee: {Number(tx.fees).toLocaleString()} sats
+                                      </p>
+                                    )}
+                                    {tx.status === 'pending' && (
+                                      <div className="flex items-center gap-1 text-xs text-yellow-500">
+                                        <Clock className="w-3 h-3" />
+                                        Pending
+                                      </div>
                                     )}
                                   </div>
-                                  <div>
-                                    <p className="text-sm font-medium text-white">
-                                      {tx.paymentType === 'receive' ? 'Received' : 'Sent'}
-                                    </p>
-                                    <p className="text-xs text-gray-400">
-                                      {tx.timestamp ? formatDate(tx.timestamp) : 'Unknown date'}
-                                    </p>
+                                </div>
+                                {/* Additional details row */}
+                                {(memo || destination) && (
+                                  <div className="mt-2 pt-2 border-t border-gray-700/50 space-y-1">
+                                    {memo && (
+                                      <div className="flex items-start gap-2">
+                                        <span className="text-xs text-gray-500 font-medium min-w-[60px]">Memo:</span>
+                                        <span className="text-xs text-gray-400 break-all">{memo}</span>
+                                      </div>
+                                    )}
+                                    {destination && (
+                                      <div className="flex items-start gap-2">
+                                        <span className="text-xs text-gray-500 font-medium min-w-[60px]">To:</span>
+                                        <span className="text-xs text-gray-400 font-mono break-all">{destination}</span>
+                                      </div>
+                                    )}
                                   </div>
-                                </div>
-                                <div className="text-right">
-                                  <p className={`font-semibold ${
-                                    tx.paymentType === 'receive' ? 'text-green-400' : 'text-red-400'
-                                  }`}>
-                                    {tx.paymentType === 'receive' ? '+' : '-'}{Number(tx.amount).toLocaleString()} sats
-                                  </p>
-                                  {tx.feeSat && tx.feeSat > 0 && tx.paymentType === 'send' && (
-                                    <p className="text-xs text-gray-500">
-                                      Fee: {Number(tx.feeSat).toLocaleString()} sats
-                                    </p>
-                                  )}
-                                  {tx.status === 'pending' && (
-                                    <div className="flex items-center gap-1 text-xs text-yellow-500">
-                                      <Clock className="w-3 h-3" />
-                                      Pending
-                                    </div>
-                                  )}
-                                </div>
+                                )}
                               </div>
                             );
                             })}
