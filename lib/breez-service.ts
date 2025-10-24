@@ -310,9 +310,8 @@ class BreezService {
 
     try {
       // Parse the destination to determine the payment type
-      const { parse } = await import('@breeztech/breez-sdk-spark/web');
       console.log('🔍 Parsing payment destination:', request.destination);
-      const inputType = await parse(request.destination);
+      const inputType = await this.sdk.parse(request.destination);
       console.log('✅ Parsed input type:', inputType.type);
 
       // Handle Lightning Address / LNURL-Pay separately
