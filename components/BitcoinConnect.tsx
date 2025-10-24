@@ -538,11 +538,7 @@ export function BitcoinConnectPayment({
           // Still create boost and call success for partial payments
           await handleBoostCreation(successfulPayments, amount);
           onSuccess?.(results);
-          // Show a warning toast about partial failure
-          if (typeof window !== 'undefined') {
-            const { toast } = await import('@/components/Toast');
-            toast.warning(`Payment partially succeeded. ${successfulPayments.length} of ${results.length} payments completed.`);
-          }
+          // Toast removed - payment status now shown in modal
         } else {
           console.error('❌ All Breez payments failed');
           onError?.('All payments failed');
@@ -631,11 +627,7 @@ export function BitcoinConnectPayment({
           // Still create boost and call success for partial payments
           await handleBoostCreation(successfulPayments, amount);
           onSuccess?.(results);
-          // Show a warning toast about partial failure
-          if (typeof window !== 'undefined') {
-            const { toast } = await import('@/components/Toast');
-            toast.warning(`Payment partially succeeded. ${successfulPayments.length} of ${results.length} payments completed.`);
-          }
+          // Toast removed - payment status now shown in modal
         } else {
           console.error('❌ All Breez payments failed');
           onError?.('All payments failed. Breez SDK may not support these Lightning Addresses. Try connecting an NWC wallet instead.');

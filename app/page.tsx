@@ -165,8 +165,8 @@ export default function HomePage() {
     fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
     fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
     fire(0.1, { spread: 120, startVelocity: 45 });
-    
-    toast.success('⚡ Boost sent successfully!');
+
+    // Toast removed - payment status now shown in modal
   };
   
   const handleBoostError = (error: string) => {
@@ -1139,14 +1139,15 @@ export default function HomePage() {
                 return null;
               })()}
 
-              {/* Boost Button */}
-              <BitcoinConnectPayment
-                amount={boostAmount}
-                description={`Boost for ${selectedAlbum.title} by ${selectedAlbum.artist}`}
-                onSuccess={handleBoostSuccess}
-                onError={handleBoostError}
-                className="w-full !mt-6"
-                recipients={(() => {
+              {/* Boost Button - Show different button after payment succeeds */}
+              {!paymentResults ? (
+                <BitcoinConnectPayment
+                  amount={boostAmount}
+                  description={`Boost for ${selectedAlbum.title} by ${selectedAlbum.artist}`}
+                  onSuccess={handleBoostSuccess}
+                  onError={handleBoostError}
+                  className="w-full !mt-6"
+                  recipients={(() => {
                   // Get payment recipients from album or first track
                   let value = null;
 
@@ -1191,6 +1192,20 @@ export default function HomePage() {
                   imageUrl: selectedAlbum.imageUrl
                 }}
               />
+              ) : (
+                <button
+                  onClick={() => {
+                    setPaymentResults(null);
+                    setBoostMessage('');
+                  }}
+                  className="w-full mt-6 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                  </svg>
+                  Send Another Boost
+                </button>
+              )}
             </div>
           </div>
         </div>
