@@ -35,6 +35,9 @@ export function LightningWallet() {
   const [showTransactions, setShowTransactions] = useState(false);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loadingTransactions, setLoadingTransactions] = useState(false);
+  const [transactionOffset, setTransactionOffset] = useState(0);
+  const [hasMoreTransactions, setHasMoreTransactions] = useState(true);
+  const TRANSACTIONS_PER_PAGE = 20;
 
   const nwc = useNWC();
   const breez = useBreez();
@@ -237,14 +240,32 @@ export function LightningWallet() {
     }
   };
 
-  const loadTransactions = async () => {
+  const loadTransactions = async (append = false) => {
     if (!breez.isConnected) return;
 
     setLoadingTransactions(true);
     try {
-      const payments = await breez.listPayments({ limit: 50 });
-      setTransactions(payments);
-      console.log('📜 Loaded', payments.length, 'transactions');
+      // Sync wallet first to ensure we have the latest transactions
+      console.log('🔄 Syncing wallet before loading transactions...');
+      await breez.syncWallet();
+      
+      const offset = append ? transactionOffset : 0;
+      const payments = await breez.listPayments({ 
+        limit: TRANSACTIONS_PER_PAGE, 
+        offset 
+      });
+      
+      if (append) {
+        setTransactions(prev => [...prev, ...payments]);
+      } else {
+        setTransactions(payments);
+      }
+      
+      // Update pagination state
+      setTransactionOffset(offset + payments.length);
+      setHasMoreTransactions(payments.length === TRANSACTIONS_PER_PAGE);
+      
+      console.log('📜 Loaded', payments.length, 'transactions (total:', offset + payments.length, ')');
     } catch (err) {
       console.error('❌ Failed to load transactions:', err);
     } finally {
@@ -625,6 +646,8 @@ export function LightningWallet() {
                       <button
                         onClick={() => {
                           setShowTransactions(true);
+                          setTransactionOffset(0);
+                          setHasMoreTransactions(true);
                           loadTransactions();
                         }}
                         className="w-full py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors"
@@ -637,12 +660,27 @@ export function LightningWallet() {
                       <div className="space-y-3 p-4 bg-gray-800/50 rounded-lg max-h-96 overflow-y-auto">
                         <div className="flex items-center justify-between mb-2">
                           <h3 className="font-semibold text-white">Transaction History</h3>
-                          <button
-                            onClick={() => setShowTransactions(false)}
-                            className="text-gray-400 hover:text-white"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => {
+                                setTransactionOffset(0);
+                                setHasMoreTransactions(true);
+                                loadTransactions();
+                              }}
+                              className="text-gray-400 hover:text-white p-1"
+                              title="Refresh transactions"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                              </svg>
+                            </button>
+                            <button
+                              onClick={() => setShowTransactions(false)}
+                              className="text-gray-400 hover:text-white p-1"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
                         </div>
 
                         {loadingTransactions && (
@@ -702,6 +740,14 @@ export function LightningWallet() {
                                 </div>
                               </div>
                             ))}
+                            {hasMoreTransactions && !loadingTransactions && (
+                              <button
+                                onClick={() => loadTransactions(true)}
+                                className="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors text-sm"
+                              >
+                                Load More Transactions
+                              </button>
+                            )}
                           </div>
                         )}
                       </div>

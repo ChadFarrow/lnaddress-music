@@ -197,6 +197,14 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
 
       setIsConnected(currentStatus);
       setConnectedWalletType(walletType);
+
+      // Force trigger a global event for components that might need to re-render
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('bc:connection-changed', { 
+          detail: { isConnected: currentStatus, walletType } 
+        }));
+      }
+
       return !!anyConnection;
     } catch (error) {
       console.error('Error checking connection:', error);

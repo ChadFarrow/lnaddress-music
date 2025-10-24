@@ -581,7 +581,9 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
             <div className="flex items-center justify-center w-full relative">
               <button
                 onClick={async () => {
-                  await checkConnection();
+                  console.log('🚀 Boost button clicked, checking connection...');
+                  const connectionResult = await checkConnection();
+                  console.log('🔍 Connection check result:', connectionResult);
                   setShowBoostModal(true);
                 }}
                 className="flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transform hover:scale-105 transition-all duration-150 text-sm"

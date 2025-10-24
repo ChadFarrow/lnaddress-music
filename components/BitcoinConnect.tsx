@@ -206,6 +206,9 @@ export function BitcoinConnectPayment({
   const { isLightningEnabled } = useLightning();
   const breez = useBreez();
 
+  // Enhanced connection detection - check multiple sources
+  const isActuallyConnected = isConnected || breez.isConnected || !!(window as any).webln?.enabled;
+
   // Debug: Log when isConnected state changes
   useEffect(() => {
     console.log('🔗 BitcoinConnectPayment - isConnected state changed:', isConnected);
@@ -216,6 +219,19 @@ export function BitcoinConnectPayment({
   useEffect(() => {
     setRenderKey(prev => prev + 1);
   }, [isConnected]);
+
+  // Listen for connection state changes and force re-render
+  useEffect(() => {
+    const handleConnectionChange = () => {
+      console.log('🔄 BitcoinConnectPayment received connection change event');
+      setRenderKey(prev => prev + 1);
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('bc:connection-changed', handleConnectionChange);
+      return () => window.removeEventListener('bc:connection-changed', handleConnectionChange);
+    }
+  }, []);
   
   // Initialize Nostr boost system if boosts are enabled
   const { postBoost, generateKeys, publicKey } = useBoostToNostr({ 
@@ -406,6 +422,7 @@ export function BitcoinConnectPayment({
     
     console.log('🔌 Bitcoin Connect payment attempt:', {
       isConnected,
+      isActuallyConnected,
       connectedWalletType,
       weblnExists,
       weblnEnabled,
@@ -413,6 +430,13 @@ export function BitcoinConnectPayment({
       weblnAvailable,
       breezConnected: breez.isConnected
     });
+
+    // If we're not actually connected, show an error
+    if (!isActuallyConnected) {
+      onError?.('No wallet connection found. Please connect a Lightning wallet first.');
+      setLoading(false);
+      return;
+    }
 
     console.log('🚀 sendPayment called with:', { recipient, amount, description, enableBoosts, connectedWalletType });
     setLoading(true);
@@ -1158,17 +1182,30 @@ export function BitcoinConnectPayment({
     );
   }
 
+  // Debug logging for button state
+  console.log('🔍 BitcoinConnectPayment render state:', {
+    loading,
+    isConnected,
+    breezConnected: breez.isConnected,
+    isActuallyConnected,
+    connectedWalletType,
+    disabled: loading || !isActuallyConnected,
+    buttonText: loading ? 'Processing...' : 
+                !isActuallyConnected ? 'Connect Wallet First' : 
+                `Send ${amount} sats`
+  });
+
   return (
     <button
-      key={`boost-button-${renderKey}-${isConnected}`}
+      key={`boost-button-${renderKey}-${isActuallyConnected}`}
       onClick={handlePayment}
-      disabled={loading || !isConnected}
+      disabled={loading || !isActuallyConnected}
       className={`flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-600 disabled:text-gray-400 text-black font-semibold rounded-lg transition-colors ${className}`}
     >
       <Zap className="w-4 h-4" />
       <span>
         {loading ? 'Processing...' : 
-         !isConnected ? 'Connect Wallet First' : 
+         !isActuallyConnected ? 'Connect Wallet First' : 
          `Send ${amount} sats`}
       </span>
     </button>
