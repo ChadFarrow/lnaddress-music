@@ -302,15 +302,20 @@ export default function TestPaymentsPage() {
                   <td className="px-4 py-3 text-center text-sm text-gray-400">{episode.duration}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-2">
-                      <a
-                        href={episode.enclosureUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        onClick={() => {
+                          const audio = new Audio(episode.enclosureUrl);
+                          audio.play().catch(err => {
+                            console.error('Failed to play audio:', err);
+                            // Fallback: open in new tab if autoplay fails
+                            window.open(episode.enclosureUrl, '_blank');
+                          });
+                        }}
                         className="p-2 bg-gray-700 text-gray-200 rounded hover:bg-gray-600 transition-colors"
                         title="Play"
                       >
                         <Play className="w-4 h-4" />
-                      </a>
+                      </button>
                       <button
                         onClick={() => sendPayment(episode)}
                         disabled={!breez.isConnected || processingPayment === episode.guid}
