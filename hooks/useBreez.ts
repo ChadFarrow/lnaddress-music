@@ -58,6 +58,7 @@ export function useBreez(): UseBreezReturn {
           // ENABLED: Auto-reconnect to restore wallet session on page reload
           console.log('🔄 Found stored Breez config, attempting auto-reconnect...');
           reconnectAttempted.current = true;
+          setLoading(true); // Show loading indicator during reconnect
 
           try {
             await connect(storedConfig);
@@ -65,6 +66,8 @@ export function useBreez(): UseBreezReturn {
           } catch (error) {
             console.error('❌ Auto-reconnect failed:', error);
             setIsConnected(false);
+          } finally {
+            setLoading(false);
           }
         } else if (isSubscribed) {
           setIsConnected(false);
@@ -73,6 +76,7 @@ export function useBreez(): UseBreezReturn {
         if (isSubscribed) {
           console.error('Error checking Breez connection:', err);
           setIsConnected(false);
+          setLoading(false);
         }
       }
     };

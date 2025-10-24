@@ -313,11 +313,13 @@ export function LightningWallet() {
       >
         <div className="flex items-center gap-2">
           <Zap className="w-5 h-5 text-yellow-500" />
-          {isConnected && balance !== null && (
+          {loading && !isConnected ? (
+            <Loader2 className="w-4 h-4 text-gray-400 animate-spin" />
+          ) : isConnected && balance !== null ? (
             <span className="text-sm font-medium text-gray-200">
               {formatBalance(balance)}
             </span>
-          )}
+          ) : null}
         </div>
         {isConnected && (
           <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full" />
