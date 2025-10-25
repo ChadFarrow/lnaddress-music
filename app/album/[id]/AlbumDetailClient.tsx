@@ -15,6 +15,9 @@ import PerformanceMonitor from '@/components/PerformanceMonitor';
 import { triggerSuccessConfetti } from '@/lib/ui-utils';
 import { createAlbumSlug } from '@/lib/slug-utils';
 import { PAYMENT_AMOUNTS } from '@/lib/constants';
+import { PaymentConfirmationModal, type PaymentConfirmation, type PaymentRecipient } from '@/components/PaymentConfirmationModal';
+import { useNWC } from '@/hooks/useNWC';
+import { useBreez } from '@/hooks/useBreez';
 
 // Dynamic import for ControlsBar
 const ControlsBar = dynamic(() => import('@/components/ControlsBar'), {
@@ -100,6 +103,8 @@ interface AlbumDetailClientProps {
 export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDetailClientProps) {
   const { isLightningEnabled } = useLightning();
   const { checkConnection } = useBitcoinConnect();
+  const nwc = useNWC();
+  const breez = useBreez();
   const [album, setAlbum] = useState<Album | null>(initialAlbum);
   const [isLoading, setIsLoading] = useState(!initialAlbum);
   const [error, setError] = useState<string | null>(null);
@@ -117,13 +122,9 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   // Album boost modal state
   const [showAlbumBoostModal, setShowAlbumBoostModal] = useState(false);
 
-  // Payment success modal state
-  const [paymentSuccess, setPaymentSuccess] = useState<{
-    amount: number;
-    title: string;
-    type: 'album' | 'track';
-    recipients: Array<{ name: string; split: number; address: string }>;
-  } | null>(null);
+  // Payment confirmation state for album and track boosts
+  const [confirmAlbumPayment, setConfirmAlbumPayment] = useState<PaymentConfirmation | null>(null);
+  const [confirmTrackPayment, setConfirmTrackPayment] = useState<PaymentConfirmation | null>(null);
 
   // Request deduplication refs
   const loadingAlbumsRef = useRef(false);
