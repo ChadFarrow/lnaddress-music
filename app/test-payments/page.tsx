@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Play, Zap, Loader2, CheckCircle2, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Zap, Loader2, CheckCircle2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useBreez } from '@/hooks/useBreez';
 
 interface Episode {
@@ -501,7 +501,6 @@ export default function TestPaymentsPage() {
               <tr>
                 <th className="text-left px-4 py-2 text-sm font-semibold text-gray-300">Episode</th>
                 <th className="text-left px-4 py-2 text-sm font-semibold text-gray-300">Recipients</th>
-                <th className="text-center px-4 py-2 text-sm font-semibold text-gray-300">Duration</th>
                 <th className="text-right px-4 py-2 text-sm font-semibold text-gray-300">Actions</th>
               </tr>
             </thead>
@@ -531,23 +530,8 @@ export default function TestPaymentsPage() {
                       <span className="text-xs text-gray-500">No recipients</span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-center text-sm text-gray-400">{episode.duration}</td>
                   <td className="px-4 py-3">
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={() => {
-                          const audio = new Audio(episode.enclosureUrl);
-                          audio.play().catch(err => {
-                            console.error('Failed to play audio:', err);
-                            // Fallback: open in new tab if autoplay fails
-                            window.open(episode.enclosureUrl, '_blank');
-                          });
-                        }}
-                        className="p-2 bg-gray-700 text-gray-200 rounded hover:bg-gray-600 transition-colors"
-                        title="Play"
-                      >
-                        <Play className="w-4 h-4" />
-                      </button>
+                    <div className="flex items-center justify-end">
                       <button
                         onClick={() => showPaymentConfirmation(episode)}
                         disabled={!breez.isConnected || processingPayment === episode.guid}
