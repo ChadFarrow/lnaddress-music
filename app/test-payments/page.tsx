@@ -186,11 +186,10 @@ export default function TestPaymentsPage() {
       // Calculate total splits for Lightning addresses only
       const totalLnSplit = lnAddressRecipients.reduce((sum, r) => sum + r.split, 0);
 
-      console.log(`Sending ${amount} sats split among ${lnAddressRecipients.length} recipients sequentially`);
+      console.log(`Sending ${amount} sats split among ${lnAddressRecipients.length} recipients in parallel`);
 
-      // Send payments sequentially to avoid overwhelming Breez
-      const results = [];
-      for (const recipient of lnAddressRecipients) {
+      // Send payments in parallel for faster processing
+      const paymentPromises = lnAddressRecipients.map(async (recipient) => {
         const recipientAmount = Math.floor((amount * recipient.split) / totalLnSplit);
 
         if (recipientAmount > 0) {
@@ -202,16 +201,19 @@ export default function TestPaymentsPage() {
               label: `Test payment for: ${episode.title} - ${recipient.name}`,
               message: `Payment from test feed`
             });
-            results.push({ success: true, name: recipient.name, skipped: false });
             console.log(`✅ Successfully sent to ${recipient.name}`);
+            return { success: true, name: recipient.name, skipped: false };
           } catch (err) {
             console.error(`❌ Failed to send to ${recipient.name}:`, err);
-            results.push({ success: false, name: recipient.name, skipped: false });
+            return { success: false, name: recipient.name, skipped: false };
           }
         } else {
-          results.push({ success: false, name: recipient.name, skipped: true });
+          return { success: false, name: recipient.name, skipped: true };
         }
-      }
+      });
+
+      // Wait for all payments to complete
+      const results = await Promise.all(paymentPromises);
 
       // Count successes and failures
       const successCount = results.filter(r => r.success).length;

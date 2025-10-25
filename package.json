@@ -28,7 +28,8 @@
     "post-parse-cleanup": "node scripts/post-parse-cleanup.js",
     "fix-images": "node scripts/fix-corrupted-images.js",
     "clear-sw-cache": "node scripts/clear-sw-cache.js",
-    "fix-all": "node scripts/fix-all-issues.js"
+    "fix-all": "node scripts/fix-all-issues.js",
+    "clear-cache": "node scripts/clear-cache.js"
   },
   "dependencies": {
     "@breeztech/breez-sdk-spark": "^0.3.2",

@@ -1,5 +1,10 @@
-const CACHE_NAME = 'music-site-v1';
-const STATIC_CACHE_NAME = 'music-site-static-v1';
+// Increment these versions when you need to force cache invalidation during development
+const CACHE_VERSION = 'v3'; // <-- Change this when you need fresh cache
+const CACHE_NAME = `music-site-${CACHE_VERSION}`;
+const STATIC_CACHE_NAME = `music-site-static-${CACHE_VERSION}`;
+
+// DEV MODE: Set to true to disable all caching during local development
+const DEV_MODE = true; // <-- Set to false for production
 
 // Files to cache for offline functionality and performance
 const STATIC_FILES = [
@@ -58,7 +63,18 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
-  
+
+  // DEV MODE: Bypass all caching
+  if (DEV_MODE) {
+    event.respondWith(
+      fetch(request).catch(() => {
+        // Fallback to cache only if offline
+        return caches.match(request);
+      })
+    );
+    return;
+  }
+
   // Handle different types of requests
   if (request.method !== 'GET') {
     return;

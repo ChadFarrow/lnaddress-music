@@ -71,19 +71,19 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                window.addEventListener("error", function(event) {
-                  console.error("Layout error caught:", event.error);
+                window.addEventListener('error', function(event) {
+                  console.error('Layout error caught:', event.error);
                   if (event.error && event.error.stack) {
-                    console.error("Stack trace:", event.error.stack);
+                    console.error('Stack trace:', event.error.stack);
                   }
                 });
-                
-                window.addEventListener("unhandledrejection", function(event) {
-                  if (event.reason && event.reason.message && 
-                      event.reason.message.includes("_balanceSats is null")) {
+
+                window.addEventListener('unhandledrejection', function(event) {
+                  if (event.reason && event.reason.message &&
+                      event.reason.message.includes('_balanceSats is null')) {
                     event.preventDefault();
                   } else {
-                    console.error("Layout promise rejection caught:", event.reason);
+                    console.error('Layout promise rejection caught:', event.reason);
                   }
                 });
               })();
