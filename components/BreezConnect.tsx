@@ -14,19 +14,73 @@ interface BreezConnectProps {
 
 export default function BreezConnect({ onSuccess, onError, className = '' }: BreezConnectProps) {
   const { connect, isConnected, loading, error, disconnect } = useBreez();
-  const { user } = useAuth();
+  const { user, getMnemonic } = useAuth();
   const [mnemonic, setMnemonic] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [generatedMnemonic, setGeneratedMnemonic] = useState('');
   const [forceShowForm, setForceShowForm] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<string>('');
   const [showSuccess, setShowSuccess] = useState(false);
-  const [authView, setAuthView] = useState<'none' | 'login' | 'register'>('none');
+  const [authView, setAuthView] = useState<'none' | 'login' | 'register' | 'password'>('none');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   // Always use mainnet
   const network = 'mainnet';
 
   // Debug logging
   console.log('🔍 BreezConnect render:', { isConnected, loading, error, forceShowForm });
+
+  const handleLoginAndConnect = async () => {
+    if (!loginPassword) {
+      setPasswordError('Password is required');
+      return;
+    }
+
+    setPasswordError('');
+    setConnectionStatus('Retrieving wallet...');
+
+    try {
+      // Get mnemonic from database
+      const result = await getMnemonic(loginPassword);
+
+      if (!result.success || !result.mnemonic) {
+        setPasswordError(result.error || 'Failed to retrieve wallet');
+        setConnectionStatus('');
+        return;
+      }
+
+      // Connect with retrieved mnemonic
+      setConnectionStatus('Connecting to Lightning Network...');
+
+      const breezApiKey = process.env.NEXT_PUBLIC_BREEZ_API_KEY;
+
+      if (!breezApiKey) {
+        setPasswordError('Breez API key not configured');
+        setConnectionStatus('');
+        return;
+      }
+
+      await connect({
+        apiKey: breezApiKey,
+        mnemonic: result.mnemonic,
+        network: (result.network as 'mainnet' | 'regtest') || 'mainnet',
+        storageDir: './breez-sdk-data'
+      });
+
+      setConnectionStatus('Wallet connected! Balance syncing...');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setConnectionStatus('');
+      setShowSuccess(true);
+      setAuthView('none');
+      setLoginPassword('');
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to connect wallet';
+      console.error('❌ Login and connect failed:', errorMsg);
+      setPasswordError(errorMsg);
+      setConnectionStatus('');
+    }
+  };
 
   const handleConnect = async () => {
     console.log('🔘 Connect button clicked');
@@ -237,12 +291,90 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
           </button>
           <LoginForm
             onSuccess={() => {
-              setAuthView('none');
-              onSuccess?.();
+              // After login, ask for password to decrypt wallet
+              setAuthView('password');
             }}
             onSwitchToRegister={() => setAuthView('register')}
             className="!bg-transparent !border-0 !p-0"
           />
+        </div>
+      ) : authView === 'password' ? (
+        <div className="mb-6">
+          <button
+            onClick={() => {
+              setAuthView('none');
+              setLoginPassword('');
+              setPasswordError('');
+            }}
+            className="text-sm text-gray-400 hover:text-white flex items-center gap-1 mb-4"
+          >
+            ← Back
+          </button>
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-white font-semibold mb-2">Connect Your Wallet</h3>
+              <p className="text-sm text-gray-400 mb-4">
+                Enter your password to decrypt and connect your saved wallet
+              </p>
+            </div>
+
+            {passwordError && (
+              <div className="bg-red-900/30 border border-red-500/50 rounded-lg p-4">
+                <p className="text-red-200 text-sm">{passwordError}</p>
+              </div>
+            )}
+
+            {connectionStatus && (
+              <div className="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+                <p className="text-blue-200 text-sm flex items-center gap-2">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  {connectionStatus}
+                </p>
+              </div>
+            )}
+
+            <div>
+              <label htmlFor="wallet-password" className="block text-sm font-medium text-gray-300 mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                id="wallet-password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleLoginAndConnect()}
+                className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                placeholder="Enter your password"
+                disabled={!!connectionStatus}
+              />
+            </div>
+
+            <button
+              onClick={handleLoginAndConnect}
+              disabled={!!connectionStatus || !loginPassword}
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {connectionStatus ? (
+                <>
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Connecting...
+                </>
+              ) : (
+                <>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
+                  </svg>
+                  Connect Wallet
+                </>
+              )}
+            </button>
+          </div>
         </div>
       ) : (
         <div className="mb-6">
