@@ -32,6 +32,7 @@ class BreezService {
   private connectPromise: Promise<void> | null = null;
   private config: BreezConfig | null = null;
   private eventListenerId: string | null = null;
+  private parseFunction: ((input: string) => Promise<any>) | null = null;
 
   /**
    * Initialize and connect to Breez SDK
@@ -77,10 +78,15 @@ class BreezService {
       await initBreezSDK();
       console.log('✅ Breez SDK WASM initialized');
 
-      const { connect, defaultConfig } = breezSDK;
+      const { connect, defaultConfig, parse } = breezSDK;
 
       if (!connect || !defaultConfig) {
         throw new Error('Breez SDK connect or defaultConfig function not found');
+      }
+
+      // Store the parse function for later use
+      if (parse) {
+        this.parseFunction = parse;
       }
 
       // Set up storage directory
@@ -311,7 +317,12 @@ class BreezService {
     try {
       // Parse the destination to get input type
       console.log('🔍 Parsing payment destination:', request.destination);
-      const inputType = await this.sdk.parse(request.destination);
+
+      if (!this.parseFunction) {
+        throw new Error('Parse function not available. SDK may not be fully initialized.');
+      }
+
+      const inputType = await this.parseFunction(request.destination);
       console.log('✅ Parsed input type:', inputType.type);
 
       // Handle Lightning Address / LNURL-Pay separately
