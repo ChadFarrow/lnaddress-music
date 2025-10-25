@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Zap, Loader2, CheckCircle2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useBreez } from '@/hooks/useBreez';
+import { LightningWallet } from '@/components/LightningWallet';
 
 interface Episode {
   title: string;
@@ -573,11 +574,6 @@ export default function TestPaymentsPage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="text-right text-sm">
-                <div className="text-purple-300 font-medium">
-                  {breez.isConnected ? `${breez.balance?.toLocaleString() || 0} sats` : 'Not connected'}
-                </div>
-              </div>
               <div className="flex items-center gap-2">
                 <input
                   type="number"
@@ -588,6 +584,7 @@ export default function TestPaymentsPage() {
                 />
                 <span className="text-xs text-purple-300">sats</span>
               </div>
+              <LightningWallet />
             </div>
           </div>
         </div>
