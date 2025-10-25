@@ -496,6 +496,10 @@ export default function TestPaymentsPage() {
         }
       }
 
+      // Refresh balance after all payments complete
+      console.log('🔄 Refreshing balance after all payments...');
+      await breez.refreshBalance();
+
       // Close confirmation modal
       setConfirmPayment(null);
 
