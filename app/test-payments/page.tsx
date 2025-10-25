@@ -30,6 +30,10 @@ interface PodcastFeed {
 export default function TestPaymentsPage() {
   const [testFeed, setTestFeed] = useState<PodcastFeed | null>(null);
   const [pc20Feed, setPC20Feed] = useState<PodcastFeed | null>(null);
+  const [customFeed, setCustomFeed] = useState<PodcastFeed | null>(null);
+  const [customFeedUrl, setCustomFeedUrl] = useState('');
+  const [loadingCustomFeed, setLoadingCustomFeed] = useState(false);
+  const [customFeedError, setCustomFeedError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [paymentAmount, setPaymentAmount] = useState('100');
@@ -75,6 +79,79 @@ export default function TestPaymentsPage() {
   useEffect(() => {
     fetchFeed();
   }, []);
+
+  const loadCustomFeed = async () => {
+    if (!customFeedUrl.trim()) {
+      setCustomFeedError('Please enter a feed URL');
+      return;
+    }
+
+    try {
+      setLoadingCustomFeed(true);
+      setCustomFeedError(null);
+
+      const response = await fetch(customFeedUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch feed: ${response.statusText}`);
+      }
+
+      const xml = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xml, 'text/xml');
+
+      // Check for parsing errors
+      const parseError = doc.querySelector('parsererror');
+      if (parseError) {
+        throw new Error('Invalid RSS feed format');
+      }
+
+      const title = doc.querySelector('channel > title')?.textContent || 'Custom Feed';
+      const description = doc.querySelector('channel > description')?.textContent || '';
+      const image = doc.querySelector('channel image url')?.textContent ||
+                    doc.querySelector('channel itunes\\:image')?.getAttribute('href') || '';
+      const items = Array.from(doc.querySelectorAll('item'));
+
+      const episodes: Episode[] = items.map(item => {
+        const episode: Episode = {
+          title: item.querySelector('title')?.textContent || 'Untitled',
+          description: item.querySelector('description')?.textContent || '',
+          enclosureUrl: item.querySelector('enclosure')?.getAttribute('url') || '',
+          duration: item.querySelector('itunes\\:duration, duration')?.textContent || '',
+          pubDate: item.querySelector('pubDate')?.textContent || '',
+          guid: item.querySelector('guid')?.textContent || Math.random().toString(),
+          image: item.querySelector('itunes\\:image')?.getAttribute('href') ||
+                 item.querySelector('image')?.getAttribute('href') ||
+                 image
+        };
+
+        // Parse value recipients from episode-specific value block
+        const valueRecipients = Array.from(item.querySelectorAll('podcast\\:value > podcast\\:valueRecipient, value > valueRecipient'));
+        if (valueRecipients.length > 0) {
+          episode.valueRecipients = valueRecipients.map(recipient => ({
+            name: recipient.getAttribute('name') || '',
+            address: recipient.getAttribute('address') || '',
+            type: recipient.getAttribute('type') || '',
+            split: parseInt(recipient.getAttribute('split') || '0')
+          }));
+        }
+
+        return episode;
+      });
+
+      setCustomFeed({
+        title,
+        description,
+        image,
+        episodes
+      });
+    } catch (err) {
+      console.error('Failed to load custom feed:', err);
+      setCustomFeedError(err instanceof Error ? err.message : 'Failed to load feed');
+      setCustomFeed(null);
+    } finally {
+      setLoadingCustomFeed(false);
+    }
+  };
 
   const fetchFeed = async () => {
     try {
@@ -504,6 +581,62 @@ export default function TestPaymentsPage() {
             </div>
           </div>
         </div>
+
+        {/* Custom RSS Feed Input */}
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 mb-6">
+          <h2 className="text-lg font-bold text-white mb-3">Test Any RSS Feed</h2>
+          <div className="flex gap-2 mb-2">
+            <input
+              type="url"
+              value={customFeedUrl}
+              onChange={(e) => setCustomFeedUrl(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && loadCustomFeed()}
+              placeholder="Enter RSS feed URL (e.g., https://example.com/feed.xml)"
+              className="flex-1 px-3 py-2 bg-gray-800 border border-purple-500/30 text-white rounded text-sm focus:outline-none focus:border-purple-400 placeholder:text-gray-500"
+              disabled={loadingCustomFeed}
+            />
+            <button
+              onClick={loadCustomFeed}
+              disabled={loadingCustomFeed || !customFeedUrl.trim()}
+              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium flex items-center gap-2"
+            >
+              {loadingCustomFeed ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                'Load Feed'
+              )}
+            </button>
+            {customFeed && (
+              <button
+                onClick={() => {
+                  setCustomFeed(null);
+                  setCustomFeedUrl('');
+                  setCustomFeedError(null);
+                }}
+                className="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition-colors"
+                title="Clear custom feed"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+          {customFeedError && (
+            <div className="text-red-400 text-sm mt-2">
+              {customFeedError}
+            </div>
+          )}
+          {customFeed && !customFeed.episodes.length && (
+            <div className="text-yellow-400 text-sm mt-2">
+              Feed loaded but no episodes found with Lightning value recipients
+            </div>
+          )}
+        </div>
+
+        {/* Render custom feed first if loaded */}
+        {renderFeedTable(customFeed, 'custom-feed')}
 
         {/* Render both feeds */}
         {renderFeedTable(testFeed, 'test-feed')}
