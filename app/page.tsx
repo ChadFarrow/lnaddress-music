@@ -310,9 +310,7 @@ export default function HomePage() {
           detail: { amount: confirmPayment.amount }
         }));
       }
-
-      // Toast success
-      toast.success(`Boost sent successfully!`);
+      // No toast - confetti and modal status is sufficient
     } else {
       toast.error('Some payments failed. See details above.');
     }
