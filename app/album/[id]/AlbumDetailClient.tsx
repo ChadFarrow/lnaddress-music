@@ -1371,7 +1371,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   onError={handleBoostError}
                   className="w-full !mt-6"
                   recipients={getTrackPaymentRecipients(selectedTrack) || undefined}
-                  recipient={getFallbackRecipient().address}
+                  recipient={getFallbackRecipient()?.address}
                   enableBoosts={true}
                   boostMetadata={{
                     title: selectedTrack.title,
