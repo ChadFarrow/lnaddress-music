@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSearchParams } from 'next/navigation';
 import LoginForm from '@/components/LoginForm';
 import RegisterForm from '@/components/RegisterForm';
 import WalletSetup from '@/components/WalletSetup';
 
-export default function TestAuthPage() {
+function TestAuthContent() {
   const { user, logout, getMnemonic, storeWallet } = useAuth();
   const searchParams = useSearchParams();
   const [view, setView] = useState<'login' | 'register' | 'wallet'>('register');
@@ -282,5 +282,17 @@ export default function TestAuthPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TestAuthPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    }>
+      <TestAuthContent />
+    </Suspense>
   );
 }
