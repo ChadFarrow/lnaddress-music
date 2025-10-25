@@ -14,6 +14,8 @@ import { triggerSuccessConfetti } from '@/lib/ui-utils';
 import { createAlbumSlug } from '@/lib/slug-utils';
 import { PAYMENT_AMOUNTS } from '@/lib/constants';
 import { PaymentConfirmationModal, type PaymentConfirmation, type PaymentRecipient } from '@/components/PaymentConfirmationModal';
+import { useNWC } from '@/hooks/useNWC';
+import { useBreez } from '@/hooks/useBreez';
 
 interface NowPlayingScreenProps {
   isOpen: boolean;
@@ -37,7 +39,9 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   const [confirmPayment, setConfirmPayment] = useState<PaymentConfirmation | null>(null);
   const colorCache = useRef<Map<string, ExtractedColors>>(globalColorCache);
 
-  const { checkConnection, walletCapabilities } = useBitcoinConnect();
+  const { checkConnection } = useBitcoinConnect();
+  const nwc = useNWC();
+  const breez = useBreez();
 
   const {
     currentTrack,
@@ -347,20 +351,22 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
       return;
     }
 
+    // Determine which recipient types are supported based on connected wallet
+    const supportedTypes = nwc.isConnected
+      ? nwc.supportsKeysend
+        ? ['lnaddress', 'node'] // Alby/Alby Hub supports both lightning addresses and keysend to nodes
+        : ['lnaddress'] // Other NWC wallets only support lightning addresses
+      : breez.isConnected
+      ? ['lnaddress'] // Breez only supports lightning addresses
+      : [];
+
     // Calculate total split across ALL recipients (not just supported)
     const totalSplit = allRecipients.reduce((sum, r) => sum + r.split, 0);
 
     // Map recipients with wallet capability filtering
     const recipientsWithSupport: PaymentRecipient[] = allRecipients.map(recipient => {
       const recipientAmount = Math.round((recipient.split / totalSplit) * amount);
-
-      // Check if wallet supports this recipient type
-      let supported = false;
-      if (recipient.type === 'lnaddress') {
-        supported = true; // All wallets support lnaddress
-      } else if (recipient.type === 'node') {
-        supported = walletCapabilities?.keysend || false; // Only supported if wallet has keysend
-      }
+      const supported = supportedTypes.includes(recipient.type);
 
       return {
         name: recipient.name || 'Unknown',
