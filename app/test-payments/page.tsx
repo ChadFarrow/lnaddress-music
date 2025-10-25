@@ -297,7 +297,44 @@ export default function TestPaymentsPage() {
     const unsupportedRecipients = allRecipients.filter(r => r.type !== 'lnaddress');
 
     if (lnAddressRecipients.length === 0) {
-      alert('This episode has no Lightning addresses compatible with Breez SDK. Only "lnaddress" type recipients are supported. Other payment types (keysend, node addresses) are not compatible with this wallet.');
+      // Show styled error modal instead of alert
+      const errorModal = document.createElement('div');
+      errorModal.className = 'fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4';
+      errorModal.innerHTML = `
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 border border-red-500/30 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+          <div class="mb-4">
+            <h2 class="text-xl font-bold text-white mb-2">⚠️ No Compatible Recipients</h2>
+            <p class="text-gray-300 text-sm">
+              This episode has no Lightning addresses compatible with Breez SDK.
+            </p>
+          </div>
+          <div class="bg-black/30 rounded-lg p-3 mb-4">
+            <div class="text-gray-400 text-xs mb-2">Supported Types:</div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">lnaddress</span>
+              <span class="text-green-400 text-xs">✓ Supported</span>
+            </div>
+            <div class="text-gray-400 text-xs mb-2">Unsupported Types:</div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-1 bg-red-900/50 text-red-300 text-xs rounded">keysend</span>
+                <span class="text-red-400 text-xs">✗ Not compatible</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-1 bg-red-900/50 text-red-300 text-xs rounded">node</span>
+                <span class="text-red-400 text-xs">✗ Not compatible</span>
+              </div>
+            </div>
+          </div>
+          <button
+            onclick="this.closest('.fixed').remove()"
+            class="w-full py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      `;
+      document.body.appendChild(errorModal);
       return;
     }
 
