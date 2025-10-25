@@ -163,7 +163,7 @@ export default function HomePage() {
       : [];
 
     // Calculate total split across ALL recipients
-    const totalSplit = allRecipients.reduce((sum, r) => sum + r.split, 0);
+    const totalSplit = allRecipients.reduce((sum: number, r: any) => sum + r.split, 0);
 
     // Map recipients with wallet capability filtering
     const recipientsWithSupport: PaymentRecipient[] = allRecipients.map(recipient => {
