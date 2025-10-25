@@ -26,7 +26,7 @@ export function useNWC(): UseNWCReturn {
 
   const nwcService = getNWCService();
 
-  // Check service connection status on mount and periodically
+  // Check service connection status on mount and periodically (only when connected)
   useEffect(() => {
     const checkConnectionStatus = () => {
       const serviceConnected = nwcService.isConnected();
@@ -36,7 +36,13 @@ export function useNWC(): UseNWCReturn {
     };
 
     checkConnectionStatus();
-    // Check every 10 seconds instead of every second to reduce overhead
+
+    // Only poll if we're connected - no need to check if disconnected
+    if (!isConnected) {
+      return;
+    }
+
+    // Check every 10 seconds to detect disconnections
     const interval = setInterval(checkConnectionStatus, 10000);
     return () => clearInterval(interval);
   }, [nwcService, isConnected]);
