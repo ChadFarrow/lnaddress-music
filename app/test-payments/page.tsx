@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Zap, Loader2, CheckCircle2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useBreez } from '@/hooks/useBreez';
 import { useNWC } from '@/hooks/useNWC';
@@ -903,24 +903,20 @@ export default function TestPaymentsPage() {
                   const isSuccess = status?.status === 'success';
                   const isFailed = status?.status === 'failed';
 
-                  // Auto-scroll to processing recipient
-                  useEffect(() => {
-                    if (isProcessing) {
-                      const element = document.getElementById(`recipient-${idx}`);
-                      if (element) {
-                        element.scrollIntoView({
-                          behavior: 'smooth',
-                          block: 'nearest',
-                          inline: 'nearest'
-                        });
-                      }
-                    }
-                  }, [isProcessing, idx]);
-
                   return (
                     <div
                       id={`recipient-${idx}`}
                       key={idx}
+                      ref={(el) => {
+                        // Auto-scroll to processing recipient
+                        if (el && isProcessing) {
+                          el.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest',
+                            inline: 'nearest'
+                          });
+                        }
+                      }}
                       className={`border rounded-lg p-3 flex items-center justify-between transition-colors ${
                         isSuccess ? 'bg-green-500/10 border-green-500/30' :
                         isFailed ? 'bg-red-500/10 border-red-500/30' :
