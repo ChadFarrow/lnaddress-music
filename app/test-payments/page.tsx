@@ -496,9 +496,11 @@ export default function TestPaymentsPage() {
         }
       }
 
-      // Refresh balance after all payments complete
-      console.log('🔄 Refreshing balance after all payments...');
+      // Wait a moment for Breez to sync, then refresh balance
+      console.log('🔄 Waiting for Breez to sync, then refreshing balance...');
+      await new Promise(resolve => setTimeout(resolve, 1000));
       await breez.refreshBalance();
+      console.log('✅ Balance refreshed after payments');
 
       // Close confirmation modal
       setConfirmPayment(null);
