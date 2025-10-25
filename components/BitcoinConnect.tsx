@@ -1206,18 +1206,7 @@ export function BitcoinConnectPayment({
     );
   }
 
-  // Debug logging for button state
-  console.log('🔍 BitcoinConnectPayment render state:', {
-    loading,
-    isConnected,
-    breezConnected: breez.isConnected,
-    isActuallyConnected,
-    connectedWalletType,
-    disabled: loading || !isActuallyConnected,
-    buttonText: loading ? 'Processing...' : 
-                !isActuallyConnected ? 'Connect Wallet First' : 
-                `Send ${amount} sats`
-  });
+  // Removed excessive render state logging
 
   return (
     <button

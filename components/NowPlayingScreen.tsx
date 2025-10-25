@@ -74,7 +74,6 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     try {
       // Check memory cache first
       if (colorCache.current.has(cacheKey)) {
-        console.log('🎨 Using memory cache for:', albumTitle);
         setExtractedColors(colorCache.current.get(cacheKey)!);
         performanceMonitor.recordCacheHit();
         return;
@@ -83,7 +82,6 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
       // Note: Skip preloaded cache check for now to ensure we check for track-specific colors
       // We'll check preloaded colors later as a fallback
 
-      console.log('🎨 Loading colors from network for:', albumTitle);
       setIsLoadingColors(true);
 
       // Create or reuse the shared promise for color data loading
@@ -109,29 +107,26 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
       
       // Check for track-specific colors first
       if (album?.tracks && track.image) {
-        const trackMatch = album.tracks.find((t: any) => 
-          t.title?.toLowerCase() === track.title?.toLowerCase() && 
-          t.image === track.image && 
+        const trackMatch = album.tracks.find((t: any) =>
+          t.title?.toLowerCase() === track.title?.toLowerCase() &&
+          t.image === track.image &&
           t.colors
         );
-        
+
         if (trackMatch?.colors) {
-          console.log('🎵 Using track-specific colors for:', track.title);
           colors = trackMatch.colors;
         }
       }
-      
+
       // Fallback to album colors
       if (!colors && album?.colors) {
-        console.log('🎨 Using album colors for:', albumTitle);
         colors = album.colors;
       }
-      
+
       // Final fallback: check preloaded cache
       if (!colors) {
         const preloadedColors = getCachedColors(albumTitle);
         if (preloadedColors) {
-          console.log('🎨 Using preloaded cache as final fallback for:', albumTitle);
           colors = preloadedColors;
         }
       }
@@ -145,12 +140,11 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
             colorCache.current.delete(firstKey);
           }
         }
-        
+
         colorCache.current.set(cacheKey, colors);
         setExtractedColors(colors);
         performanceMonitor.recordCacheMiss();
       } else {
-        console.log('🎨 No colors found for:', albumTitle);
         setExtractedColors(null);
       }
       
@@ -171,7 +165,6 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
 
     const albumTitle = currentAlbum;
     if (!albumTitle) {
-      console.log('🎨 No album title provided');
       setExtractedColors(null);
       return;
     }
@@ -308,26 +301,19 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   // Fetch album data to get podcast:value splits (fallback only)
   const fetchAlbumData = async (albumTitle: string) => {
     try {
-      console.log('🔍 Fetching album data for fallback value data:', albumTitle);
-      
       // Convert album title to URL-friendly format (same as album page)
       const albumId = albumTitle.toLowerCase()
         .replace(/[^\w\s-]/g, '')       // Remove punctuation except spaces and hyphens
         .replace(/\s+/g, '-')           // Replace spaces with dashes
         .replace(/-+/g, '-')            // Replace multiple consecutive dashes with single dash
         .replace(/^-+|-+$/g, '');       // Remove leading/trailing dashes
-      
+
       const response = await fetch(`/api/album/${encodeURIComponent(albumId)}`);
       const data = await response.json();
-      
+
       if (data.success && data.album) {
-        console.log('✅ Found fallback album data:', data.album.title, {
-          hasValue: !!data.album.value,
-          recipients: data.album.value?.recipients?.length || 0
-        });
         setAlbumData(data.album);
       } else {
-        console.log('❌ No fallback album found for:', albumTitle);
         setAlbumData(null);
       }
     } catch (error) {
@@ -338,22 +324,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
 
   // Get Lightning payment recipients from RSS value data
   const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
-    // Debug: Log current track structure
-    console.log('🔍 Current track data:', currentTrack, {
-      hasCurrentTrack: !!currentTrack,
-      hasValue: !!currentTrack?.value,
-      trackTitle: currentTrack?.title
-    });
-    
     // First, check if current track has value data
     if (currentTrack?.value && currentTrack.value.type === 'lightning' && currentTrack.value.method === 'keysend') {
-      console.log('🔍 Checking current track for podcast:value data:', currentTrack.title, { 
-        hasValue: !!currentTrack.value,
-        valueType: currentTrack.value?.type,
-        valueMethod: currentTrack.value?.method,
-        recipients: currentTrack.value?.recipients?.length || 0
-      });
-      
       const recipients = currentTrack.value.recipients
         .filter((r: any) => r.type === 'node') // Only include node recipients
         .map((r: any) => ({
@@ -363,20 +335,12 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           fee: r.fee,
           type: 'node' // Include the type field for payment routing
         }));
-      
-      console.log('✅ Found podcast:value recipients from current track:', recipients);
+
       return recipients;
     }
     
     // Fall back to album-level value data if available
     if (albumData?.value && albumData.value.type === 'lightning' && albumData.value.method === 'keysend') {
-      console.log('🔍 Checking album for podcast:value data:', albumData.title, { 
-        hasValue: !!albumData.value,
-        valueType: albumData.value?.type,
-        valueMethod: albumData.value?.method,
-        recipients: albumData.value?.recipients?.length || 0
-      });
-      
       const recipients = albumData.value.recipients
         .filter((r: any) => r.type === 'node') // Only include node recipients
         .map((r: any) => ({
@@ -386,12 +350,10 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           fee: r.fee,
           type: 'node' // Include the type field for payment routing
         }));
-      
-      console.log('✅ Found podcast:value recipients from album:', recipients);
+
       return recipients;
     }
-    
-    console.log('❌ No podcast:value data found, using fallback');
+
     return null; // Will use fallback single recipient
   };
 
@@ -399,7 +361,6 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   const getFallbackRecipient = (): { address: string; amount: number } | null => {
     // For Breez SDK, we cannot send to raw node pubkeys
     // Return null to indicate no valid payment destination
-    console.log('⚠️ No valid payment destination - track has no value data');
     return null;
   };
 
@@ -588,9 +549,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
             <div className="flex items-center justify-center w-full relative">
               <button
                 onClick={async () => {
-                  console.log('🚀 Boost button clicked, checking connection...');
-                  const connectionResult = await checkConnection();
-                  console.log('🔍 Connection check result:', connectionResult);
+                  await checkConnection();
                   setShowBoostModal(true);
                 }}
                 className="flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transform hover:scale-105 transition-all duration-150 text-sm"

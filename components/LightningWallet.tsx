@@ -11,8 +11,6 @@ import QRCode from 'qrcode';
 type WalletType = 'none' | 'breez' | 'nwc';
 
 export function LightningWallet() {
-  console.log('🏗️ LightningWallet component rendering/mounting');
-
   const [isOpen, setIsOpen] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState<WalletType>('none');
   const [showConnectForm, setShowConnectForm] = useState(false);
@@ -100,16 +98,6 @@ export function LightningWallet() {
   const balance = nwc.isConnected ? nwc.balance : breez.isConnected ? breez.balance : null;
   const loading = nwc.loading || breez.loading;
   const error = nwc.error || breez.error;
-
-  // Debug logging
-  console.log('💡 LightningWallet state:', {
-    isConnected,
-    breezIsConnected: breez.isConnected,
-    nwcIsConnected: nwc.isConnected,
-    selectedWallet,
-    loading,
-    balance
-  });
 
   // Track wallet type and show success notification
   useEffect(() => {
@@ -276,25 +264,16 @@ export function LightningWallet() {
   };
 
   const formatBalance = (sats: number) => {
-    console.log('🎯 Formatting balance - input:', sats, 'type:', typeof sats);
     // Format balance with appropriate units
     if (sats >= 100000000) { // 100 million sats = 1 BTC
-      const formatted = `${(sats / 100000000).toFixed(2)} BTC`;
-      console.log('🎯 Formatted as BTC:', formatted);
-      return formatted;
+      return `${(sats / 100000000).toFixed(2)} BTC`;
     } else if (sats >= 1000000) { // 1 million sats
-      const formatted = `${(sats / 1000000).toFixed(2)}M sats`;
-      console.log('🎯 Formatted as M sats:', formatted);
-      return formatted;
+      return `${(sats / 1000000).toFixed(2)}M sats`;
     } else if (sats >= 100000) { // 100k+ sats - show as whole k
-      const formatted = `${Math.floor(sats / 1000)}k sats`;
-      console.log('🎯 Formatted as whole k sats:', formatted);
-      return formatted;
+      return `${Math.floor(sats / 1000)}k sats`;
     }
     // Under 100k sats - show exact amount
-    const formatted = `${sats.toLocaleString()} sats`;
-    console.log('🎯 Formatted as plain sats:', formatted);
-    return formatted;
+    return `${sats.toLocaleString()} sats`;
   };
 
   const getWalletName = () => {

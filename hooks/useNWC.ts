@@ -30,14 +30,14 @@ export function useNWC(): UseNWCReturn {
   useEffect(() => {
     const checkConnectionStatus = () => {
       const serviceConnected = nwcService.isConnected();
-      console.log('🔄 Checking NWC service connection status:', serviceConnected);
       if (serviceConnected !== isConnected) {
         setIsConnected(serviceConnected);
       }
     };
-    
+
     checkConnectionStatus();
-    const interval = setInterval(checkConnectionStatus, 1000);
+    // Check every 10 seconds instead of every second to reduce overhead
+    const interval = setInterval(checkConnectionStatus, 10000);
     return () => clearInterval(interval);
   }, [nwcService, isConnected]);
 
