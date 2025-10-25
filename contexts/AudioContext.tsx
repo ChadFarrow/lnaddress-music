@@ -107,7 +107,10 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isShuffling, setIsShuffling] = useState(false);
   const [isRepeating, setIsRepeating] = useState(false);
   const [isNowPlayingOpen, setIsNowPlayingOpen] = useState(false);
-  
+
+  // Shuffle history to avoid repeating recently played tracks
+  const shuffleHistoryRef = useRef<number[]>([]);
+
   // Auto Boost state
   const [isAutoBoostEnabled, setIsAutoBoostEnabled] = useState(false);
   const [autoBoostAmount, setAutoBoostAmount] = useState<number>(PAYMENT_AMOUNTS.AUTO_BOOST_DEFAULT);
@@ -125,17 +128,47 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleDurationChange = () => setDuration(audio.duration);
     const handleLoadStart = () => setCurrentTime(0);
+    const handleError = (e: Event) => {
+      console.error('Audio error:', e);
+      if (currentTrack) {
+        const error = (e.target as HTMLAudioElement)?.error;
+        const errorMessage = error
+          ? `Error ${error.code}: ${error.message}`
+          : 'Unknown audio error';
+        console.error(`Failed to load track "${currentTrack.title}":`, errorMessage);
+        toast.error(`Unable to load "${currentTrack.title}". ${errorMessage}`);
+      }
+      setIsPlaying(false);
+    };
+    const handleStalled = () => {
+      console.warn('Audio loading stalled for:', currentTrack?.title);
+      toast.warning(`Loading "${currentTrack?.title}" is taking longer than expected...`);
+    };
+    const handleWaiting = () => {
+      console.log('Audio buffering:', currentTrack?.title);
+    };
+    const handleCanPlay = () => {
+      console.log('Audio can play:', currentTrack?.title);
+    };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('durationchange', handleDurationChange);
     audio.addEventListener('loadstart', handleLoadStart);
+    audio.addEventListener('error', handleError);
+    audio.addEventListener('stalled', handleStalled);
+    audio.addEventListener('waiting', handleWaiting);
+    audio.addEventListener('canplay', handleCanPlay);
 
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('durationchange', handleDurationChange);
       audio.removeEventListener('loadstart', handleLoadStart);
+      audio.removeEventListener('error', handleError);
+      audio.removeEventListener('stalled', handleStalled);
+      audio.removeEventListener('waiting', handleWaiting);
+      audio.removeEventListener('canplay', handleCanPlay);
     };
-  }, []);
+  }, [currentTrack]);
 
   const playTrack = (track: Track, album?: string) => {
     if (!audioRef.current) return;
@@ -144,14 +177,19 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setCurrentAlbum(album || null);
     setPlaylist([track]);
     setCurrentTrackIndex(0);
-    
+
+    // Reset shuffle history when playing a new track
+    shuffleHistoryRef.current = [];
+
     audioRef.current.src = track.url;
     audioRef.current.load();
     audioRef.current.play().catch(error => {
       if (error.name === 'AbortError' || error.message.includes('aborted')) {
         console.log('Audio loading was cancelled (expected behavior)');
       } else {
-        console.warn('Audio playback error:', error);
+        console.error('Failed to play track:', track.title, error);
+        toast.error(`Unable to play "${track.title}". The audio file may be unavailable.`);
+        setIsPlaying(false);
       }
     });
     setIsPlaying(true);
@@ -177,14 +215,19 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setCurrentAlbum(album || null);
     setPlaylist(tracks);
     setCurrentTrackIndex(startIndex);
-    
+
+    // Reset shuffle history when playing a new album
+    shuffleHistoryRef.current = [startIndex]; // Start with the current track in history
+
     audioRef.current.src = track.url;
     audioRef.current.load();
     audioRef.current.play().catch(error => {
       if (error.name === 'AbortError' || error.message.includes('aborted')) {
         console.log('Audio loading was cancelled (expected behavior)');
       } else {
-        console.warn('Audio playback error:', error);
+        console.error('Failed to play track:', track.title, error);
+        toast.error(`Unable to play "${track.title}". The audio file may be unavailable.`);
+        setIsPlaying(false);
       }
     });
     setIsPlaying(true);
@@ -248,23 +291,52 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (playlist.length === 0) return;
 
     let nextIndex: number;
-    
+
     if (isShuffling && playlist.length > 1) {
-      // Get random track that's not the current one
-      do {
-        nextIndex = Math.floor(Math.random() * playlist.length);
-      } while (nextIndex === currentTrackIndex);
+      // Improved shuffle algorithm with history tracking
+      const maxHistorySize = Math.min(Math.floor(playlist.length / 2), 5); // Keep history of up to 5 or half playlist size
+
+      // Get available tracks (exclude recently played)
+      let availableIndices = [];
+      for (let i = 0; i < playlist.length; i++) {
+        if (!shuffleHistoryRef.current.includes(i)) {
+          availableIndices.push(i);
+        }
+      }
+
+      // If all tracks have been played recently, reset history but exclude current track
+      if (availableIndices.length === 0) {
+        shuffleHistoryRef.current = [currentTrackIndex];
+        availableIndices = [];
+        for (let i = 0; i < playlist.length; i++) {
+          if (i !== currentTrackIndex) {
+            availableIndices.push(i);
+          }
+        }
+      }
+
+      // Pick random track from available indices
+      nextIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+
+      // Add to history and maintain max size
+      shuffleHistoryRef.current.push(nextIndex);
+      if (shuffleHistoryRef.current.length > maxHistorySize) {
+        shuffleHistoryRef.current.shift(); // Remove oldest
+      }
     } else {
+      // Sequential playback
       nextIndex = currentTrackIndex + 1;
       if (nextIndex >= playlist.length) {
         nextIndex = 0; // Loop back to start
       }
+      // Clear shuffle history when not shuffling
+      shuffleHistoryRef.current = [];
     }
 
     const nextTrack = playlist[nextIndex];
     setCurrentTrack(nextTrack);
     setCurrentTrackIndex(nextIndex);
-    
+
     if (audioRef.current) {
       audioRef.current.src = nextTrack.url;
       audioRef.current.load();
@@ -274,7 +346,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           if (error.name === 'AbortError' || error.message.includes('aborted')) {
             console.log('Audio loading was cancelled (expected behavior)');
           } else {
-            console.warn('Audio playback error:', error);
+            console.error('Failed to play next track:', nextTrack.title, error);
+            toast.error(`Unable to play "${nextTrack.title}". Skipping to next track...`);
           }
         });
       }
