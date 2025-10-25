@@ -326,7 +326,7 @@ class BreezService {
       console.log('✅ Parsed input type:', inputType.type);
 
       // Handle Lightning Address / LNURL-Pay separately
-      if (inputType.type === 'lnurlPay') {
+      if (inputType.type === 'lnurlPay' || inputType.type === 'lightningAddress') {
         console.log('💡 Detected LNURL-Pay - using LNURL payment flow');
 
         // Prepare LNURL payment with the parsed payRequest
