@@ -80,25 +80,27 @@ export function useNWC(): UseNWCReturn {
   const connect = useCallback(async (connString: string) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       await nwcService.connect(connString);
       setConnectionString(connString);
       setIsConnected(true);
       console.log('✅ NWC wallet connected successfully');
-      
+
       // Save to localStorage
       localStorage.setItem(NWC_STORAGE_KEY, connString);
-      
-      // Fetch initial balance
+
+      // Fetch initial balance (keep loading=true until balance is fetched)
       await refreshBalance();
+
+      // Only set loading=false after balance is successfully fetched
+      setLoading(false);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect';
       setError(errorMsg);
       setIsConnected(false);
-      console.error('❌ NWC connection error:', err);
-    } finally {
       setLoading(false);
+      console.error('❌ NWC connection error:', err);
     }
   }, [nwcService, refreshBalance]);
 

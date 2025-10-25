@@ -198,19 +198,22 @@ export function useBreez(): UseBreezReturn {
           console.warn('⚠️ Wallet sync failed, balance may be outdated:', syncError);
         }
 
+        // Fetch balance before setting loading=false
         await refreshBalance();
       } else {
         console.error('❌ Connection completed but service reports not connected');
         throw new Error('Connection completed but service is not connected');
       }
+
+      // Only set loading=false after balance is successfully fetched
+      setLoading(false);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to connect to Breez';
       console.error('❌ Connection error:', errorMessage);
       setError(errorMessage);
       setIsConnected(false);
-      throw err;
-    } finally {
       setLoading(false);
+      throw err;
     }
   }, [breezService, refreshBalance]);
 
