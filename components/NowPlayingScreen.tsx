@@ -276,13 +276,19 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
         .replace(/-+/g, '-')            // Replace multiple consecutive dashes with single dash
         .replace(/^-+|-+$/g, '');       // Remove leading/trailing dashes
 
+      console.log('🔍 Fetching album data:', { albumTitle, albumId });
+
       const response = await fetch(`/api/album/${encodeURIComponent(albumId)}`);
       const data = await response.json();
 
+      console.log('🔍 Album API response:', { success: data.success, hasAlbum: !!data.album, hasValue: !!data.album?.value });
+
       if (data.success && data.album) {
         setAlbumData(data.album);
+        console.log('✅ Album data set:', { title: data.album.title, hasValue: !!data.album.value });
       } else {
         setAlbumData(null);
+        console.log('❌ No album data available');
       }
     } catch (error) {
       console.error('Failed to fetch fallback album data:', error);
