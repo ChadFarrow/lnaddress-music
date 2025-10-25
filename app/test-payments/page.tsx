@@ -903,9 +903,9 @@ export default function TestPaymentsPage() {
                   const isFailed = status?.status === 'failed';
                   const isUnsupported = recipient.supported === false;
 
-                  // Calculate actual payment percentage
-                  const totalAmount = confirmPayment.recipients.reduce((sum, r) => sum + r.amount, 0);
-                  const actualPercentage = totalAmount > 0 ? Math.round((recipient.amount / totalAmount) * 100) : 0;
+                  // Calculate actual payment percentage based on total boost amount (not sum of recipient amounts)
+                  const totalBoostAmount = confirmPayment.amount;
+                  const actualPercentage = totalBoostAmount > 0 ? Math.round((recipient.amount / totalBoostAmount) * 100) : 0;
 
                   return (
                     <div
