@@ -1,0 +1,55 @@
+{
+  "totalFeeds": 106,
+  "successfulParses": 98,
+  "failedParses": 8,
+  "albumsFound": 75,
+  "publishersFound": 23,
+  "totalTracks": 125,
+  "totalDuration": "00:00",
+  "podRollFeeds": 0,
+  "fundingFeeds": 0,
+  "parseTime": 81867,
+  "timestamp": "2025-10-25T18:51:58.644Z",
+  "errors": [
+    {
+      "feedId": "strangetextures-connector",
+      "feedUrl": "https://f.strangetextures.com/@connector/feed.xml",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "strangetextures-hc",
+      "feedUrl": "https://f.strangetextures.com/@hc/feed.xml",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "strangetextures-endless",
+      "feedUrl": "https://f.strangetextures.com/@endless/feed.xml",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "strangetextures-aoe",
+      "feedUrl": "https://f.strangetextures.com/@aoe/feed.xml",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "strangetextures-ee",
+      "feedUrl": "https://f.strangetextures.com/@ee/feed.xml",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "publisher-item-oU2YfTFLK4er61p1uNAQ",
+      "feedUrl": "https://feeds.fountain.fm/oU2YfTFLK4er61p1uNAQ",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "publisher-item-xeHg25lVueiVSCf1yIxE",
+      "feedUrl": "https://feeds.fountain.fm/xeHg25lVueiVSCf1yIxE",
+      "error": "No album data found"
+    },
+    {
+      "feedId": "publisher-item-XkKpNohr6rl35XLidXYi",
+      "feedUrl": "https://feeds.fountain.fm/XkKpNohr6rl35XLidXYi",
+      "error": "No album data found"
+    }
+  ]
+}

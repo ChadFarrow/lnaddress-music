@@ -397,7 +397,11 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     // Initialize status for all recipients
     const recipientStatus = new Map<string, { status: 'pending' | 'processing' | 'success' | 'failed'; error?: string }>();
     confirmPayment.recipients.forEach(recipient => {
-      recipientStatus.set(recipient.address, { status: 'pending' });
+      if (recipient.supported === false) {
+        recipientStatus.set(recipient.address, { status: 'failed', error: `Wallet doesn't support ${recipient.type}` });
+      } else {
+        recipientStatus.set(recipient.address, { status: 'pending' });
+      }
     });
     setConfirmPayment(prev => prev ? { ...prev, recipientStatus } : null);
 
@@ -407,32 +411,61 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     try {
       // Send to each supported recipient sequentially
       for (const recipient of supportedRecipients) {
-        console.log(`Paying ${recipient.amount} sats to ${recipient.name} (${recipient.type})...`);
+        // Skip unsupported recipients
+        if (recipient.supported === false) {
+          console.log(`⏭️ Skipping ${recipient.name} - not supported`);
+          continue;
+        }
+
+        console.log(`Sending ${recipient.amount} sats (${recipient.split}%) to ${recipient.name} (${recipient.address})`);
 
         // Mark as processing
         recipientStatus.set(recipient.address, { status: 'processing' });
         setConfirmPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
 
         try {
-          // Use BitcoinConnectPayment logic inline
-          const response = await (window as any).webln?.sendPayment({
-            amount: recipient.amount * 1000, // Convert to msats
-            destination: recipient.address,
-            customRecords: {
-              // Include boost metadata
-              7629169: JSON.stringify({
-                action: 'boost',
-                app_name: 'lnaddress music',
-                name: senderName?.trim() || undefined,
-                message: boostMessage?.trim() || undefined,
-                podcast: currentAlbum || 'Unknown Album',
-                episode: currentTrack?.title,
-                ts: Math.floor(currentTime),
-                feedID: currentTrack?.feedGuid || albumData?.feedGuid,
-                url: currentAlbum ? `https://zaps.podtards.com/album/${encodeURIComponent(currentAlbum)}#${encodeURIComponent(currentTrack?.title || '')}` : 'https://zaps.podtards.com',
-              })
+          // Build the message with sender name if provided
+          let fullMessage = boostMessage || `Boost payment`;
+          if (senderName) {
+            fullMessage = `From ${senderName}: ${fullMessage}`;
+          }
+
+          // Use appropriate wallet based on what's connected
+          if (nwc.isConnected) {
+            // NWC wallet supports both lightning addresses and keysend
+            if (recipient.type === 'lnaddress') {
+              // Pay to lightning address via LNURL
+              const invoice = await fetch(`https://${recipient.address.split('@')[1]}/.well-known/lnurlp/${recipient.address.split('@')[0]}`)
+                .then(r => r.json())
+                .then(async data => {
+                  const amountMsats = recipient.amount * 1000;
+                  const callbackUrl = `${data.callback}?amount=${amountMsats}&comment=${encodeURIComponent(fullMessage)}`;
+                  return fetch(callbackUrl).then(r => r.json()).then(d => d.pr);
+                });
+
+              const result = await nwc.payInvoice(invoice);
+              if (!result.success) {
+                throw new Error(result.error || 'Payment failed');
+              }
+            } else if (recipient.type === 'node') {
+              // Pay to node address via keysend
+              const result = await nwc.payKeysend(
+                recipient.address, // node pubkey
+                recipient.amount,
+                fullMessage
+              );
+              if (!result.success) {
+                throw new Error(result.error || 'Keysend payment failed');
+              }
             }
-          });
+          } else if (breez.isConnected) {
+            // Breez SDK only supports lightning addresses
+            await breez.sendPayment({
+              destination: recipient.address,
+              amountSats: recipient.amount,
+              comment: fullMessage
+            });
+          }
 
           recipientStatus.set(recipient.address, { status: 'success' });
           setConfirmPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
