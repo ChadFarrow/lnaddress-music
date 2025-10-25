@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Play, Zap, Loader2, CheckCircle2, X } from 'lucide-react';
+import { Play, Zap, Loader2, CheckCircle2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useBreez } from '@/hooks/useBreez';
 
 interface Episode {
@@ -34,6 +34,7 @@ export default function TestPaymentsPage() {
   const [customFeedUrl, setCustomFeedUrl] = useState('');
   const [loadingCustomFeed, setLoadingCustomFeed] = useState(false);
   const [customFeedError, setCustomFeedError] = useState<string | null>(null);
+  const [collapsedFeeds, setCollapsedFeeds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [paymentAmount, setPaymentAmount] = useState('100');
@@ -451,26 +452,50 @@ export default function TestPaymentsPage() {
   const renderFeedTable = (feed: PodcastFeed | null, feedName: string) => {
     if (!feed || feed.episodes.length === 0) return null;
 
+    const isCollapsed = collapsedFeeds.has(feedName);
+    const toggleCollapse = () => {
+      setCollapsedFeeds(prev => {
+        const next = new Set(prev);
+        if (next.has(feedName)) {
+          next.delete(feedName);
+        } else {
+          next.add(feedName);
+        }
+        return next;
+      });
+    };
+
     return (
       <div key={feedName} className="mb-6">
         {/* Feed Header */}
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 mb-2">
-          <div className="flex items-center space-x-3">
-            {feed.image && (
-              <img src={feed.image} alt={feed.title} className="w-12 h-12 rounded object-cover" />
-            )}
-            <div>
-              <h2 className="text-lg font-bold text-white">{feed.title}</h2>
-              <div className="flex items-center gap-2 text-xs text-gray-400">
-                <Zap className="w-3 h-3 text-purple-400" />
-                <span>{feed.episodes.length} episode{feed.episodes.length !== 1 ? 's' : ''}</span>
+        <button
+          onClick={toggleCollapse}
+          className="w-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 mb-2 hover:bg-white/10 transition-colors"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              {feed.image && (
+                <img src={feed.image} alt={feed.title} className="w-12 h-12 rounded object-cover" />
+              )}
+              <div className="text-left">
+                <h2 className="text-lg font-bold text-white">{feed.title}</h2>
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <Zap className="w-3 h-3 text-purple-400" />
+                  <span>{feed.episodes.length} episode{feed.episodes.length !== 1 ? 's' : ''}</span>
+                </div>
               </div>
             </div>
+            {isCollapsed ? (
+              <ChevronDown className="w-5 h-5 text-gray-400" />
+            ) : (
+              <ChevronUp className="w-5 h-5 text-gray-400" />
+            )}
           </div>
-        </div>
+        </button>
 
         {/* Episode Table */}
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden">
+        {!isCollapsed && (
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden">
           <table className="w-full">
             <thead className="bg-white/5 border-b border-white/10">
               <tr>
@@ -544,7 +569,8 @@ export default function TestPaymentsPage() {
               ))}
             </tbody>
           </table>
-        </div>
+          </div>
+        )}
       </div>
     );
   };
