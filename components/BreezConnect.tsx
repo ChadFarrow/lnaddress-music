@@ -30,24 +30,42 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   // Debug logging
   console.log('🔍 BreezConnect render:', { isConnected, loading, error, forceShowForm, user: user?.username });
 
-  // Auto-connect wallet if user is logged in and has a saved wallet
+  // Check if user has a wallet and auto-prompt for connection
   useEffect(() => {
-    const autoConnectWallet = async () => {
-      // Only attempt auto-connect if:
+    const checkWalletAndPrompt = async () => {
+      // Only check if:
       // 1. User is logged in
       // 2. Wallet is not already connected
       // 3. Not currently loading
       // 4. No existing error
-      if (user && !isConnected && !loading && !error && !forceShowForm) {
-        console.log('🔄 User logged in, attempting to auto-connect wallet for:', user.username);
+      // 5. Not in an auth view already
+      if (user && !isConnected && !loading && !error && !forceShowForm && authView === 'none') {
+        console.log('🔄 Checking if user has saved wallet:', user.username);
 
-        // Show password prompt for wallet connection
-        setAuthView('password');
+        try {
+          // Check if user has a wallet by calling the wallet API
+          const response = await fetch('/api/auth/wallet', {
+            credentials: 'include'
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.wallet) {
+              console.log('✅ User has saved wallet, showing password prompt');
+              // User has a wallet, show password prompt
+              setAuthView('password');
+            } else {
+              console.log('ℹ️ User has no saved wallet, showing normal options');
+            }
+          }
+        } catch (err) {
+          console.error('Failed to check wallet status:', err);
+        }
       }
     };
 
-    autoConnectWallet();
-  }, [user, isConnected, loading, error, forceShowForm]);
+    checkWalletAndPrompt();
+  }, [user, isConnected, loading, error, forceShowForm, authView]);
 
   const handleLoginAndConnect = async () => {
     if (!loginPassword) {
