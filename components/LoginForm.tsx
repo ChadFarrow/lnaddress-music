@@ -95,7 +95,8 @@ export default function LoginForm({ onSuccess, onSwitchToRegister, className = '
       {onSwitchToRegister && (
         <div className="mt-6 text-center">
           <p className="text-gray-400 text-sm">
-            Don&apos;t have an account?{' '}
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            Don't have an account?{' '}
             <button
               onClick={onSwitchToRegister}
               className="text-blue-400 hover:text-blue-300 font-medium"

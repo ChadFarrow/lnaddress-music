@@ -120,8 +120,10 @@ export default function AuthDemoPage() {
         <div className="mt-8 bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-white/10">
           <h2 className="text-2xl font-bold mb-4">How to Test</h2>
           <div className="space-y-3 text-gray-300">
-            <p>1. <strong>Register:</strong> Click &quot;Login / Register&quot; to create a new account</p>
-            <p>2. <strong>Setup Wallet:</strong> After registration, you&apos;ll be prompted to set up a Lightning wallet</p>
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            <p>1. <strong>Register:</strong> Click "Login / Register" to create a new account</p>
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            <p>2. <strong>Setup Wallet:</strong> After registration, you'll be prompted to set up a Lightning wallet</p>
             <p>3. <strong>Import or Create:</strong> You can import an existing 12-word phrase or create a new one</p>
             <p>4. <strong>Connect:</strong> After setup, enter your wallet password to connect to Breez</p>
             <p>5. <strong>Test:</strong> Your wallet will be encrypted and stored securely</p>
