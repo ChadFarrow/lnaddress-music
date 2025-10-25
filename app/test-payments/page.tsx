@@ -344,13 +344,14 @@ export default function TestPaymentsPage() {
       return;
     }
 
-    // Calculate total splits for supported recipients only
-    const totalSplit = supportedRecipients.reduce((sum, r) => sum + r.split, 0);
+    // Calculate total splits from ALL recipients (not just supported ones)
+    // This ensures unsupported recipients' shares aren't redistributed
+    const totalSplit = allRecipients.reduce((sum, r) => sum + r.split, 0);
 
     // Get initial amount from state (will be editable in modal)
     const amount = parseInt(paymentAmount) || 100;
 
-    // Prepare recipient details with calculated amounts
+    // Prepare recipient details with calculated amounts based on original splits
     const supportedRecipientsWithAmounts = supportedRecipients.map(r => ({
       name: r.name,
       address: r.address,
@@ -365,7 +366,7 @@ export default function TestPaymentsPage() {
       address: r.address,
       type: r.type,
       split: r.split,
-      amount: 0,
+      amount: Math.floor((amount * r.split) / totalSplit), // Show what they WOULD get
       supported: false,
       error: `Unsupported address type: "${r.type}". Not compatible with your current wallet.`
     }));
@@ -380,19 +381,17 @@ export default function TestPaymentsPage() {
     if (confirmPayment) {
       const amount = parseInt(paymentAmount);
       if (!isNaN(amount) && amount > 0) {
-        // Only calculate splits for supported recipients
-        const supportedRecipients = confirmPayment.recipients.filter(r => r.supported !== false);
-        const totalLnSplit = supportedRecipients.reduce((sum, r) => sum + r.split, 0);
+        // Calculate splits based on ALL recipients (not just supported)
+        // This prevents redistributing unsupported shares to supported recipients
+        const totalSplit = confirmPayment.recipients.reduce((sum, r) => sum + r.split, 0);
 
         const updatedRecipients = confirmPayment.recipients.map(r => {
-          // Keep unsupported recipients at 0
-          if (r.supported === false) {
-            return { ...r, amount: 0 };
-          }
-          // Recalculate for supported recipients
+          // Calculate amount based on original split percentages
+          const calculatedAmount = Math.floor((amount * r.split) / totalSplit);
+
           return {
             ...r,
-            amount: Math.floor((amount * r.split) / totalLnSplit)
+            amount: calculatedAmount
           };
         });
 
