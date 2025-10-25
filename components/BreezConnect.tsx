@@ -36,12 +36,26 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       return;
     }
 
+    if (!user) {
+      setPasswordError('You must be logged in first');
+      return;
+    }
+
     setPasswordError('');
     setConnectionStatus('Retrieving wallet...');
 
     try {
+      console.log('🔐 Retrieving mnemonic for user:', user.username);
+
       // Get mnemonic from database
       const result = await getMnemonic(loginPassword);
+
+      console.log('🔍 Mnemonic retrieval result:', {
+        success: result.success,
+        hasMnemonic: !!result.mnemonic,
+        network: result.network,
+        error: result.error
+      });
 
       if (!result.success || !result.mnemonic) {
         setPasswordError(result.error || 'Failed to retrieve wallet');
@@ -60,12 +74,16 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         return;
       }
 
+      console.log('🚀 Connecting to Breez with retrieved mnemonic...');
+
       await connect({
         apiKey: breezApiKey,
         mnemonic: result.mnemonic,
         network: (result.network as 'mainnet' | 'regtest') || 'mainnet',
         storageDir: './breez-sdk-data'
       });
+
+      console.log('✅ Breez connection successful');
 
       setConnectionStatus('Wallet connected! Balance syncing...');
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -77,6 +95,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect wallet';
       console.error('❌ Login and connect failed:', errorMsg);
+      console.error('Full error:', err);
       setPasswordError(errorMsg);
       setConnectionStatus('');
     }
