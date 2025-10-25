@@ -231,9 +231,10 @@ export async function makeAutoBoostPayment({
       
       const webln = (window as any).webln;
 
-      // Ensure WebLN is enabled
+      // Don't automatically prompt for WebLN - only use if already enabled
       if (!weblnEnabled) {
-        await webln.enable();
+        console.log('⚠️ WebLN not enabled - skipping auto boost payment via WebLN');
+        throw new Error('WebLN not enabled - cannot perform auto boost payment');
       }
 
       // Check if we can use keysend (for node addresses)

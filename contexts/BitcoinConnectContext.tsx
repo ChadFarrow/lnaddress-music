@@ -104,22 +104,9 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
         )
       });
       
-      // Try to enable WebLN if it exists but isn't enabled
+      // Don't automatically prompt for WebLN - let users explicitly connect instead
+      // This prevents unwanted Alby extension prompts on page load
       let weblnEnabledAfter = weblnEnabled;
-      if (weblnExists && !weblnEnabled) {
-        try {
-          await (window as any).webln.enable();
-          // Wait a moment for the state to update
-          await new Promise(resolve => setTimeout(resolve, 100));
-          weblnEnabledAfter = !!(window as any).webln?.enabled;
-          console.log('🔗 WebLN enabled successfully, new state:', weblnEnabledAfter);
-        } catch (error) {
-          console.log('🔗 WebLN enable failed or cancelled by user:', error);
-          weblnEnabledAfter = false;
-        }
-      } else {
-        weblnEnabledAfter = weblnEnabled;
-      }
       
       // Check NWC service status without trying to import it here
       // to avoid chunk loading issues
