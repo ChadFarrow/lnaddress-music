@@ -669,7 +669,19 @@ export function LightningWallet() {
                               let destination = '';
 
                               if (tx.details?.type === 'lightning') {
-                                memo = tx.details.description || tx.details.lnurlPayInfo?.comment || '';
+                                // Prioritize the user's comment/message over auto-generated description
+                                // The comment is what the user actually typed, while description often contains technical info
+                                memo = tx.details.lnurlPayInfo?.comment || tx.details.lnurlPayInfo?.successAction?.message || '';
+
+                                // Only show description if there's no comment and it's not just the destination address
+                                if (!memo && tx.details.description) {
+                                  // Don't show description if it's just repeating the destination address
+                                  const lnAddress = tx.details.lnurlPayInfo?.lnAddress;
+                                  if (!lnAddress || !tx.details.description.includes(lnAddress)) {
+                                    memo = tx.details.description;
+                                  }
+                                }
+
                                 destination = tx.details.lnurlPayInfo?.lnAddress ||
                                              (tx.details.destinationPubkey ? `${tx.details.destinationPubkey.substring(0, 16)}...` : '');
                               }
