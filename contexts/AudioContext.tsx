@@ -362,7 +362,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       // Get fallback recipient (same as manual boost)
       const getFallbackRecipient = () => {
         // For Breez SDK, we cannot send to raw node pubkeys
-        return null;
+        // Use site owner's Lightning address as fallback
+        return 'chadf@getalby.com';
       };
 
       // Create boost metadata
@@ -390,7 +391,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         amount: autoBoostAmount,
         description: `Auto boost for ${track.title || 'Unknown Song'} by ${track.artist || 'Unknown Artist'}`,
         recipients: getPaymentRecipients() || undefined,
-        fallbackRecipient: getFallbackRecipient() || undefined,
+        fallbackRecipient: getFallbackRecipient(),
         boostMetadata
       });
 
