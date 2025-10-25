@@ -277,12 +277,6 @@ export default function TestPaymentsPage() {
       return;
     }
 
-    const amount = parseInt(paymentAmount);
-    if (isNaN(amount) || amount <= 0) {
-      alert('Please enter a valid payment amount');
-      return;
-    }
-
     // Get all Lightning address recipients
     const lnAddressRecipients = episode.valueRecipients?.filter(r => r.type === 'lnaddress') || [];
     if (lnAddressRecipients.length === 0) {
@@ -292,6 +286,9 @@ export default function TestPaymentsPage() {
 
     // Calculate total splits for Lightning addresses only
     const totalLnSplit = lnAddressRecipients.reduce((sum, r) => sum + r.split, 0);
+
+    // Get initial amount from state (will be editable in modal)
+    const amount = parseInt(paymentAmount) || 100;
 
     // Prepare recipient details with calculated amounts
     const recipients = lnAddressRecipients.map(r => ({
@@ -304,11 +301,37 @@ export default function TestPaymentsPage() {
     setConfirmPayment({ episode, amount, recipients });
   };
 
+  // Update recipient amounts when payment amount changes
+  useEffect(() => {
+    if (confirmPayment) {
+      const amount = parseInt(paymentAmount);
+      if (!isNaN(amount) && amount > 0) {
+        const totalLnSplit = confirmPayment.recipients.reduce((sum, r) => sum + r.split, 0);
+        const updatedRecipients = confirmPayment.recipients.map(r => ({
+          ...r,
+          amount: Math.floor((amount * r.split) / totalLnSplit)
+        }));
+        setConfirmPayment({
+          ...confirmPayment,
+          amount,
+          recipients: updatedRecipients
+        });
+      }
+    }
+  }, [paymentAmount]);
+
   // Actually send the payment after confirmation
   const sendPayment = async () => {
     if (!confirmPayment) return;
 
-    const { episode, amount, recipients } = confirmPayment;
+    // Validate amount before sending
+    const amount = parseInt(paymentAmount);
+    if (isNaN(amount) || amount <= 0) {
+      alert('Please enter a valid payment amount');
+      return;
+    }
+
+    const { episode, recipients } = confirmPayment;
 
     try {
       setProcessingPayment(episode.guid);
@@ -537,14 +560,14 @@ export default function TestPaymentsPage() {
                         onClick={() => showPaymentConfirmation(episode)}
                         disabled={!breez.isConnected || processingPayment === episode.guid}
                         className="flex items-center gap-1 px-3 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
-                        title={`Send ${paymentAmount} sats`}
+                        title="Send Boost"
                       >
                         {processingPayment === episode.guid ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
                         ) : (
                           <>
                             <Zap className="w-4 h-4" />
-                            <span>{paymentAmount}</span>
+                            <span>Boost</span>
                           </>
                         )}
                       </button>
@@ -573,19 +596,7 @@ export default function TestPaymentsPage() {
                 <span>Multiple test feeds with Lightning value splits</span>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={paymentAmount}
-                  onChange={(e) => setPaymentAmount(e.target.value)}
-                  className="w-20 px-2 py-1 bg-gray-800 border border-purple-500/30 text-white rounded text-sm focus:outline-none focus:border-purple-400"
-                  min="1"
-                />
-                <span className="text-xs text-purple-300">sats</span>
-              </div>
-              <LightningWallet />
-            </div>
+            <LightningWallet />
           </div>
         </div>
 
@@ -670,18 +681,19 @@ export default function TestPaymentsPage() {
               </p>
             </div>
 
-            {/* Amount */}
-            <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 mb-4">
-              <div className="text-center">
-                <div className="text-gray-400 text-sm mb-1">Total Amount</div>
-                <div className="text-purple-300 text-3xl font-bold">
-                  {confirmPayment.amount.toLocaleString()} <span className="text-xl">sats</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Name and Message Inputs */}
+            {/* Amount, Name and Message Inputs */}
             <div className="space-y-3 mb-4">
+              <div>
+                <label className="block text-gray-400 text-xs mb-1">Amount (sats)</label>
+                <input
+                  type="number"
+                  value={paymentAmount}
+                  onChange={(e) => setPaymentAmount(e.target.value)}
+                  placeholder="100"
+                  className="w-full px-3 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg text-sm focus:outline-none focus:border-purple-400 placeholder:text-gray-500"
+                  min="1"
+                />
+              </div>
               <div>
                 <label className="block text-gray-400 text-xs mb-1">Your Name (optional, saved)</label>
                 <input
