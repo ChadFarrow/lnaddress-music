@@ -296,12 +296,18 @@ export default function TestPaymentsPage() {
       return;
     }
 
-    // Separate Lightning address recipients from unsupported types
-    const lnAddressRecipients = allRecipients.filter(r => r.type === 'lnaddress');
-    const unsupportedRecipients = allRecipients.filter(r => r.type !== 'lnaddress');
+    // Determine which recipient types are supported based on connected wallet
+    const supportedTypes = nwc.isConnected
+      ? ['lnaddress', 'node'] // NWC supports both lightning addresses and keysend to nodes
+      : breez.isConnected
+      ? ['lnaddress'] // Breez only supports lightning addresses
+      : [];
 
-    if (lnAddressRecipients.length === 0) {
-      // Show styled error modal instead of alert
+    const supportedRecipients = allRecipients.filter(r => supportedTypes.includes(r.type));
+    const unsupportedRecipients = allRecipients.filter(r => !supportedTypes.includes(r.type));
+
+    if (supportedRecipients.length === 0) {
+      // Show styled error modal
       const errorModal = document.createElement('div');
       errorModal.className = 'fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4';
       errorModal.innerHTML = `
@@ -309,25 +315,18 @@ export default function TestPaymentsPage() {
           <div class="mb-4">
             <h2 class="text-xl font-bold text-white mb-2">⚠️ No Compatible Recipients</h2>
             <p class="text-gray-300 text-sm">
-              This episode has no Lightning addresses compatible with Breez SDK.
+              This episode has no payment recipients compatible with your wallet.
             </p>
           </div>
           <div class="bg-black/30 rounded-lg p-3 mb-4">
-            <div class="text-gray-400 text-xs mb-2">Supported Types:</div>
-            <div class="flex items-center gap-2 mb-2">
-              <span class="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">lnaddress</span>
-              <span class="text-green-400 text-xs">✓ Supported</span>
-            </div>
-            <div class="text-gray-400 text-xs mb-2">Unsupported Types:</div>
+            <div class="text-gray-400 text-xs mb-2">Your wallet supports:</div>
             <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-1 bg-red-900/50 text-red-300 text-xs rounded">keysend</span>
-                <span class="text-red-400 text-xs">✗ Not compatible</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-1 bg-red-900/50 text-red-300 text-xs rounded">node</span>
-                <span class="text-red-400 text-xs">✗ Not compatible</span>
-              </div>
+              ${supportedTypes.map(type => `
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">${type}</span>
+                  <span class="text-green-400 text-xs">✓ Supported</span>
+                </div>
+              `).join('')}
             </div>
           </div>
           <button
@@ -342,20 +341,19 @@ export default function TestPaymentsPage() {
       return;
     }
 
-    // Calculate total splits for Lightning addresses only
-    const totalLnSplit = lnAddressRecipients.reduce((sum, r) => sum + r.split, 0);
+    // Calculate total splits for supported recipients only
+    const totalSplit = supportedRecipients.reduce((sum, r) => sum + r.split, 0);
 
     // Get initial amount from state (will be editable in modal)
     const amount = parseInt(paymentAmount) || 100;
 
     // Prepare recipient details with calculated amounts
-    // Include both supported and unsupported recipients
-    const supportedRecipients = lnAddressRecipients.map(r => ({
+    const supportedRecipientsWithAmounts = supportedRecipients.map(r => ({
       name: r.name,
       address: r.address,
       type: r.type,
       split: r.split,
-      amount: Math.floor((amount * r.split) / totalLnSplit),
+      amount: Math.floor((amount * r.split) / totalSplit),
       supported: true
     }));
 
@@ -366,10 +364,10 @@ export default function TestPaymentsPage() {
       split: r.split,
       amount: 0,
       supported: false,
-      error: `Unsupported address type: "${r.type}". Only Lightning addresses (lnaddress) are supported by Breez SDK.`
+      error: `Unsupported address type: "${r.type}". Not compatible with your current wallet.`
     }));
 
-    const recipients = [...supportedRecipients, ...unsupportedWithInfo];
+    const recipients = [...supportedRecipientsWithAmounts, ...unsupportedWithInfo];
 
     setConfirmPayment({ episode, amount, recipients });
   };
@@ -485,21 +483,34 @@ export default function TestPaymentsPage() {
 
             // Use appropriate wallet based on what's connected
             if (nwc.isConnected) {
-              // NWC wallet - pay to lightning address
-              const invoice = await fetch(`https://${recipient.address.split('@')[1]}/.well-known/lnurlp/${recipient.address.split('@')[0]}`)
-                .then(r => r.json())
-                .then(async data => {
-                  const amountMsats = recipientAmount * 1000;
-                  const callbackUrl = `${data.callback}?amount=${amountMsats}&comment=${encodeURIComponent(fullMessage)}`;
-                  return fetch(callbackUrl).then(r => r.json()).then(d => d.pr);
-                });
+              // NWC wallet supports both lightning addresses and keysend
+              if (recipient.type === 'lnaddress') {
+                // Pay to lightning address via LNURL
+                const invoice = await fetch(`https://${recipient.address.split('@')[1]}/.well-known/lnurlp/${recipient.address.split('@')[0]}`)
+                  .then(r => r.json())
+                  .then(async data => {
+                    const amountMsats = recipientAmount * 1000;
+                    const callbackUrl = `${data.callback}?amount=${amountMsats}&comment=${encodeURIComponent(fullMessage)}`;
+                    return fetch(callbackUrl).then(r => r.json()).then(d => d.pr);
+                  });
 
-              const result = await nwc.payInvoice(invoice);
-              if (!result.success) {
-                throw new Error(result.error || 'Payment failed');
+                const result = await nwc.payInvoice(invoice);
+                if (!result.success) {
+                  throw new Error(result.error || 'Payment failed');
+                }
+              } else if (recipient.type === 'node') {
+                // Pay to node address via keysend
+                const result = await nwc.payKeysend(
+                  recipient.address, // node pubkey
+                  recipientAmount,
+                  fullMessage
+                );
+                if (!result.success) {
+                  throw new Error(result.error || 'Keysend payment failed');
+                }
               }
             } else if (breez.isConnected) {
-              // Breez SDK
+              // Breez SDK only supports lightning addresses
               await breez.sendPayment({
                 destination: recipient.address,
                 amountSats: recipientAmount,
