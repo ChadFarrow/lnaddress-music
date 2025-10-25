@@ -605,7 +605,7 @@ export default function TestPaymentsPage() {
                         </div>
                         <div className="text-gray-400 text-xs truncate">{recipient.address}</div>
                         {isFailed && status.error && (
-                          <div className="text-red-400 text-xs mt-1">{status.error}</div>
+                          <div className="text-red-400 text-xs mt-1 break-words">{status.error}</div>
                         )}
                       </div>
                       <div className="text-right ml-3">
@@ -720,7 +720,7 @@ export default function TestPaymentsPage() {
                         {result.name}
                       </div>
                       {result.error && (
-                        <div className="text-red-400 text-xs mt-1 truncate">
+                        <div className="text-red-400 text-xs mt-1 break-words">
                           {result.error}
                         </div>
                       )}
