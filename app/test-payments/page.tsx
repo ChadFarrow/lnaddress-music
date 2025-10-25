@@ -45,7 +45,15 @@ export default function TestPaymentsPage() {
   const [confirmPayment, setConfirmPayment] = useState<{
     episode: Episode;
     amount: number;
-    recipients: Array<{ name: string; address: string; split: number; amount: number }>;
+    recipients: Array<{
+      name: string;
+      address: string;
+      type: string;
+      split: number;
+      amount: number;
+      supported?: boolean;
+      error?: string;
+    }>;
     processing?: boolean;
     recipientStatus?: Map<string, { status: 'pending' | 'processing' | 'success' | 'failed'; error?: string }>;
   } | null>(null);
@@ -277,8 +285,17 @@ export default function TestPaymentsPage() {
       return;
     }
 
-    // Get all Lightning address recipients
-    const lnAddressRecipients = episode.valueRecipients?.filter(r => r.type === 'lnaddress') || [];
+    // Get all recipients (including unsupported types)
+    const allRecipients = episode.valueRecipients || [];
+    if (allRecipients.length === 0) {
+      alert('This episode has no payment recipients configured.');
+      return;
+    }
+
+    // Separate Lightning address recipients from unsupported types
+    const lnAddressRecipients = allRecipients.filter(r => r.type === 'lnaddress');
+    const unsupportedRecipients = allRecipients.filter(r => r.type !== 'lnaddress');
+
     if (lnAddressRecipients.length === 0) {
       alert('This episode has no Lightning addresses compatible with Breez SDK. Only "lnaddress" type recipients are supported. Other payment types (keysend, node addresses) are not compatible with this wallet.');
       return;
@@ -291,12 +308,27 @@ export default function TestPaymentsPage() {
     const amount = parseInt(paymentAmount) || 100;
 
     // Prepare recipient details with calculated amounts
-    const recipients = lnAddressRecipients.map(r => ({
+    // Include both supported and unsupported recipients
+    const supportedRecipients = lnAddressRecipients.map(r => ({
       name: r.name,
       address: r.address,
+      type: r.type,
       split: r.split,
-      amount: Math.floor((amount * r.split) / totalLnSplit)
+      amount: Math.floor((amount * r.split) / totalLnSplit),
+      supported: true
     }));
+
+    const unsupportedWithInfo = unsupportedRecipients.map(r => ({
+      name: r.name,
+      address: r.address,
+      type: r.type,
+      split: r.split,
+      amount: 0,
+      supported: false,
+      error: `Unsupported address type: "${r.type}". Only Lightning addresses (lnaddress) are supported by Breez SDK.`
+    }));
+
+    const recipients = [...supportedRecipients, ...unsupportedWithInfo];
 
     setConfirmPayment({ episode, amount, recipients });
   };
@@ -306,11 +338,22 @@ export default function TestPaymentsPage() {
     if (confirmPayment) {
       const amount = parseInt(paymentAmount);
       if (!isNaN(amount) && amount > 0) {
-        const totalLnSplit = confirmPayment.recipients.reduce((sum, r) => sum + r.split, 0);
-        const updatedRecipients = confirmPayment.recipients.map(r => ({
-          ...r,
-          amount: Math.floor((amount * r.split) / totalLnSplit)
-        }));
+        // Only calculate splits for supported recipients
+        const supportedRecipients = confirmPayment.recipients.filter(r => r.supported !== false);
+        const totalLnSplit = supportedRecipients.reduce((sum, r) => sum + r.split, 0);
+
+        const updatedRecipients = confirmPayment.recipients.map(r => {
+          // Keep unsupported recipients at 0
+          if (r.supported === false) {
+            return { ...r, amount: 0 };
+          }
+          // Recalculate for supported recipients
+          return {
+            ...r,
+            amount: Math.floor((amount * r.split) / totalLnSplit)
+          };
+        });
+
         setConfirmPayment({
           ...confirmPayment,
           amount,
@@ -339,7 +382,12 @@ export default function TestPaymentsPage() {
       // Initialize status map for all recipients
       const statusMap = new Map<string, { status: 'pending' | 'processing' | 'success' | 'failed'; error?: string }>();
       recipients.forEach(r => {
-        statusMap.set(r.address, { status: 'pending' });
+        // Mark unsupported recipients as failed immediately
+        if (r.supported === false) {
+          statusMap.set(r.address, { status: 'failed', error: r.error });
+        } else {
+          statusMap.set(r.address, { status: 'pending' });
+        }
       });
 
       // Set modal to processing state
@@ -361,6 +409,19 @@ export default function TestPaymentsPage() {
       }> = [];
 
       for (const recipient of recipients) {
+        // Skip unsupported recipients
+        if (recipient.supported === false) {
+          console.log(`⏭️ Skipping ${recipient.name} - ${recipient.error}`);
+          results.push({
+            success: false,
+            name: recipient.name,
+            skipped: true,
+            amount: 0,
+            error: recipient.error
+          });
+          continue;
+        }
+
         const recipientAmount = recipient.amount;
 
         if (recipientAmount > 0) {
@@ -751,6 +812,12 @@ export default function TestPaymentsPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <div className="text-white font-medium text-sm truncate">{recipient.name}</div>
+                          {/* Type badge */}
+                          <span className={`px-1.5 py-0.5 text-xs rounded ${
+                            recipient.supported === false ? 'bg-red-900/50 text-red-300' : 'bg-green-900/50 text-green-300'
+                          }`}>
+                            {recipient.type}
+                          </span>
                           {isProcessing && <Loader2 className="w-3 h-3 animate-spin text-purple-400" />}
                           {isSuccess && <span className="text-green-400 text-xs">✓</span>}
                           {isFailed && <span className="text-red-400 text-xs">✗</span>}
