@@ -40,6 +40,8 @@ export default function TestPaymentsPage() {
     episode: Episode;
     amount: number;
     recipients: Array<{ name: string; address: string; split: number; amount: number }>;
+    processing?: boolean;
+    recipientStatus?: Map<string, { status: 'pending' | 'processing' | 'success' | 'failed'; error?: string }>;
   } | null>(null);
   const [paymentResults, setPaymentResults] = useState<{
     amount: number;
@@ -231,7 +233,19 @@ export default function TestPaymentsPage() {
 
     try {
       setProcessingPayment(episode.guid);
-      setConfirmPayment(null); // Close confirmation modal
+
+      // Initialize status map for all recipients
+      const statusMap = new Map<string, { status: 'pending' | 'processing' | 'success' | 'failed'; error?: string }>();
+      recipients.forEach(r => {
+        statusMap.set(r.address, { status: 'pending' });
+      });
+
+      // Set modal to processing state
+      setConfirmPayment({
+        ...confirmPayment,
+        processing: true,
+        recipientStatus: statusMap
+      });
 
       console.log(`Sending ${amount} sats split among ${recipients.length} recipients in parallel`);
 
@@ -241,6 +255,15 @@ export default function TestPaymentsPage() {
 
         if (recipientAmount > 0) {
           console.log(`Sending ${recipientAmount} sats (${recipient.split}%) to ${recipient.name} (${recipient.address})`);
+
+          // Update status to processing
+          setConfirmPayment(prev => {
+            if (!prev) return null;
+            const newStatusMap = new Map(prev.recipientStatus);
+            newStatusMap.set(recipient.address, { status: 'processing' });
+            return { ...prev, recipientStatus: newStatusMap };
+          });
+
           try {
             // Build the message with sender name if provided
             let fullMessage = paymentMessage || `Payment from test feed`;
@@ -255,6 +278,15 @@ export default function TestPaymentsPage() {
               message: fullMessage
             });
             console.log(`✅ Successfully sent to ${recipient.name}`);
+
+            // Update status to success
+            setConfirmPayment(prev => {
+              if (!prev) return null;
+              const newStatusMap = new Map(prev.recipientStatus);
+              newStatusMap.set(recipient.address, { status: 'success' });
+              return { ...prev, recipientStatus: newStatusMap };
+            });
+
             return {
               success: true,
               name: recipient.name,
@@ -263,6 +295,18 @@ export default function TestPaymentsPage() {
             };
           } catch (err) {
             console.error(`❌ Failed to send to ${recipient.name}:`, err);
+
+            // Update status to failed
+            setConfirmPayment(prev => {
+              if (!prev) return null;
+              const newStatusMap = new Map(prev.recipientStatus);
+              newStatusMap.set(recipient.address, {
+                status: 'failed',
+                error: err instanceof Error ? err.message : 'Unknown error'
+              });
+              return { ...prev, recipientStatus: newStatusMap };
+            });
+
             return {
               success: false,
               name: recipient.name,
@@ -284,6 +328,9 @@ export default function TestPaymentsPage() {
       // Wait for all payments to complete
       const results = await Promise.all(paymentPromises);
 
+      // Close confirmation modal
+      setConfirmPayment(null);
+
       // Show results modal
       setPaymentResults({
         amount,
@@ -292,6 +339,7 @@ export default function TestPaymentsPage() {
       });
     } catch (err) {
       console.error('Payment failed:', err);
+      setConfirmPayment(null);
       alert(`Payment failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setProcessingPayment(null);
@@ -527,21 +575,41 @@ export default function TestPaymentsPage() {
             <div className="mb-6">
               <div className="text-gray-400 text-sm mb-2">Recipients ({confirmPayment.recipients.length})</div>
               <div className="space-y-2 max-h-48 overflow-y-auto">
-                {confirmPayment.recipients.map((recipient, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-white/5 border border-white/10 rounded-lg p-3 flex items-center justify-between"
-                  >
-                    <div className="flex-1 min-w-0">
-                      <div className="text-white font-medium text-sm truncate">{recipient.name}</div>
-                      <div className="text-gray-400 text-xs truncate">{recipient.address}</div>
+                {confirmPayment.recipients.map((recipient, idx) => {
+                  const status = confirmPayment.recipientStatus?.get(recipient.address);
+                  const isProcessing = status?.status === 'processing';
+                  const isSuccess = status?.status === 'success';
+                  const isFailed = status?.status === 'failed';
+
+                  return (
+                    <div
+                      key={idx}
+                      className={`border rounded-lg p-3 flex items-center justify-between transition-colors ${
+                        isSuccess ? 'bg-green-500/10 border-green-500/30' :
+                        isFailed ? 'bg-red-500/10 border-red-500/30' :
+                        isProcessing ? 'bg-purple-500/10 border-purple-500/30' :
+                        'bg-white/5 border-white/10'
+                      }`}
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <div className="text-white font-medium text-sm truncate">{recipient.name}</div>
+                          {isProcessing && <Loader2 className="w-3 h-3 animate-spin text-purple-400" />}
+                          {isSuccess && <span className="text-green-400 text-xs">✓</span>}
+                          {isFailed && <span className="text-red-400 text-xs">✗</span>}
+                        </div>
+                        <div className="text-gray-400 text-xs truncate">{recipient.address}</div>
+                        {isFailed && status.error && (
+                          <div className="text-red-400 text-xs mt-1">{status.error}</div>
+                        )}
+                      </div>
+                      <div className="text-right ml-3">
+                        <div className="text-purple-300 font-semibold">{recipient.amount.toLocaleString()} sats</div>
+                        <div className="text-gray-500 text-xs">{recipient.split}%</div>
+                      </div>
                     </div>
-                    <div className="text-right ml-3">
-                      <div className="text-purple-300 font-semibold">{recipient.amount.toLocaleString()} sats</div>
-                      <div className="text-gray-500 text-xs">{recipient.split}%</div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -549,16 +617,27 @@ export default function TestPaymentsPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setConfirmPayment(null)}
-                className="flex-1 px-4 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium"
+                disabled={confirmPayment.processing}
+                className="flex-1 px-4 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>
               <button
                 onClick={sendPayment}
-                className="flex-1 px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium flex items-center justify-center gap-2"
+                disabled={confirmPayment.processing}
+                className="flex-1 px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Zap className="w-5 h-5" />
-                Send Boost
+                {confirmPayment.processing ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Zap className="w-5 h-5" />
+                    Send Boost
+                  </>
+                )}
               </button>
             </div>
           </div>
