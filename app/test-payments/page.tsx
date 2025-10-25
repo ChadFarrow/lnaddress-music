@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Zap, Loader2, CheckCircle2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useBreez } from '@/hooks/useBreez';
+import { useNWC } from '@/hooks/useNWC';
 import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 import { LightningWallet } from '@/components/LightningWallet';
 
@@ -71,7 +72,8 @@ export default function TestPaymentsPage() {
   } | null>(null);
 
   const breez = useBreez();
-  const { isConnected: walletConnected } = useBitcoinConnect();
+  const nwc = useNWC();
+  const { isConnected: walletConnected, connectedWalletType } = useBitcoinConnect();
 
   // Load sender name from localStorage on mount
   useEffect(() => {
@@ -481,12 +483,33 @@ export default function TestPaymentsPage() {
               fullMessage = `From ${senderName}: ${fullMessage}`;
             }
 
-            await breez.sendPayment({
-              destination: recipient.address,
-              amountSats: recipientAmount,
-              label: `Test payment for: ${episode.title} - ${recipient.name}`,
-              message: fullMessage
-            });
+            // Use appropriate wallet based on what's connected
+            if (nwc.isConnected) {
+              // NWC wallet - pay to lightning address
+              const invoice = await fetch(`https://${recipient.address.split('@')[1]}/.well-known/lnurlp/${recipient.address.split('@')[0]}`)
+                .then(r => r.json())
+                .then(async data => {
+                  const amountMsats = recipientAmount * 1000;
+                  const callbackUrl = `${data.callback}?amount=${amountMsats}&comment=${encodeURIComponent(fullMessage)}`;
+                  return fetch(callbackUrl).then(r => r.json()).then(d => d.pr);
+                });
+
+              const result = await nwc.payInvoice(invoice);
+              if (!result.success) {
+                throw new Error(result.error || 'Payment failed');
+              }
+            } else if (breez.isConnected) {
+              // Breez SDK
+              await breez.sendPayment({
+                destination: recipient.address,
+                amountSats: recipientAmount,
+                label: `Test payment for: ${episode.title} - ${recipient.name}`,
+                message: fullMessage
+              });
+            } else {
+              throw new Error('No wallet connected');
+            }
+
             console.log(`✅ Successfully sent to ${recipient.name}`);
 
             // Update status to success
@@ -535,10 +558,14 @@ export default function TestPaymentsPage() {
         }
       }
 
-      // Wait a moment for Breez to sync, then refresh balance
-      console.log('🔄 Waiting for Breez to sync, then refreshing balance...');
+      // Wait a moment for wallet to sync, then refresh balance
+      console.log('🔄 Waiting for wallet to sync, then refreshing balance...');
       await new Promise(resolve => setTimeout(resolve, 1000));
-      await breez.refreshBalance();
+      if (nwc.isConnected) {
+        await nwc.refreshBalance();
+      } else if (breez.isConnected) {
+        await breez.refreshBalance();
+      }
       console.log('✅ Balance refreshed after payments');
 
       // Close confirmation modal
