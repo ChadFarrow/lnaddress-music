@@ -28,7 +28,26 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const network = 'mainnet';
 
   // Debug logging
-  console.log('🔍 BreezConnect render:', { isConnected, loading, error, forceShowForm });
+  console.log('🔍 BreezConnect render:', { isConnected, loading, error, forceShowForm, user: user?.username });
+
+  // Auto-connect wallet if user is logged in and has a saved wallet
+  useEffect(() => {
+    const autoConnectWallet = async () => {
+      // Only attempt auto-connect if:
+      // 1. User is logged in
+      // 2. Wallet is not already connected
+      // 3. Not currently loading
+      // 4. No existing error
+      if (user && !isConnected && !loading && !error && !forceShowForm) {
+        console.log('🔄 User logged in, attempting to auto-connect wallet for:', user.username);
+
+        // Show password prompt for wallet connection
+        setAuthView('password');
+      }
+    };
+
+    autoConnectWallet();
+  }, [user, isConnected, loading, error, forceShowForm]);
 
   const handleLoginAndConnect = async () => {
     if (!loginPassword) {
