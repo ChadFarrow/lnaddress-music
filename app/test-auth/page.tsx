@@ -1,14 +1,24 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSearchParams } from 'next/navigation';
 import LoginForm from '@/components/LoginForm';
 import RegisterForm from '@/components/RegisterForm';
 import WalletSetup from '@/components/WalletSetup';
 
 export default function TestAuthPage() {
   const { user, logout, getMnemonic, storeWallet } = useAuth();
+  const searchParams = useSearchParams();
   const [view, setView] = useState<'login' | 'register' | 'wallet'>('register');
+
+  // Set initial view based on URL parameter
+  useEffect(() => {
+    const viewParam = searchParams.get('view');
+    if (viewParam === 'login' || viewParam === 'register' || viewParam === 'wallet') {
+      setView(viewParam);
+    }
+  }, [searchParams]);
   const [testPassword, setTestPassword] = useState('');
   const [retrievedMnemonic, setRetrievedMnemonic] = useState('');
   const [testMnemonic, setTestMnemonic] = useState('');

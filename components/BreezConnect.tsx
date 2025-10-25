@@ -200,16 +200,27 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         )}
       </button>
 
-      {/* Create Account Button (Optional) */}
-      <a
-        href="/test-auth"
-        className="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 mb-6 text-sm"
-      >
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
-        </svg>
-        Create an account
-      </a>
+      {/* Account Management Buttons */}
+      <div className="grid grid-cols-2 gap-2 mb-6">
+        <a
+          href="/test-auth?view=register"
+          className="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
+        >
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+          </svg>
+          Sign Up
+        </a>
+        <a
+          href="/test-auth?view=login"
+          className="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
+        >
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clipRule="evenodd" />
+          </svg>
+          Login
+        </a>
+      </div>
 
       {/* Divider */}
       <div className="relative mb-6">
