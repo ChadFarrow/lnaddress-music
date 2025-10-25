@@ -43,7 +43,7 @@ secrets/
 keys/
 passwords/
 credentials/
-auth/
+# auth/ - COMMENTED OUT to allow app/api/auth API routes
 token/
 .env.production
 .env.staging
