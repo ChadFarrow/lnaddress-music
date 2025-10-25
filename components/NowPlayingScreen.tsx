@@ -281,11 +281,11 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
       const response = await fetch(`/api/album/${encodeURIComponent(albumId)}`);
       const data = await response.json();
 
-      console.log('🔍 Album API response:', { success: data.success, hasAlbum: !!data.album, hasValue: !!data.album?.value });
+      console.log('🔍 Album API response:', { hasAlbum: !!data.album, hasValue: !!data.album?.value });
 
-      if (data.success && data.album) {
+      if (data.album) {
         setAlbumData(data.album);
-        console.log('✅ Album data set:', { title: data.album.title, hasValue: !!data.album.value });
+        console.log('✅ Album data set:', { title: data.album.title, hasValue: !!data.album.value, recipients: data.album.value?.recipients?.length });
       } else {
         setAlbumData(null);
         console.log('❌ No album data available');
