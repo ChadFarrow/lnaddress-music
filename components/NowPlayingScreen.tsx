@@ -344,10 +344,22 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     await checkConnection();
 
     const amount = parseInt(boostAmount) || 1;
+
+    // Debug: Log what data we have
+    console.log('🔍 Payment recipients debug:', {
+      hasCurrentTrackValue: !!currentTrack?.value,
+      currentTrackValue: currentTrack?.value,
+      hasAlbumData: !!albumData,
+      albumDataValue: albumData?.value,
+      currentAlbum
+    });
+
     const allRecipients = getAllPaymentRecipients();
 
     if (!allRecipients || allRecipients.length === 0) {
       console.error('No recipients available for payment');
+      console.error('Track value:', currentTrack?.value);
+      console.error('Album data:', albumData);
       return;
     }
 
