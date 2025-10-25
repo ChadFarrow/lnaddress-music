@@ -28,8 +28,10 @@ export function useNWC(): UseNWCReturn {
   const nwcService = getNWCService();
 
   // Check if this NWC connection supports keysend (currently only Alby/Alby Hub)
+  // Note: All NWC wallets support lightning addresses, but only some support keysend
   const supportsKeysend = connectionString.includes('relay.getalby.com') ||
-                          connectionString.includes('getalby.com');
+                          connectionString.includes('getalby.com') ||
+                          connectionString.includes('relay.primal.net'); // Primal also supports keysend
 
   // Check service connection status on mount and periodically (only when connected)
   useEffect(() => {
