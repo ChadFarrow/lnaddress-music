@@ -902,6 +902,11 @@ export default function TestPaymentsPage() {
                   const isProcessing = status?.status === 'processing';
                   const isSuccess = status?.status === 'success';
                   const isFailed = status?.status === 'failed';
+                  const isUnsupported = recipient.supported === false;
+
+                  // Calculate actual payment percentage
+                  const totalAmount = confirmPayment.recipients.reduce((sum, r) => sum + r.amount, 0);
+                  const actualPercentage = totalAmount > 0 ? Math.round((recipient.amount / totalAmount) * 100) : 0;
 
                   return (
                     <div
@@ -918,6 +923,7 @@ export default function TestPaymentsPage() {
                         }
                       }}
                       className={`border rounded-lg p-3 flex items-center justify-between transition-colors ${
+                        isUnsupported ? 'bg-gray-900/30 border-gray-700/30 opacity-60' :
                         isSuccess ? 'bg-green-500/10 border-green-500/30' :
                         isFailed ? 'bg-red-500/10 border-red-500/30' :
                         isProcessing ? 'bg-purple-500/10 border-purple-500/30' :
@@ -926,25 +932,43 @@ export default function TestPaymentsPage() {
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <div className="text-white font-medium text-sm truncate">{recipient.name}</div>
+                          <div className={`font-medium text-sm truncate ${isUnsupported ? 'text-gray-500' : 'text-white'}`}>
+                            {recipient.name}
+                          </div>
                           {/* Type badge */}
                           <span className={`px-1.5 py-0.5 text-xs rounded ${
-                            recipient.supported === false ? 'bg-red-900/50 text-red-300' : 'bg-green-900/50 text-green-300'
+                            isUnsupported ? 'bg-red-900/50 text-red-300' : 'bg-green-900/50 text-green-300'
                           }`}>
                             {recipient.type}
                           </span>
+                          {isUnsupported && <span className="text-red-400/70 text-xs">(skipped)</span>}
                           {isProcessing && <Loader2 className="w-3 h-3 animate-spin text-purple-400" />}
                           {isSuccess && <span className="text-green-400 text-xs">✓</span>}
                           {isFailed && <span className="text-red-400 text-xs">✗</span>}
                         </div>
-                        <div className="text-gray-400 text-xs truncate">{recipient.address}</div>
+                        <div className={`text-xs truncate ${isUnsupported ? 'text-gray-600' : 'text-gray-400'}`}>
+                          {recipient.address}
+                        </div>
+                        {isUnsupported && (
+                          <div className="text-red-400/70 text-xs mt-1">
+                            Wallet doesn't support {recipient.type}
+                          </div>
+                        )}
                         {isFailed && status.error && (
                           <div className="text-red-400 text-xs mt-1 break-words">{status.error}</div>
                         )}
                       </div>
                       <div className="text-right ml-3">
-                        <div className="text-purple-300 font-semibold">{recipient.amount.toLocaleString()} sats</div>
-                        <div className="text-gray-500 text-xs">{recipient.split}%</div>
+                        <div className={`font-semibold ${isUnsupported ? 'text-gray-600 line-through' : 'text-purple-300'}`}>
+                          {recipient.amount.toLocaleString()} sats
+                        </div>
+                        <div className="text-gray-500 text-xs">
+                          {isUnsupported ? (
+                            <span className="line-through">{recipient.split}%</span>
+                          ) : (
+                            `${actualPercentage}%`
+                          )}
+                        </div>
                       </div>
                     </div>
                   );
