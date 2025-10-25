@@ -309,9 +309,15 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
             ← Back
           </button>
           <LoginForm
-            onSuccess={() => {
-              // After login, ask for password to decrypt wallet
-              setAuthView('password');
+            onSuccess={async () => {
+              // Close the modal and auth view
+              setAuthView('none');
+              onSuccess?.();
+
+              // Note: The wallet connection should happen automatically
+              // when the user creates/registers an account with WalletSetup
+              // For existing users logging back in, they would need to
+              // manually connect via "Restore Wallet" with their mnemonic
             }}
             onSwitchToRegister={() => setAuthView('register')}
             className="!bg-transparent !border-0 !p-0"
