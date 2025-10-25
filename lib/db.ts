@@ -15,6 +15,25 @@ export interface DBFeed {
   discovered_from?: string;
 }
 
+export interface DBUser {
+  id: number;
+  username: string;
+  password_hash: string;
+  created_at: Date;
+  last_login: Date | null;
+}
+
+export interface DBUserWallet {
+  id: number;
+  user_id: number;
+  encrypted_mnemonic: string;
+  encryption_iv: string;
+  encryption_tag: string;
+  network: 'mainnet' | 'regtest';
+  created_at: Date;
+  updated_at: Date;
+}
+
 export async function seedDatabase() {
   try {
     console.log('🌱 Seeding database with feeds from feeds.json...');
@@ -87,6 +106,33 @@ export async function initializeDatabase(shouldSeed = true) {
     `;
     console.log('✅ Feeds table created/verified');
 
+    // Create users table for authentication
+    await sql`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        password_hash VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        last_login TIMESTAMP WITH TIME ZONE
+      );
+    `;
+    console.log('✅ Users table created/verified');
+
+    // Create user_wallets table for encrypted mnemonic storage
+    await sql`
+      CREATE TABLE IF NOT EXISTS user_wallets (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        encrypted_mnemonic TEXT NOT NULL,
+        encryption_iv VARCHAR(32) NOT NULL,
+        encryption_tag VARCHAR(32) NOT NULL,
+        network VARCHAR(20) DEFAULT 'mainnet' CHECK (network IN ('mainnet', 'regtest')),
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+    `;
+    console.log('✅ User wallets table created/verified');
+
     // Create index for better query performance
     await sql`
       CREATE INDEX IF NOT EXISTS idx_feeds_status ON feeds(status);
@@ -97,6 +143,16 @@ export async function initializeDatabase(shouldSeed = true) {
       CREATE INDEX IF NOT EXISTS idx_feeds_priority ON feeds(priority);
     `;
     console.log('✅ Priority index created/verified');
+
+    await sql`
+      CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
+    `;
+    console.log('✅ Username index created/verified');
+
+    await sql`
+      CREATE INDEX IF NOT EXISTS idx_user_wallets_user_id ON user_wallets(user_id);
+    `;
+    console.log('✅ User wallets index created/verified');
 
     // Add new columns if they don't exist (migration)
     try {
@@ -217,3 +273,160 @@ export async function removeFeed(feedId: string): Promise<{ success: boolean; er
 
 // Default feeds functionality removed - database starts empty
 // Users must manually add all RSS feeds they want
+
+// ===== USER AUTHENTICATION FUNCTIONS =====
+
+/**
+ * Create a new user account
+ */
+export async function createUser(username: string, passwordHash: string): Promise<{ success: boolean; user?: DBUser; error?: string }> {
+  try {
+    const result = await sql`
+      INSERT INTO users (username, password_hash)
+      VALUES (${username}, ${passwordHash})
+      RETURNING *
+    `;
+
+    if (result.rows.length > 0) {
+      return { success: true, user: result.rows[0] as DBUser };
+    }
+    
+    return { success: false, error: 'Failed to create user' };
+  } catch (error: any) {
+    if (error?.message?.includes('duplicate key')) {
+      return { success: false, error: 'Username already exists' };
+    }
+    console.error('Failed to create user:', error);
+    return { success: false, error: 'Database error occurred' };
+  }
+}
+
+/**
+ * Find user by username
+ */
+export async function findUserByUsername(username: string): Promise<DBUser | null> {
+  try {
+    const result = await sql`
+      SELECT * FROM users WHERE username = ${username}
+    `;
+    
+    return result.rows.length > 0 ? result.rows[0] as DBUser : null;
+  } catch (error) {
+    console.error('Failed to find user by username:', error);
+    return null;
+  }
+}
+
+/**
+ * Find user by ID
+ */
+export async function findUserById(id: number): Promise<DBUser | null> {
+  try {
+    const result = await sql`
+      SELECT * FROM users WHERE id = ${id}
+    `;
+    
+    return result.rows.length > 0 ? result.rows[0] as DBUser : null;
+  } catch (error) {
+    console.error('Failed to find user by ID:', error);
+    return null;
+  }
+}
+
+/**
+ * Update user's last login timestamp
+ */
+export async function updateUserLastLogin(userId: number): Promise<boolean> {
+  try {
+    await sql`
+      UPDATE users 
+      SET last_login = NOW() 
+      WHERE id = ${userId}
+    `;
+    return true;
+  } catch (error) {
+    console.error('Failed to update last login:', error);
+    return false;
+  }
+}
+
+/**
+ * Store encrypted wallet mnemonic for user
+ */
+export async function storeUserWallet(
+  userId: number, 
+  encryptedMnemonic: string, 
+  encryptionIv: string, 
+  encryptionTag: string,
+  network: 'mainnet' | 'regtest' = 'mainnet'
+): Promise<{ success: boolean; wallet?: DBUserWallet; error?: string }> {
+  try {
+    // Check if user already has a wallet
+    const existingWallet = await getUserWallet(userId);
+    
+    if (existingWallet) {
+      // Update existing wallet
+      const result = await sql`
+        UPDATE user_wallets 
+        SET encrypted_mnemonic = ${encryptedMnemonic}, 
+            encryption_iv = ${encryptionIv}, 
+            encryption_tag = ${encryptionTag},
+            network = ${network},
+            updated_at = NOW()
+        WHERE user_id = ${userId}
+        RETURNING *
+      `;
+      
+      if (result.rows.length > 0) {
+        return { success: true, wallet: result.rows[0] as DBUserWallet };
+      }
+    } else {
+      // Create new wallet
+      const result = await sql`
+        INSERT INTO user_wallets (user_id, encrypted_mnemonic, encryption_iv, encryption_tag, network)
+        VALUES (${userId}, ${encryptedMnemonic}, ${encryptionIv}, ${encryptionTag}, ${network})
+        RETURNING *
+      `;
+      
+      if (result.rows.length > 0) {
+        return { success: true, wallet: result.rows[0] as DBUserWallet };
+      }
+    }
+    
+    return { success: false, error: 'Failed to store wallet' };
+  } catch (error) {
+    console.error('Failed to store user wallet:', error);
+    return { success: false, error: 'Database error occurred' };
+  }
+}
+
+/**
+ * Get user's wallet information
+ */
+export async function getUserWallet(userId: number): Promise<DBUserWallet | null> {
+  try {
+    const result = await sql`
+      SELECT * FROM user_wallets WHERE user_id = ${userId}
+    `;
+    
+    return result.rows.length > 0 ? result.rows[0] as DBUserWallet : null;
+  } catch (error) {
+    console.error('Failed to get user wallet:', error);
+    return null;
+  }
+}
+
+/**
+ * Delete user's wallet
+ */
+export async function deleteUserWallet(userId: number): Promise<boolean> {
+  try {
+    await sql`
+      DELETE FROM user_wallets WHERE user_id = ${userId}
+    `;
+    return true;
+  } catch (error) {
+    console.error('Failed to delete user wallet:', error);
+    return false;
+  }
+}
