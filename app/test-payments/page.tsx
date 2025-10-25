@@ -34,10 +34,16 @@ export default function TestPaymentsPage() {
   const [error, setError] = useState<string | null>(null);
   const [paymentAmount, setPaymentAmount] = useState('100');
   const [processingPayment, setProcessingPayment] = useState<string | null>(null);
-  const [paymentSuccess, setPaymentSuccess] = useState<{
+  const [paymentResults, setPaymentResults] = useState<{
     amount: number;
-    recipientCount: number;
     episodeTitle: string;
+    results: Array<{
+      name: string;
+      success: boolean;
+      skipped: boolean;
+      amount: number;
+      error?: string;
+    }>;
   } | null>(null);
 
   const breez = useBreez();
@@ -202,35 +208,41 @@ export default function TestPaymentsPage() {
               message: `Payment from test feed`
             });
             console.log(`✅ Successfully sent to ${recipient.name}`);
-            return { success: true, name: recipient.name, skipped: false };
+            return {
+              success: true,
+              name: recipient.name,
+              skipped: false,
+              amount: recipientAmount
+            };
           } catch (err) {
             console.error(`❌ Failed to send to ${recipient.name}:`, err);
-            return { success: false, name: recipient.name, skipped: false };
+            return {
+              success: false,
+              name: recipient.name,
+              skipped: false,
+              amount: recipientAmount,
+              error: err instanceof Error ? err.message : 'Unknown error'
+            };
           }
         } else {
-          return { success: false, name: recipient.name, skipped: true };
+          return {
+            success: false,
+            name: recipient.name,
+            skipped: true,
+            amount: recipientAmount
+          };
         }
       });
 
       // Wait for all payments to complete
       const results = await Promise.all(paymentPromises);
 
-      // Count successes and failures
-      const successCount = results.filter(r => r.success).length;
-      const failedRecipients = results.filter(r => !r.success && !r.skipped).map(r => r.name);
-
-      if (successCount === lnAddressRecipients.length) {
-        // Show success modal
-        setPaymentSuccess({
-          amount,
-          recipientCount: successCount,
-          episodeTitle: episode.title
-        });
-      } else if (successCount > 0) {
-        alert(`Partially successful: Sent to ${successCount}/${lnAddressRecipients.length} recipients.\nFailed: ${failedRecipients.join(', ')}`);
-      } else {
-        alert(`All payments failed. Check console for details.`);
-      }
+      // Show results modal
+      setPaymentResults({
+        amount,
+        episodeTitle: episode.title,
+        results
+      });
     } catch (err) {
       console.error('Payment failed:', err);
       alert(`Payment failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
@@ -398,61 +410,107 @@ export default function TestPaymentsPage() {
         {renderFeedTable(pc20Feed, 'pc20-feed')}
       </div>
 
-      {/* Payment Success Modal */}
-      {paymentSuccess && (
+      {/* Payment Results Modal */}
+      {paymentResults && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-green-500/30 rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-purple-500/30 rounded-2xl p-6 max-w-2xl w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
             {/* Close button */}
             <button
-              onClick={() => setPaymentSuccess(null)}
+              onClick={() => setPaymentResults(null)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
 
-            {/* Success Icon */}
-            <div className="flex justify-center mb-6">
-              <div className="bg-green-500/20 rounded-full p-4">
-                <CheckCircle2 className="w-16 h-16 text-green-500" />
-              </div>
-            </div>
-
-            {/* Success Message */}
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-white mb-2">Payment Successful! ⚡</h2>
-              <p className="text-gray-300">
-                Your boost has been sent
+            {/* Header */}
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">Payment Results ⚡</h2>
+              <p className="text-gray-300 text-sm">
+                {paymentResults.episodeTitle}
               </p>
             </div>
 
-            {/* Payment Details */}
-            <div className="bg-black/30 rounded-lg p-4 mb-6 space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Amount</span>
-                <span className="text-white font-semibold text-lg">
-                  {paymentSuccess.amount.toLocaleString()} sats
-                </span>
+            {/* Summary Stats */}
+            <div className="grid grid-cols-3 gap-3 mb-6">
+              <div className="bg-black/30 rounded-lg p-3">
+                <div className="text-gray-400 text-xs mb-1">Total Amount</div>
+                <div className="text-white font-semibold text-lg">
+                  {paymentResults.amount.toLocaleString()} sats
+                </div>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Recipients</span>
-                <span className="text-white font-semibold">
-                  {paymentSuccess.recipientCount}
-                </span>
+              <div className="bg-green-500/10 rounded-lg p-3 border border-green-500/30">
+                <div className="text-gray-400 text-xs mb-1">Successful</div>
+                <div className="text-green-400 font-semibold text-lg">
+                  {paymentResults.results.filter(r => r.success).length}
+                </div>
               </div>
-              <div className="flex flex-col pt-2 border-t border-gray-700">
-                <span className="text-gray-400 text-sm mb-1">Episode</span>
-                <span className="text-white font-medium">
-                  {paymentSuccess.episodeTitle}
-                </span>
+              <div className="bg-red-500/10 rounded-lg p-3 border border-red-500/30">
+                <div className="text-gray-400 text-xs mb-1">Failed</div>
+                <div className="text-red-400 font-semibold text-lg">
+                  {paymentResults.results.filter(r => !r.success && !r.skipped).length}
+                </div>
               </div>
+            </div>
+
+            {/* Recipients List */}
+            <div className="space-y-2 mb-6">
+              <h3 className="text-sm font-semibold text-gray-300 mb-3">Recipients</h3>
+              {paymentResults.results.map((result, idx) => (
+                <div
+                  key={idx}
+                  className={`flex items-center justify-between p-3 rounded-lg border ${
+                    result.success
+                      ? 'bg-green-500/5 border-green-500/30'
+                      : result.skipped
+                      ? 'bg-gray-500/5 border-gray-500/30'
+                      : 'bg-red-500/5 border-red-500/30'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 flex-1">
+                    {result.success ? (
+                      <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    ) : result.skipped ? (
+                      <div className="w-5 h-5 rounded-full bg-gray-500/30 flex items-center justify-center flex-shrink-0">
+                        <span className="text-gray-400 text-xs">-</span>
+                      </div>
+                    ) : (
+                      <X className="w-5 h-5 text-red-500 flex-shrink-0" />
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="text-white font-medium text-sm truncate">
+                        {result.name}
+                      </div>
+                      {result.error && (
+                        <div className="text-red-400 text-xs mt-1 truncate">
+                          {result.error}
+                        </div>
+                      )}
+                      {result.skipped && (
+                        <div className="text-gray-400 text-xs mt-1">
+                          Skipped (0 sats)
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  {!result.skipped && (
+                    <div className="text-right ml-3">
+                      <div className={`font-mono text-sm font-semibold ${
+                        result.success ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {result.amount} sats
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
 
             {/* Close Button */}
             <button
-              onClick={() => setPaymentSuccess(null)}
-              className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
+              onClick={() => setPaymentResults(null)}
+              className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors"
             >
-              Awesome!
+              Close
             </button>
           </div>
         </div>

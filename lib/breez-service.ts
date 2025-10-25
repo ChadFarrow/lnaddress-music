@@ -324,14 +324,20 @@ class BreezService {
 
       const inputType = await this.parseFunction(request.destination);
       console.log('✅ Parsed input type:', inputType.type);
+      console.log('🔍 Full parsed object:', JSON.stringify(inputType, null, 2));
 
       // Handle Lightning Address / LNURL-Pay separately
       if (inputType.type === 'lnurlPay' || inputType.type === 'lightningAddress') {
         console.log('💡 Detected LNURL-Pay - using LNURL payment flow');
 
+        // For lightningAddress type, the payRequest is in inputType.payRequest
+        // For lnurlPay type, it might be in inputType.data or directly in inputType
+        const payRequestData = inputType.payRequest || inputType.data || inputType.lnurlPayRequest || inputType;
+        console.log('🔍 Using payRequest data:', JSON.stringify(payRequestData, null, 2));
+
         // Prepare LNURL payment with the parsed payRequest
         const prepareLnurlRequest = {
-          payRequest: inputType.data,
+          payRequest: payRequestData,
           amountSats: request.amountSats,
           comment: request.message || '',
           // Disable strict success action URL validation to allow payments to services like Fountain
