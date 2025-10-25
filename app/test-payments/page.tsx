@@ -247,10 +247,18 @@ export default function TestPaymentsPage() {
         recipientStatus: statusMap
       });
 
-      console.log(`Sending ${amount} sats split among ${recipients.length} recipients in parallel`);
+      console.log(`Sending ${amount} sats split among ${recipients.length} recipients sequentially`);
 
-      // Send payments in parallel for faster processing
-      const paymentPromises = recipients.map(async (recipient) => {
+      // Send payments sequentially to avoid Spark SDK signing conflicts
+      const results: Array<{
+        success: boolean;
+        name: string;
+        skipped: boolean;
+        amount: number;
+        error?: string;
+      }> = [];
+
+      for (const recipient of recipients) {
         const recipientAmount = recipient.amount;
 
         if (recipientAmount > 0) {
@@ -287,12 +295,12 @@ export default function TestPaymentsPage() {
               return { ...prev, recipientStatus: newStatusMap };
             });
 
-            return {
+            results.push({
               success: true,
               name: recipient.name,
               skipped: false,
               amount: recipientAmount
-            };
+            });
           } catch (err) {
             console.error(`❌ Failed to send to ${recipient.name}:`, err);
 
@@ -307,26 +315,23 @@ export default function TestPaymentsPage() {
               return { ...prev, recipientStatus: newStatusMap };
             });
 
-            return {
+            results.push({
               success: false,
               name: recipient.name,
               skipped: false,
               amount: recipientAmount,
               error: err instanceof Error ? err.message : 'Unknown error'
-            };
+            });
           }
         } else {
-          return {
+          results.push({
             success: false,
             name: recipient.name,
             skipped: true,
             amount: recipientAmount
-          };
+          });
         }
-      });
-
-      // Wait for all payments to complete
-      const results = await Promise.all(paymentPromises);
+      }
 
       // Close confirmation modal
       setConfirmPayment(null);
