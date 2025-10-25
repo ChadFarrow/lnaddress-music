@@ -1,6 +1,28 @@
-import { sql } from '@vercel/postgres';
+import { Pool } from 'pg';
 import fs from 'fs/promises';
 import path from 'path';
+
+// Load environment variables explicitly
+if (typeof window === 'undefined') {
+  require('dotenv').config({ path: '.env.local' });
+}
+
+// Create PostgreSQL connection pool
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+});
+
+// Helper function to execute SQL queries
+const sql = async (query: string, params: any[] = []) => {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(query, params);
+    return result;
+  } finally {
+    client.release();
+  }
+};
 
 export interface DBFeed {
   id: string;
@@ -48,25 +70,17 @@ export async function seedDatabase() {
     for (const feed of feeds) {
       try {
         // Check if feed already exists
-        const existing = await sql`
-          SELECT id FROM feeds WHERE id = ${feed.id}
-        `;
+        const existing = await sql(
+          'SELECT id FROM feeds WHERE id = $1',
+          [feed.id]
+        );
         
         if (existing.rows.length === 0) {
           // Insert new feed
-          await sql`
-            INSERT INTO feeds (id, original_url, type, title, priority, status, added_at, last_updated)
-            VALUES (
-              ${feed.id}, 
-              ${feed.originalUrl}, 
-              ${feed.type}, 
-              ${feed.title}, 
-              ${feed.priority}, 
-              ${feed.status},
-              ${feed.addedAt},
-              ${feed.lastUpdated}
-            )
-          `;
+          await sql(
+            'INSERT INTO feeds (id, original_url, type, title, priority, status, added_at, last_updated) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+            [feed.id, feed.originalUrl, feed.type, feed.title, feed.priority, feed.status, feed.addedAt, feed.lastUpdated]
+          );
           seededCount++;
           console.log(`✅ Seeded feed: ${feed.title}`);
         } else {
@@ -90,7 +104,7 @@ export async function initializeDatabase(shouldSeed = true) {
     console.log('🔧 Initializing database...');
     
     // Create feeds table if it doesn't exist
-    await sql`
+    await sql(`
       CREATE TABLE IF NOT EXISTS feeds (
         id VARCHAR(255) PRIMARY KEY,
         original_url TEXT NOT NULL UNIQUE,
@@ -103,11 +117,11 @@ export async function initializeDatabase(shouldSeed = true) {
         source VARCHAR(20) CHECK (source IN ('manual', 'podroll', 'recursive')),
         discovered_from TEXT
       );
-    `;
+    `);
     console.log('✅ Feeds table created/verified');
 
     // Create users table for authentication
-    await sql`
+    await sql(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         username VARCHAR(50) UNIQUE NOT NULL,
@@ -115,11 +129,11 @@ export async function initializeDatabase(shouldSeed = true) {
         created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
         last_login TIMESTAMP WITH TIME ZONE
       );
-    `;
+    `);
     console.log('✅ Users table created/verified');
 
     // Create user_wallets table for encrypted mnemonic storage
-    await sql`
+    await sql(`
       CREATE TABLE IF NOT EXISTS user_wallets (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -130,38 +144,38 @@ export async function initializeDatabase(shouldSeed = true) {
         created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
       );
-    `;
+    `);
     console.log('✅ User wallets table created/verified');
 
     // Create index for better query performance
-    await sql`
+    await sql(`
       CREATE INDEX IF NOT EXISTS idx_feeds_status ON feeds(status);
-    `;
+    `);
     console.log('✅ Status index created/verified');
 
-    await sql`
+    await sql(`
       CREATE INDEX IF NOT EXISTS idx_feeds_priority ON feeds(priority);
-    `;
+    `);
     console.log('✅ Priority index created/verified');
 
-    await sql`
+    await sql(`
       CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
-    `;
+    `);
     console.log('✅ Username index created/verified');
 
-    await sql`
+    await sql(`
       CREATE INDEX IF NOT EXISTS idx_user_wallets_user_id ON user_wallets(user_id);
-    `;
+    `);
     console.log('✅ User wallets index created/verified');
 
     // Add new columns if they don't exist (migration)
     try {
-      await sql`
+      await sql(`
         ALTER TABLE feeds ADD COLUMN IF NOT EXISTS source VARCHAR(20) CHECK (source IN ('manual', 'podroll', 'recursive'));
-      `;
-      await sql`
+      `);
+      await sql(`
         ALTER TABLE feeds ADD COLUMN IF NOT EXISTS discovered_from TEXT;
-      `;
+      `);
       console.log('✅ Podroll tracking columns added/verified');
     } catch (error) {
       console.log('ℹ️  Podroll tracking columns already exist or migration not needed');
@@ -182,7 +196,7 @@ export async function initializeDatabase(shouldSeed = true) {
 
 export async function getAllFeeds(): Promise<DBFeed[]> {
   try {
-    const result = await sql`
+    const result = await sql(`
       SELECT * FROM feeds 
       WHERE status = 'active' 
       ORDER BY 
@@ -192,7 +206,7 @@ export async function getAllFeeds(): Promise<DBFeed[]> {
           WHEN 'low' THEN 3 
         END,
         added_at ASC
-    `;
+    `);
     return result.rows as DBFeed[];
   } catch (error) {
     console.error('Failed to fetch feeds:', error);
@@ -228,11 +242,10 @@ export async function addFeed(
     const source = options?.source || 'manual';
     const discoveredFrom = options?.discoveredFrom;
     
-    const result = await sql`
-      INSERT INTO feeds (id, original_url, type, title, priority, status, source, discovered_from)
-      VALUES (${feedId}, ${url}, ${type}, ${feedTitle}, ${priority}, 'active', ${source}, ${discoveredFrom})
-      RETURNING *
-    `;
+    const result = await sql(
+      'INSERT INTO feeds (id, original_url, type, title, priority, status, source, discovered_from) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+      [feedId, url, type, feedTitle, priority, 'active', source, discoveredFrom]
+    );
 
     if (result.rows.length > 0) {
       return { success: true, feed: result.rows[0] as DBFeed };
@@ -252,9 +265,10 @@ export async function removeFeed(feedId: string): Promise<{ success: boolean; er
   try {
     console.log(`🗑️ Attempting to remove feed: ${feedId}`);
     
-    const result = await sql`
-      DELETE FROM feeds WHERE id = ${feedId}
-    `;
+    const result = await sql(
+      'DELETE FROM feeds WHERE id = $1',
+      [feedId]
+    );
     
     console.log(`📊 Delete result - Row count: ${result.rowCount}`);
     
@@ -281,11 +295,10 @@ export async function removeFeed(feedId: string): Promise<{ success: boolean; er
  */
 export async function createUser(username: string, passwordHash: string): Promise<{ success: boolean; user?: DBUser; error?: string }> {
   try {
-    const result = await sql`
-      INSERT INTO users (username, password_hash)
-      VALUES (${username}, ${passwordHash})
-      RETURNING *
-    `;
+    const result = await sql(
+      'INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING *',
+      [username, passwordHash]
+    );
 
     if (result.rows.length > 0) {
       return { success: true, user: result.rows[0] as DBUser };
@@ -306,9 +319,10 @@ export async function createUser(username: string, passwordHash: string): Promis
  */
 export async function findUserByUsername(username: string): Promise<DBUser | null> {
   try {
-    const result = await sql`
-      SELECT * FROM users WHERE username = ${username}
-    `;
+    const result = await sql(
+      'SELECT * FROM users WHERE username = $1',
+      [username]
+    );
     
     return result.rows.length > 0 ? result.rows[0] as DBUser : null;
   } catch (error) {
@@ -322,9 +336,10 @@ export async function findUserByUsername(username: string): Promise<DBUser | nul
  */
 export async function findUserById(id: number): Promise<DBUser | null> {
   try {
-    const result = await sql`
-      SELECT * FROM users WHERE id = ${id}
-    `;
+    const result = await sql(
+      'SELECT * FROM users WHERE id = $1',
+      [id]
+    );
     
     return result.rows.length > 0 ? result.rows[0] as DBUser : null;
   } catch (error) {
@@ -338,11 +353,10 @@ export async function findUserById(id: number): Promise<DBUser | null> {
  */
 export async function updateUserLastLogin(userId: number): Promise<boolean> {
   try {
-    await sql`
-      UPDATE users 
-      SET last_login = NOW() 
-      WHERE id = ${userId}
-    `;
+    await sql(
+      'UPDATE users SET last_login = NOW() WHERE id = $1',
+      [userId]
+    );
     return true;
   } catch (error) {
     console.error('Failed to update last login:', error);
@@ -366,27 +380,20 @@ export async function storeUserWallet(
     
     if (existingWallet) {
       // Update existing wallet
-      const result = await sql`
-        UPDATE user_wallets 
-        SET encrypted_mnemonic = ${encryptedMnemonic}, 
-            encryption_iv = ${encryptionIv}, 
-            encryption_tag = ${encryptionTag},
-            network = ${network},
-            updated_at = NOW()
-        WHERE user_id = ${userId}
-        RETURNING *
-      `;
+      const result = await sql(
+        'UPDATE user_wallets SET encrypted_mnemonic = $1, encryption_iv = $2, encryption_tag = $3, network = $4, updated_at = NOW() WHERE user_id = $5 RETURNING *',
+        [encryptedMnemonic, encryptionIv, encryptionTag, network, userId]
+      );
       
       if (result.rows.length > 0) {
         return { success: true, wallet: result.rows[0] as DBUserWallet };
       }
     } else {
       // Create new wallet
-      const result = await sql`
-        INSERT INTO user_wallets (user_id, encrypted_mnemonic, encryption_iv, encryption_tag, network)
-        VALUES (${userId}, ${encryptedMnemonic}, ${encryptionIv}, ${encryptionTag}, ${network})
-        RETURNING *
-      `;
+      const result = await sql(
+        'INSERT INTO user_wallets (user_id, encrypted_mnemonic, encryption_iv, encryption_tag, network) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [userId, encryptedMnemonic, encryptionIv, encryptionTag, network]
+      );
       
       if (result.rows.length > 0) {
         return { success: true, wallet: result.rows[0] as DBUserWallet };
@@ -405,9 +412,10 @@ export async function storeUserWallet(
  */
 export async function getUserWallet(userId: number): Promise<DBUserWallet | null> {
   try {
-    const result = await sql`
-      SELECT * FROM user_wallets WHERE user_id = ${userId}
-    `;
+    const result = await sql(
+      'SELECT * FROM user_wallets WHERE user_id = $1',
+      [userId]
+    );
     
     return result.rows.length > 0 ? result.rows[0] as DBUserWallet : null;
   } catch (error) {
@@ -421,9 +429,10 @@ export async function getUserWallet(userId: number): Promise<DBUserWallet | null
  */
 export async function deleteUserWallet(userId: number): Promise<boolean> {
   try {
-    await sql`
-      DELETE FROM user_wallets WHERE user_id = ${userId}
-    `;
+    await sql(
+      'DELETE FROM user_wallets WHERE user_id = $1',
+      [userId]
+    );
     return true;
   } catch (error) {
     console.error('Failed to delete user wallet:', error);

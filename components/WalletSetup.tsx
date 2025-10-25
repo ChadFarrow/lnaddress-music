@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import * as bip39 from 'bip39';
 
 interface WalletSetupProps {
   onSuccess?: () => void;
@@ -26,7 +27,14 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
     setError('');
 
     try {
-      const result = await storeWallet(mnemonic, password);
+      // Validate BIP39 mnemonic
+      if (!bip39.validateMnemonic(mnemonic.trim())) {
+        setError('Invalid recovery phrase. Please check your words and try again.');
+        setLoading(false);
+        return;
+      }
+
+      const result = await storeWallet(mnemonic.trim(), password);
       
       if (result.success) {
         onSuccess?.();
@@ -46,15 +54,8 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
     setError('');
 
     try {
-      // Generate a new mnemonic (in a real app, you'd use a proper BIP39 library)
-      const words = [
-        'abandon', 'ability', 'able', 'about', 'above', 'absent',
-        'absorb', 'abstract', 'absurd', 'abuse', 'access', 'accident'
-      ];
-      const newMnemonic = words.join(' ');
-      setGeneratedMnemonic(newMnemonic);
-
-      const result = await storeWallet(newMnemonic, password);
+      // Use the already generated mnemonic
+      const result = await storeWallet(generatedMnemonic, password);
       
       if (result.success) {
         onSuccess?.();
@@ -69,12 +70,9 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
   };
 
   const generateNewMnemonic = () => {
-    // This is a demo - in production use proper BIP39 generation
-    const words = [
-      'abandon', 'ability', 'able', 'about', 'above', 'absent',
-      'absorb', 'abstract', 'absurd', 'abuse', 'access', 'accident'
-    ];
-    setGeneratedMnemonic(words.join(' '));
+    // Generate a proper BIP39 mnemonic phrase
+    const mnemonic = bip39.generateMnemonic();
+    setGeneratedMnemonic(mnemonic);
   };
 
   if (step === 'choice') {
@@ -95,7 +93,10 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
           </button>
           
           <button
-            onClick={() => setStep('create')}
+            onClick={() => {
+              generateNewMnemonic();
+              setStep('create');
+            }}
             className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
             Create New Wallet
@@ -233,24 +234,13 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
             </button>
             <button
               type="submit"
-              disabled={loading || !generatedMnemonic}
+              disabled={loading}
               className="flex-1 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-medium py-3 px-4 rounded-lg transition-colors"
             >
               {loading ? 'Creating...' : 'Create Wallet'}
             </button>
           </div>
         </form>
-
-        {!generatedMnemonic && (
-          <div className="mt-4 text-center">
-            <button
-              onClick={generateNewMnemonic}
-              className="text-blue-400 hover:text-blue-300 font-medium"
-            >
-              Generate Recovery Phrase
-            </button>
-          </div>
-        )}
       </div>
     );
   }

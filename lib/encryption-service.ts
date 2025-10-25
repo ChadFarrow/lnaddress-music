@@ -46,23 +46,24 @@ function generateEncryptionKey(password: string, salt: string): Buffer {
 }
 
 /**
- * Encrypt mnemonic phrase using AES-256-GCM
+ * Encrypt mnemonic phrase using AES-256-CBC
  */
 export function encryptMnemonic(mnemonic: string, password: string, salt: string): EncryptionResult {
   try {
     const key = generateEncryptionKey(password, salt);
     const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipherGCM('aes-256-gcm', key, iv);
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
     
     let encrypted = cipher.update(mnemonic, 'utf8', 'hex');
     encrypted += cipher.final('hex');
     
-    const tag = cipher.getAuthTag();
+    // For CBC mode, we don't have an auth tag, so we'll use a hash of the encrypted data
+    const tag = crypto.createHash('sha256').update(encrypted).digest('hex').substring(0, 32);
     
     return {
       encrypted,
       iv: iv.toString('hex'),
-      tag: tag.toString('hex')
+      tag: tag
     };
   } catch (error) {
     console.error('Encryption failed:', error);
@@ -71,7 +72,7 @@ export function encryptMnemonic(mnemonic: string, password: string, salt: string
 }
 
 /**
- * Decrypt mnemonic phrase using AES-256-GCM
+ * Decrypt mnemonic phrase using AES-256-CBC
  */
 export function decryptMnemonic(
   encryptedData: string, 
@@ -82,11 +83,19 @@ export function decryptMnemonic(
 ): DecryptionResult {
   try {
     const key = generateEncryptionKey(password, salt);
-    const decipher = crypto.createDecipherGCM('aes-256-gcm', key, Buffer.from(iv, 'hex'));
-    decipher.setAuthTag(Buffer.from(tag, 'hex'));
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(iv, 'hex'));
     
     let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
+    
+    // Verify the tag matches (integrity check)
+    const expectedTag = crypto.createHash('sha256').update(encryptedData).digest('hex').substring(0, 32);
+    if (expectedTag !== tag) {
+      return {
+        decrypted: '',
+        success: false
+      };
+    }
     
     return {
       decrypted,
