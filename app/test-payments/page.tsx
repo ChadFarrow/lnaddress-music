@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Zap, Loader2, CheckCircle2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useBreez } from '@/hooks/useBreez';
+import { BitcoinConnectContext } from '@/contexts/BitcoinConnectContext';
 import { LightningWallet } from '@/components/LightningWallet';
 
 interface Episode {
@@ -70,6 +71,7 @@ export default function TestPaymentsPage() {
   } | null>(null);
 
   const breez = useBreez();
+  const { isConnected: walletConnected } = useContext(BitcoinConnectContext);
 
   // Load sender name from localStorage on mount
   useEffect(() => {
@@ -280,7 +282,7 @@ export default function TestPaymentsPage() {
 
   // Show confirmation modal
   const showPaymentConfirmation = (episode: Episode) => {
-    if (!breez.isConnected) {
+    if (!walletConnected) {
       alert('Please connect your Lightning wallet first');
       return;
     }
@@ -662,7 +664,7 @@ export default function TestPaymentsPage() {
                     <div className="flex items-center justify-end">
                       <button
                         onClick={() => showPaymentConfirmation(episode)}
-                        disabled={!breez.isConnected || processingPayment === episode.guid}
+                        disabled={!walletConnected || processingPayment === episode.guid}
                         className="flex items-center gap-1 px-3 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
                         title="Send Boost"
                       >
