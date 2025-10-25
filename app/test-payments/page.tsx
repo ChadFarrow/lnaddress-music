@@ -285,7 +285,7 @@ export default function TestPaymentsPage() {
     // Get all Lightning address recipients
     const lnAddressRecipients = episode.valueRecipients?.filter(r => r.type === 'lnaddress') || [];
     if (lnAddressRecipients.length === 0) {
-      alert('No Lightning address found for this episode');
+      alert('This episode has no Lightning addresses compatible with Breez SDK. Only "lnaddress" type recipients are supported. Other payment types (keysend, node addresses) are not compatible with this wallet.');
       return;
     }
 
