@@ -166,7 +166,7 @@ export default function HomePage() {
     const totalSplit = allRecipients.reduce((sum: number, r: any) => sum + r.split, 0);
 
     // Map recipients with wallet capability filtering
-    const recipientsWithSupport: PaymentRecipient[] = allRecipients.map(recipient => {
+    const recipientsWithSupport: PaymentRecipient[] = allRecipients.map((recipient: any) => {
       const recipientAmount = Math.round((recipient.split / totalSplit) * amount);
       const supported = supportedTypes.includes(recipient.type);
 
