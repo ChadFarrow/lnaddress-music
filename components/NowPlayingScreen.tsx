@@ -463,7 +463,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
             await breez.sendPayment({
               destination: recipient.address,
               amountSats: recipient.amount,
-              comment: fullMessage
+              message: fullMessage
             });
           }
 
