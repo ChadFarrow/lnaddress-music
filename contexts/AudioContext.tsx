@@ -390,7 +390,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         amount: autoBoostAmount,
         description: `Auto boost for ${track.title || 'Unknown Song'} by ${track.artist || 'Unknown Artist'}`,
         recipients: getPaymentRecipients() || undefined,
-        fallbackRecipient: getFallbackRecipient(),
+        fallbackRecipient: getFallbackRecipient() || undefined,
         boostMetadata
       });
 
