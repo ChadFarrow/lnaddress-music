@@ -308,9 +308,9 @@ export function LightningWallet() {
       {/* Wallet Modal - rendered via portal to document body */}
       {mounted && isOpen && createPortal(
         <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" style={{ zIndex: 999999 }}>
-          <div className="relative w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl">
+          <div className="relative w-full max-w-md max-h-[90vh] bg-gray-900 rounded-2xl shadow-2xl flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-800">
+            <div className="flex items-center justify-between p-6 border-b border-gray-800 flex-shrink-0">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-yellow-500/10 rounded-lg">
                   <Zap className="w-6 h-6 text-yellow-500" />
@@ -325,8 +325,8 @@ export function LightningWallet() {
               </button>
             </div>
 
-            {/* Content */}
-            <div className="p-6">
+            {/* Content - Scrollable */}
+            <div className="p-6 overflow-y-auto flex-1">
               {loading && (
                 <div className="flex items-center justify-center py-8">
                   <Loader2 className="w-8 h-8 text-yellow-500 animate-spin" />
