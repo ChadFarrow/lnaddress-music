@@ -736,7 +736,7 @@ export function BitcoinConnectPayment({
         routingReason = 'WebLN keysend ensures Helipad compatibility';
       }
 
-      // Continue with Cashu-specific logic only if no explicit wallet type set
+      // Continue with remaining routing logic ONLY if user hasn't explicitly chosen a wallet type
       if (connectedWalletType === null && shouldUseNWC && isCashuWallet) {
         // CASHU WALLET SCENARIOS
         if (nodeRecipients.length > 0 && lnAddressRecipients.length > 0) {
@@ -775,7 +775,7 @@ export function BitcoinConnectPayment({
           useNWC = true;
           routingReason = 'Cashu excels at Lightning address payments';
         }
-      } else if (shouldUseNWC && !isCashuWallet) {
+      } else if (connectedWalletType === null && shouldUseNWC && !isCashuWallet) {
         // NON-CASHU NWC WALLET SCENARIOS
         if (nodeRecipients.length > 0) {
           console.log('🧠 Smart routing: NWC wallet + keysend → Checking native support');
@@ -786,12 +786,12 @@ export function BitcoinConnectPayment({
           useNWC = true;
           routingReason = 'Lightning addresses work perfectly with NWC';
         }
-      } else if (weblnAvailable) {
-        // WEBLN ONLY SCENARIOS
+      } else if (connectedWalletType === null && weblnAvailable) {
+        // WEBLN ONLY SCENARIOS (only when user hasn't explicitly chosen a wallet)
         console.log('🧠 Smart routing: WebLN available → Universal compatibility');
         useNWC = false;
         routingReason = 'WebLN supports all payment types natively';
-      } else {
+      } else if (connectedWalletType === null) {
         // NO WALLET AVAILABLE
         console.log('🧠 Smart routing: No wallet available → Will prompt for connection');
         useNWC = false;
