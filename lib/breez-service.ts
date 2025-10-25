@@ -309,19 +309,19 @@ class BreezService {
     }
 
     try {
-      // Parse the destination to determine the payment type
-      console.log('🔍 Parsing payment destination:', request.destination);
-      const inputType = await this.sdk.parse(request.destination);
-      console.log('✅ Parsed input type:', inputType.type);
+      // Manually detect Lightning addresses (format: user@domain.com)
+      const isLightningAddress = request.destination.includes('@') && !request.destination.startsWith('lnbc');
+      console.log('🔍 Payment destination:', request.destination, 'Is Lightning Address:', isLightningAddress);
 
       // Handle Lightning Address / LNURL-Pay separately
-      if (inputType.type === 'lightningAddress' || inputType.type === 'lnurlPay') {
-        console.log('💡 Detected Lightning Address/LNURL - using LNURL payment flow');
+      if (isLightningAddress) {
+        console.log('💡 Detected Lightning Address - using LNURL payment flow');
 
-        // Prepare LNURL payment
+        // Prepare LNURL payment directly with the Lightning address
         const prepareLnurlRequest = {
-          payRequest: inputType.type === 'lightningAddress' ? inputType.payRequest : inputType,
-          amountSats: request.amountSats,
+          data: request.destination, // Lightning address string
+          amountMsat: BigInt(request.amountSats * 1000), // Convert sats to millisats
+          comment: request.message || '',
           // Disable strict success action URL validation to allow payments to services like Fountain
           // that use different domains for success actions (which is safe and common)
           validateSuccessActionUrl: false
