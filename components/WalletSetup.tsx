@@ -82,7 +82,7 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
       <div className={`max-w-md w-full bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 ${className}`}>
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-white mb-2">Setup Your Lightning Wallet</h1>
-          <p className="text-gray-400">Choose how you'd like to set up your Breez wallet</p>
+          <p className="text-gray-400">Choose how you&apos;d like to set up your Breez wallet</p>
         </div>
 
         <div className="space-y-4">
