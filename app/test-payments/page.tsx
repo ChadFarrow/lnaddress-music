@@ -963,7 +963,7 @@ export default function TestPaymentsPage() {
                         </div>
                         <div className="text-gray-500 text-xs">
                           {isUnsupported ? (
-                            <span className="line-through">{recipient.split}%</span>
+                            <span className="line-through">{actualPercentage}%</span>
                           ) : (
                             `${actualPercentage}%`
                           )}
