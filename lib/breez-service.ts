@@ -143,6 +143,115 @@ class BreezService {
   }
 
   /**
+   * Show recovery phrase modal with styled UI
+   */
+  private showRecoveryPhraseModal(mnemonic: string): void {
+    const words = mnemonic.split(' ');
+
+    // Create modal overlay
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[9999] p-4 animate-in fade-in duration-300';
+
+    modal.innerHTML = `
+      <div class="bg-gradient-to-br from-gray-800 to-gray-900 border-2 border-yellow-500/50 rounded-2xl p-6 max-w-2xl w-full shadow-2xl animate-in zoom-in-95 duration-300">
+        <!-- Header -->
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center">
+            <svg class="w-7 h-7 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">New Wallet Created!</h2>
+            <p class="text-gray-400 text-sm">Your self-custodial Lightning wallet is ready</p>
+          </div>
+        </div>
+
+        <!-- Warning Banner -->
+        <div class="bg-red-900/30 border-2 border-red-500/50 rounded-xl p-4 mb-6">
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <div>
+              <p class="font-bold text-red-200 text-sm mb-1">⚠️ CRITICAL: Save These Words Immediately!</p>
+              <p class="text-red-200 text-xs">These 12 words are the ONLY way to recover your wallet. Write them down on paper and store them in a safe place. Do NOT take a screenshot or save digitally!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recovery Phrase -->
+        <div class="mb-6">
+          <label class="block text-gray-300 text-sm font-semibold mb-3">Your Recovery Phrase:</label>
+          <div class="bg-black/40 border border-gray-700 rounded-xl p-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+              ${words.map((word, i) => `
+                <div class="bg-gray-800/50 border border-purple-500/30 rounded-lg px-3 py-2 flex items-center gap-2">
+                  <span class="text-gray-500 text-xs font-mono w-6">${i + 1}.</span>
+                  <span class="text-white font-medium text-sm">${word}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Copy Button -->
+          <button
+            onclick="navigator.clipboard.writeText('${mnemonic}').then(() => {
+              this.innerHTML = '<svg class=\\'w-4 h-4\\' fill=\\'currentColor\\' viewBox=\\'0 0 20 20\\'><path fill-rule=\\'evenodd\\' d=\\'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z\\' clip-rule=\\'evenodd\\'></path></svg> Copied!';
+              setTimeout(() => this.innerHTML = '<svg class=\\'w-4 h-4\\' fill=\\'none\\' stroke=\\'currentColor\\' viewBox=\\'0 0 24 24\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'2\\' d=\\'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z\\'></path></svg> Copy to Clipboard', 2000);
+            })"
+            class="mt-3 w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors text-sm font-medium"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            Copy to Clipboard
+          </button>
+        </div>
+
+        <!-- Confirmation Checkbox -->
+        <div class="mb-6">
+          <label class="flex items-start gap-3 cursor-pointer group">
+            <input
+              type="checkbox"
+              id="confirm-saved"
+              class="mt-1 w-5 h-5 rounded border-2 border-purple-500 bg-gray-800 checked:bg-purple-600 checked:border-purple-600 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 cursor-pointer"
+            />
+            <span class="text-gray-300 text-sm group-hover:text-white transition-colors">
+              I have written down my 12-word recovery phrase and stored it in a safe place. I understand that losing these words means losing access to my funds forever.
+            </span>
+          </label>
+        </div>
+
+        <!-- Close Button -->
+        <button
+          id="close-recovery-modal"
+          disabled
+          class="w-full py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors shadow-lg disabled:opacity-50"
+        >
+          I've Saved My Recovery Phrase
+        </button>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Enable close button when checkbox is checked
+    const checkbox = modal.querySelector('#confirm-saved') as HTMLInputElement;
+    const closeBtn = modal.querySelector('#close-recovery-modal') as HTMLButtonElement;
+
+    checkbox?.addEventListener('change', () => {
+      closeBtn.disabled = !checkbox.checked;
+    });
+
+    // Close modal
+    closeBtn?.addEventListener('click', () => {
+      modal.classList.add('animate-out', 'fade-out', 'duration-200');
+      setTimeout(() => modal.remove(), 200);
+    });
+  }
+
+  /**
    * Generate a new mnemonic seed
    */
   private async generateSeed(): Promise<Seed> {
@@ -157,8 +266,9 @@ class BreezService {
     // Store in localStorage as a backup (user should also save it manually)
     if (typeof window !== 'undefined') {
       localStorage.setItem('breez:generated-mnemonic', mnemonic);
-      // Also show an alert to the user
-      alert(`🔐 NEW WALLET CREATED!\n\nYour recovery phrase:\n${mnemonic}\n\n⚠️ SAVE THESE 12 WORDS IMMEDIATELY!\nYou need them to recover your wallet.`);
+
+      // Show styled modal to the user
+      this.showRecoveryPhraseModal(mnemonic);
     }
 
     return { type: 'mnemonic', mnemonic };
