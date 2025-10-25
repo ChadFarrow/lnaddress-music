@@ -2,6 +2,8 @@
  * Utility functions for Lightning payments
  */
 
+import { TLV_TYPES } from '@/lib/constants';
+
 interface PaymentRecipient {
   address: string;
   split: number;
@@ -53,16 +55,16 @@ function createBoostTLVRecords(metadata: BoostMetadata, recipientName?: string, 
 
   console.log('🔍 Boost TLV data:', JSON.stringify(boostMetadata, null, 2));
 
-  // 7629169 - Podcast boost metadata (bLIP-10 standard)
+  // Podcast boost metadata (bLIP-10 standard)
   tlvRecords.push({
-    type: 7629169,
+    type: TLV_TYPES.PODCAST_BOOST,
     value: Buffer.from(JSON.stringify(boostMetadata), 'utf8').toString('hex')
   });
 
-  // 7629171 - Message (if provided)
+  // Message (if provided)
   if (metadata.message) {
     tlvRecords.push({
-      type: 7629171,
+      type: TLV_TYPES.TIP_NOTE,
       value: Buffer.from(metadata.message, 'utf8').toString('hex')
     });
   }

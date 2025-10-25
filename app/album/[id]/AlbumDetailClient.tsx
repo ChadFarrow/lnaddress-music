@@ -11,8 +11,10 @@ import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
 import type { RSSValue } from '@/lib/rss-parser';
 import dynamic from 'next/dynamic';
 import { filterPodrollItems } from '@/lib/podroll-utils';
-import confetti from 'canvas-confetti';
 import PerformanceMonitor from '@/components/PerformanceMonitor';
+import { triggerSuccessConfetti } from '@/lib/ui-utils';
+import { createAlbumSlug } from '@/lib/slug-utils';
+import { PAYMENT_AMOUNTS } from '@/lib/constants';
 
 // Dynamic import for ControlsBar
 const ControlsBar = dynamic(() => import('@/components/ControlsBar'), {
@@ -105,11 +107,11 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const [podrollAlbums, setPodrollAlbums] = useState<PodrollAlbum[]>([]);
   const [siteAlbums, setSiteAlbums] = useState<Album[]>([]);
   const [senderName, setSenderName] = useState('');
-  const [boostAmount, setBoostAmount] = useState(50);
+  const [boostAmount, setBoostAmount] = useState<number>(PAYMENT_AMOUNTS.MANUAL_BOOST_DEFAULT);
   const [boostMessage, setBoostMessage] = useState('');
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
   const [showTrackBoostModal, setShowTrackBoostModal] = useState(false);
-  const [trackBoostAmount, setTrackBoostAmount] = useState(50);
+  const [trackBoostAmount, setTrackBoostAmount] = useState<number>(PAYMENT_AMOUNTS.MANUAL_BOOST_DEFAULT);
   const [trackBoostMessage, setTrackBoostMessage] = useState('');
   
   // Album boost modal state
@@ -158,41 +160,8 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       });
     }
 
-    // Trigger multiple confetti bursts for dramatic effect
-    const count = 200;
-    const defaults = {
-      origin: { y: 0.7 },
-      colors: ['#FFD700', '#FFA500', '#FF8C00', '#FFE55C', '#FFFF00']
-    };
-
-    function fire(particleRatio: number, opts: any) {
-      confetti(Object.assign({}, defaults, opts, {
-        particleCount: Math.floor(count * particleRatio)
-      }));
-    }
-
-    fire(0.25, {
-      spread: 26,
-      startVelocity: 55,
-    });
-    fire(0.2, {
-      spread: 60,
-    });
-    fire(0.35, {
-      spread: 100,
-      decay: 0.91,
-      scalar: 0.8
-    });
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 25,
-      decay: 0.92,
-      scalar: 1.2
-    });
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 45,
-    });
+    // Trigger confetti effect for payment success
+    triggerSuccessConfetti();
   };
 
   const handleBoostError = (error: string) => {
@@ -356,12 +325,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       setIsLoading(true);
       
       // Convert album title back to URL slug format for API call
-      const albumSlug = albumTitle
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')       // Remove punctuation except spaces and hyphens
-        .replace(/\s+/g, '-')           // Replace spaces with dashes
-        .replace(/-+/g, '-')            // Replace multiple consecutive dashes with single dash
-        .replace(/^-+|-+$/g, '');       // Remove leading/trailing dashes
+      const albumSlug = createAlbumSlug(albumTitle);
       
       // Use the new individual album endpoint that does live RSS parsing with GUID data
       const response = await fetch(`/api/album/${encodeURIComponent(albumSlug)}`);
@@ -629,19 +593,11 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   };
 
   const getAlbumSlug = (albumData: Album) => {
-    return albumData.title
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-+|-+$/g, '');
+    return createAlbumSlug(albumData.title);
   };
 
   const getPublisherSlug = (publisherName: string) => {
-    return publisherName
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-+|-+$/g, '');
+    return createAlbumSlug(publisherName);
   };
 
   // Combine and deduplicate related albums

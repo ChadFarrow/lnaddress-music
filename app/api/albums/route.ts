@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { RSSParser } from '@/lib/rss-parser';
 import { getAllFeeds, initializeDatabase } from '@/lib/db';
+import { cleanImageUrl } from '@/lib/image-utils';
 
 // Cache albums for 5 minutes to dramatically improve performance
 let albumsCache: any = null;
@@ -45,21 +46,11 @@ export async function GET() {
           const album = await RSSParser.parseAlbumFeed(feed.original_url);
           if (album) {
             // Clean up image URLs to prevent 400 errors
-            if (album.coverArt) {
-              album.coverArt = album.coverArt
-                .replace(/\?\.jpg$/, '.jpg')
-                .replace(/\?\.$/, '')
-                .replace(/\?$/, '');
-            }
-            
+            album.coverArt = cleanImageUrl(album.coverArt) || null;
+
             // Clean track images too
             album.tracks.forEach(track => {
-              if (track.image) {
-                track.image = track.image
-                  .replace(/\?\.jpg$/, '.jpg')
-                  .replace(/\?\.$/, '')
-                  .replace(/\?$/, '');
-              }
+              track.image = cleanImageUrl(track.image);
             });
             
             // Add feed metadata to the album

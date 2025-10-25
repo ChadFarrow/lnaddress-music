@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode, useRef } from 'react';
 import { useLightning } from './LightningContext';
 import { getBreezService } from '@/lib/breez-service';
+import { WALLET_SETTINGS } from '@/lib/constants';
 
 export type WalletType = 'breez' | 'webln' | 'nwc' | 'bitcoin-connect' | null;
 
@@ -36,7 +37,7 @@ export function BitcoinConnectProvider({ children }: { children: ReactNode }) {
       }
       
       const now = Date.now();
-      if (now - lastCheckRef.current < 5000) {
+      if (now - lastCheckRef.current < WALLET_SETTINGS.CHECK_INTERVAL_MS) {
         return isConnected;
       }
       

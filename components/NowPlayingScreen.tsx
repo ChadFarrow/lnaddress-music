@@ -10,7 +10,9 @@ import { extractColorsFromImage, createAlbumBackground, createTextOverlay, creat
 import { performanceMonitor, getMobileOptimizations, getCachedColors, debounce } from '@/lib/performance-utils';
 import { BitcoinConnectPayment } from '@/components/BitcoinConnect';
 import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
-import confetti from 'canvas-confetti';
+import { triggerSuccessConfetti } from '@/lib/ui-utils';
+import { createAlbumSlug } from '@/lib/slug-utils';
+import { PAYMENT_AMOUNTS } from '@/lib/constants';
 
 interface NowPlayingScreenProps {
   isOpen: boolean;
@@ -27,7 +29,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   const [extractedColors, setExtractedColors] = useState<ExtractedColors | null>(null);
   const [isLoadingColors, setIsLoadingColors] = useState(false);
   const [showBoostModal, setShowBoostModal] = useState(false);
-  const [boostAmount, setBoostAmount] = useState(50);
+  const [boostAmount, setBoostAmount] = useState<number>(PAYMENT_AMOUNTS.MANUAL_BOOST_DEFAULT);
   const [senderName, setSenderName] = useState('');
   const [boostMessage, setBoostMessage] = useState('');
   const [albumData, setAlbumData] = useState<any>(null);
@@ -232,13 +234,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   const handleViewAlbum = () => {
     if (currentAlbum) {
       // Convert album title to URL-friendly slug (consistent with AlbumCard)
-      const albumSlug = currentAlbum.toLowerCase()
-        .replace(/[^\w\s-]/g, '') // Remove punctuation except spaces and hyphens
-        .replace(/\s+/g, '-') // Replace spaces with dashes
-        .replace(/-+/g, '-') // Replace multiple consecutive dashes with single dash
-        .replace(/^-+|-+$/g, '') // Remove leading/trailing dashes
-        .trim();
-      
+      const albumSlug = createAlbumSlug(currentAlbum);
+
       router.push(`/album/${albumSlug}`);
       onClose(); // Close the now playing screen
     }
@@ -255,43 +252,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
       }));
     }
     
-    // Trigger multiple confetti bursts for dramatic effect
-    const count = 200;
-    const defaults = {
-      origin: { y: 0.7 },
-      colors: ['#FFD700', '#FFA500', '#FF8C00', '#FFE55C', '#FFFF00']
-    };
-
-    function fire(particleRatio: number, opts: any) {
-      confetti({
-        ...defaults,
-        ...opts,
-        particleCount: Math.floor(count * particleRatio),
-      });
-    }
-
-    fire(0.25, {
-      spread: 26,
-      startVelocity: 55,
-    });
-    fire(0.2, {
-      spread: 60,
-    });
-    fire(0.35, {
-      spread: 100,
-      decay: 0.91,
-      scalar: 0.8
-    });
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 25,
-      decay: 0.92,
-      scalar: 1.2
-    });
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 45,
-    });
+    // Trigger confetti effect for payment success
+    triggerSuccessConfetti();
   };
 
   const handleBoostError = (error: string) => {

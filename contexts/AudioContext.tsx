@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useRef, useEffect, useCallb
 import { toast } from '@/components/Toast';
 import { makeAutoBoostPayment } from '@/utils/payment-utils';
 import { useBoostToNostr } from '@/hooks/useBoostToNostr';
+import { PAYMENT_AMOUNTS, IMAGE_SETTINGS } from '@/lib/constants';
 
 interface Track {
   title: string;
@@ -107,9 +108,9 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isRepeating, setIsRepeating] = useState(false);
   const [isNowPlayingOpen, setIsNowPlayingOpen] = useState(false);
   
-  // Auto Boost state - hardcoded to 25 sats for testing
+  // Auto Boost state
   const [isAutoBoostEnabled, setIsAutoBoostEnabled] = useState(false);
-  const [autoBoostAmount, setAutoBoostAmount] = useState(25);
+  const [autoBoostAmount, setAutoBoostAmount] = useState<number>(PAYMENT_AMOUNTS.AUTO_BOOST_DEFAULT);
 
   // Initialize Nostr boost system for auto boosts
   const { postBoost, generateKeys, publicKey } = useBoostToNostr({ 
@@ -162,7 +163,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         artist: track.artist || 'Unknown Artist',
         album: album || undefined,
         artwork: track.image ? [
-          { src: track.image, sizes: '512x512', type: 'image/png' }
+          { src: track.image, sizes: IMAGE_SETTINGS.DEFAULT_ARTWORK_SIZE, type: IMAGE_SETTINGS.DEFAULT_ARTWORK_TYPE }
         ] : []
       });
     }
@@ -195,7 +196,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         artist: track.artist || 'Unknown Artist',
         album: album || undefined,
         artwork: track.image ? [
-          { src: track.image, sizes: '512x512', type: 'image/png' }
+          { src: track.image, sizes: IMAGE_SETTINGS.DEFAULT_ARTWORK_SIZE, type: IMAGE_SETTINGS.DEFAULT_ARTWORK_TYPE }
         ] : []
       });
     }

@@ -7,6 +7,7 @@ import { useBoostToNostr } from '@/hooks/useBoostToNostr';
 import { useLightning } from '@/contexts/LightningContext';
 import { useBreez } from '@/hooks/useBreez';
 import AlbyGoConnect from './AlbyGoConnect';
+import { TLV_TYPES, FEED_IDS } from '@/lib/constants';
 
 declare global {
   namespace JSX {
@@ -244,7 +245,7 @@ export function BitcoinConnectPayment({
     const tlvRecords = [];
     
     if (boostMetadata) {
-      // 7629169 - Podcast metadata JSON (bLIP-10 standard - Breez/Fountain compatible)
+      // Podcast metadata JSON (bLIP-10 standard - Breez/Fountain compatible)
       // Fixed to match working Castamatic format
       const podcastMetadata = {
         podcast: boostMetadata.artist || 'Unknown Artist',
@@ -257,7 +258,7 @@ export function BitcoinConnectPayment({
         message: boostMetadata.message || '',
         ...(boostMetadata.timestamp && { ts: boostMetadata.timestamp }),
         // Use proper feedId (lowercase 'd') for Helipad compatibility - it expects feedId not feedID
-        feedId: boostMetadata.feedUrl === 'https://www.doerfelverse.com/feeds/bloodshot-lies-album.xml' ? "6590183" : "6590182",
+        feedId: boostMetadata.feedUrl === 'https://www.doerfelverse.com/feeds/bloodshot-lies-album.xml' ? FEED_IDS.BLOODSHOT_LIES : FEED_IDS.INTO_DOERFEL_VERSE,
         // Add Helipad-specific GUID fields
         ...(boostMetadata.itemGuid && { episode_guid: boostMetadata.itemGuid }),
         ...(boostMetadata.itemGuid && { remote_item_guid: boostMetadata.itemGuid }),
@@ -270,28 +271,28 @@ export function BitcoinConnectPayment({
         value_msat: recipients ? Math.floor((amount * 1000) / recipients.length) : amount * 1000, // Individual payment amount
         name: 'lnaddress music' // App/service name
       };
-      
+
       // Log the exact TLV data for debugging (matching payment-utils.ts)
       console.log('🔍 HELIPAD DEBUG - Exact TLV 7629169 data being sent:');
       console.log(JSON.stringify(podcastMetadata, null, 2));
-      
+
       tlvRecords.push({
-        type: 7629169,
+        type: TLV_TYPES.PODCAST_BOOST,
         value: Buffer.from(JSON.stringify(podcastMetadata), 'utf8').toString('hex')
       });
-      
-      // 7629171 - Tip note/message (Lightning spec compliant) - only if custom message provided
+
+      // Tip note/message (Lightning spec compliant) - only if custom message provided
       if (boostMetadata.message) {
         tlvRecords.push({
-          type: 7629171,
+          type: TLV_TYPES.TIP_NOTE,
           value: Buffer.from(boostMetadata.message, 'utf8').toString('hex')
         });
       }
-      
-      // 133773310 - Sphinx compatibility (JSON encoded data)
+
+      // Sphinx compatibility (JSON encoded data)
       const sphinxData = {
         podcast: boostMetadata.artist || 'Unknown Artist',
-        episode: boostMetadata.title || 'Unknown Title', 
+        episode: boostMetadata.title || 'Unknown Title',
         action: 'boost',
         app: boostMetadata.appName || 'lnaddress music',
         message: boostMetadata.message || '',
@@ -299,9 +300,9 @@ export function BitcoinConnectPayment({
         sender: boostMetadata.senderName || 'Anonymous',
         ...(boostMetadata.timestamp && { timestamp: boostMetadata.timestamp })
       };
-      
+
       tlvRecords.push({
-        type: 133773310,
+        type: TLV_TYPES.SPHINX_COMPAT,
         value: Buffer.from(JSON.stringify(sphinxData), 'utf8').toString('hex')
       });
       
@@ -309,7 +310,7 @@ export function BitcoinConnectPayment({
       // Fallback for non-boost payments - simple message
       const message = `${description}${recipientName ? ` - ${recipientName}` : ''}`;
       tlvRecords.push({
-        type: 7629171, // Use tip note format
+        type: TLV_TYPES.TIP_NOTE, // Use tip note format
         value: Buffer.from(message, 'utf8').toString('hex')
       });
     }
