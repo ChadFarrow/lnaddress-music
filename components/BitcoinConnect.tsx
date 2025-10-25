@@ -720,9 +720,9 @@ export function BitcoinConnectPayment({
       // 🎯 ABSOLUTE PRIORITY: Respect user's explicit wallet type selection
       // connectedWalletType tells us what the user explicitly connected on the main page
       if (connectedWalletType === 'nwc' || connectedWalletType === 'bitcoin-connect') {
-        // User explicitly connected NWC or Bitcoin Connect wallet
-        console.log('🧠 Smart routing: User explicitly connected', connectedWalletType, '→ Using their wallet');
-        useNWC = shouldUseNWC;
+        // User explicitly connected NWC or Bitcoin Connect wallet - FORCE NWC usage
+        console.log('🧠 Smart routing: User explicitly connected', connectedWalletType, '→ FORCING NWC usage');
+        useNWC = true; // FORCE NWC when user connected via NWC
         routingReason = `User selected ${connectedWalletType} wallet (explicit choice overrides all defaults)`;
       } else if (connectedWalletType === 'webln' && weblnAvailable) {
         // User explicitly connected WebLN wallet

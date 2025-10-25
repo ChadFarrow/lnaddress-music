@@ -241,9 +241,8 @@ function AlbumCard({ album, isPlaying = false, onPlay, onBoostClick, className =
           </button>
         </div>
 
-        {/* Lightning tip button - DISABLED: Use the Now Playing screen boost button instead */}
-        {/* Boost from album cards uses old BitcoinConnectPayment which doesn't work with NWC */}
-        {false && isLightningEnabled && (
+        {/* Lightning tip button - moved to top left - only show when Lightning is enabled */}
+        {isLightningEnabled && (
           <div className="absolute top-1 left-1 sm:top-2 sm:left-2 flex items-center gap-1 sm:gap-2">
             <button
               onClick={(e) => {
