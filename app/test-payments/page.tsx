@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Zap, Loader2, CheckCircle2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useBreez } from '@/hooks/useBreez';
-import { BitcoinConnectContext } from '@/contexts/BitcoinConnectContext';
+import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 import { LightningWallet } from '@/components/LightningWallet';
 
 interface Episode {
@@ -71,7 +71,7 @@ export default function TestPaymentsPage() {
   } | null>(null);
 
   const breez = useBreez();
-  const { isConnected: walletConnected } = useContext(BitcoinConnectContext);
+  const { isConnected: walletConnected } = useBitcoinConnect();
 
   // Load sender name from localStorage on mount
   useEffect(() => {
