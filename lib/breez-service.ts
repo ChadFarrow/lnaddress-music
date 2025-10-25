@@ -32,7 +32,6 @@ class BreezService {
   private connectPromise: Promise<void> | null = null;
   private config: BreezConfig | null = null;
   private eventListenerId: string | null = null;
-  private parseFunction: ((input: string) => Promise<any>) | null = null;
 
   /**
    * Initialize and connect to Breez SDK
@@ -83,10 +82,6 @@ class BreezService {
       if (!connect || !defaultConfig) {
         throw new Error('Breez SDK connect or defaultConfig function not found');
       }
-
-      // Store the parse function for later use - it's a top-level export
-      // We'll access it directly from the module when needed
-      this.parseFunction = breezSDK.parse || null;
 
       // Set up storage directory
       const storageDir = config.storageDir || './breez-sdk-data';
@@ -317,11 +312,8 @@ class BreezService {
       // Parse the destination to get input type
       console.log('🔍 Parsing payment destination:', request.destination);
 
-      if (!this.parseFunction) {
-        throw new Error('Parse function not available. SDK may not be fully initialized.');
-      }
-
-      const inputType = await this.parseFunction(request.destination);
+      // Use the parse method on the SDK instance
+      const inputType = await this.sdk.parse(request.destination);
       console.log('✅ Parsed input type:', inputType.type);
       console.log('🔍 Full parsed object:', JSON.stringify(inputType, null, 2));
 
