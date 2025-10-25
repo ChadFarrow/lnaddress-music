@@ -279,6 +279,32 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
 
   return (
     <div className={`${className} bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-lg p-6`}>
+      {/* User Info Section */}
+      {user && (
+        <div className="mb-4 p-3 bg-green-900/20 border border-green-500/30 rounded-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+              </svg>
+              <p className="text-green-300 text-sm">
+                Logged in as <strong>{user.username}</strong>
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                if (confirm('Are you sure you want to logout?')) {
+                  window.location.href = '/api/auth/logout';
+                }
+              }}
+              className="text-xs text-red-400 hover:text-red-300 underline"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="flex items-center gap-3 mb-4">
         <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
