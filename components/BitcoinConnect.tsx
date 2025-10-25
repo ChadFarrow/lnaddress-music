@@ -687,7 +687,8 @@ export function BitcoinConnectPayment({
       }
 
       // If user selected NWC in Bitcoin Connect, prioritize that
-      if (bcConnectorType === 'nwc.generic' || bcConnectorType === 'nwc' || bcConnectorType === 'nwc.cashume' || bcConnectorType === 'nwc.cashu' || (bcConnectorType && nwcConnectionString)) {
+      // Also initialize if we have an NWC connection string even if bcConnectorType is null/undefined
+      if (nwcConnectionString || bcConnectorType === 'nwc.generic' || bcConnectorType === 'nwc' || bcConnectorType === 'nwc.cashume' || bcConnectorType === 'nwc.cashu') {
         try {
           const { getNWCService } = await import('../lib/nwc-service');
           nwcService = getNWCService();
