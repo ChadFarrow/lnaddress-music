@@ -137,6 +137,31 @@ NEXT_PUBLIC_ENABLE_LIGHTNING=true
 - **Value Splits**: Lightning Network value tag parsing for payment distribution
 - **Deployment**: Vercel with automated builds and edge deployment
 
+### Code Organization
+
+```
+lib/
+├── constants.ts        # Centralized constants (payment amounts, TLV types, settings)
+├── tlv-utils.ts        # Lightning TLV record creation and payment utilities
+├── image-utils.ts      # Image URL cleanup and processing
+├── slug-utils.ts       # URL slug generation utilities
+├── ui-utils.ts         # UI effects (confetti, formatting, clipboard)
+├── rss-parser.ts       # RSS feed parsing and normalization
+├── feed-parser-optimized.ts  # Optimized feed parsing
+├── nwc-service.ts      # Nostr Wallet Connect integration
+└── breez-service.ts    # Breez SDK integration
+
+contexts/
+├── AudioContext.tsx    # Audio playback and auto-boost state
+├── LightningContext.tsx # Lightning feature toggles
+└── BitcoinConnectContext.tsx # Wallet connection management
+
+components/
+├── BitcoinConnect.tsx  # Lightning payment UI
+├── NowPlayingScreen.tsx # Full-screen player
+└── AlbumDetailClient.tsx # Album pages with boost modals
+```
+
 ## Content Structure
 
 ### Feed Types
