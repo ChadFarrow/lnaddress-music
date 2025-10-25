@@ -34,6 +34,7 @@ export default function TestPaymentsPage() {
   const [error, setError] = useState<string | null>(null);
   const [paymentAmount, setPaymentAmount] = useState('100');
   const [paymentMessage, setPaymentMessage] = useState('');
+  const [senderName, setSenderName] = useState('');
   const [processingPayment, setProcessingPayment] = useState<string | null>(null);
   const [paymentResults, setPaymentResults] = useState<{
     amount: number;
@@ -48,6 +49,21 @@ export default function TestPaymentsPage() {
   } | null>(null);
 
   const breez = useBreez();
+
+  // Load sender name from localStorage on mount
+  useEffect(() => {
+    const savedName = localStorage.getItem('test-payments:sender-name');
+    if (savedName) {
+      setSenderName(savedName);
+    }
+  }, []);
+
+  // Save sender name to localStorage when it changes
+  useEffect(() => {
+    if (senderName) {
+      localStorage.setItem('test-payments:sender-name', senderName);
+    }
+  }, [senderName]);
 
   useEffect(() => {
     fetchFeed();
@@ -202,11 +218,17 @@ export default function TestPaymentsPage() {
         if (recipientAmount > 0) {
           console.log(`Sending ${recipientAmount} sats (${recipient.split}%) to ${recipient.name} (${recipient.address})`);
           try {
+            // Build the message with sender name if provided
+            let fullMessage = paymentMessage || `Payment from test feed`;
+            if (senderName) {
+              fullMessage = `From ${senderName}: ${fullMessage}`;
+            }
+
             await breez.sendPayment({
               destination: recipient.address,
               amountSats: recipientAmount,
               label: `Test payment for: ${episode.title} - ${recipient.name}`,
-              message: paymentMessage || `Payment from test feed`
+              message: fullMessage
             });
             console.log(`✅ Successfully sent to ${recipient.name}`);
             return {
@@ -393,6 +415,14 @@ export default function TestPaymentsPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={senderName}
+                  onChange={(e) => setSenderName(e.target.value)}
+                  placeholder="Your name (saved)"
+                  className="w-32 px-2 py-1 bg-gray-800 border border-purple-500/30 text-white rounded text-sm focus:outline-none focus:border-purple-400 placeholder:text-gray-500"
+                  maxLength={50}
+                />
                 <input
                   type="text"
                   value={paymentMessage}
