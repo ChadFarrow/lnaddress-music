@@ -6,6 +6,7 @@ import { useBreez } from '@/hooks/useBreez';
 import { useNWC } from '@/hooks/useNWC';
 import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 import { LightningWallet } from '@/components/LightningWallet';
+import { triggerSuccessConfetti } from '@/lib/ui-utils';
 
 interface Episode {
   title: string;
@@ -580,6 +581,14 @@ export default function TestPaymentsPage() {
         await breez.refreshBalance();
       }
       console.log('✅ Balance refreshed after payments');
+
+      // Check if any payments were successful
+      const successfulPayments = results.filter(r => r.success).length;
+
+      // Trigger confetti if at least one payment succeeded
+      if (successfulPayments > 0) {
+        triggerSuccessConfetti();
+      }
 
       // Close confirmation modal
       setConfirmPayment(null);
