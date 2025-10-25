@@ -78,16 +78,15 @@ class BreezService {
       await initBreezSDK();
       console.log('✅ Breez SDK WASM initialized');
 
-      const { connect, defaultConfig, parse } = breezSDK;
+      const { connect, defaultConfig } = breezSDK;
 
       if (!connect || !defaultConfig) {
         throw new Error('Breez SDK connect or defaultConfig function not found');
       }
 
-      // Store the parse function for later use
-      if (parse) {
-        this.parseFunction = parse;
-      }
+      // Store the parse function for later use - it's a top-level export
+      // We'll access it directly from the module when needed
+      this.parseFunction = breezSDK.parse || null;
 
       // Set up storage directory
       const storageDir = config.storageDir || './breez-sdk-data';
