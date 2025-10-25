@@ -180,7 +180,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       <button
         onClick={handleConnect}
         disabled={loading}
-        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-6"
+        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-3"
       >
         {loading ? (
           <>
@@ -199,6 +199,17 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
           </>
         )}
       </button>
+
+      {/* Create Account Button (Optional) */}
+      <a
+        href="/test-auth"
+        className="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 mb-6 text-sm"
+      >
+        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+        </svg>
+        Create an account
+      </a>
 
       {/* Divider */}
       <div className="relative mb-6">
