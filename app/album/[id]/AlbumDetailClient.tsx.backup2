@@ -141,6 +141,33 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     toggleShuffle
   } = useAudio();
 
+  // Lightning payment handlers
+  const handleBoostSuccess = (response: any) => {
+    console.log('✅ Boost successful:', response);
+    setShowAlbumBoostModal(false);
+    setBoostMessage(''); // Clear the message input after successful boost
+
+    // Show success modal with payment details
+    if (album && paymentRecipients) {
+      setPaymentSuccess({
+        amount: boostAmount,
+        title: album.title,
+        type: 'album',
+        recipients: paymentRecipients.map((r: any) => ({
+          name: r.name || album.artist || 'Artist',
+          split: r.split || 0,
+          address: r.address
+        }))
+      });
+    }
+
+    // Trigger confetti effect for payment success
+    triggerSuccessConfetti();
+  };
+
+  const handleBoostError = (error: string) => {
+    console.error('❌ Boost failed:', error);
+  };
 
   // Get Lightning payment recipients from pre-processed server-side data
   // Memoize payment recipients to prevent render loop
@@ -1000,7 +1027,10 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   {/* Album Boost Button */}
                   {isLightningEnabled && (
                     <button
-                      onClick={showAlbumPaymentConfirmation}
+                      onClick={async () => {
+                        await checkConnection();
+                        setShowAlbumBoostModal(true);
+                      }}
                       className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-yellow-500 to-orange-600 text-white rounded-full font-semibold transition-all duration-200 hover:from-yellow-400 hover:to-orange-500 hover:shadow-lg transform hover:scale-105 active:scale-95"
                     >
                       <Zap className="w-4 h-4" />
@@ -1247,15 +1277,8 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                 <BitcoinConnectPayment
                   amount={boostAmount}
                   description={`Boost for ${album.title} by ${album.artist}`}
-                  onSuccess={(response) => {
-                    console.log('✅ Album boost successful:', response);
-                    triggerSuccessConfetti();
-                    setShowAlbumBoostModal(false);
-                    setBoostMessage('');
-                  }}
-                  onError={(error) => {
-                    console.error('❌ Album boost failed:', error);
-                  }}
+                  onSuccess={handleBoostSuccess}
+                  onError={handleBoostError}
                   className="w-full !mt-6"
                   recipients={paymentRecipients || undefined}
                   recipient={getFallbackRecipient()?.address}
@@ -1405,15 +1428,27 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   amount={trackBoostAmount}
                   description={`Boost for "${selectedTrack.title}" by ${album?.artist}`}
                   onSuccess={(response) => {
-                    console.log('✅ Track boost successful:', response);
-                    triggerSuccessConfetti();
+                    // Handle track boost success with track-specific data
+                    const trackRecipients = getTrackPaymentRecipients(selectedTrack);
+                    if (album && trackRecipients) {
+                      setPaymentSuccess({
+                        amount: trackBoostAmount,
+                        title: selectedTrack.title,
+                        type: 'track',
+                        recipients: trackRecipients.map((r: any) => ({
+                          name: r.name || album.artist || 'Artist',
+                          split: r.split || 0,
+                          address: r.address
+                        }))
+                      });
+                    }
+
+                    handleBoostSuccess(response);
                     setShowTrackBoostModal(false);
                     setSelectedTrack(null);
                     setTrackBoostMessage('');
                   }}
-                  onError={(error) => {
-                    console.error('❌ Track boost failed:', error);
-                  }}
+                  onError={handleBoostError}
                   className="w-full !mt-6"
                   recipients={getTrackPaymentRecipients(selectedTrack) || undefined}
                   recipient={getFallbackRecipient()?.address}
@@ -1446,19 +1481,86 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         <div className="h-24" />
       </div>
 
-      {/* Album Payment Confirmation Modal */}
-      {isLightningEnabled && (
-        <PaymentConfirmationModal
-          confirmation={confirmAlbumPayment}
-          paymentAmount={boostAmount.toString()}
-          senderName={senderName}
-          paymentMessage={boostMessage}
-          onAmountChange={(value) => setBoostAmount(parseInt(value) || PAYMENT_AMOUNTS.MANUAL_BOOST_DEFAULT)}
-          onSenderNameChange={setSenderName}
-          onMessageChange={setBoostMessage}
-          onCancel={() => setConfirmAlbumPayment(null)}
-          onConfirm={sendAlbumPayment}
-        />
+      {/* Payment Success Modal */}
+      {paymentSuccess && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-green-500/30 rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
+            {/* Close button */}
+            <button
+              onClick={() => setPaymentSuccess(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Success Icon */}
+            <div className="flex justify-center mb-6">
+              <div className="bg-green-500/20 rounded-full p-4">
+                <CheckCircle2 className="w-16 h-16 text-green-500" />
+              </div>
+            </div>
+
+            {/* Success Message */}
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">Boost Sent! ⚡</h2>
+              <p className="text-gray-300">
+                Your payment has been successfully sent
+              </p>
+            </div>
+
+            {/* Payment Details */}
+            <div className="bg-black/30 rounded-lg p-4 mb-4 space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Amount</span>
+                <span className="text-white font-semibold text-lg">
+                  {paymentSuccess.amount.toLocaleString()} sats
+                </span>
+              </div>
+              <div className="flex flex-col pt-2 border-t border-gray-700">
+                <span className="text-gray-400 text-sm mb-1">
+                  {paymentSuccess.type === 'album' ? 'Album' : 'Track'}
+                </span>
+                <span className="text-white font-medium">
+                  {paymentSuccess.title}
+                </span>
+              </div>
+            </div>
+
+            {/* Payment Splits */}
+            {paymentSuccess.recipients.length > 0 && (
+              <div className="bg-black/30 rounded-lg p-4 mb-6">
+                <p className="text-gray-400 text-sm font-semibold mb-3">Payment Split:</p>
+                <div className="space-y-2 max-h-40 overflow-y-auto">
+                  {paymentSuccess.recipients.map((recipient, idx) => {
+                    const totalSplit = paymentSuccess.recipients.reduce((sum, r) => sum + r.split, 0);
+                    const percentage = totalSplit > 0 ? ((recipient.split / totalSplit) * 100).toFixed(1) : '0';
+                    const amount = totalSplit > 0 ? Math.floor((paymentSuccess.amount * recipient.split) / totalSplit) : 0;
+                    return (
+                      <div key={idx} className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                          <div className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
+                          <span className="text-gray-300 truncate">{recipient.name}</span>
+                        </div>
+                        <div className="flex items-center gap-3 flex-shrink-0">
+                          <span className="text-gray-400">{percentage}%</span>
+                          <span className="text-green-400 font-medium">{amount} sats</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Close Button */}
+            <button
+              onClick={() => setPaymentSuccess(null)}
+              className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
+            >
+              Awesome!
+            </button>
+          </div>
+        </div>
       )}
 
       {/* Performance Monitor (development only) */}
