@@ -7,6 +7,7 @@ interface UseNWCReturn {
   balance: number | null;
   error: string | null;
   loading: boolean;
+  supportsKeysend: boolean;
   connect: (connectionString: string) => Promise<void>;
   disconnect: () => void;
   payInvoice: (invoice: string) => Promise<{ success: boolean; preimage?: string; error?: string }>;
@@ -25,6 +26,10 @@ export function useNWC(): UseNWCReturn {
   const [loading, setLoading] = useState(false);
 
   const nwcService = getNWCService();
+
+  // Check if this NWC connection supports keysend (currently only Alby/Alby Hub)
+  const supportsKeysend = connectionString.includes('relay.getalby.com') ||
+                          connectionString.includes('getalby.com');
 
   // Check service connection status on mount and periodically (only when connected)
   useEffect(() => {
@@ -212,6 +217,7 @@ export function useNWC(): UseNWCReturn {
     balance,
     error,
     loading,
+    supportsKeysend,
     connect,
     disconnect,
     payInvoice,

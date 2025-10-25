@@ -298,7 +298,9 @@ export default function TestPaymentsPage() {
 
     // Determine which recipient types are supported based on connected wallet
     const supportedTypes = nwc.isConnected
-      ? ['lnaddress', 'node'] // NWC supports both lightning addresses and keysend to nodes
+      ? nwc.supportsKeysend
+        ? ['lnaddress', 'node'] // Alby/Alby Hub supports both lightning addresses and keysend to nodes
+        : ['lnaddress'] // Other NWC wallets only support lightning addresses
       : breez.isConnected
       ? ['lnaddress'] // Breez only supports lightning addresses
       : [];
