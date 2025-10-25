@@ -220,6 +220,129 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     return paymentRecipients;
   };
   
+  // Show payment confirmation modal for album boost
+  const showAlbumPaymentConfirmation = async () => {
+    if (!album) return;
+
+    await checkConnection();
+    const amount = boostAmount;
+
+    // Get all payment recipients
+    const allRecipients = paymentRecipients;
+    if (!allRecipients || allRecipients.length === 0) {
+      console.error('No recipients available for payment');
+      return;
+    }
+
+    // Determine supported types based on wallet
+    const supportedTypes = nwc.isConnected
+      ? nwc.supportsKeysend
+        ? ['lnaddress', 'node']
+        : ['lnaddress']
+      : breez.isConnected
+      ? ['lnaddress']
+      : [];
+
+    // Calculate total split
+    const totalSplit = allRecipients.reduce((sum: number, r: any) => sum + r.split, 0);
+
+    // Map recipients with support detection
+    const recipientsWithSupport: PaymentRecipient[] = allRecipients.map((recipient: any) => {
+      const recipientAmount = Math.round((recipient.split / totalSplit) * amount);
+      const supported = supportedTypes.includes(recipient.type);
+
+      return {
+        name: recipient.name || album.artist || 'Unknown',
+        address: recipient.address,
+        type: recipient.type,
+        split: recipient.split,
+        amount: recipientAmount,
+        supported
+      };
+    });
+
+    setConfirmAlbumPayment({
+      title: album.title,
+      amount,
+      recipients: recipientsWithSupport
+    });
+  };
+
+  // Send album payment
+  const sendAlbumPayment = async () => {
+    if (!confirmAlbumPayment || !album) return;
+
+    setConfirmAlbumPayment({
+      ...confirmAlbumPayment,
+      processing: true,
+      recipientStatus: new Map()
+    });
+
+    const recipientStatus = new Map<string, { status: 'pending' | 'processing' | 'success' | 'failed'; error?: string }>();
+
+    confirmAlbumPayment.recipients.forEach(r => {
+      recipientStatus.set(r.address, { status: 'pending' });
+    });
+
+    for (const recipient of confirmAlbumPayment.recipients) {
+      if (!recipient.supported) continue;
+
+      recipientStatus.set(recipient.address, { status: 'processing' });
+      setConfirmAlbumPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
+
+      try {
+        const fullMessage = `${boostMessage || ''}\n\nSent from lnaddress music by ${senderName || 'Anonymous'}`.trim();
+
+        if (nwc.isConnected) {
+          if (recipient.type === 'lnaddress') {
+            const { LNURLService } = await import('@/lib/lnurl-service');
+            const amountMillisats = recipient.amount * 1000;
+            const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
+            const result = await nwc.payInvoice(invoice);
+            if (!result.success) throw new Error(result.error || 'Payment failed');
+          } else if (recipient.type === 'node' && nwc.supportsKeysend) {
+            const result = await nwc.payKeysend(recipient.address, recipient.amount, fullMessage);
+            if (!result.success) throw new Error(result.error || 'Keysend payment failed');
+          }
+        } else if (breez.isConnected && recipient.type === 'lnaddress') {
+          const { LNURLService } = await import('@/lib/lnurl-service');
+          const amountMillisats = recipient.amount * 1000;
+          const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
+          await breez.sendPayment({
+            destination: recipient.address,
+            amountSats: recipient.amount,
+            message: fullMessage
+          });
+        }
+
+        recipientStatus.set(recipient.address, { status: 'success' });
+        setConfirmAlbumPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
+      } catch (error: any) {
+        console.error(`Payment to ${recipient.name} failed:`, error);
+        recipientStatus.set(recipient.address, {
+          status: 'failed',
+          error: error.message || 'Payment failed'
+        });
+        setConfirmAlbumPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
+      }
+    }
+
+    setConfirmAlbumPayment(prev => prev ? { ...prev, processing: false } : null);
+
+    const allSucceeded = confirmAlbumPayment.recipients
+      .filter(r => r.supported)
+      .every(r => recipientStatus.get(r.address)?.status === 'success');
+
+    if (allSucceeded) {
+      triggerSuccessConfetti();
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('boost:payment-sent', {
+          detail: { amount: confirmAlbumPayment.amount }
+        }));
+      }
+    }
+  };
+
   // Get fallback recipient for backwards compatibility
   const getFallbackRecipient = (): { address: string; amount: number } | null => {
     // For Breez SDK, we cannot send to raw node pubkeys
@@ -904,10 +1027,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   {/* Album Boost Button */}
                   {isLightningEnabled && (
                     <button
-                      onClick={async () => {
-                        await checkConnection();
-                        setShowAlbumBoostModal(true);
-                      }}
+                      onClick={showAlbumPaymentConfirmation}
                       className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-yellow-500 to-orange-600 text-white rounded-full font-semibold transition-all duration-200 hover:from-yellow-400 hover:to-orange-500 hover:shadow-lg transform hover:scale-105 active:scale-95"
                     >
                       <Zap className="w-4 h-4" />
@@ -1438,6 +1558,21 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
             </button>
           </div>
         </div>
+      )}
+
+      {/* Album Payment Confirmation Modal */}
+      {isLightningEnabled && (
+        <PaymentConfirmationModal
+          confirmation={confirmAlbumPayment}
+          paymentAmount={boostAmount.toString()}
+          senderName={senderName}
+          paymentMessage={boostMessage}
+          onAmountChange={(value) => setBoostAmount(parseInt(value) || PAYMENT_AMOUNTS.MANUAL_BOOST_DEFAULT)}
+          onSenderNameChange={setSenderName}
+          onMessageChange={setBoostMessage}
+          onCancel={() => setConfirmAlbumPayment(null)}
+          onConfirm={sendAlbumPayment}
+        />
       )}
 
       {/* Performance Monitor (development only) */}
