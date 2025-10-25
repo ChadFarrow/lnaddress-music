@@ -440,22 +440,6 @@ export default function TestPaymentsPage() {
               </div>
               <div className="flex items-center gap-2">
                 <input
-                  type="text"
-                  value={senderName}
-                  onChange={(e) => setSenderName(e.target.value)}
-                  placeholder="Your name (saved)"
-                  className="w-32 px-2 py-1 bg-gray-800 border border-purple-500/30 text-white rounded text-sm focus:outline-none focus:border-purple-400 placeholder:text-gray-500"
-                  maxLength={50}
-                />
-                <input
-                  type="text"
-                  value={paymentMessage}
-                  onChange={(e) => setPaymentMessage(e.target.value)}
-                  placeholder="Optional message..."
-                  className="w-48 px-2 py-1 bg-gray-800 border border-purple-500/30 text-white rounded text-sm focus:outline-none focus:border-purple-400 placeholder:text-gray-500"
-                  maxLength={144}
-                />
-                <input
                   type="number"
                   value={paymentAmount}
                   onChange={(e) => setPaymentAmount(e.target.value)}
@@ -503,16 +487,41 @@ export default function TestPaymentsPage() {
               </div>
             </div>
 
-            {/* Message Preview */}
-            {(senderName || paymentMessage) && (
-              <div className="bg-black/30 rounded-lg p-3 mb-4">
-                <div className="text-gray-400 text-xs mb-1">Message</div>
-                <div className="text-white text-sm">
-                  {senderName && `From ${senderName}: `}
-                  {paymentMessage || 'Payment from test feed'}
-                </div>
+            {/* Name and Message Inputs */}
+            <div className="space-y-3 mb-4">
+              <div>
+                <label className="block text-gray-400 text-xs mb-1">Your Name (optional, saved)</label>
+                <input
+                  type="text"
+                  value={senderName}
+                  onChange={(e) => setSenderName(e.target.value)}
+                  placeholder="Enter your name..."
+                  className="w-full px-3 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg text-sm focus:outline-none focus:border-purple-400 placeholder:text-gray-500"
+                  maxLength={50}
+                />
               </div>
-            )}
+              <div>
+                <label className="block text-gray-400 text-xs mb-1">Message (optional)</label>
+                <input
+                  type="text"
+                  value={paymentMessage}
+                  onChange={(e) => setPaymentMessage(e.target.value)}
+                  placeholder="Add a message..."
+                  className="w-full px-3 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg text-sm focus:outline-none focus:border-purple-400 placeholder:text-gray-500"
+                  maxLength={144}
+                />
+              </div>
+              {/* Message Preview */}
+              {(senderName || paymentMessage) && (
+                <div className="bg-black/30 rounded-lg p-3">
+                  <div className="text-gray-400 text-xs mb-1">Preview</div>
+                  <div className="text-white text-sm">
+                    {senderName && `From ${senderName}: `}
+                    {paymentMessage || 'Payment from test feed'}
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Recipients */}
             <div className="mb-6">
