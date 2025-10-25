@@ -392,22 +392,6 @@ export function LightningWallet() {
                     }}
                     onError={(err) => console.error('Breez connection error:', err)}
                   />
-
-                  {/* Optional: Create Account Link */}
-                  <div className="pt-4 border-t border-gray-700">
-                    <p className="text-xs text-gray-400 text-center mb-3">
-                      Want to save your wallet securely?
-                    </p>
-                    <a
-                      href="/test-auth"
-                      className="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
-                    >
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
-                      </svg>
-                      Create an account
-                    </a>
-                  </div>
                 </div>
               )}
 
