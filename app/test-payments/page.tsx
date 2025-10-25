@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Zap, Loader2, CheckCircle2, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useBreez } from '@/hooks/useBreez';
 import { useNWC } from '@/hooks/useNWC';
@@ -886,15 +886,40 @@ export default function TestPaymentsPage() {
             {/* Recipients */}
             <div className="mb-6">
               <div className="text-gray-400 text-sm mb-2">Recipients ({confirmPayment.recipients.length})</div>
-              <div className="space-y-2 max-h-48 overflow-y-auto">
-                {confirmPayment.recipients.map((recipient, idx) => {
+              <div className="relative">
+                {/* Gradient fade at top */}
+                {confirmPayment.recipients.length > 3 && (
+                  <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-gray-900 to-transparent pointer-events-none z-10" />
+                )}
+
+                {/* Scrollable recipient list */}
+                <div
+                  className="space-y-2 max-h-64 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-500/50 scrollbar-track-gray-800/50 hover:scrollbar-thumb-purple-500/70 scroll-smooth"
+                  id="recipient-scroll-container"
+                >
+                  {confirmPayment.recipients.map((recipient, idx) => {
                   const status = confirmPayment.recipientStatus?.get(recipient.address);
                   const isProcessing = status?.status === 'processing';
                   const isSuccess = status?.status === 'success';
                   const isFailed = status?.status === 'failed';
 
+                  // Auto-scroll to processing recipient
+                  useEffect(() => {
+                    if (isProcessing) {
+                      const element = document.getElementById(`recipient-${idx}`);
+                      if (element) {
+                        element.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'nearest',
+                          inline: 'nearest'
+                        });
+                      }
+                    }
+                  }, [isProcessing, idx]);
+
                   return (
                     <div
+                      id={`recipient-${idx}`}
                       key={idx}
                       className={`border rounded-lg p-3 flex items-center justify-between transition-colors ${
                         isSuccess ? 'bg-green-500/10 border-green-500/30' :
@@ -928,6 +953,12 @@ export default function TestPaymentsPage() {
                     </div>
                   );
                 })}
+                </div>
+
+                {/* Gradient fade at bottom */}
+                {confirmPayment.recipients.length > 3 && (
+                  <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-gray-900 to-transparent pointer-events-none z-10" />
+                )}
               </div>
             </div>
 
