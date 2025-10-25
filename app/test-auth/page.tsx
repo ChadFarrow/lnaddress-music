@@ -262,9 +262,9 @@ export default function TestAuthPage() {
               <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
                 <li>Register a new account with username and password</li>
                 <li>Wallet is automatically created during registration</li>
-                <li>Use "Retrieve Mnemonic" to decrypt your wallet phrase</li>
+                <li>Use &quot;Retrieve Mnemonic&quot; to decrypt your wallet phrase</li>
                 <li>Logout and login again to test session persistence</li>
-                <li>Use "Manual Wallet Storage" to update/change your mnemonic</li>
+                <li>Use &quot;Manual Wallet Storage&quot; to update/change your mnemonic</li>
                 <li>Test network switching (mainnet/regtest)</li>
               </ol>
             </div>
