@@ -251,11 +251,10 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   };
   
   // Get fallback recipient for backwards compatibility
-  const getFallbackRecipient = (): { address: string; amount: number } => {
-    return {
-      address: '03740ea02585ed87b83b2f76317a4562b616bd7b8ec3f925be6596932b2003fc9e',
-      amount: 50
-    };
+  const getFallbackRecipient = (): { address: string; amount: number } | null => {
+    // For Breez SDK, we cannot send to raw node pubkeys
+    // Return null to indicate no valid payment destination
+    return null;
   };
   
   // Background state
