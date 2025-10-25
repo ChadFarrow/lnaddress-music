@@ -250,9 +250,9 @@ export default function HomePage() {
         if (nwc.isConnected) {
           if (recipient.type === 'lnaddress') {
             // Pay via lightning address
-            const { getLNURLService } = await import('@/lib/lnurl-service');
-            const lnurlService = getLNURLService();
-            const invoice = await lnurlService.getInvoice(recipient.address, recipient.amount, fullMessage);
+            const { LNURLService } = await import('@/lib/lnurl-service');
+            const amountMillisats = recipient.amount * 1000;
+            const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
             const result = await nwc.payInvoice(invoice);
 
             if (!result.success) {
@@ -268,9 +268,9 @@ export default function HomePage() {
           }
         } else if (breez.isConnected && recipient.type === 'lnaddress') {
           // Breez only supports lightning addresses
-          const { getLNURLService } = await import('@/lib/lnurl-service');
-          const lnurlService = getLNURLService();
-          const invoice = await lnurlService.getInvoice(recipient.address, recipient.amount, fullMessage);
+          const { LNURLService } = await import('@/lib/lnurl-service');
+          const amountMillisats = recipient.amount * 1000;
+          const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
 
           await breez.sendPayment({
             destination: recipient.address,
