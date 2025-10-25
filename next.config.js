@@ -111,7 +111,8 @@ const nextConfig = {
   
   // Performance optimizations
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    // Keep console logs in production for debugging Lightning payments
+    removeConsole: false,
   },
 
   // Webpack configuration for nostr-tools and crypto polyfills
