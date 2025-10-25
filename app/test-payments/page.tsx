@@ -951,7 +951,7 @@ export default function TestPaymentsPage() {
                         </div>
                         {isUnsupported && (
                           <div className="text-red-400/70 text-xs mt-1">
-                            Wallet doesn't support {recipient.type}
+                            Wallet doesn&apos;t support {recipient.type}
                           </div>
                         )}
                         {isFailed && status.error && (
