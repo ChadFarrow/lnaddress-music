@@ -52,6 +52,7 @@ export function useNWC(): UseNWCReturn {
     const savedConnection = localStorage.getItem(NWC_STORAGE_KEY);
     if (savedConnection) {
       console.log('🔄 Auto-connecting with saved connection...');
+      setLoading(true); // Show connecting state immediately
       connect(savedConnection);
     }
   }, []);

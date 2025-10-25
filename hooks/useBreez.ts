@@ -57,8 +57,8 @@ export function useBreez(): UseBreezReturn {
         if (storedConfig && isSubscribed) {
           // ENABLED: Auto-reconnect to restore wallet session on page reload
           console.log('🔄 Found stored Breez config, attempting auto-reconnect...');
+          setLoading(true); // Show loading indicator immediately
           reconnectAttempted.current = true;
-          setLoading(true); // Show loading indicator during reconnect
 
           try {
             await connect(storedConfig);
