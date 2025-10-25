@@ -36,6 +36,11 @@ export default function TestPaymentsPage() {
   const [paymentMessage, setPaymentMessage] = useState('');
   const [senderName, setSenderName] = useState('');
   const [processingPayment, setProcessingPayment] = useState<string | null>(null);
+  const [confirmPayment, setConfirmPayment] = useState<{
+    episode: Episode;
+    amount: number;
+    recipients: Array<{ name: string; address: string; split: number; amount: number }>;
+  } | null>(null);
   const [paymentResults, setPaymentResults] = useState<{
     amount: number;
     episodeTitle: string;
@@ -184,7 +189,8 @@ export default function TestPaymentsPage() {
     }
   };
 
-  const sendPayment = async (episode: Episode) => {
+  // Show confirmation modal
+  const showPaymentConfirmation = (episode: Episode) => {
     if (!breez.isConnected) {
       alert('Please connect your Lightning wallet first');
       return;
@@ -203,17 +209,35 @@ export default function TestPaymentsPage() {
       return;
     }
 
+    // Calculate total splits for Lightning addresses only
+    const totalLnSplit = lnAddressRecipients.reduce((sum, r) => sum + r.split, 0);
+
+    // Prepare recipient details with calculated amounts
+    const recipients = lnAddressRecipients.map(r => ({
+      name: r.name,
+      address: r.address,
+      split: r.split,
+      amount: Math.floor((amount * r.split) / totalLnSplit)
+    }));
+
+    setConfirmPayment({ episode, amount, recipients });
+  };
+
+  // Actually send the payment after confirmation
+  const sendPayment = async () => {
+    if (!confirmPayment) return;
+
+    const { episode, amount, recipients } = confirmPayment;
+
     try {
       setProcessingPayment(episode.guid);
+      setConfirmPayment(null); // Close confirmation modal
 
-      // Calculate total splits for Lightning addresses only
-      const totalLnSplit = lnAddressRecipients.reduce((sum, r) => sum + r.split, 0);
-
-      console.log(`Sending ${amount} sats split among ${lnAddressRecipients.length} recipients in parallel`);
+      console.log(`Sending ${amount} sats split among ${recipients.length} recipients in parallel`);
 
       // Send payments in parallel for faster processing
-      const paymentPromises = lnAddressRecipients.map(async (recipient) => {
-        const recipientAmount = Math.floor((amount * recipient.split) / totalLnSplit);
+      const paymentPromises = recipients.map(async (recipient) => {
+        const recipientAmount = recipient.amount;
 
         if (recipientAmount > 0) {
           console.log(`Sending ${recipientAmount} sats (${recipient.split}%) to ${recipient.name} (${recipient.address})`);
@@ -370,7 +394,7 @@ export default function TestPaymentsPage() {
                         <Play className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => sendPayment(episode)}
+                        onClick={() => showPaymentConfirmation(episode)}
                         disabled={!breez.isConnected || processingPayment === episode.guid}
                         className="flex items-center gap-1 px-3 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
                         title={`Send ${paymentAmount} sats`}
@@ -448,6 +472,89 @@ export default function TestPaymentsPage() {
         {renderFeedTable(testFeed, 'test-feed')}
         {renderFeedTable(pc20Feed, 'pc20-feed')}
       </div>
+
+      {/* Payment Confirmation Modal */}
+      {confirmPayment && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-purple-500/30 rounded-2xl p-6 max-w-lg w-full shadow-2xl relative">
+            {/* Close button */}
+            <button
+              onClick={() => setConfirmPayment(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Header */}
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">Confirm Boost ⚡</h2>
+              <p className="text-gray-300 text-sm">
+                {confirmPayment.episode.title}
+              </p>
+            </div>
+
+            {/* Amount */}
+            <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 mb-4">
+              <div className="text-center">
+                <div className="text-gray-400 text-sm mb-1">Total Amount</div>
+                <div className="text-purple-300 text-3xl font-bold">
+                  {confirmPayment.amount.toLocaleString()} <span className="text-xl">sats</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Message Preview */}
+            {(senderName || paymentMessage) && (
+              <div className="bg-black/30 rounded-lg p-3 mb-4">
+                <div className="text-gray-400 text-xs mb-1">Message</div>
+                <div className="text-white text-sm">
+                  {senderName && `From ${senderName}: `}
+                  {paymentMessage || 'Payment from test feed'}
+                </div>
+              </div>
+            )}
+
+            {/* Recipients */}
+            <div className="mb-6">
+              <div className="text-gray-400 text-sm mb-2">Recipients ({confirmPayment.recipients.length})</div>
+              <div className="space-y-2 max-h-48 overflow-y-auto">
+                {confirmPayment.recipients.map((recipient, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-white/5 border border-white/10 rounded-lg p-3 flex items-center justify-between"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="text-white font-medium text-sm truncate">{recipient.name}</div>
+                      <div className="text-gray-400 text-xs truncate">{recipient.address}</div>
+                    </div>
+                    <div className="text-right ml-3">
+                      <div className="text-purple-300 font-semibold">{recipient.amount.toLocaleString()} sats</div>
+                      <div className="text-gray-500 text-xs">{recipient.split}%</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => setConfirmPayment(null)}
+                className="flex-1 px-4 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={sendPayment}
+                className="flex-1 px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium flex items-center justify-center gap-2"
+              >
+                <Zap className="w-5 h-5" />
+                Send Boost
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Payment Results Modal */}
       {paymentResults && (
