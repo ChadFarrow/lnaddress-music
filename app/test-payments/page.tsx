@@ -33,6 +33,7 @@ export default function TestPaymentsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [paymentAmount, setPaymentAmount] = useState('100');
+  const [paymentMessage, setPaymentMessage] = useState('');
   const [processingPayment, setProcessingPayment] = useState<string | null>(null);
   const [paymentResults, setPaymentResults] = useState<{
     amount: number;
@@ -205,7 +206,7 @@ export default function TestPaymentsPage() {
               destination: recipient.address,
               amountSats: recipientAmount,
               label: `Test payment for: ${episode.title} - ${recipient.name}`,
-              message: `Payment from test feed`
+              message: paymentMessage || `Payment from test feed`
             });
             console.log(`✅ Successfully sent to ${recipient.name}`);
             return {
@@ -392,6 +393,14 @@ export default function TestPaymentsPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={paymentMessage}
+                  onChange={(e) => setPaymentMessage(e.target.value)}
+                  placeholder="Optional message..."
+                  className="w-48 px-2 py-1 bg-gray-800 border border-purple-500/30 text-white rounded text-sm focus:outline-none focus:border-purple-400 placeholder:text-gray-500"
+                  maxLength={144}
+                />
                 <input
                   type="number"
                   value={paymentAmount}
