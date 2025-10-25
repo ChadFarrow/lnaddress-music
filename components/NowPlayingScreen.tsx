@@ -13,6 +13,7 @@ import { useBitcoinConnect } from '@/contexts/BitcoinConnectContext';
 import { triggerSuccessConfetti } from '@/lib/ui-utils';
 import { createAlbumSlug } from '@/lib/slug-utils';
 import { PAYMENT_AMOUNTS } from '@/lib/constants';
+import { PaymentConfirmationModal, type PaymentConfirmation, type PaymentRecipient } from '@/components/PaymentConfirmationModal';
 
 interface NowPlayingScreenProps {
   isOpen: boolean;
@@ -29,13 +30,14 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   const [extractedColors, setExtractedColors] = useState<ExtractedColors | null>(null);
   const [isLoadingColors, setIsLoadingColors] = useState(false);
   const [showBoostModal, setShowBoostModal] = useState(false);
-  const [boostAmount, setBoostAmount] = useState<number>(PAYMENT_AMOUNTS.MANUAL_BOOST_DEFAULT);
+  const [boostAmount, setBoostAmount] = useState<string>(PAYMENT_AMOUNTS.MANUAL_BOOST_DEFAULT.toString());
   const [senderName, setSenderName] = useState('');
   const [boostMessage, setBoostMessage] = useState('');
   const [albumData, setAlbumData] = useState<any>(null);
+  const [confirmPayment, setConfirmPayment] = useState<PaymentConfirmation | null>(null);
   const colorCache = useRef<Map<string, ExtractedColors>>(globalColorCache);
-  
-  const { checkConnection } = useBitcoinConnect();
+
+  const { checkConnection, walletCapabilities } = useBitcoinConnect();
 
   const {
     currentTrack,
@@ -284,33 +286,31 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     }
   };
 
-  // Get Lightning payment recipients from RSS value data
-  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
+  // Get ALL Lightning payment recipients from RSS value data (both node and lnaddress types)
+  const getAllPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean; type: string }> | null => {
     // First, check if current track has value data
-    if (currentTrack?.value && currentTrack.value.type === 'lightning' && currentTrack.value.method === 'keysend') {
+    if (currentTrack?.value && currentTrack.value.type === 'lightning') {
       const recipients = currentTrack.value.recipients
-        .filter((r: any) => r.type === 'node') // Only include node recipients
         .map((r: any) => ({
           address: r.address,
           split: r.split,
           name: r.name,
           fee: r.fee,
-          type: 'node' // Include the type field for payment routing
+          type: r.type // Include the type field for payment routing
         }));
 
       return recipients;
     }
-    
+
     // Fall back to album-level value data if available
-    if (albumData?.value && albumData.value.type === 'lightning' && albumData.value.method === 'keysend') {
+    if (albumData?.value && albumData.value.type === 'lightning') {
       const recipients = albumData.value.recipients
-        .filter((r: any) => r.type === 'node') // Only include node recipients
         .map((r: any) => ({
           address: r.address,
           split: r.split,
           name: r.name,
           fee: r.fee,
-          type: 'node' // Include the type field for payment routing
+          type: r.type // Include the type field for payment routing
         }));
 
       return recipients;
@@ -319,11 +319,142 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     return null; // Will use fallback single recipient
   };
 
+  // Get Lightning payment recipients from RSS value data (keysend only for backward compatibility)
+  const getPaymentRecipients = (): Array<{ address: string; split: number; name?: string; fee?: boolean }> | null => {
+    const allRecipients = getAllPaymentRecipients();
+    if (!allRecipients) return null;
+
+    // Filter to only node recipients
+    return allRecipients.filter(r => r.type === 'node');
+  };
+
   // Get fallback recipient for payments (same as AlbumCard)
   const getFallbackRecipient = (): { address: string; amount: number } | null => {
     // For Breez SDK, we cannot send to raw node pubkeys
     // Return null to indicate no valid payment destination
     return null;
+  };
+
+  // Show payment confirmation modal with recipient filtering
+  const showPaymentConfirmation = async () => {
+    await checkConnection();
+
+    const amount = parseInt(boostAmount) || 1;
+    const allRecipients = getAllPaymentRecipients();
+
+    if (!allRecipients || allRecipients.length === 0) {
+      console.error('No recipients available for payment');
+      return;
+    }
+
+    // Calculate total split across ALL recipients (not just supported)
+    const totalSplit = allRecipients.reduce((sum, r) => sum + r.split, 0);
+
+    // Map recipients with wallet capability filtering
+    const recipientsWithSupport: PaymentRecipient[] = allRecipients.map(recipient => {
+      const recipientAmount = Math.round((recipient.split / totalSplit) * amount);
+
+      // Check if wallet supports this recipient type
+      let supported = false;
+      if (recipient.type === 'lnaddress') {
+        supported = true; // All wallets support lnaddress
+      } else if (recipient.type === 'node') {
+        supported = walletCapabilities?.keysend || false; // Only supported if wallet has keysend
+      }
+
+      return {
+        name: recipient.name || 'Unknown',
+        address: recipient.address,
+        type: recipient.type,
+        split: recipient.split,
+        amount: recipientAmount,
+        supported
+      };
+    });
+
+    setConfirmPayment({
+      title: currentTrack?.title || 'Unknown Song',
+      amount,
+      recipients: recipientsWithSupport,
+      processing: false
+    });
+    setShowBoostModal(true);
+  };
+
+  // Send payments to recipients
+  const sendPayment = async () => {
+    if (!confirmPayment) return;
+
+    // Mark as processing
+    setConfirmPayment(prev => prev ? { ...prev, processing: true } : null);
+
+    // Initialize status for all recipients
+    const recipientStatus = new Map<string, { status: 'pending' | 'processing' | 'success' | 'failed'; error?: string }>();
+    confirmPayment.recipients.forEach(recipient => {
+      recipientStatus.set(recipient.address, { status: 'pending' });
+    });
+    setConfirmPayment(prev => prev ? { ...prev, recipientStatus } : null);
+
+    const supportedRecipients = confirmPayment.recipients.filter(r => r.supported);
+    const amount = parseInt(boostAmount) || 1;
+
+    try {
+      // Send to each supported recipient sequentially
+      for (const recipient of supportedRecipients) {
+        console.log(`Paying ${recipient.amount} sats to ${recipient.name} (${recipient.type})...`);
+
+        // Mark as processing
+        recipientStatus.set(recipient.address, { status: 'processing' });
+        setConfirmPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
+
+        try {
+          // Use BitcoinConnectPayment logic inline
+          const response = await (window as any).webln?.sendPayment({
+            amount: recipient.amount * 1000, // Convert to msats
+            destination: recipient.address,
+            customRecords: {
+              // Include boost metadata
+              7629169: JSON.stringify({
+                action: 'boost',
+                app_name: 'lnaddress music',
+                name: senderName?.trim() || undefined,
+                message: boostMessage?.trim() || undefined,
+                podcast: currentAlbum || 'Unknown Album',
+                episode: currentTrack?.title,
+                ts: Math.floor(currentTime),
+                feedID: currentTrack?.feedGuid || albumData?.feedGuid,
+                url: currentAlbum ? `https://zaps.podtards.com/album/${encodeURIComponent(currentAlbum)}#${encodeURIComponent(currentTrack?.title || '')}` : 'https://zaps.podtards.com',
+              })
+            }
+          });
+
+          recipientStatus.set(recipient.address, { status: 'success' });
+          setConfirmPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
+          console.log(`✓ Payment successful to ${recipient.name}`);
+        } catch (error: any) {
+          recipientStatus.set(recipient.address, { status: 'failed', error: error.message || 'Payment failed' });
+          setConfirmPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
+          console.error(`✗ Payment failed to ${recipient.name}:`, error);
+        }
+      }
+
+      // All payments complete (or failed)
+      setConfirmPayment(prev => prev ? { ...prev, processing: false } : null);
+
+      // Trigger success effects
+      handleBoostSuccess({ amount });
+
+      // Close modal after delay
+      setTimeout(() => {
+        setConfirmPayment(null);
+        setShowBoostModal(false);
+        setBoostMessage(''); // Clear message after successful boost
+      }, 2000);
+
+    } catch (error: any) {
+      console.error('Error sending payments:', error);
+      setConfirmPayment(prev => prev ? { ...prev, processing: false } : null);
+    }
   };
 
   // Generate mobile-optimized background styles
@@ -510,10 +641,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           {isLightningEnabled && (
             <div className="flex items-center justify-center w-full relative">
               <button
-                onClick={async () => {
-                  await checkConnection();
-                  setShowBoostModal(true);
-                }}
+                onClick={showPaymentConfirmation}
                 className="flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full text-white hover:text-yellow-300 transform hover:scale-105 transition-all duration-150 text-sm"
                 style={{
                 WebkitTapHighlightColor: 'transparent',
@@ -558,116 +686,22 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
 
       </div>
 
-      {/* Boost Modal - only show when Lightning is enabled */}
-      {isLightningEnabled && showBoostModal && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="relative bg-gray-900 rounded-2xl shadow-2xl max-w-sm w-full">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
-                  </svg>
-                  Boost Song
-                </h3>
-                <button
-                  onClick={() => setShowBoostModal(false)}
-                  className="text-gray-400 hover:text-white transition-colors"
-                  title="Close"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              
-              <div className="mb-4">
-                <p className="text-gray-300 text-sm mb-2">
-                  Send sats to support <strong>{currentTrack?.title || 'this song'}</strong> 
-                  {currentTrack?.artist && ` by ${currentTrack.artist}`}
-                </p>
-              </div>
-              
-              {/* Amount Selection */}
-              <div className="mb-6">
-                <p className="text-gray-300 text-xs mb-3 uppercase tracking-wide">Boost Amount</p>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    value={boostAmount}
-                    onChange={(e) => setBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="flex-1 px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
-                    placeholder="Enter amount in sats"
-                    min="1"
-                  />
-                  <span className="text-gray-400 text-sm">sats</span>
-                </div>
-              </div>
-              
-              {/* Sender Name */}
-              <div className="mb-6">
-                <p className="text-gray-300 text-xs mb-3 uppercase tracking-wide">Your Name (Optional)</p>
-                <input
-                  type="text"
-                  value={senderName}
-                  onChange={(e) => setSenderName(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm"
-                  placeholder="Enter your name to be credited in the boost"
-                  maxLength={50}
-                />
-                <p className="text-gray-500 text-xs mt-1">This will be included with your boost payment</p>
-              </div>
-
-              {/* Boostagram Message */}
-              <div>
-                <label className="block text-white text-sm font-medium mb-2">
-                  Message (Optional)
-                </label>
-                <textarea
-                  value={boostMessage}
-                  onChange={(e) => setBoostMessage(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg text-sm resize-none"
-                  placeholder="Enter your boostagram message (up to 250 characters)"
-                  maxLength={250}
-                  rows={3}
-                />
-                <div className="flex justify-between items-center mt-1">
-                  <p className="text-gray-500 text-xs">Custom message for your boost</p>
-                  <p className="text-gray-400 text-xs">{boostMessage.length}/250</p>
-                </div>
-              </div>
-              
-              <BitcoinConnectPayment
-                amount={boostAmount}
-                description={`Boost for ${currentTrack?.title || 'Unknown Song'} by ${currentTrack?.artist || currentAlbum || 'Unknown Artist'}`}
-                onSuccess={handleBoostSuccess}
-                onError={handleBoostError}
-                className="w-full"
-                recipients={getPaymentRecipients() || undefined}
-                recipient={getFallbackRecipient()?.address}
-                enableBoosts={true}
-                boostMetadata={{
-                  title: currentTrack?.title || 'Unknown Song',
-                  artist: currentTrack?.artist || currentAlbum || 'Unknown Artist',
-                  album: currentAlbum || 'Unknown Album',
-                  episode: currentTrack?.title,
-                  url: currentAlbum ? `https://zaps.podtards.com/album/${encodeURIComponent(currentAlbum)}#${encodeURIComponent(currentTrack?.title || '')}` : 'https://zaps.podtards.com',
-                  appName: 'lnaddress music',
-                  timestamp: Math.floor(currentTime),
-                  senderName: senderName?.trim() || undefined,
-                  message: boostMessage?.trim() || undefined,
-                  itemGuid: currentTrack?.guid,
-                  podcastGuid: currentTrack?.podcastGuid,
-                  podcastFeedGuid: currentTrack?.feedGuid || albumData?.feedGuid,
-                  feedUrl: currentTrack?.feedUrl || albumData?.feedUrl,
-                  publisherGuid: currentTrack?.publisherGuid || albumData?.publisherGuid,
-                  publisherUrl: currentTrack?.publisherUrl || albumData?.publisherUrl,
-                  imageUrl: currentTrack?.imageUrl || albumData?.imageUrl
-                }}
-              />
-            </div>
-          </div>
-        </div>
+      {/* Payment Confirmation Modal */}
+      {isLightningEnabled && (
+        <PaymentConfirmationModal
+          confirmation={confirmPayment}
+          paymentAmount={boostAmount}
+          senderName={senderName}
+          paymentMessage={boostMessage}
+          onAmountChange={setBoostAmount}
+          onSenderNameChange={setSenderName}
+          onMessageChange={setBoostMessage}
+          onCancel={() => {
+            setConfirmPayment(null);
+            setShowBoostModal(false);
+          }}
+          onConfirm={sendPayment}
+        />
       )}
 
     </div>
