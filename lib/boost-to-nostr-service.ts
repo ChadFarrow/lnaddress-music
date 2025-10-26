@@ -237,62 +237,37 @@ export class BoostToNostrService {
 
   /**
    * Create a boost post for Nostr with detailed track info
+   * Matches CurioCaster/Fountain format
    */
-  private createBoostContent(options: BoostOptions): string {
+  private createBoostContent(options: BoostOptions, nevent?: string): string {
     const { amount, comment, track } = options;
-    
+
     // Get HPM site URL
     const hpmUrl = this.generateHPMUrl(track);
-    
+
     let content = '';
-    
-    // Start with boost amount
-    content = `⚡ ${amount} sats`;
-    
-    // Add track title in quotes
-    if (track.title) {
-      content += ` • "${track.title}"`;
-    }
-    
-    // Add artist
-    if (track.artist) {
-      content += ` by ${track.artist}`;
-    }
-    
-    // Add album on new line if different from title (skip for auto boosts)
-    if (track.album && track.album !== track.title && track.senderName !== 'Auto Boost') {
-      content += `\nFrom: ${track.album}`;
-    }
-    
-    // Add sender name if provided (skip for auto boosts)
-    if (track.senderName && track.senderName !== 'Auto Boost') {
-      content += `\n\nSent by: ${track.senderName}`;
-    }
-    
-    // Add user comment if provided
+
+    // Add user comment first if provided
     if (comment) {
-      content += `\n\n${comment}`;
-    }
-    
-    // Add HPM site URL
-    if (hpmUrl) {
-      content += `\n\n🎧 ${hpmUrl}`;
-    }
-    
-    // Add nevent reference to announcement if available (like Fountain does)
-    if (track.announcementEventId) {
-      // Create nevent from the announcement event ID
-      const announcementNevent = nip19.neventEncode({
-        id: track.announcementEventId,
-        relays: this.relays.slice(0, 2),
-        kind: 1
-      });
-      
-      content += `\n\nnostr:${announcementNevent}`;
+      content = `${comment}\n\n`;
     }
 
-    // Structured metadata is included in the Nostr tags, not in the content
-    
+    // Add boost amount with proper formatting
+    content += `⚡ ${amount} sats\n`;
+
+    // Add app identifier (like "via CurioCaster")
+    content += `📱 via lnaddress music\n`;
+
+    // Add HPM site URL
+    if (hpmUrl) {
+      content += `\n${hpmUrl}`;
+    }
+
+    // Add nevent reference at the end if available (like Fountain does)
+    if (nevent) {
+      content += `\n\nnostr:${nevent}`;
+    }
+
     return content;
   }
 
@@ -320,7 +295,7 @@ export class BoostToNostrService {
     }
 
     try {
-      // Create initial content without nevent (we'll add it after we have the event ID)
+      // Create initial content without nevent (we'll create event, get nevent, then recreate with nevent)
       let content = this.createBoostContent(options);
 
       // Create event template
@@ -330,6 +305,11 @@ export class BoostToNostrService {
         tags: [],
         content
       };
+
+      // Add hashtag tags at the beginning
+      eventTemplate.tags.push(['t', 'boost']);
+      eventTemplate.tags.push(['t', 'value4value']);
+      eventTemplate.tags.push(['t', 'podcasting20']);
 
       // Add Fountain-style podcast tags in k/i pairs with HPM URLs
       const hpmUrl = this.generateHPMUrl(options.track);
