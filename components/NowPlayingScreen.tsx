@@ -543,6 +543,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
       setConfirmPayment(prev => prev ? { ...prev, processing: false } : null);
 
       // Trigger success effects
+      console.log('💫 About to call handleBoostSuccess with amount:', amount);
       handleBoostSuccess({ amount });
 
       // Close modal after delay
