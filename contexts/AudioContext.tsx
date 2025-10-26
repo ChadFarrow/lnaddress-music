@@ -126,7 +126,10 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const audio = audioRef.current;
 
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
-    const handleDurationChange = () => setDuration(audio.duration);
+    const handleDurationChange = () => {
+      console.log('Duration changed:', audio.duration);
+      setDuration(audio.duration);
+    };
     const handleLoadStart = () => setCurrentTime(0);
     const handleError = (e: Event) => {
       console.error('Audio error:', e);
@@ -150,9 +153,14 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const handleCanPlay = () => {
       console.log('Audio can play:', currentTrack?.title);
     };
+    const handleLoadedMetadata = () => {
+      console.log('Metadata loaded, duration:', audio.duration);
+      setDuration(audio.duration);
+    };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('durationchange', handleDurationChange);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('loadstart', handleLoadStart);
     audio.addEventListener('error', handleError);
     audio.addEventListener('stalled', handleStalled);
@@ -162,6 +170,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('durationchange', handleDurationChange);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('loadstart', handleLoadStart);
       audio.removeEventListener('error', handleError);
       audio.removeEventListener('stalled', handleStalled);
@@ -180,6 +189,23 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     // Reset shuffle history when playing a new track
     shuffleHistoryRef.current = [];
+
+    // Parse duration from track data if available (format: "M:SS" or "H:MM:SS")
+    if (track.duration && typeof track.duration === 'string') {
+      const parts = track.duration.split(':').map(p => parseInt(p, 10));
+      let durationSeconds = 0;
+      if (parts.length === 2) {
+        // M:SS format
+        durationSeconds = parts[0] * 60 + parts[1];
+      } else if (parts.length === 3) {
+        // H:MM:SS format
+        durationSeconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+      }
+      if (durationSeconds > 0) {
+        console.log('Setting duration from track data:', durationSeconds, 'seconds');
+        setDuration(durationSeconds);
+      }
+    }
 
     audioRef.current.src = track.url;
     audioRef.current.load();
@@ -218,6 +244,23 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     // Reset shuffle history when playing a new album
     shuffleHistoryRef.current = [startIndex]; // Start with the current track in history
+
+    // Parse duration from track data if available (format: "M:SS" or "H:MM:SS")
+    if (track.duration && typeof track.duration === 'string') {
+      const parts = track.duration.split(':').map(p => parseInt(p, 10));
+      let durationSeconds = 0;
+      if (parts.length === 2) {
+        // M:SS format
+        durationSeconds = parts[0] * 60 + parts[1];
+      } else if (parts.length === 3) {
+        // H:MM:SS format
+        durationSeconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+      }
+      if (durationSeconds > 0) {
+        console.log('Setting duration from track data:', durationSeconds, 'seconds');
+        setDuration(durationSeconds);
+      }
+    }
 
     audioRef.current.src = track.url;
     audioRef.current.load();
@@ -290,6 +333,11 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const nextTrack = useCallback(() => {
     if (playlist.length === 0) return;
 
+    // Pause current audio before switching tracks to prevent overlapping playback
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+
     let nextIndex: number;
 
     if (isShuffling && playlist.length > 1) {
@@ -337,6 +385,23 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setCurrentTrack(nextTrack);
     setCurrentTrackIndex(nextIndex);
 
+    // Parse duration from track data if available (format: "M:SS" or "H:MM:SS")
+    if (nextTrack.duration && typeof nextTrack.duration === 'string') {
+      const parts = nextTrack.duration.split(':').map(p => parseInt(p, 10));
+      let durationSeconds = 0;
+      if (parts.length === 2) {
+        // M:SS format
+        durationSeconds = parts[0] * 60 + parts[1];
+      } else if (parts.length === 3) {
+        // H:MM:SS format
+        durationSeconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+      }
+      if (durationSeconds > 0) {
+        console.log('Setting duration from track data:', durationSeconds, 'seconds');
+        setDuration(durationSeconds);
+      }
+    }
+
     if (audioRef.current) {
       audioRef.current.src = nextTrack.url;
       audioRef.current.load();
@@ -369,6 +434,11 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const previousTrack = useCallback(() => {
     if (playlist.length === 0) return;
 
+    // Pause current audio before switching tracks to prevent overlapping playback
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+
     let prevIndex = currentTrackIndex - 1;
     if (prevIndex < 0) {
       prevIndex = playlist.length - 1; // Loop to end
@@ -377,7 +447,24 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const prevTrack = playlist[prevIndex];
     setCurrentTrack(prevTrack);
     setCurrentTrackIndex(prevIndex);
-    
+
+    // Parse duration from track data if available (format: "M:SS" or "H:MM:SS")
+    if (prevTrack.duration && typeof prevTrack.duration === 'string') {
+      const parts = prevTrack.duration.split(':').map(p => parseInt(p, 10));
+      let durationSeconds = 0;
+      if (parts.length === 2) {
+        // M:SS format
+        durationSeconds = parts[0] * 60 + parts[1];
+      } else if (parts.length === 3) {
+        // H:MM:SS format
+        durationSeconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+      }
+      if (durationSeconds > 0) {
+        console.log('Setting duration from track data:', durationSeconds, 'seconds');
+        setDuration(durationSeconds);
+      }
+    }
+
     if (audioRef.current) {
       audioRef.current.src = prevTrack.url;
       audioRef.current.load();
