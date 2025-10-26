@@ -52,35 +52,48 @@ export function verifyToken(token: string): UserSession | null {
  * Set authentication cookie
  */
 export function setAuthCookie(response: NextResponse, token: string): void {
-  const cookieOptions = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax' as const, // Changed from 'strict' to 'lax' for better compatibility
-    maxAge: 24 * 60 * 60, // 24 hours in seconds (not milliseconds)
-    path: '/'
-  };
+  const isProduction = process.env.NODE_ENV === 'production';
+  const maxAge = 24 * 60 * 60; // 24 hours in seconds
+
+  // Build cookie string manually for better compatibility with Vercel
+  const cookieString = [
+    `${COOKIE_NAME}=${token}`,
+    'Path=/',
+    `Max-Age=${maxAge}`,
+    'HttpOnly',
+    'SameSite=Lax',
+    isProduction ? 'Secure' : ''
+  ].filter(Boolean).join('; ');
 
   console.log('🍪 Setting auth cookie:', {
     cookieName: COOKIE_NAME,
-    options: cookieOptions,
+    cookieString: cookieString.substring(0, 100) + '...', // Log first 100 chars
     tokenLength: token.length,
-    nodeEnv: process.env.NODE_ENV
+    nodeEnv: process.env.NODE_ENV,
+    isProduction
   });
 
-  response.cookies.set(COOKIE_NAME, token, cookieOptions);
+  // Set cookie using header for better Vercel compatibility
+  response.headers.set('Set-Cookie', cookieString);
 }
 
 /**
  * Clear authentication cookie
  */
 export function clearAuthCookie(response: NextResponse): void {
-  response.cookies.set(COOKIE_NAME, '', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    maxAge: 0,
-    path: '/'
-  });
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  // Build cookie string manually to clear the cookie
+  const cookieString = [
+    `${COOKIE_NAME}=`,
+    'Path=/',
+    'Max-Age=0',
+    'HttpOnly',
+    'SameSite=Lax',
+    isProduction ? 'Secure' : ''
+  ].filter(Boolean).join('; ');
+
+  response.headers.set('Set-Cookie', cookieString);
 }
 
 /**
