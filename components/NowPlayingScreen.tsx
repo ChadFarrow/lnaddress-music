@@ -49,6 +49,61 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     autoGenerateKeys: typeof window !== 'undefined'
   });
 
+  // Listen for boost payment events and post to Nostr
+  useEffect(() => {
+    const handleBoostPaymentSent = async (event: Event) => {
+      const customEvent = event as CustomEvent;
+      console.log('🎯 Caught boost:payment-sent event for Nostr posting:', customEvent.detail);
+
+      const amount = customEvent.detail?.amount || parseInt(boostAmount) || 0;
+
+      // Post to Nostr after successful Lightning payment
+      console.log('📝 Starting Nostr post for manual boost (via event listener)...');
+      try {
+        const trackMetadata = {
+          title: currentTrack?.title,
+          artist: currentTrack?.artist,
+          album: currentAlbum || undefined,
+          url: currentAlbum ? `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app'}/album/${encodeURIComponent(createAlbumSlug(currentAlbum))}#${encodeURIComponent(currentTrack?.title || '')}` : process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app',
+          imageUrl: currentTrack?.imageUrl || currentTrack?.image,
+          timestamp: Math.floor(currentTime),
+          duration: duration ? Math.floor(duration) : undefined,
+          senderName: senderName || 'Anonymous',
+          // Add podcast GUIDs if available from track data
+          guid: currentTrack?.guid,
+          feedGuid: currentTrack?.feedGuid,
+          publisherGuid: currentTrack?.publisherGuid,
+          feedUrl: currentTrack?.feedUrl,
+          publisherUrl: currentTrack?.publisherUrl
+        };
+
+        const nostrResult = await postBoost(
+          amount,
+          trackMetadata,
+          boostMessage || `Boost for "${currentTrack?.title}"`
+        );
+
+        if (nostrResult.success) {
+          console.log('✅ Manual boost posted to Nostr (via event):', nostrResult.eventId);
+        } else {
+          console.error('❌ Failed to post manual boost to Nostr (via event):', nostrResult.error);
+        }
+      } catch (error) {
+        console.error('❌ Error posting manual boost to Nostr (via event):', error);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('boost:payment-sent', handleBoostPaymentSent as EventListener);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('boost:payment-sent', handleBoostPaymentSent as EventListener);
+      }
+    };
+  }, [postBoost, currentTrack, currentAlbum, currentTime, duration, boostAmount, senderName, boostMessage]);
+
   const {
     currentTrack,
     currentAlbum,
