@@ -319,10 +319,7 @@ export function LightningWallet() {
             }
           }}
         >
-          <div
-            className="relative w-full max-w-md max-h-[90vh] bg-gray-900 rounded-2xl shadow-2xl flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative w-full max-w-md max-h-[90vh] bg-gray-900 rounded-2xl shadow-2xl flex flex-col">
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-800 flex-shrink-0">
               <div className="flex items-center gap-3">
