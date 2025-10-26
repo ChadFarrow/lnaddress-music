@@ -253,8 +253,9 @@ export class BoostToNostrService {
     // Add boost amount with proper formatting
     content += `⚡ ${amount} sats\n`;
 
-    // Add app identifier (like "via CurioCaster")
-    content += `📱 via lnaddress music\n`;
+    // Add app identifier (using site name from environment or generic default)
+    const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Music Platform';
+    content += `📱 via ${siteName}\n`;
 
     // Add HPM site URL
     if (hpmUrl) {
