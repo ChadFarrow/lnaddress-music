@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { Zap, Wallet, X, Copy, Check, AlertCircle, Loader2, ArrowUpRight, ArrowDownLeft, Clock } from 'lucide-react';
+import { Zap, Wallet, X, Copy, Check, AlertCircle, Loader2, ArrowUpRight, ArrowDownLeft, Clock, LogOut } from 'lucide-react';
 import { useNWC } from '@/hooks/useNWC';
 import { useBreez } from '@/hooks/useBreez';
+import { useAuth } from '@/contexts/AuthContext';
 import BreezConnect from './BreezConnect';
 import QRCode from 'qrcode';
 
@@ -38,6 +39,7 @@ export function LightningWallet() {
 
   const nwc = useNWC();
   const breez = useBreez();
+  const { user } = useAuth();
 
   // Use a ref to track if event listener is registered (prevents duplicate registrations)
   const eventListenerRegistered = useRef(false);
@@ -817,6 +819,29 @@ export function LightningWallet() {
                     >
                       Disconnect Wallet
                     </button>
+
+                    {user && (
+                      <button
+                        onClick={async () => {
+                          if (confirm('Logout from your account? This will also disconnect your wallet.')) {
+                            // Clear wallet data from localStorage FIRST
+                            localStorage.removeItem('wallet_mnemonic');
+                            localStorage.removeItem('wallet_network');
+                            console.log('🗑️ Cleared wallet from localStorage');
+
+                            // Then disconnect wallet
+                            await handleDisconnect();
+
+                            // Finally logout
+                            window.location.href = '/api/auth/logout';
+                          }
+                        }}
+                        className="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Logout Account
+                      </button>
+                    )}
                   </div>
 
                   <div className="pt-4 border-t border-gray-800">
