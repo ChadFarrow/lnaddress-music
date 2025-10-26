@@ -446,14 +446,17 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
                 </p>
               </div>
               <button
-                onClick={() => {
+                onClick={async () => {
                   if (confirm('Logout from your account? This will also disconnect your wallet.')) {
-                    // Disconnect wallet first
-                    disconnect();
-                    // Clear wallet data from localStorage
+                    // Clear wallet data from localStorage FIRST
                     localStorage.removeItem('wallet_mnemonic');
                     localStorage.removeItem('wallet_network');
                     console.log('🗑️ Cleared wallet from localStorage');
+
+                    // Then disconnect wallet
+                    await disconnect();
+
+                    // Finally logout
                     window.location.href = '/api/auth/logout';
                   }
                 }}
@@ -472,14 +475,16 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
             <p className="text-green-400 font-medium">Wallet connected</p>
           </div>
           <button
-            onClick={() => {
+            onClick={async () => {
               if (confirm('Disconnect your wallet? You can reconnect anytime.')) {
-                // Disconnect wallet
-                disconnect();
-                // Clear wallet data from localStorage
+                // Clear wallet data from localStorage FIRST to prevent auto-reconnect
                 localStorage.removeItem('wallet_mnemonic');
                 localStorage.removeItem('wallet_network');
-                console.log('🗑️ Disconnected wallet and cleared localStorage');
+                console.log('🗑️ Cleared localStorage');
+
+                // Then disconnect wallet
+                await disconnect();
+                console.log('✅ Wallet disconnected');
                 setForceShowForm(false);
               }
             }}
@@ -527,14 +532,17 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
                 </p>
               </div>
               <button
-                onClick={() => {
+                onClick={async () => {
                   if (confirm('Logout from your account? This will also disconnect your wallet.')) {
-                    // Disconnect wallet first
-                    disconnect();
-                    // Clear wallet data from localStorage
+                    // Clear wallet data from localStorage FIRST
                     localStorage.removeItem('wallet_mnemonic');
                     localStorage.removeItem('wallet_network');
                     console.log('🗑️ Cleared wallet from localStorage');
+
+                    // Then disconnect wallet
+                    await disconnect();
+
+                    // Finally logout
                     window.location.href = '/api/auth/logout';
                   }
                 }}
