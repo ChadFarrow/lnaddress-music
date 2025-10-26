@@ -33,6 +33,14 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   // Auto-connect wallet from localStorage for returning users
   useEffect(() => {
     const autoConnectFromLocalStorage = async () => {
+      console.log('📱 Auto-connect check:', {
+        hasUser: !!user,
+        isConnected,
+        loading,
+        error: !!error,
+        authView
+      });
+
       // Only auto-connect if:
       // 1. User is logged in
       // 2. Wallet is not already connected
@@ -42,6 +50,11 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         try {
           const savedMnemonic = localStorage.getItem('wallet_mnemonic');
           const savedNetwork = localStorage.getItem('wallet_network');
+
+          console.log('💾 LocalStorage check:', {
+            hasMnemonic: !!savedMnemonic,
+            hasNetwork: !!savedNetwork
+          });
 
           if (savedMnemonic) {
             console.log('🔄 Auto-connecting wallet from localStorage...');
@@ -470,11 +483,13 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
 
               // Try to automatically connect wallet using login password
               if (password) {
+                console.log('🔑 Password received, setting up auto-connect...');
                 setLoginPassword(password);
-                // Small delay to let user state propagate
-                setTimeout(() => {
-                  handleLoginAndConnect(true); // true = auto-connect mode
-                }, 100);
+                // Wait for user state to propagate, then trigger auto-connect
+                setTimeout(async () => {
+                  console.log('⏰ Timeout fired, calling handleLoginAndConnect');
+                  await handleLoginAndConnect(true); // true = auto-connect mode
+                }, 500);
               }
             }}
             onSwitchToRegister={() => setAuthView('register')}
