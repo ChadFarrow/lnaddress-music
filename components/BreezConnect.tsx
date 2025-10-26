@@ -134,13 +134,19 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   }, [user, isConnected, loading, error, forceShowForm, authView, onSuccess]);
 
   const handleAutoCreateWallet = async (password: string) => {
-    if (!user) {
-      console.error('❌ No user logged in');
+    // Re-check user from AuthContext in case of stale closure
+    const currentUser = user;
+    console.log('🔍 handleAutoCreateWallet - user check:', { hasUser: !!currentUser, username: currentUser?.username });
+
+    if (!currentUser) {
+      console.error('❌ No user logged in - waiting and retrying...');
+      // Try again after a short delay
+      setTimeout(() => handleAutoCreateWallet(password), 500);
       return;
     }
 
     try {
-      console.log('🆕 Creating new wallet for user:', user.username);
+      console.log('🆕 Creating new wallet for user:', currentUser.username);
       setConnectionStatus('Creating wallet...');
 
       // Generate new mnemonic
@@ -660,11 +666,12 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
               // Auto-create wallet for new user
               if (password) {
                 console.log('🔑 Password received, creating wallet...');
-                // Wait for user state to propagate, then create wallet
+                setLoginPassword(password);
+                // Wait longer for user state to fully propagate
                 setTimeout(async () => {
                   console.log('⏰ Timeout fired, auto-creating wallet for new user');
                   await handleAutoCreateWallet(password);
-                }, 500);
+                }, 1000); // Increased from 500ms to 1000ms
               }
             }}
             onSwitchToLogin={() => setAuthView('login')}
