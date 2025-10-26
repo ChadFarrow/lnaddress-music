@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useBreez } from '@/hooks/useBreez';
 import { useAuth } from '@/contexts/AuthContext';
 import LoginForm from './LoginForm';
@@ -27,6 +27,12 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [isCreatingWallet, setIsCreatingWallet] = useState(false);
   // Always use mainnet
   const network = 'mainnet';
+
+  // Use ref to always have access to current user value (prevents stale closure issues)
+  const userRef = useRef(user);
+  useEffect(() => {
+    userRef.current = user;
+  }, [user]);
 
   // Debug logging
   console.log('🔍 BreezConnect render:', { isConnected, loading, error, forceShowForm, user: user?.username });
@@ -140,8 +146,8 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     setIsCreatingWallet(true);
     console.log('🔒 Set isCreatingWallet = true to prevent modal closing');
 
-    // Re-check user from AuthContext in case of stale closure
-    const currentUser = user;
+    // Use ref to get current user value (prevents stale closure)
+    const currentUser = userRef.current;
     console.log('🔍 handleAutoCreateWallet - user check:', { hasUser: !!currentUser, username: currentUser?.username });
 
     if (!currentUser) {
