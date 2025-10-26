@@ -110,11 +110,16 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           recipients: track.value.recipients,
           fallbackRecipient: track.value.recipients[0]?.address || '',
           boostMetadata: {
-            trackTitle: track.title,
+            title: track.title,
             artist: track.artist,
             album: track.album,
-            feedGuid: track.feedGuid,
-            itemGuid: track.guid || track.podcastGuid,
+            podcastFeedGuid: track.feedGuid,
+            podcastGuid: track.podcastGuid,
+            itemGuid: track.guid,
+            imageUrl: track.imageUrl || track.image,
+            feedUrl: track.feedUrl,
+            publisherGuid: track.publisherGuid,
+            publisherUrl: track.publisherUrl,
           }
         });
 
