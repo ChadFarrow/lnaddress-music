@@ -127,12 +127,14 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         await postBoost(autoBoost.autoBoostAmount, {
           title: track.title,
           artist: track.artist || 'Unknown Artist',
+          album: track.album,
           feedGuid: track.feedGuid,
           feedUrl: track.feedUrl,
-          itemGuid: track.guid || track.podcastGuid,
+          guid: track.guid,
+          podcastGuid: track.podcastGuid,
           publisherGuid: track.publisherGuid,
           publisherUrl: track.publisherUrl,
-          image: track.imageUrl || track.image,
+          imageUrl: track.imageUrl || track.image,
         });
 
         toast.success(`Auto-boosted ${autoBoost.autoBoostAmount} sats!`);
