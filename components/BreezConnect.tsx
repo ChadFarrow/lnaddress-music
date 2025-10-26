@@ -18,7 +18,6 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [mnemonic, setMnemonic] = useState('');
   const [forceShowForm, setForceShowForm] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<string>('');
-  const [showSuccess, setShowSuccess] = useState(false);
   const [authView, setAuthView] = useState<'none' | 'login' | 'register' | 'password'>('none');
   const [loginPassword, setLoginPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -76,7 +75,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
 
             console.log('✅ Auto-connect successful');
             setConnectionStatus('');
-            setShowSuccess(true);
+            // Don't show success screen - wallet is already connected
 
             // Close modal if open
             if (onSuccess) {
@@ -207,11 +206,10 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       setConnectionStatus('');
-      setShowSuccess(true);
+      // Don't show success screen - go directly to connected wallet UI
       setAuthView('none');
 
-      // Don't auto-close modal - let user explore their new wallet
-      // User can manually close the modal when ready
+      // Wallet is now connected and ready to use
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to create wallet';
       console.error('❌ Auto-create wallet failed:', errorMsg);
@@ -305,12 +303,11 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       setConnectionStatus('');
-      setShowSuccess(true);
+      // Don't show success screen - go directly to connected wallet UI
       setAuthView('none');
       setLoginPassword('');
 
-      // Don't auto-close modal - let user see their wallet
-      // User can manually close the modal when ready
+      // Wallet is now connected and ready to use
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect wallet';
       console.error('❌ Login and connect failed:', errorMsg);
@@ -369,13 +366,11 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       // Give it a moment to sync
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      console.log('✅ Connection successful, showing success message');
+      console.log('✅ Connection successful');
       setConnectionStatus('');
 
-      // Show success message instead of immediately closing
-      setShowSuccess(true);
-
-      // Don't call onSuccess automatically - let user close the modal manually
+      // Don't show success screen - wallet is now connected and ready to use
+      // The connected wallet UI will be shown automatically
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect to Breez SDK';
       console.error('❌ Connection failed:', errorMsg);
@@ -395,42 +390,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     }
   };
 
-  // If showing success message after new connection
-  if (showSuccess) {
-    return (
-      <div className={`${className} bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-500/30 rounded-lg p-6`}>
-        <div className="flex flex-col items-center gap-4 py-4">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <div className="text-center">
-            <h3 className="text-xl font-bold text-green-400 mb-2">Wallet Created Successfully!</h3>
-            <p className="text-gray-300 text-sm">Your Breez SDK Spark wallet is ready to use.</p>
-          </div>
-          <div className="w-full pt-2">
-            <div className="p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg mb-4">
-              <p className="text-yellow-400 text-xs">
-                <strong>Important:</strong> Make sure to save your recovery phrase! You can view it in the wallet settings.
-              </p>
-            </div>
-            <button
-              onClick={() => {
-                setShowSuccess(false);
-                onSuccess?.();
-              }}
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200"
-            >
-              Continue
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // If already connected and no error, show a success message
+  // If already connected and no error, show connected wallet UI
   if (isConnected && !forceShowForm) {
     return (
       <div className={`${className} bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-lg p-6`}>
@@ -705,7 +665,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
                     await new Promise(resolve => setTimeout(resolve, 1000));
 
                     setConnectionStatus('');
-                    setShowSuccess(true);
+                    // Don't show success screen - go directly to connected wallet UI
                     setAuthView('none');
                     setLoginPassword('');
                   } catch (err) {
