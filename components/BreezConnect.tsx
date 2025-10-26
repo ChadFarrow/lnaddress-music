@@ -55,7 +55,9 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
               // User has a wallet, show password prompt
               setAuthView('password');
             } else {
-              console.log('ℹ️ User has no saved wallet, showing normal options');
+              console.log('ℹ️ User has no saved wallet, closing modal');
+              // User has no saved wallet, close the modal
+              onSuccess?.();
             }
           }
         } catch (err) {
@@ -65,7 +67,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     };
 
     checkWalletAndPrompt();
-  }, [user, isConnected, loading, error, forceShowForm, authView]);
+  }, [user, isConnected, loading, error, forceShowForm, authView, onSuccess]);
 
   const handleLoginAndConnect = async () => {
     if (!loginPassword) {
@@ -373,14 +375,13 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
           </button>
           <LoginForm
             onSuccess={async () => {
-              // Close the modal and auth view
+              // Don't close the modal immediately - let the auto-wallet-check
+              // useEffect determine what to show next (password prompt or close)
               setAuthView('none');
-              onSuccess?.();
 
-              // Note: The wallet connection should happen automatically
-              // when the user creates/registers an account with WalletSetup
-              // For existing users logging back in, they would need to
-              // manually connect via "Restore Wallet" with their mnemonic
+              // The useEffect will check if user has a wallet and either:
+              // 1. Show password prompt if wallet exists
+              // 2. Close modal if no wallet (by calling onSuccess)
             }}
             onSwitchToRegister={() => setAuthView('register')}
             className="!bg-transparent !border-0 !p-0"
