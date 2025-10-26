@@ -104,11 +104,19 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       if (!track?.value?.recipients) return;
 
       try {
-        await makeAutoBoostPayment(
-          track.value.recipients,
-          autoBoost.autoBoostAmount,
-          track
-        );
+        await makeAutoBoostPayment({
+          amount: autoBoost.autoBoostAmount,
+          description: `Auto-boost: ${track.title}`,
+          recipients: track.value.recipients,
+          fallbackRecipient: track.value.recipients[0]?.address || '',
+          boostMetadata: {
+            trackTitle: track.title,
+            artist: track.artist,
+            album: track.album,
+            feedGuid: track.feedGuid,
+            itemGuid: track.guid || track.podcastGuid,
+          }
+        });
 
         // Send to Nostr
         await postBoost(autoBoost.autoBoostAmount, {
