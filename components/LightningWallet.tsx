@@ -36,6 +36,7 @@ export function LightningWallet() {
   const [transactionOffset, setTransactionOffset] = useState(0);
   const [hasMoreTransactions, setHasMoreTransactions] = useState(true);
   const TRANSACTIONS_PER_PAGE = 20;
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const nwc = useNWC();
   const breez = useBreez();
@@ -146,6 +147,30 @@ export function LightningWallet() {
         breez.disconnect();
       }
     }
+  };
+
+  const handleLogout = () => {
+    console.log('🚪 Starting logout...');
+
+    // Clear wallet data from localStorage
+    localStorage.removeItem('wallet_mnemonic');
+    localStorage.removeItem('wallet_network');
+    console.log('🗑️ Cleared wallet from localStorage');
+
+    // Disconnect wallet directly
+    if (nwc.isConnected) {
+      console.log('🔌 Disconnecting NWC wallet...');
+      nwc.disconnect();
+    }
+    if (breez.isConnected) {
+      console.log('🔌 Disconnecting Breez wallet...');
+      breez.disconnect();
+    }
+    console.log('🔌 Wallet disconnected');
+
+    // Redirect to logout
+    console.log('🚪 Redirecting to /api/auth/logout...');
+    window.location.href = '/api/auth/logout';
   };
 
   const refreshBalance = async () => {
@@ -829,45 +854,48 @@ export function LightningWallet() {
                       Disconnect Wallet
                     </button>
 
-                    {user && (
+                    {user && !showLogoutConfirm && (
                       <button
-                        onClick={async () => {
-                          console.log('🚪 Logout button clicked');
-                          const confirmed = confirm('Logout from your account? This will also disconnect your wallet.');
-                          console.log('🚪 User confirmation:', confirmed);
-
-                          if (confirmed) {
-                            console.log('🗑️ Starting logout process...');
-
-                            // Clear wallet data from localStorage FIRST
-                            localStorage.removeItem('wallet_mnemonic');
-                            localStorage.removeItem('wallet_network');
-                            console.log('🗑️ Cleared wallet from localStorage');
-
-                            // Disconnect wallet directly without additional confirmation
-                            if (nwc.isConnected) {
-                              console.log('🔌 Disconnecting NWC wallet...');
-                              nwc.disconnect();
-                            }
-                            if (breez.isConnected) {
-                              console.log('🔌 Disconnecting Breez wallet...');
-                              breez.disconnect();
-                            }
-                            console.log('🔌 Wallet disconnected');
-
-                            // Finally logout
-                            console.log('🚪 Redirecting to /api/auth/logout...');
-                            window.location.href = '/api/auth/logout';
-                            console.log('🚪 Redirect initiated');
-                          } else {
-                            console.log('🚪 Logout cancelled by user');
-                          }
+                        onClick={() => {
+                          console.log('🚪 Logout button clicked - showing confirmation');
+                          setShowLogoutConfirm(true);
                         }}
                         className="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                       >
                         <LogOut className="w-4 h-4" />
                         Logout Account
                       </button>
+                    )}
+
+                    {user && showLogoutConfirm && (
+                      <div className="space-y-3 p-4 bg-red-900/20 border border-red-500/30 rounded-lg">
+                        <div className="flex items-start gap-2">
+                          <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                          <div>
+                            <h3 className="font-semibold text-red-400">Logout Confirmation</h3>
+                            <p className="text-sm text-red-300 mt-1">
+                              Are you sure you want to logout? This will also disconnect your wallet.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={handleLogout}
+                            className="flex-1 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-colors"
+                          >
+                            Yes, Logout
+                          </button>
+                          <button
+                            onClick={() => {
+                              console.log('🚪 Logout cancelled');
+                              setShowLogoutConfirm(false);
+                            }}
+                            className="flex-1 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
                     )}
                   </div>
 
