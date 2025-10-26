@@ -121,9 +121,9 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
               // User has a wallet, show password prompt
               setAuthView('password');
             } else {
-              console.log('ℹ️ User has no saved wallet, closing modal');
-              // User has no saved wallet, close the modal
-              onSuccess?.();
+              console.log('ℹ️ User has no saved wallet, keeping modal open for wallet creation');
+              // User has no saved wallet, keep modal open (don't call onSuccess)
+              // The default UI already shows the "Create Wallet" button
             }
           }
         } catch (err) {
