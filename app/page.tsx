@@ -304,10 +304,13 @@ export default function HomePage() {
       // Trigger confetti
       triggerSuccessConfetti();
 
-      // Trigger wallet balance refresh
+      // Trigger wallet balance refresh and Nostr posting
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('boost:payment-sent', {
-          detail: { amount: confirmPayment.amount }
+          detail: {
+            amount: confirmPayment.amount,
+            album: selectedAlbum
+          }
         }));
       }
       // No toast - confetti and modal status is sufficient

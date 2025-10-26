@@ -612,31 +612,46 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       console.log('🎯 [AudioContext] Caught boost:payment-sent event for Nostr posting:', customEvent.detail);
 
       const amount = customEvent.detail?.amount || 0;
+      const albumFromEvent = customEvent.detail?.album;
 
       // Post to Nostr after successful manual boost payment
       console.log('📝 [AudioContext] Starting Nostr post for manual boost...');
+      console.log('📝 [AudioContext] Album from event:', albumFromEvent?.title);
+      console.log('📝 [AudioContext] Current track:', currentTrack?.title);
+
       try {
+        // Use album data from event if boosting from album card, otherwise use currentTrack
+        const useAlbumData = albumFromEvent && !currentTrack;
+
         const trackMetadata = {
-          title: currentTrack?.title,
-          artist: currentTrack?.artist,
-          album: currentAlbum || undefined,
-          url: currentAlbum ? `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app'}/album/${encodeURIComponent(currentAlbum.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'))}#${encodeURIComponent(currentTrack?.title || '')}` : process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app',
-          imageUrl: currentTrack?.imageUrl || currentTrack?.image,
-          timestamp: Math.floor(currentTime),
-          duration: duration ? Math.floor(duration) : undefined,
+          title: useAlbumData ? albumFromEvent.title : currentTrack?.title,
+          artist: useAlbumData ? albumFromEvent.artist : currentTrack?.artist,
+          album: useAlbumData ? albumFromEvent.title : (currentAlbum || undefined),
+          url: useAlbumData
+            ? `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app'}/album/${encodeURIComponent(albumFromEvent.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'))}`
+            : currentAlbum
+              ? `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app'}/album/${encodeURIComponent(currentAlbum.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'))}#${encodeURIComponent(currentTrack?.title || '')}`
+              : process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app',
+          imageUrl: useAlbumData ? (albumFromEvent.imageUrl || albumFromEvent.coverArt) : (currentTrack?.imageUrl || currentTrack?.image),
+          timestamp: useAlbumData ? 0 : Math.floor(currentTime),
+          duration: useAlbumData ? undefined : (duration ? Math.floor(duration) : undefined),
           senderName: 'Manual Boost',
-          // Add podcast GUIDs if available from track data
-          guid: currentTrack?.guid,
-          feedGuid: currentTrack?.feedGuid,
-          publisherGuid: currentTrack?.publisherGuid,
-          feedUrl: currentTrack?.feedUrl,
-          publisherUrl: currentTrack?.publisherUrl
+          // Add podcast GUIDs if available
+          guid: useAlbumData ? albumFromEvent.feedGuid : currentTrack?.guid,
+          feedGuid: useAlbumData ? albumFromEvent.feedGuid : currentTrack?.feedGuid,
+          publisherGuid: useAlbumData ? albumFromEvent.publisherGuid : currentTrack?.publisherGuid,
+          feedUrl: useAlbumData ? albumFromEvent.feedUrl : currentTrack?.feedUrl,
+          publisherUrl: useAlbumData ? albumFromEvent.publisherUrl : currentTrack?.publisherUrl
         };
+
+        const boostMessage = useAlbumData
+          ? `Manual boost for album "${albumFromEvent.title}" by ${albumFromEvent.artist}`
+          : `Manual boost for "${currentTrack?.title}"`;
 
         const nostrResult = await postBoost(
           amount,
           trackMetadata,
-          `Manual boost for "${currentTrack?.title}"`
+          boostMessage
         );
 
         if (nostrResult.success) {

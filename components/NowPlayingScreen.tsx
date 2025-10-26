@@ -313,10 +313,22 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     setShowBoostModal(false);
     setBoostMessage(''); // Clear the message input after successful boost
 
-    // Trigger wallet balance refresh
+    // Trigger wallet balance refresh and pass track/album info for Nostr posting
     if (typeof window !== 'undefined') {
+      // Create album object from currentTrack/currentAlbum for Nostr posting
+      const albumForEvent = currentTrack ? {
+        title: currentAlbum || currentTrack.title,
+        artist: currentTrack.artist,
+        coverArt: currentTrack.imageUrl || currentTrack.image,
+        imageUrl: currentTrack.imageUrl || currentTrack.image,
+        feedGuid: currentTrack.feedGuid,
+        publisherGuid: currentTrack.publisherGuid,
+        feedUrl: currentTrack.feedUrl,
+        publisherUrl: currentTrack.publisherUrl
+      } : undefined;
+
       window.dispatchEvent(new CustomEvent('boost:payment-sent', {
-        detail: { response, amount: boostAmount }
+        detail: { response, amount: boostAmount, album: albumForEvent }
       }));
     }
 

@@ -310,7 +310,10 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       triggerSuccessConfetti();
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('boost:payment-sent', {
-          detail: { amount: confirmAlbumPayment.amount }
+          detail: {
+            amount: confirmAlbumPayment.amount,
+            album: album
+          }
         }));
       }
     }
