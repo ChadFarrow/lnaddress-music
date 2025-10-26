@@ -208,10 +208,8 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       setShowSuccess(true);
       setAuthView('none');
 
-      // Close modal on success
-      if (onSuccess) {
-        onSuccess();
-      }
+      // Don't auto-close modal - let user explore their new wallet
+      // User can manually close the modal when ready
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to create wallet';
       console.error('❌ Auto-create wallet failed:', errorMsg);
@@ -309,10 +307,8 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       setAuthView('none');
       setLoginPassword('');
 
-      // Close modal on success
-      if (onSuccess) {
-        onSuccess();
-      }
+      // Don't auto-close modal - let user see their wallet
+      // User can manually close the modal when ready
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect wallet';
       console.error('❌ Login and connect failed:', errorMsg);
