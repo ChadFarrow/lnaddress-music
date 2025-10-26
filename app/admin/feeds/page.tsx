@@ -261,7 +261,7 @@ export default function AdminFeedsPage() {
             </Link>
             <div>
               <h1 className="text-2xl font-bold">RSS Feed Management</h1>
-              <p className="text-gray-400 text-sm">Manage music feeds for Into the Doerfel-Verse</p>
+              <p className="text-gray-400 text-sm">Manage music feeds for your platform</p>
             </div>
           </div>
         </div>

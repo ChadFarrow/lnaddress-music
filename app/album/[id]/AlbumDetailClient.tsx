@@ -892,7 +892,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                 
                 <div className="hidden sm:flex items-center gap-2 text-sm">
                   <Link href="/" className="text-gray-400 hover:text-white transition-colors">
-                    Into the Doerfel-Verse
+                    {process.env.NEXT_PUBLIC_SITE_NAME || 'Music Platform'}
                   </Link>
                   <span className="text-gray-600">/</span>
                   <span className="font-medium truncate max-w-[200px]">{album.title}</span>

@@ -101,7 +101,7 @@ export default function AdminDashboard() {
               </Link>
               <div>
                 <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-                <p className="text-gray-400 text-sm">Into the Doerfel-Verse Management</p>
+                <p className="text-gray-400 text-sm">Platform Management</p>
               </div>
             </div>
             <button

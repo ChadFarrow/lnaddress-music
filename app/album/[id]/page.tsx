@@ -5,9 +5,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const albumTitle = decodeURIComponent(id).replace(/-/g, ' ');
   
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Music Platform';
   return {
-      title: `${albumTitle} | Into the Doerfel-Verse`,
-  description: `Listen to ${albumTitle} on Into the Doerfel-Verse`,
+      title: `${albumTitle} | ${siteName}`,
+  description: `Listen to ${albumTitle} on ${siteName}`,
   };
 }
 

@@ -4,9 +4,10 @@ import PublisherDetailClient from './PublisherDetailClient';
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
   const { name } = await params;
   const publisherName = decodeURIComponent(name).replace(/-/g, ' ');
-  
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Music Platform';
+
   return {
-    title: `${publisherName} | Into the Doerfel-Verse`,
+    title: `${publisherName} | ${siteName}`,
     description: `View all albums from ${publisherName}`,
   };
 }
