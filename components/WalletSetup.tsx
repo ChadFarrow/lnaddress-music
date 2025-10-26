@@ -11,7 +11,7 @@ interface WalletSetupProps {
 }
 
 export default function WalletSetup({ onSuccess, onSkip, className = '' }: WalletSetupProps) {
-  const [step, setStep] = useState<'choice' | 'import' | 'create'>('choice');
+  const [step, setStep] = useState<'initial' | 'choice' | 'import' | 'create'>('initial');
   const [mnemonic, setMnemonic] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -75,6 +75,45 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
     setGeneratedMnemonic(mnemonic);
   };
 
+  if (step === 'initial') {
+    return (
+      <div className={`max-w-md w-full bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 ${className}`}>
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-white mb-2">Lightning Wallet</h1>
+          <p className="text-gray-400">Do you already have a Lightning wallet?</p>
+        </div>
+
+        <div className="space-y-4">
+          <button
+            onClick={() => setStep('import')}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+          >
+            Yes, I have a wallet
+          </button>
+
+          <button
+            onClick={() => {
+              generateNewMnemonic();
+              setStep('create');
+            }}
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+          >
+            No, create a new wallet
+          </button>
+
+          {onSkip && (
+            <button
+              onClick={onSkip}
+              className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            >
+              Skip for Now
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   if (step === 'choice') {
     return (
       <div className={`max-w-md w-full bg-black/50 backdrop-blur-sm rounded-xl p-8 border border-white/10 ${className}`}>
@@ -91,7 +130,7 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
           >
             Import Existing Wallet
           </button>
-          
+
           <button
             onClick={() => {
               generateNewMnemonic();
@@ -101,7 +140,7 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
           >
             Create New Wallet
           </button>
-          
+
           {onSkip && (
             <button
               onClick={onSkip}
@@ -165,7 +204,7 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
           <div className="flex space-x-4">
             <button
               type="button"
-              onClick={() => setStep('choice')}
+              onClick={() => setStep('initial')}
               className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
             >
               Back
@@ -227,7 +266,7 @@ export default function WalletSetup({ onSuccess, onSkip, className = '' }: Walle
           <div className="flex space-x-4">
             <button
               type="button"
-              onClick={() => setStep('choice')}
+              onClick={() => setStep('initial')}
               className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
             >
               Back
