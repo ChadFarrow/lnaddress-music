@@ -451,7 +451,12 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
 
   // Send payments to recipients
   const sendPayment = async () => {
-    if (!confirmPayment) return;
+    console.log('🚨 sendPayment function called');
+    if (!confirmPayment) {
+      console.log('❌ No confirmPayment, returning early');
+      return;
+    }
+    console.log('✅ confirmPayment exists, proceeding with payment');
 
     // Mark as processing
     setConfirmPayment(prev => prev ? { ...prev, processing: true } : null);
