@@ -35,6 +35,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Debug logging for user state changes
+  useEffect(() => {
+    console.log('👤 AuthContext user state changed:', user);
+  }, [user]);
+
   // Check if user is logged in on mount
   useEffect(() => {
     checkAuthStatus();
@@ -62,6 +67,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = async (username: string, password: string): Promise<{ success: boolean; error?: string }> => {
     try {
+      console.log('🔐 AuthContext.login called for:', username);
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -72,11 +78,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
 
       const data = await response.json();
+      console.log('🔐 Login response:', { ok: response.ok, data });
 
       if (response.ok) {
+        console.log('✅ Login successful, setting user:', data.user);
         setUser(data.user);
         return { success: true };
       } else {
+        console.log('❌ Login failed:', data.error);
         return { success: false, error: data.error || 'Login failed' };
       }
     } catch (error) {
