@@ -52,48 +52,36 @@ export function verifyToken(token: string): UserSession | null {
  * Set authentication cookie
  */
 export function setAuthCookie(response: NextResponse, token: string): void {
-  const isProduction = process.env.NODE_ENV === 'production';
-  const maxAge = 24 * 60 * 60; // 24 hours in seconds
-
-  // Build cookie string manually for better compatibility with Vercel
-  const cookieString = [
-    `${COOKIE_NAME}=${token}`,
-    'Path=/',
-    `Max-Age=${maxAge}`,
-    'HttpOnly',
-    'SameSite=Lax',
-    isProduction ? 'Secure' : ''
-  ].filter(Boolean).join('; ');
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax' as const,
+    maxAge: 60 * 60 * 24, // 24 hours in SECONDS (not milliseconds!)
+    path: '/'
+  };
 
   console.log('🍪 Setting auth cookie:', {
     cookieName: COOKIE_NAME,
-    cookieString: cookieString.substring(0, 100) + '...', // Log first 100 chars
+    options: cookieOptions,
     tokenLength: token.length,
-    nodeEnv: process.env.NODE_ENV,
-    isProduction
+    nodeEnv: process.env.NODE_ENV
   });
 
-  // Set cookie using header for better Vercel compatibility
-  response.headers.set('Set-Cookie', cookieString);
+  // Use Next.js cookie API (maxAge is now in seconds, not milliseconds)
+  response.cookies.set(COOKIE_NAME, token, cookieOptions);
 }
 
 /**
  * Clear authentication cookie
  */
 export function clearAuthCookie(response: NextResponse): void {
-  const isProduction = process.env.NODE_ENV === 'production';
-
-  // Build cookie string manually to clear the cookie
-  const cookieString = [
-    `${COOKIE_NAME}=`,
-    'Path=/',
-    'Max-Age=0',
-    'HttpOnly',
-    'SameSite=Lax',
-    isProduction ? 'Secure' : ''
-  ].filter(Boolean).join('; ');
-
-  response.headers.set('Set-Cookie', cookieString);
+  response.cookies.set(COOKIE_NAME, '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax' as const,
+    maxAge: 0,
+    path: '/'
+  });
 }
 
 /**
