@@ -98,6 +98,13 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   // Check if user has a wallet and auto-prompt for connection
   useEffect(() => {
     const checkWalletAndPrompt = async () => {
+      // Skip if localStorage has a mnemonic (auto-connect will handle it)
+      const savedMnemonic = localStorage.getItem('wallet_mnemonic');
+      if (savedMnemonic) {
+        console.log('⏭️ Skipping wallet check - localStorage mnemonic exists, auto-connect will handle it');
+        return;
+      }
+
       // Only check if:
       // 1. User is logged in
       // 2. Wallet is not already connected
