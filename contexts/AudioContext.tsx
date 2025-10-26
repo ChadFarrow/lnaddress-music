@@ -605,6 +605,64 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [autoBoostAmount, currentAlbum, currentTime, duration, postBoost]);
 
+  // Listen for manual boost payment events and post to Nostr
+  useEffect(() => {
+    const handleBoostPaymentSent = async (event: Event) => {
+      const customEvent = event as CustomEvent;
+      console.log('🎯 [AudioContext] Caught boost:payment-sent event for Nostr posting:', customEvent.detail);
+
+      const amount = customEvent.detail?.amount || 0;
+
+      // Post to Nostr after successful manual boost payment
+      console.log('📝 [AudioContext] Starting Nostr post for manual boost...');
+      try {
+        const trackMetadata = {
+          title: currentTrack?.title,
+          artist: currentTrack?.artist,
+          album: currentAlbum || undefined,
+          url: currentAlbum ? `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app'}/album/${encodeURIComponent(currentAlbum.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'))}#${encodeURIComponent(currentTrack?.title || '')}` : process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app',
+          imageUrl: currentTrack?.imageUrl || currentTrack?.image,
+          timestamp: Math.floor(currentTime),
+          duration: duration ? Math.floor(duration) : undefined,
+          senderName: 'Manual Boost',
+          // Add podcast GUIDs if available from track data
+          guid: currentTrack?.guid,
+          feedGuid: currentTrack?.feedGuid,
+          publisherGuid: currentTrack?.publisherGuid,
+          feedUrl: currentTrack?.feedUrl,
+          publisherUrl: currentTrack?.publisherUrl
+        };
+
+        const nostrResult = await postBoost(
+          amount,
+          trackMetadata,
+          `Manual boost for "${currentTrack?.title}"`
+        );
+
+        if (nostrResult.success) {
+          console.log('✅ [AudioContext] Manual boost posted to Nostr:', nostrResult.eventId);
+          console.log('🔗 View on Primal:', `https://primal.net/e/${nostrResult.eventId}`);
+        } else {
+          console.error('❌ [AudioContext] Failed to post manual boost to Nostr:', nostrResult.error);
+        }
+      } catch (error) {
+        console.error('❌ [AudioContext] Error posting manual boost to Nostr:', error);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('boost:payment-sent', handleBoostPaymentSent as EventListener);
+      console.log('👂 [AudioContext] Listening for boost:payment-sent events');
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('boost:payment-sent', handleBoostPaymentSent as EventListener);
+        console.log('👋 [AudioContext] Stopped listening for boost:payment-sent events');
+      }
+    };
+  }, [postBoost, currentTrack, currentAlbum, currentTime, duration]);
+
   // Handle track ended event - needs to be after nextTrack is declared
   useEffect(() => {
     const audio = audioRef.current;
@@ -615,7 +673,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       if (isAutoBoostEnabled && currentTrack) {
         triggerAutoBoost(currentTrack);
       }
-      
+
       if (isRepeating) {
         audio.currentTime = 0;
         audio.play();
