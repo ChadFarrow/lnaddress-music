@@ -631,11 +631,91 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
               if (password) {
                 console.log('🔑 Password received, setting up auto-connect...');
                 setLoginPassword(password);
-                // Wait for user state to propagate, then trigger auto-connect
+                // Immediately call handleLoginAndConnect - don't wait
+                // The user state should be available by now since login already succeeded
                 setTimeout(async () => {
-                  console.log('⏰ Timeout fired, calling handleLoginAndConnect');
-                  await handleLoginAndConnect(true); // true = auto-connect mode
-                }, 500);
+                  console.log('⏰ Immediate auto-connect after login');
+                  // Set the password first, then call the handler
+                  setPasswordError('');
+                  setConnectionStatus('Retrieving wallet...');
+
+                  try {
+                    // Use the current user from the ref to avoid stale closure
+                    const currentUser = userRef.current;
+                    if (!currentUser) {
+                      console.error('❌ No user found in ref after login');
+                      setPasswordError('Please try connecting manually');
+                      setAuthView('password');
+                      setConnectionStatus('');
+                      return;
+                    }
+
+                    console.log('🔐 Retrieving mnemonic for user:', currentUser.username, '(auto-connect after login)');
+
+                    // Get mnemonic from database
+                    const result = await getMnemonic(password);
+
+                    console.log('🔍 Mnemonic retrieval result:', {
+                      success: result.success,
+                      hasMnemonic: !!result.mnemonic,
+                      network: result.network,
+                      error: result.error
+                    });
+
+                    if (!result.success || !result.mnemonic) {
+                      // If no wallet found, that's fine - user can create one
+                      console.log('ℹ️ No wallet found, user can create one');
+                      setConnectionStatus('');
+                      setLoginPassword('');
+                      return;
+                    }
+
+                    // Connect with retrieved mnemonic
+                    setConnectionStatus('Connecting to Lightning Network...');
+
+                    const breezApiKey = process.env.NEXT_PUBLIC_BREEZ_API_KEY;
+
+                    if (!breezApiKey) {
+                      setPasswordError('Breez API key not configured');
+                      setConnectionStatus('');
+                      return;
+                    }
+
+                    console.log('🚀 Connecting to Breez with retrieved mnemonic...');
+
+                    await connect({
+                      apiKey: breezApiKey,
+                      mnemonic: result.mnemonic,
+                      network: (result.network as 'mainnet' | 'regtest') || 'mainnet',
+                      storageDir: './breez-sdk-data'
+                    });
+
+                    console.log('✅ Breez connection successful');
+
+                    // Save encrypted wallet data to localStorage for auto-connect on return visits
+                    try {
+                      localStorage.setItem('wallet_mnemonic', result.mnemonic);
+                      localStorage.setItem('wallet_network', result.network || 'mainnet');
+                      console.log('💾 Saved wallet to localStorage for auto-connect');
+                    } catch (err) {
+                      console.warn('Failed to save wallet to localStorage:', err);
+                    }
+
+                    setConnectionStatus('Wallet connected! Balance syncing...');
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    setConnectionStatus('');
+                    setShowSuccess(true);
+                    setAuthView('none');
+                    setLoginPassword('');
+                  } catch (err) {
+                    const errorMsg = err instanceof Error ? err.message : 'Failed to connect wallet';
+                    console.error('❌ Auto-connect after login failed:', errorMsg);
+                    console.error('Full error:', err);
+                    setConnectionStatus('');
+                    setLoginPassword('');
+                  }
+                }, 100); // Shorter delay since login is already complete
               }
             }}
             onSwitchToRegister={() => setAuthView('register')}
