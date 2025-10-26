@@ -14,7 +14,7 @@ interface BreezConnectProps {
 
 export default function BreezConnect({ onSuccess, onError, className = '' }: BreezConnectProps) {
   const { connect, isConnected, loading, error, disconnect } = useBreez();
-  const { user, getMnemonic } = useAuth();
+  const { user, getMnemonic, storeWallet } = useAuth();
   const [mnemonic, setMnemonic] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [generatedMnemonic, setGeneratedMnemonic] = useState('');
