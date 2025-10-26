@@ -254,6 +254,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   };
 
   const handleBoostSuccess = async (response: any) => {
+    console.log('🎉 handleBoostSuccess called - manual boost payment succeeded');
     setShowBoostModal(false);
     setBoostMessage(''); // Clear the message input after successful boost
 
@@ -265,6 +266,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     }
 
     // Post to Nostr after successful Lightning payment
+    console.log('📝 Starting Nostr post for manual boost...');
     try {
       const trackMetadata = {
         title: currentTrack?.title,
