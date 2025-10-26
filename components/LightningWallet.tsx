@@ -75,11 +75,11 @@ export function LightningWallet() {
         }, 3000);
       };
 
-      // Listen for Bitcoin Connect connection to close modal
+      // Listen for Bitcoin Connect connection (but don't auto-close)
       const handleBitcoinConnectConnected = () => {
-        console.log('🔗 Bitcoin Connect connected - closing wallet modal');
-        setSelectedWallet('none');
-        setIsOpen(false);
+        console.log('🔗 Bitcoin Connect connected - modal stays open for user control');
+        // Don't auto-close - let user manually close when ready
+        // This allows access to disconnect/logout buttons
       };
 
       window.addEventListener('breez:payment-received', handlePaymentReceived);
@@ -387,8 +387,9 @@ export function LightningWallet() {
                   </button>
                   <BreezConnect
                     onSuccess={() => {
-                      setSelectedWallet('none');
-                      setIsOpen(false);
+                      console.log('✅ Breez wallet connected - modal stays open for user control');
+                      // Don't auto-close - let user manually close when ready
+                      // This allows access to disconnect/logout buttons
                     }}
                     onError={(err) => console.error('Breez connection error:', err)}
                   />
