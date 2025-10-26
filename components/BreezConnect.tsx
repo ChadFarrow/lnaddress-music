@@ -433,16 +433,59 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   if (isConnected && !forceShowForm) {
     return (
       <div className={`${className} bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-lg p-6`}>
+        {/* Account Section */}
+        {user && (
+          <div className="mb-4 p-3 bg-green-900/20 border border-green-500/30 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                </svg>
+                <p className="text-green-300 text-sm">
+                  <strong>{user.username}</strong>
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  if (confirm('Logout from your account? This will also disconnect your wallet.')) {
+                    // Disconnect wallet first
+                    disconnect();
+                    // Clear wallet data from localStorage
+                    localStorage.removeItem('wallet_mnemonic');
+                    localStorage.removeItem('wallet_network');
+                    console.log('🗑️ Cleared wallet from localStorage');
+                    window.location.href = '/api/auth/logout';
+                  }
+                }}
+                className="text-xs text-red-400 hover:text-red-300 underline"
+              >
+                Logout Account
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Wallet Status */}
         <div className="flex flex-col items-center gap-3 py-4">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <p className="text-green-400 font-medium">Breez wallet already connected</p>
+            <p className="text-green-400 font-medium">Wallet connected</p>
           </div>
           <button
-            onClick={() => setForceShowForm(true)}
-            className="text-sm text-gray-400 hover:text-white underline"
+            onClick={() => {
+              if (confirm('Disconnect your wallet? You can reconnect anytime.')) {
+                // Disconnect wallet
+                disconnect();
+                // Clear wallet data from localStorage
+                localStorage.removeItem('wallet_mnemonic');
+                localStorage.removeItem('wallet_network');
+                console.log('🗑️ Disconnected wallet and cleared localStorage');
+                setForceShowForm(false);
+              }
+            }}
+            className="text-sm text-orange-400 hover:text-orange-300 underline"
           >
-            Connect a different wallet
+            Disconnect Wallet
           </button>
         </div>
       </div>
@@ -469,32 +512,37 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
 
   return (
     <div className={`${className} bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-lg p-6`}>
-      {/* User Info Section */}
+      {/* Account Section */}
       {user && (
-        <div className="mb-4 p-3 bg-green-900/20 border border-green-500/30 rounded-lg">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-              </svg>
-              <p className="text-green-300 text-sm">
-                Logged in as <strong>{user.username}</strong>
-              </p>
+        <div className="mb-4 space-y-2">
+          {/* User Info */}
+          <div className="p-3 bg-green-900/20 border border-green-500/30 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                </svg>
+                <p className="text-green-300 text-sm">
+                  <strong>{user.username}</strong>
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  if (confirm('Logout from your account? This will also disconnect your wallet.')) {
+                    // Disconnect wallet first
+                    disconnect();
+                    // Clear wallet data from localStorage
+                    localStorage.removeItem('wallet_mnemonic');
+                    localStorage.removeItem('wallet_network');
+                    console.log('🗑️ Cleared wallet from localStorage');
+                    window.location.href = '/api/auth/logout';
+                  }
+                }}
+                className="text-xs text-red-400 hover:text-red-300 underline"
+              >
+                Logout Account
+              </button>
             </div>
-            <button
-              onClick={() => {
-                if (confirm('Are you sure you want to logout?')) {
-                  // Clear wallet data from localStorage
-                  localStorage.removeItem('wallet_mnemonic');
-                  localStorage.removeItem('wallet_network');
-                  console.log('🗑️ Cleared wallet from localStorage');
-                  window.location.href = '/api/auth/logout';
-                }
-              }}
-              className="text-xs text-red-400 hover:text-red-300 underline"
-            >
-              Logout
-            </button>
           </div>
         </div>
       )}
