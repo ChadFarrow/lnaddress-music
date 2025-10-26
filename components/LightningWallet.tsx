@@ -838,8 +838,14 @@ export function LightningWallet() {
                             localStorage.removeItem('wallet_network');
                             console.log('🗑️ Cleared wallet from localStorage');
 
-                            // Then disconnect wallet
-                            await handleDisconnect();
+                            // Disconnect wallet directly without additional confirmation
+                            if (nwc.isConnected) {
+                              nwc.disconnect();
+                            }
+                            if (breez.isConnected) {
+                              breez.disconnect();
+                            }
+                            console.log('🔌 Disconnected wallet');
 
                             // Finally logout
                             window.location.href = '/api/auth/logout';
