@@ -314,6 +314,10 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       setLoginPassword('');
 
       // Wallet is now connected and ready to use
+      // Close the modal if this was triggered from import
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect wallet';
       console.error('❌ Login and connect failed:', errorMsg);
@@ -971,12 +975,15 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
                       console.log('✅ Wallet imported successfully');
                       setShowImportWalletModal(false);
                       setImportMnemonic('');
-                      setNewUserPassword('');
+
+                      // Set connection status to show connecting state
+                      setConnectionStatus('Connecting to imported wallet...');
 
                       // Try to auto-connect with the imported wallet
                       setLoginPassword(newUserPassword);
                       setTimeout(async () => {
                         await handleLoginAndConnect(false);
+                        setNewUserPassword('');
                       }, 500);
                     } else {
                       setImportError(result.error || 'Failed to import wallet');
