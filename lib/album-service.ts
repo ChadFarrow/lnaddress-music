@@ -26,7 +26,7 @@ export interface Album {
 export interface Track {
   title: string;
   duration?: string;
-  url: string;
+  url?: string; // Optional to match RSSTrack
   trackNumber?: number;
   image?: string | null;
 }
