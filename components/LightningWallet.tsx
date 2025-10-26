@@ -309,8 +309,20 @@ export function LightningWallet() {
 
       {/* Wallet Modal - rendered via portal to document body */}
       {mounted && isOpen && createPortal(
-        <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" style={{ zIndex: 999999 }}>
-          <div className="relative w-full max-w-md max-h-[90vh] bg-gray-900 rounded-2xl shadow-2xl flex flex-col">
+        <div
+          className="fixed inset-0 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          style={{ zIndex: 999999 }}
+          onClick={(e) => {
+            // Close modal when clicking on backdrop (not on modal content)
+            if (e.target === e.currentTarget) {
+              setIsOpen(false);
+            }
+          }}
+        >
+          <div
+            className="relative w-full max-w-md max-h-[90vh] bg-gray-900 rounded-2xl shadow-2xl flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-800 flex-shrink-0">
               <div className="flex items-center gap-3">
