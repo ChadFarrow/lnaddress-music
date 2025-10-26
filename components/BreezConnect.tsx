@@ -133,6 +133,76 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     checkWalletAndPrompt();
   }, [user, isConnected, loading, error, forceShowForm, authView, onSuccess]);
 
+  const handleAutoCreateWallet = async (password: string) => {
+    if (!user) {
+      console.error('❌ No user logged in');
+      return;
+    }
+
+    try {
+      console.log('🆕 Creating new wallet for user:', user.username);
+      setConnectionStatus('Creating wallet...');
+
+      // Generate new mnemonic
+      const { generateMnemonic } = await import('bip39');
+      const mnemonic = generateMnemonic();
+
+      console.log('✅ Mnemonic generated');
+
+      // Save wallet to database
+      const saveResult = await storeWallet(mnemonic, password, network);
+      if (!saveResult.success) {
+        throw new Error(saveResult.error || 'Failed to save wallet');
+      }
+
+      console.log('✅ Wallet saved to database');
+
+      // Connect to Breez
+      const breezApiKey = process.env.NEXT_PUBLIC_BREEZ_API_KEY;
+      if (!breezApiKey) {
+        throw new Error('Breez API key not configured');
+      }
+
+      setConnectionStatus('Connecting to Lightning Network...');
+
+      await connect({
+        apiKey: breezApiKey,
+        mnemonic,
+        network: (network as 'mainnet' | 'regtest') || 'mainnet',
+        storageDir: './breez-sdk-data'
+      });
+
+      console.log('✅ Breez connection successful');
+
+      // Save to localStorage for future auto-connect
+      try {
+        localStorage.setItem('wallet_mnemonic', mnemonic);
+        localStorage.setItem('wallet_network', network || 'mainnet');
+        console.log('💾 Saved wallet to localStorage for auto-connect');
+      } catch (err) {
+        console.warn('Failed to save wallet to localStorage:', err);
+      }
+
+      setConnectionStatus('Wallet created! Balance syncing...');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setConnectionStatus('');
+      setShowSuccess(true);
+      setAuthView('none');
+
+      // Close modal on success
+      if (onSuccess) {
+        onSuccess();
+      }
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to create wallet';
+      console.error('❌ Auto-create wallet failed:', errorMsg);
+      console.error('Full error:', err);
+      setPasswordError(errorMsg);
+      setConnectionStatus('');
+    }
+  };
+
   const handleLoginAndConnect = async (isAutoConnect = false) => {
     if (!loginPassword) {
       if (!isAutoConnect) {
@@ -583,9 +653,19 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
             ← Back
           </button>
           <RegisterForm
-            onSuccess={() => {
+            onSuccess={async (password) => {
+              console.log('🎉 Registration successful, auto-creating wallet...');
               setAuthView('none');
-              onSuccess?.();
+
+              // Auto-create wallet for new user
+              if (password) {
+                console.log('🔑 Password received, creating wallet...');
+                // Wait for user state to propagate, then create wallet
+                setTimeout(async () => {
+                  console.log('⏰ Timeout fired, auto-creating wallet for new user');
+                  await handleAutoCreateWallet(password);
+                }, 500);
+              }
             }}
             onSwitchToLogin={() => setAuthView('login')}
             className="!bg-transparent !border-0 !p-0"

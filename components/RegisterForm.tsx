@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface RegisterFormProps {
-  onSuccess?: () => void;
+  onSuccess?: (password?: string) => void;
   onSwitchToLogin?: () => void;
   className?: string;
 }
@@ -25,9 +25,10 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin, className = '
 
     try {
       const result = await register(username, password, confirmPassword);
-      
+
       if (result.success) {
-        onSuccess?.();
+        // Pass password to onSuccess so wallet can be auto-created
+        onSuccess?.(password);
       } else {
         setError(result.error || 'Registration failed');
       }
