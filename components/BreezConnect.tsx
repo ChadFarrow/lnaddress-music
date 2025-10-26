@@ -472,7 +472,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
             </div>
 
             <button
-              onClick={handleLoginAndConnect}
+              onClick={() => handleLoginAndConnect(false)}
               disabled={!!connectionStatus || !loginPassword}
               className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
