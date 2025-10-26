@@ -832,7 +832,13 @@ export function LightningWallet() {
                     {user && (
                       <button
                         onClick={async () => {
-                          if (confirm('Logout from your account? This will also disconnect your wallet.')) {
+                          console.log('🚪 Logout button clicked');
+                          const confirmed = confirm('Logout from your account? This will also disconnect your wallet.');
+                          console.log('🚪 User confirmation:', confirmed);
+
+                          if (confirmed) {
+                            console.log('🗑️ Starting logout process...');
+
                             // Clear wallet data from localStorage FIRST
                             localStorage.removeItem('wallet_mnemonic');
                             localStorage.removeItem('wallet_network');
@@ -840,15 +846,21 @@ export function LightningWallet() {
 
                             // Disconnect wallet directly without additional confirmation
                             if (nwc.isConnected) {
+                              console.log('🔌 Disconnecting NWC wallet...');
                               nwc.disconnect();
                             }
                             if (breez.isConnected) {
+                              console.log('🔌 Disconnecting Breez wallet...');
                               breez.disconnect();
                             }
-                            console.log('🔌 Disconnected wallet');
+                            console.log('🔌 Wallet disconnected');
 
                             // Finally logout
+                            console.log('🚪 Redirecting to /api/auth/logout...');
                             window.location.href = '/api/auth/logout';
+                            console.log('🚪 Redirect initiated');
+                          } else {
+                            console.log('🚪 Logout cancelled by user');
                           }
                         }}
                         className="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
