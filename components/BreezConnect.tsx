@@ -24,6 +24,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [authView, setAuthView] = useState<'none' | 'login' | 'register' | 'password'>('none');
   const [loginPassword, setLoginPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [isCreatingWallet, setIsCreatingWallet] = useState(false);
   // Always use mainnet
   const network = 'mainnet';
 
@@ -103,7 +104,8 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       // 3. Not currently loading
       // 4. No existing error
       // 5. Not in an auth view already
-      if (user && !isConnected && !loading && !error && !forceShowForm && authView === 'none') {
+      // 6. Not currently creating a wallet (IMPORTANT: prevents premature modal closing)
+      if (user && !isConnected && !loading && !error && !forceShowForm && authView === 'none' && !isCreatingWallet) {
         console.log('🔄 Checking if user has saved wallet:', user.username);
 
         try {
@@ -131,16 +133,20 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     };
 
     checkWalletAndPrompt();
-  }, [user, isConnected, loading, error, forceShowForm, authView, onSuccess]);
+  }, [user, isConnected, loading, error, forceShowForm, authView, isCreatingWallet, onSuccess]);
 
   const handleAutoCreateWallet = async (password: string) => {
+    // Set flag to prevent modal from closing prematurely
+    setIsCreatingWallet(true);
+    console.log('🔒 Set isCreatingWallet = true to prevent modal closing');
+
     // Re-check user from AuthContext in case of stale closure
     const currentUser = user;
     console.log('🔍 handleAutoCreateWallet - user check:', { hasUser: !!currentUser, username: currentUser?.username });
 
     if (!currentUser) {
       console.error('❌ No user logged in - waiting and retrying...');
-      // Try again after a short delay
+      // Try again after a short delay (keep flag set during retry)
       setTimeout(() => handleAutoCreateWallet(password), 500);
       return;
     }
@@ -206,6 +212,10 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       console.error('Full error:', err);
       setPasswordError(errorMsg);
       setConnectionStatus('');
+    } finally {
+      // Always clear the flag when done (success or failure)
+      setIsCreatingWallet(false);
+      console.log('🔓 Set isCreatingWallet = false, modal can close now if needed');
     }
   };
 
@@ -661,6 +671,11 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
           <RegisterForm
             onSuccess={async (password) => {
               console.log('🎉 Registration successful, auto-creating wallet...');
+
+              // Set the flag IMMEDIATELY to prevent modal from closing
+              setIsCreatingWallet(true);
+              console.log('🔒 Set isCreatingWallet = true in RegisterForm onSuccess');
+
               setAuthView('none');
 
               // Auto-create wallet for new user
