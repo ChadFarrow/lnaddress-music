@@ -115,7 +115,6 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
   const [boostAmount, setBoostAmount] = useState<number>(PAYMENT_AMOUNTS.MANUAL_BOOST_DEFAULT);
   const [boostMessage, setBoostMessage] = useState('');
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
-  const [showTrackBoostModal, setShowTrackBoostModal] = useState(false);
   const [trackBoostAmount, setTrackBoostAmount] = useState<number>(PAYMENT_AMOUNTS.MANUAL_BOOST_DEFAULT);
   const [trackBoostMessage, setTrackBoostMessage] = useState('');
   
@@ -241,6 +240,52 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     });
   };
 
+  // Show payment confirmation modal for track boost
+  const showTrackPaymentConfirmation = async (track: Track) => {
+    await checkConnection();
+    const amount = trackBoostAmount;
+
+    // Get all payment recipients for this track
+    const allRecipients = getTrackPaymentRecipients(track);
+    if (!allRecipients || allRecipients.length === 0) {
+      console.error('No recipients available for payment');
+      return;
+    }
+
+    // Determine supported types based on wallet
+    const supportedTypes = nwc.isConnected
+      ? nwc.supportsKeysend
+        ? ['lnaddress', 'node']
+        : ['lnaddress']
+      : breez.isConnected
+      ? ['lnaddress']
+      : [];
+
+    // Calculate total split
+    const totalSplit = allRecipients.reduce((sum: number, r: any) => sum + r.split, 0);
+
+    // Map recipients with support detection
+    const recipientsWithSupport: PaymentRecipient[] = allRecipients.map((recipient: any) => {
+      const recipientAmount = Math.round((recipient.split / totalSplit) * amount);
+      const supported = supportedTypes.includes(recipient.type);
+
+      return {
+        name: recipient.name || album?.artist || 'Unknown',
+        address: recipient.address,
+        type: recipient.type,
+        split: recipient.split,
+        amount: recipientAmount,
+        supported
+      };
+    });
+
+    setConfirmTrackPayment({
+      title: track.title,
+      amount,
+      recipients: recipientsWithSupport
+    });
+  };
+
   // Send album payment
   const sendAlbumPayment = async () => {
     if (!confirmAlbumPayment || !album) return;
@@ -315,6 +360,116 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
             album: album
           }
         }));
+      }
+    }
+  };
+
+  // Send track payment
+  const sendTrackPayment = async () => {
+    if (!confirmTrackPayment || !album || !selectedTrack) return;
+
+    setConfirmTrackPayment({
+      ...confirmTrackPayment,
+      processing: true,
+      recipientStatus: new Map()
+    });
+
+    const recipientStatus = new Map<string, { status: 'pending' | 'processing' | 'success' | 'failed'; error?: string }>();
+
+    confirmTrackPayment.recipients.forEach(r => {
+      recipientStatus.set(r.address, { status: 'pending' });
+    });
+
+    for (const recipient of confirmTrackPayment.recipients) {
+      if (!recipient.supported) continue;
+
+      recipientStatus.set(recipient.address, { status: 'processing' });
+      setConfirmTrackPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
+
+      try {
+        const fullMessage = `${trackBoostMessage || ''}\n\nSent from lnaddress music by ${senderName || 'Anonymous'}`.trim();
+
+        if (nwc.isConnected) {
+          if (recipient.type === 'lnaddress') {
+            const { LNURLService } = await import('@/lib/lnurl-service');
+            const amountMillisats = recipient.amount * 1000;
+            const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
+            const result = await nwc.payInvoice(invoice);
+            if (!result.success) throw new Error(result.error || 'Payment failed');
+          } else if (recipient.type === 'node' && nwc.supportsKeysend) {
+            const result = await nwc.payKeysend(recipient.address, recipient.amount, fullMessage);
+            if (!result.success) throw new Error(result.error || 'Keysend payment failed');
+          }
+        } else if (breez.isConnected && recipient.type === 'lnaddress') {
+          const { LNURLService } = await import('@/lib/lnurl-service');
+          const amountMillisats = recipient.amount * 1000;
+          const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
+          await breez.sendPayment({
+            destination: recipient.address,
+            amountSats: recipient.amount,
+            message: fullMessage
+          });
+        }
+
+        recipientStatus.set(recipient.address, { status: 'success' });
+        setConfirmTrackPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
+      } catch (error: any) {
+        console.error(`Payment to ${recipient.name} failed:`, error);
+        recipientStatus.set(recipient.address, {
+          status: 'failed',
+          error: error.message || 'Payment failed'
+        });
+        setConfirmTrackPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
+      }
+    }
+
+    setConfirmTrackPayment(prev => prev ? { ...prev, processing: false } : null);
+
+    const allSucceeded = confirmTrackPayment.recipients
+      .filter(r => r.supported)
+      .every(r => recipientStatus.get(r.address)?.status === 'success');
+
+    if (allSucceeded) {
+      triggerSuccessConfetti();
+
+      // Post Nostr boost for track
+      if (typeof window !== 'undefined') {
+        try {
+          const boostMetadata = {
+            title: selectedTrack.title,
+            artist: album.artist,
+            album: album.title,
+            episode: selectedTrack.title,
+            url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
+            appName: 'lnaddress music',
+            senderName: senderName?.trim() || undefined,
+            message: trackBoostMessage?.trim() || undefined,
+            itemGuid: selectedTrack.guid,
+            podcastGuid: selectedTrack.podcastGuid,
+            podcastFeedGuid: album.feedGuid,
+            feedUrl: album.feedUrl,
+            publisherGuid: album.publisherGuid,
+            publisherUrl: album.publisherUrl,
+            imageUrl: selectedTrack.imageUrl || album.coverArt
+          };
+
+          window.dispatchEvent(new CustomEvent('boost:send', {
+            detail: {
+              amount: confirmTrackPayment.amount,
+              message: trackBoostMessage || '',
+              metadata: boostMetadata
+            }
+          }));
+
+          window.dispatchEvent(new CustomEvent('boost:payment-sent', {
+            detail: {
+              amount: confirmTrackPayment.amount,
+              track: selectedTrack
+            }
+          }));
+        } catch (error) {
+          console.error('Error posting Nostr boost:', error);
+        }
       }
     }
   };
@@ -1114,9 +1269,8 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                           <button
                             onClick={async (e) => {
                               e.stopPropagation();
-                              await checkConnection();
                               setSelectedTrack(track);
-                              setShowTrackBoostModal(true);
+                              await showTrackPaymentConfirmation(track);
                             }}
                             className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-500 to-orange-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 hover:from-yellow-400 hover:to-orange-500 hover:shadow-lg transform hover:scale-105 active:scale-95"
                           >
@@ -1285,166 +1439,6 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
           </div>
         )}
 
-        {/* Track Boost Modal */}
-        {isLightningEnabled && showTrackBoostModal && selectedTrack && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="relative bg-gradient-to-b from-gray-900 to-black rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
-              {/* Header with Track Art */}
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10" />
-                <Image
-                  src={selectedTrack.image || album?.coverArt || '/placeholder-episode.jpg'}
-                  alt={selectedTrack.title}
-                  width={400}
-                  height={200}
-                  className="w-full h-32 sm:h-40 object-cover"
-                />
-                <button
-                  onClick={() => {
-                    setShowTrackBoostModal(false);
-                    setSelectedTrack(null);
-                  }}
-                  className="absolute top-4 right-4 z-20 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors backdrop-blur-sm"
-                >
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-                <div className="absolute bottom-4 left-6 right-6 z-20">
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{selectedTrack.title}</h3>
-                  <p className="text-sm sm:text-base text-gray-200">{album?.artist}</p>
-                </div>
-              </div>
-              
-              <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(85vh-8rem)] sm:max-h-[calc(90vh-10rem)]">
-                {/* Amount Input */}
-                <div>
-                  <label className="text-gray-400 text-sm font-medium">Amount</label>
-                  <div className="flex items-center gap-3 mt-2">
-                    <input
-                      type="number"
-                      value={trackBoostAmount}
-                      onChange={(e) => setTrackBoostAmount(Math.max(1, parseInt(e.target.value) || 1))}
-                      className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                      placeholder="Enter amount"
-                      min="1"
-                    />
-                    <span className="text-gray-400 font-medium">sats</span>
-                  </div>
-                </div>
-                
-                {/* Sender Name */}
-                <div>
-                  <label className="text-gray-400 text-sm font-medium">Your Name (Optional)</label>
-                  <input
-                    type="text"
-                    value={senderName}
-                    onChange={(e) => {
-                      setSenderName(e.target.value);
-                      if (e.target.value.trim()) {
-                        localStorage.setItem('boost-sender-name', e.target.value.trim());
-                      }
-                    }}
-                    className="w-full mt-2 px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="Anonymous"
-                    maxLength={50}
-                  />
-                </div>
-
-                {/* Boostagram Message */}
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <label className="text-gray-400 text-sm font-medium">Message (Optional)</label>
-                    <span className="text-gray-500 text-xs">{trackBoostMessage.length}/250</span>
-                  </div>
-                  <textarea
-                    value={trackBoostMessage}
-                    onChange={(e) => setTrackBoostMessage(e.target.value)}
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 text-white rounded-xl text-base resize-none focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="Share your thoughts..."
-                    maxLength={250}
-                    rows={3}
-                  />
-                </div>
-
-                {/* Payment Splits */}
-                {(() => {
-                  const trackRecipients = getTrackPaymentRecipients(selectedTrack);
-                  if (trackRecipients && trackRecipients.length > 0) {
-                    const totalSplit = trackRecipients.reduce((sum: number, r: any) => sum + (r.split || 0), 0);
-                    return (
-                      <div className="border border-gray-700 rounded-xl p-4 bg-gray-800/30">
-                        <h4 className="text-gray-300 text-sm font-medium mb-3 flex items-center gap-2">
-                          <Zap className="w-4 h-4 text-yellow-500" />
-                          Payment Splits
-                        </h4>
-                        <div className="space-y-2">
-                          {trackRecipients.map((recipient: any, index: number) => {
-                            const percentage = totalSplit > 0 ? ((recipient.split / totalSplit) * 100).toFixed(1) : '0.0';
-                            const amount = totalSplit > 0 ? Math.floor((trackBoostAmount * recipient.split) / totalSplit) : 0;
-                            const displayName = recipient.name || album?.artist || 'Artist';
-                            return (
-                              <div key={index} className="flex items-center justify-between text-sm">
-                                <div className="flex items-center gap-2 flex-1 min-w-0">
-                                  <div className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
-                                  <span className="text-gray-300 truncate">{displayName}</span>
-                                </div>
-                                <div className="flex items-center gap-3 flex-shrink-0">
-                                  <span className="text-gray-400">{percentage}%</span>
-                                  <span className="text-yellow-500 font-medium">{amount} sats</span>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })()}
-
-                {/* Boost Button */}
-                <BitcoinConnectPayment
-                  amount={trackBoostAmount}
-                  description={`Boost for "${selectedTrack.title}" by ${album?.artist}`}
-                  onSuccess={(response) => {
-                    console.log('✅ Track boost successful:', response);
-                    triggerSuccessConfetti();
-                    setShowTrackBoostModal(false);
-                    setSelectedTrack(null);
-                    setTrackBoostMessage('');
-                  }}
-                  onError={(error) => {
-                    console.error('❌ Track boost failed:', error);
-                  }}
-                  className="w-full !mt-6"
-                  recipients={getTrackPaymentRecipients(selectedTrack) || undefined}
-                  recipient={getFallbackRecipient()?.address}
-                  enableBoosts={true}
-                  boostMetadata={{
-                    title: selectedTrack.title,
-                    artist: album?.artist || 'Unknown Artist',
-                    album: album?.title || 'Unknown Album',
-                    episode: selectedTrack.title,
-                    url: `https://doerfelverse.com/album/${encodeURIComponent(albumTitle)}`,
-                    appName: 'lnaddress music',
-                    senderName: senderName?.trim() || undefined,
-                    message: trackBoostMessage?.trim() || undefined,
-                    // Include RSS podcast GUIDs for proper Nostr tagging
-                    itemGuid: selectedTrack.guid,
-                    podcastGuid: selectedTrack.podcastGuid,
-                    podcastFeedGuid: album?.feedGuid,
-                    feedUrl: album?.feedUrl,
-                    publisherGuid: album?.publisherGuid,
-                    publisherUrl: album?.publisherUrl,
-                    imageUrl: selectedTrack.imageUrl || album?.coverArt
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Bottom spacing for audio player */}
         <div className="h-24" />
       </div>
@@ -1461,6 +1455,24 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
           onMessageChange={setBoostMessage}
           onCancel={() => setConfirmAlbumPayment(null)}
           onConfirm={sendAlbumPayment}
+        />
+      )}
+
+      {/* Track Payment Confirmation Modal */}
+      {isLightningEnabled && (
+        <PaymentConfirmationModal
+          confirmation={confirmTrackPayment}
+          paymentAmount={trackBoostAmount.toString()}
+          senderName={senderName}
+          paymentMessage={trackBoostMessage}
+          onAmountChange={(value) => setTrackBoostAmount(parseInt(value) || PAYMENT_AMOUNTS.MANUAL_BOOST_DEFAULT)}
+          onSenderNameChange={setSenderName}
+          onMessageChange={setTrackBoostMessage}
+          onCancel={() => {
+            setConfirmTrackPayment(null);
+            setSelectedTrack(null);
+          }}
+          onConfirm={sendTrackPayment}
         />
       )}
 
