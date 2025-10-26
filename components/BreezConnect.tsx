@@ -16,8 +16,6 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const { connect, isConnected, loading, error, disconnect } = useBreez();
   const { user, getMnemonic, storeWallet } = useAuth();
   const [mnemonic, setMnemonic] = useState('');
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [generatedMnemonic, setGeneratedMnemonic] = useState('');
   const [forceShowForm, setForceShowForm] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<string>('');
   const [showSuccess, setShowSuccess] = useState(false);
@@ -25,7 +23,6 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [loginPassword, setLoginPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [isCreatingWallet, setIsCreatingWallet] = useState(false);
-  // Always use mainnet
   const network = 'mainnet';
 
   // Use ref to always have access to current user value (prevents stale closure issues)
@@ -33,9 +30,6 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   useEffect(() => {
     userRef.current = user;
   }, [user]);
-
-  // Debug logging
-  console.log('🔍 BreezConnect render:', { isConnected, loading, error, forceShowForm, user: user?.username });
 
   // Auto-connect wallet from localStorage for returning users
   useEffect(() => {
