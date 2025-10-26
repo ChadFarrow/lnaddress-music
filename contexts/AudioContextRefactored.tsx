@@ -76,7 +76,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const nowPlayingUI = useNowPlayingUI();
 
   // Nostr boost integration
-  const { handleBoostToNostr } = useBoostToNostr();
+  const { postBoost } = useBoostToNostr();
 
   // Handle track ending - play next track
   useEffect(() => {
@@ -111,10 +111,9 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         );
 
         // Send to Nostr
-        await handleBoostToNostr({
-          amount: autoBoost.autoBoostAmount,
-          artistName: track.artist || 'Unknown Artist',
-          trackTitle: track.title,
+        await postBoost(autoBoost.autoBoostAmount, {
+          title: track.title,
+          artist: track.artist || 'Unknown Artist',
           feedGuid: track.feedGuid,
           feedUrl: track.feedUrl,
           itemGuid: track.guid || track.podcastGuid,
