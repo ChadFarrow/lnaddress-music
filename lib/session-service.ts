@@ -52,13 +52,22 @@ export function verifyToken(token: string): UserSession | null {
  * Set authentication cookie
  */
 export function setAuthCookie(response: NextResponse, token: string): void {
-  response.cookies.set(COOKIE_NAME, token, {
+  const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax', // Changed from 'strict' to 'lax' for better compatibility
+    sameSite: 'lax' as const, // Changed from 'strict' to 'lax' for better compatibility
     maxAge: 24 * 60 * 60, // 24 hours in seconds (not milliseconds)
     path: '/'
+  };
+
+  console.log('🍪 Setting auth cookie:', {
+    cookieName: COOKIE_NAME,
+    options: cookieOptions,
+    tokenLength: token.length,
+    nodeEnv: process.env.NODE_ENV
   });
+
+  response.cookies.set(COOKIE_NAME, token, cookieOptions);
 }
 
 /**
@@ -78,7 +87,13 @@ export function clearAuthCookie(response: NextResponse): void {
  * Get authentication token from request
  */
 export function getAuthToken(request: NextRequest): string | null {
-  return request.cookies.get(COOKIE_NAME)?.value || null;
+  const token = request.cookies.get(COOKIE_NAME)?.value || null;
+  console.log('🔍 getAuthToken:', {
+    hasCookie: !!token,
+    cookieName: COOKIE_NAME,
+    allCookies: Array.from(request.cookies.getAll().map(c => c.name))
+  });
+  return token;
 }
 
 /**
