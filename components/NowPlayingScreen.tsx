@@ -16,6 +16,7 @@ import { PAYMENT_AMOUNTS } from '@/lib/constants';
 import { PaymentConfirmationModal, type PaymentConfirmation, type PaymentRecipient } from '@/components/PaymentConfirmationModal';
 import { useNWC } from '@/hooks/useNWC';
 import { useBreez } from '@/hooks/useBreez';
+import { useBoostToNostr } from '@/hooks/useBoostToNostr';
 
 interface NowPlayingScreenProps {
   isOpen: boolean;
@@ -42,6 +43,11 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
   const { checkConnection } = useBitcoinConnect();
   const nwc = useNWC();
   const breez = useBreez();
+
+  // Initialize Nostr boost system for manual boosts
+  const { postBoost } = useBoostToNostr({
+    autoGenerateKeys: typeof window !== 'undefined'
+  });
 
   const {
     currentTrack,
@@ -247,17 +253,53 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     }
   };
 
-  const handleBoostSuccess = (response: any) => {
+  const handleBoostSuccess = async (response: any) => {
     setShowBoostModal(false);
     setBoostMessage(''); // Clear the message input after successful boost
-    
+
     // Trigger wallet balance refresh
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('boost:payment-sent', { 
-        detail: { response, amount: boostAmount } 
+      window.dispatchEvent(new CustomEvent('boost:payment-sent', {
+        detail: { response, amount: boostAmount }
       }));
     }
-    
+
+    // Post to Nostr after successful Lightning payment
+    try {
+      const trackMetadata = {
+        title: currentTrack?.title,
+        artist: currentTrack?.artist,
+        album: currentAlbum || undefined,
+        url: currentAlbum ? `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app'}/album/${encodeURIComponent(createAlbumSlug(currentAlbum))}#${encodeURIComponent(currentTrack?.title || '')}` : process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app',
+        imageUrl: currentTrack?.imageUrl || currentTrack?.image,
+        timestamp: Math.floor(currentTime),
+        duration: duration ? Math.floor(duration) : undefined,
+        senderName: senderName || 'Anonymous',
+        // Add podcast GUIDs if available from track data
+        guid: currentTrack?.guid,
+        feedGuid: currentTrack?.feedGuid,
+        publisherGuid: currentTrack?.publisherGuid,
+        feedUrl: currentTrack?.feedUrl,
+        publisherUrl: currentTrack?.publisherUrl
+      };
+
+      const boostAmountNum = parseInt(boostAmount) || 0;
+      const nostrResult = await postBoost(
+        boostAmountNum,
+        trackMetadata,
+        boostMessage || `Boost for "${currentTrack?.title}"`
+      );
+
+      if (nostrResult.success) {
+        console.log('✅ Manual boost posted to Nostr:', nostrResult.eventId);
+      } else {
+        console.error('❌ Failed to post manual boost to Nostr:', nostrResult.error);
+      }
+    } catch (error) {
+      console.error('❌ Error posting manual boost to Nostr:', error);
+      // Don't fail the boost if Nostr posting fails - it's supplementary
+    }
+
     // Trigger confetti effect for payment success
     triggerSuccessConfetti();
   };
