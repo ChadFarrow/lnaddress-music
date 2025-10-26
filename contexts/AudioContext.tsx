@@ -168,6 +168,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     audio.addEventListener('canplay', handleCanPlay);
 
     return () => {
+      audio.pause();
+      audio.src = '';
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('durationchange', handleDurationChange);
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
@@ -177,7 +179,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       audio.removeEventListener('waiting', handleWaiting);
       audio.removeEventListener('canplay', handleCanPlay);
     };
-  }, [currentTrack]);
+  }, []); // Only create audio element once on mount
 
   const playTrack = (track: Track, album?: string) => {
     if (!audioRef.current) return;
