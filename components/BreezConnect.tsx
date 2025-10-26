@@ -18,11 +18,12 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [mnemonic, setMnemonic] = useState('');
   const [forceShowForm, setForceShowForm] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<string>('');
-  const [authView, setAuthView] = useState<'none' | 'login' | 'register' | 'password' | 'wallet-choice'>('none');
+  const [authView, setAuthView] = useState<'none' | 'login' | 'register' | 'password'>('none');
   const [loginPassword, setLoginPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [isCreatingWallet, setIsCreatingWallet] = useState(false);
   const [newUserPassword, setNewUserPassword] = useState('');
+  const [showWalletChoiceModal, setShowWalletChoiceModal] = useState(false);
   const network = 'mainnet';
 
   // Use ref to always have access to current user value (prevents stale closure issues)
@@ -776,15 +777,16 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
           </button>
           <RegisterForm
             onSuccess={async (password) => {
-              console.log('🎉 Registration successful, showing wallet choice...');
+              console.log('🎉 Registration successful, showing wallet choice modal...');
 
               // Store password for later use
               if (password) {
                 setNewUserPassword(password);
               }
 
-              // Show wallet choice screen
-              setAuthView('wallet-choice');
+              // Reset auth view and show separate wallet choice modal
+              setAuthView('none');
+              setShowWalletChoiceModal(true);
             }}
             onSwitchToLogin={() => setAuthView('login')}
             className="!bg-transparent !border-0 !p-0"
@@ -792,56 +794,6 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
         </div>
       )}
 
-      {/* Wallet Choice (after registration) */}
-      {authView === 'wallet-choice' && (
-        <div className="mb-6">
-          <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-white mb-2">Lightning Wallet</h2>
-            <p className="text-sm text-gray-400">Do you already have a Lightning wallet?</p>
-          </div>
-
-          <div className="space-y-3">
-            <button
-              onClick={() => {
-                setForceShowForm(true);
-                setAuthView('none');
-              }}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-            >
-              Yes, I have a wallet
-            </button>
-
-            <button
-              onClick={async () => {
-                console.log('Creating new wallet for user...');
-                setIsCreatingWallet(true);
-                setAuthView('none');
-
-                if (newUserPassword) {
-                  setLoginPassword(newUserPassword);
-                  setTimeout(async () => {
-                    await handleAutoCreateWallet(newUserPassword);
-                  }, 500);
-                }
-              }}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-            >
-              No, create a new wallet
-            </button>
-
-            <button
-              onClick={() => {
-                setAuthView('none');
-                setNewUserPassword('');
-                onSuccess?.();
-              }}
-              className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-            >
-              Skip for Now
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Only show divider and restore wallet section when not in auth views */}
       {authView === 'none' && (
@@ -911,6 +863,57 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
           Your keys stay on your device. Keep your mnemonic safe!
         </p>
       </div>
+
+      {/* Separate Wallet Choice Modal */}
+      {showWalletChoiceModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[10000] p-4">
+          <div className="max-w-md w-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 border border-purple-500/30 shadow-2xl">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">Lightning Wallet</h2>
+              <p className="text-sm text-gray-400">Do you already have a Lightning wallet?</p>
+            </div>
+
+            <div className="space-y-3">
+              <button
+                onClick={() => {
+                  setShowWalletChoiceModal(false);
+                  setForceShowForm(true);
+                  setAuthView('none');
+                }}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+              >
+                Yes, I have a wallet
+              </button>
+
+              <button
+                onClick={async () => {
+                  console.log('Creating new wallet for user...');
+                  setShowWalletChoiceModal(false);
+                  setIsCreatingWallet(true);
+                  setAuthView('none');
+
+                  if (newUserPassword) {
+                    setLoginPassword(newUserPassword);
+                    setTimeout(async () => {
+                      await handleAutoCreateWallet(newUserPassword);
+                    }, 500);
+                  }
+                }}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+              >
+                No, create a new wallet
+              </button>
+            </div>
+
+            <div className="mt-6 p-3 bg-blue-900/10 border border-blue-500/20 rounded-lg">
+              <p className="text-xs text-gray-400">
+                <strong className="text-blue-400">Note:</strong> Breez SDK Spark provides self-custodial Lightning payments.
+                Your keys stay on your device. Keep your mnemonic safe!
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
