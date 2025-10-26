@@ -69,14 +69,18 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     checkWalletAndPrompt();
   }, [user, isConnected, loading, error, forceShowForm, authView, onSuccess]);
 
-  const handleLoginAndConnect = async () => {
+  const handleLoginAndConnect = async (isAutoConnect = false) => {
     if (!loginPassword) {
-      setPasswordError('Password is required');
+      if (!isAutoConnect) {
+        setPasswordError('Password is required');
+      }
       return;
     }
 
     if (!user) {
-      setPasswordError('You must be logged in first');
+      if (!isAutoConnect) {
+        setPasswordError('You must be logged in first');
+      }
       return;
     }
 
@@ -84,7 +88,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     setConnectionStatus('Retrieving wallet...');
 
     try {
-      console.log('🔐 Retrieving mnemonic for user:', user.username);
+      console.log('🔐 Retrieving mnemonic for user:', user.username, isAutoConnect ? '(auto-connect)' : '(manual)');
 
       // Get mnemonic from database
       const result = await getMnemonic(loginPassword);
@@ -97,6 +101,14 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       });
 
       if (!result.success || !result.mnemonic) {
+        if (isAutoConnect) {
+          // Auto-connect failed (wrong password), show password prompt
+          console.log('❌ Auto-connect failed, showing password prompt');
+          setAuthView('password');
+          setLoginPassword('');
+          setConnectionStatus('');
+          return;
+        }
         setPasswordError(result.error || 'Failed to retrieve wallet');
         setConnectionStatus('');
         return;
@@ -131,12 +143,26 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       setShowSuccess(true);
       setAuthView('none');
       setLoginPassword('');
+
+      // Close modal on success
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to connect wallet';
       console.error('❌ Login and connect failed:', errorMsg);
       console.error('Full error:', err);
-      setPasswordError(errorMsg);
-      setConnectionStatus('');
+
+      if (isAutoConnect) {
+        // Auto-connect failed, show password prompt
+        console.log('❌ Auto-connect failed, showing password prompt');
+        setAuthView('password');
+        setLoginPassword('');
+        setConnectionStatus('');
+      } else {
+        setPasswordError(errorMsg);
+        setConnectionStatus('');
+      }
     }
   };
 
@@ -374,14 +400,18 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
             ← Back
           </button>
           <LoginForm
-            onSuccess={async () => {
-              // Don't close the modal immediately - let the auto-wallet-check
-              // useEffect determine what to show next (password prompt or close)
+            onSuccess={async (password) => {
+              console.log('🔐 Login successful, attempting auto-wallet connect...');
               setAuthView('none');
 
-              // The useEffect will check if user has a wallet and either:
-              // 1. Show password prompt if wallet exists
-              // 2. Close modal if no wallet (by calling onSuccess)
+              // Try to automatically connect wallet using login password
+              if (password) {
+                setLoginPassword(password);
+                // Small delay to let user state propagate
+                setTimeout(() => {
+                  handleLoginAndConnect(true); // true = auto-connect mode
+                }, 100);
+              }
             }}
             onSwitchToRegister={() => setAuthView('register')}
             className="!bg-transparent !border-0 !p-0"

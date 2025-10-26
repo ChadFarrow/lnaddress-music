@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface LoginFormProps {
-  onSuccess?: () => void;
+  onSuccess?: (password?: string) => void;
   onSwitchToRegister?: () => void;
   className?: string;
 }
@@ -24,9 +24,10 @@ export default function LoginForm({ onSuccess, onSwitchToRegister, className = '
 
     try {
       const result = await login(username, password);
-      
+
       if (result.success) {
-        onSuccess?.();
+        // Pass the password to onSuccess so it can be used for wallet decryption
+        onSuccess?.(password);
       } else {
         setError(result.error || 'Login failed');
       }
