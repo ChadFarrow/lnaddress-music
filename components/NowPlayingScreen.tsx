@@ -49,6 +49,25 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
     autoGenerateKeys: typeof window !== 'undefined'
   });
 
+  const {
+    currentTrack,
+    currentAlbum,
+    isPlaying,
+    currentTime,
+    duration,
+    isShuffling,
+    isRepeating,
+    pause,
+    resume,
+    nextTrack,
+    previousTrack,
+    seekTo,
+    toggleShuffle,
+    toggleRepeat,
+    isAutoBoostEnabled,
+    toggleAutoBoost,
+  } = useAudio();
+
   // Listen for boost payment events and post to Nostr
   useEffect(() => {
     const handleBoostPaymentSent = async (event: Event) => {
@@ -103,25 +122,6 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
       }
     };
   }, [postBoost, currentTrack, currentAlbum, currentTime, duration, boostAmount, senderName, boostMessage]);
-
-  const {
-    currentTrack,
-    currentAlbum,
-    isPlaying,
-    currentTime,
-    duration,
-    isShuffling,
-    isRepeating,
-    pause,
-    resume,
-    nextTrack,
-    previousTrack,
-    seekTo,
-    toggleShuffle,
-    toggleRepeat,
-    isAutoBoostEnabled,
-    toggleAutoBoost,
-  } = useAudio();
 
   // Add swipe gestures for mobile
   const swipeRef = useSwipeGestures({
