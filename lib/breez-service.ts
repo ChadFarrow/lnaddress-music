@@ -267,8 +267,8 @@ class BreezService {
     if (typeof window !== 'undefined') {
       localStorage.setItem('breez:generated-mnemonic', mnemonic);
 
-      // Show styled modal to the user
-      this.showRecoveryPhraseModal(mnemonic);
+      // Modal disabled - mnemonic is logged to console and stored in localStorage
+      // Users can access it via console or their saved wallet in the database
     }
 
     return { type: 'mnemonic', mnemonic };
