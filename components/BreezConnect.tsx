@@ -30,6 +30,57 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   // Debug logging
   console.log('🔍 BreezConnect render:', { isConnected, loading, error, forceShowForm, user: user?.username });
 
+  // Auto-connect wallet from localStorage for returning users
+  useEffect(() => {
+    const autoConnectFromLocalStorage = async () => {
+      // Only auto-connect if:
+      // 1. User is logged in
+      // 2. Wallet is not already connected
+      // 3. Not currently loading or showing error
+      // 4. Not in any auth view
+      if (user && !isConnected && !loading && !error && authView === 'none') {
+        try {
+          const savedMnemonic = localStorage.getItem('wallet_mnemonic');
+          const savedNetwork = localStorage.getItem('wallet_network');
+
+          if (savedMnemonic) {
+            console.log('🔄 Auto-connecting wallet from localStorage...');
+            setConnectionStatus('Auto-connecting wallet...');
+
+            const breezApiKey = process.env.NEXT_PUBLIC_BREEZ_API_KEY;
+            if (!breezApiKey) {
+              console.error('Breez API key not configured');
+              return;
+            }
+
+            await connect({
+              apiKey: breezApiKey,
+              mnemonic: savedMnemonic,
+              network: (savedNetwork as 'mainnet' | 'regtest') || 'mainnet',
+              storageDir: './breez-sdk-data'
+            });
+
+            console.log('✅ Auto-connect successful');
+            setConnectionStatus('');
+            setShowSuccess(true);
+
+            // Close modal if open
+            if (onSuccess) {
+              onSuccess();
+            }
+          }
+        } catch (err) {
+          console.log('❌ Auto-connect failed, will prompt for password:', err);
+          // If auto-connect fails, fall through to the normal wallet check below
+        } finally {
+          setConnectionStatus('');
+        }
+      }
+    };
+
+    autoConnectFromLocalStorage();
+  }, [user, isConnected, loading, error, authView, connect, onSuccess]);
+
   // Check if user has a wallet and auto-prompt for connection
   useEffect(() => {
     const checkWalletAndPrompt = async () => {
@@ -135,6 +186,15 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       });
 
       console.log('✅ Breez connection successful');
+
+      // Save encrypted wallet data to localStorage for auto-connect on return visits
+      try {
+        localStorage.setItem('wallet_mnemonic', result.mnemonic);
+        localStorage.setItem('wallet_network', result.network || 'mainnet');
+        console.log('💾 Saved wallet to localStorage for auto-connect');
+      } catch (err) {
+        console.warn('Failed to save wallet to localStorage:', err);
+      }
 
       setConnectionStatus('Wallet connected! Balance syncing...');
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -322,6 +382,10 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
             <button
               onClick={() => {
                 if (confirm('Are you sure you want to logout?')) {
+                  // Clear wallet data from localStorage
+                  localStorage.removeItem('wallet_mnemonic');
+                  localStorage.removeItem('wallet_network');
+                  console.log('🗑️ Cleared wallet from localStorage');
                   window.location.href = '/api/auth/logout';
                 }
               }}
