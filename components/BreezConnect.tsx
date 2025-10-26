@@ -18,10 +18,11 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
   const [mnemonic, setMnemonic] = useState('');
   const [forceShowForm, setForceShowForm] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<string>('');
-  const [authView, setAuthView] = useState<'none' | 'login' | 'register' | 'password'>('none');
+  const [authView, setAuthView] = useState<'none' | 'login' | 'register' | 'password' | 'wallet-choice'>('none');
   const [loginPassword, setLoginPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [isCreatingWallet, setIsCreatingWallet] = useState(false);
+  const [newUserPassword, setNewUserPassword] = useState('');
   const network = 'mainnet';
 
   // Use ref to always have access to current user value (prevents stale closure issues)
@@ -770,28 +771,70 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
           </button>
           <RegisterForm
             onSuccess={async (password) => {
-              console.log('🎉 Registration successful, auto-creating wallet...');
+              console.log('🎉 Registration successful, showing wallet choice...');
 
-              // Set the flag IMMEDIATELY to prevent modal from closing
-              setIsCreatingWallet(true);
-              console.log('🔒 Set isCreatingWallet = true in RegisterForm onSuccess');
-
-              setAuthView('none');
-
-              // Auto-create wallet for new user
+              // Store password for later use
               if (password) {
-                console.log('🔑 Password received, creating wallet...');
-                setLoginPassword(password);
-                // Wait longer for user state to fully propagate
-                setTimeout(async () => {
-                  console.log('⏰ Timeout fired, auto-creating wallet for new user');
-                  await handleAutoCreateWallet(password);
-                }, 1000); // Increased from 500ms to 1000ms
+                setNewUserPassword(password);
               }
+
+              // Show wallet choice screen
+              setAuthView('wallet-choice');
             }}
             onSwitchToLogin={() => setAuthView('login')}
             className="!bg-transparent !border-0 !p-0"
           />
+        </div>
+      )}
+
+      {/* Wallet Choice (after registration) */}
+      {authView === 'wallet-choice' && (
+        <div className="mb-6">
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-bold text-white mb-2">Lightning Wallet</h2>
+            <p className="text-sm text-gray-400">Do you already have a Lightning wallet?</p>
+          </div>
+
+          <div className="space-y-3">
+            <button
+              onClick={() => {
+                setForceShowForm(true);
+                setAuthView('none');
+              }}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            >
+              Yes, I have a wallet
+            </button>
+
+            <button
+              onClick={async () => {
+                console.log('Creating new wallet for user...');
+                setIsCreatingWallet(true);
+                setAuthView('none');
+
+                if (newUserPassword) {
+                  setLoginPassword(newUserPassword);
+                  setTimeout(async () => {
+                    await handleAutoCreateWallet(newUserPassword);
+                  }, 500);
+                }
+              }}
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            >
+              No, create a new wallet
+            </button>
+
+            <button
+              onClick={() => {
+                setAuthView('none');
+                setNewUserPassword('');
+                onSuccess?.();
+              }}
+              className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            >
+              Skip for Now
+            </button>
+          </div>
         </div>
       )}
 
