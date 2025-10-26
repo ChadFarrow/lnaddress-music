@@ -109,7 +109,7 @@ Nevent: ${boostResult.nevent}`);
         <div className="mt-8 bg-gray-800 rounded-lg p-6">
           <h2 className="text-xl font-semibold mb-4">Console Output</h2>
           <p className="text-gray-400 text-sm">
-            Open your browser's developer console (F12) to see detailed logs about:
+            Open your browser&apos;s developer console (F12) to see detailed logs about:
           </p>
           <ul className="list-disc list-inside text-sm text-gray-400 mt-2 space-y-1">
             <li>Event creation and signing</li>
