@@ -38,6 +38,7 @@ interface Publisher {
   feedUrl: string;
   medium: string;
   albums: Album[];
+  image?: string; // Publisher artwork from their feed
 }
 
 interface PublisherDetailClientProps {
@@ -163,14 +164,16 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
     <div className="min-h-screen text-white relative overflow-hidden">
       {/* Background */}
       <div className="fixed inset-0 z-0">
-        {/* Use artist artwork as background */}
-        {(publisherArtwork || publisher.albums[0]?.coverArt) && (
+        {/* Use publisher artwork, fallback to publisherArtwork from /publishers.json, then first album */}
+        {(publisher.image || publisherArtwork || publisher.albums[0]?.coverArt) && (
           <Image
-            src={publisherArtwork || publisher.albums[0].coverArt}
+            src={publisher.image || publisherArtwork || publisher.albums[0].coverArt}
             alt={`${publisher.name} background`}
             fill
             className="object-cover w-full h-full"
             priority
+            quality={100}
+            unoptimized={publisher.image?.endsWith('.gif')}
           />
         )}
         
@@ -218,12 +221,13 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
               <div className="flex-shrink-0 mx-auto lg:mx-0">
                 <div className="w-64 h-64 lg:w-80 lg:h-80 relative rounded-xl shadow-2xl overflow-hidden border border-white/20">
                   <Image
-                    src={publisherArtwork || publisher.albums[0]?.coverArt || '/placeholder-episode.jpg'}
+                    src={publisher.image || publisherArtwork || publisher.albums[0]?.coverArt || '/placeholder-episode.jpg'}
                     alt={publisher.name}
                     fill
                     className="object-cover"
                     priority
                     sizes="(min-width: 1024px) 320px, 256px"
+                    quality={100}
                   />
                 </div>
               </div>

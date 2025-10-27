@@ -26,6 +26,7 @@ interface Publisher {
   feedUrl: string;
   medium: string;
   albums: Album[];
+  image?: string; // Publisher artwork from their feed
 }
 
 export async function GET(
@@ -83,12 +84,30 @@ export async function GET(
 
     // Get publisher info from first album
     const firstAlbum = publisherAlbums[0];
+    const publisherFeedUrl = firstAlbum.publisher!.feedUrl;
+
+    // Fetch publisher feed to get artwork
+    let publisherImage: string | undefined;
+    try {
+      const feedResponse = await fetch(publisherFeedUrl);
+      if (feedResponse.ok) {
+        const feedXml = await feedResponse.text();
+        // Extract image from iTunes tag or regular image tag
+        const itunesImageMatch = feedXml.match(/<itunes:image\s+href="([^"]+)"/i);
+        const regularImageMatch = feedXml.match(/<image>\s*<url>([^<]+)<\/url>/i);
+        publisherImage = itunesImageMatch?.[1] || regularImageMatch?.[1];
+      }
+    } catch (error) {
+      console.warn('Could not fetch publisher artwork:', error);
+    }
+
     const publisherInfo: Publisher = {
       name: firstAlbum.artist,
       guid: firstAlbum.publisher!.feedGuid,
       feedUrl: firstAlbum.publisher!.feedUrl,
       medium: firstAlbum.publisher!.medium,
-      albums: publisherAlbums
+      albums: publisherAlbums,
+      image: publisherImage
     };
 
     return NextResponse.json({
