@@ -83,65 +83,21 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
   const loadPublisher = useCallback(async () => {
     try {
       setIsLoading(true);
-      // Try fast static endpoint first
-      let response = await fetch('/api/albums-static');
-      
+      // Use the dedicated publisher API endpoint
+      const response = await fetch(`/api/publisher/${encodeURIComponent(publisherName)}`);
+
       if (!response.ok) {
-        console.log('Static endpoint failed, falling back to RSS parsing...');
-        response = await fetch('/api/albums');
-      }
-      
-      if (!response.ok) {
-        throw new Error('Failed to load albums');
+        if (response.status === 404) {
+          setError('Artist not found');
+        } else {
+          throw new Error('Failed to load publisher');
+        }
+        return;
       }
 
       const data = await response.json();
-      const albums = data.albums || [];
-      
-      // Create slug for matching
-      const createSlug = (name: string) => 
-        name.toLowerCase()
-          .replace(/[^\w\s-]/g, '') // Remove punctuation except spaces and hyphens
-          .replace(/\s+/g, '-')     // Replace spaces with hyphens
-          .replace(/-+/g, '-')      // Collapse multiple hyphens
-          .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
-      
-      const decodedName = decodeURIComponent(publisherName);
-      const nameSlug = createSlug(decodedName);
-      
-      // Find albums by this publisher
-      const publisherAlbums = albums.filter((album: Album) => {
-        // Match by artist name (since publishers are usually artists)
-        const artistSlug = createSlug(album.artist);
-        const artistLower = album.artist.toLowerCase();
-        const decodedLower = decodedName.toLowerCase();
-        
-        // Exact match or slug match, but exclude if this artist is just featured
-        if (artistSlug === nameSlug || artistLower === decodedLower) {
-          return true;
-        }
-        
-        // Don't include albums where this artist is just featured (contains "feat." or "featuring")
-        return false;
-      });
-
-      if (publisherAlbums.length > 0) {
-        const firstAlbum = publisherAlbums[0];
-        // Find an album with publisher data, or use defaults
-        const albumWithPublisher = publisherAlbums.find((album: Album) => album.publisher) || firstAlbum;
-        const publisherInfo: Publisher = {
-          name: firstAlbum.artist,
-          guid: albumWithPublisher.publisher?.feedGuid || 'no-guid',
-          feedUrl: albumWithPublisher.publisher?.feedUrl || '',
-          medium: albumWithPublisher.publisher?.medium || 'music',
-          albums: publisherAlbums
-        };
-        
-        setPublisher(publisherInfo);
-        setError(null);
-      } else {
-        setError('Artist not found');
-      }
+      setPublisher(data.publisher);
+      setError(null);
     } catch (err) {
       console.error('Error loading artist:', err);
       setError('Failed to load artist');
