@@ -683,12 +683,18 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleEnded = () => {
+    const handleEnded = async () => {
       // Trigger auto boost if enabled and we have a current track
+      // IMPORTANT: Auto boost runs in background, don't block track progression
       if (isAutoBoostEnabled && currentTrack) {
-        triggerAutoBoost(currentTrack);
+        // Fire and forget - don't wait for auto boost to complete
+        triggerAutoBoost(currentTrack).catch(error => {
+          console.error('Auto boost failed, but continuing playback:', error);
+          // Don't show error toast - auto boost already handles this
+        });
       }
 
+      // Always progress to next track, regardless of auto boost status
       if (isRepeating) {
         audio.currentTime = 0;
         audio.play();
