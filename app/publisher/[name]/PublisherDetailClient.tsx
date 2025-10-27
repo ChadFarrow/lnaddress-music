@@ -171,6 +171,7 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
             alt={`${publisher.name} background`}
             fill
             className="object-cover w-full h-full"
+            style={{ filter: 'blur(8px) brightness(1.1) contrast(1.05)' }}
             priority
             quality={100}
             unoptimized={publisher.image?.endsWith('.gif')}
