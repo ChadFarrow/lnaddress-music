@@ -90,7 +90,7 @@ export async function makeAutoBoostPayment({
   boostMetadata?: BoostMetadata;
 }): Promise<{ success: boolean; results?: any[]; error?: string }> {
   try {
-    console.log('💡 AUTO BOOST: Using UPDATED makeAutoBoostPayment function (v2)');
+    console.log('💡 AUTO BOOST: Using UPDATED makeAutoBoostPayment function (v3 - with Breez support)');
     console.log('🚀 Starting auto boost payment:', {
       amount,
       description,
@@ -98,18 +98,23 @@ export async function makeAutoBoostPayment({
       fallbackRecipient
     });
 
-    // Import NWC service dynamically
+    // Import services dynamically
     const { getNWCService } = await import('@/lib/nwc-service');
-    
+    const { getBreezService } = await import('@/lib/breez-service');
+
     // Check connection state similar to BitcoinConnect
     const weblnExists = !!(window as any).webln;
     const weblnEnabled = weblnExists && !!(window as any).webln?.enabled;
-    
+
+    // Check for Breez connection
+    const breezService = getBreezService();
+    const hasBreezConnection = breezService.isConnected();
+
     // Check for NWC connection (same logic as BitcoinConnect component)
     let bcConfig = null;
     let bcConnectorType = null;
     let nwcConnectionString = null;
-    
+
     try {
       const bcConfigRaw = localStorage.getItem('bc:config');
       if (bcConfigRaw) {
@@ -124,16 +129,17 @@ export async function makeAutoBoostPayment({
     if (!nwcConnectionString) {
       nwcConnectionString = localStorage.getItem('nwc_connection_string');
     }
-    
+
     const hasNWCConnection = !!nwcConnectionString;
     // Use NWC if we have a connection string, regardless of bcConnectorType
     // This matches how manual payments work in BitcoinConnect component
     const shouldUseNWC = hasNWCConnection;
-    
+
     console.log('💡 AUTO BOOST: Payment method detection:', {
       weblnExists,
       weblnEnabled,
       hasNWCConnection,
+      hasBreezConnection,
       bcConnectorType,
       shouldUseNWC,
       nwcConnectionExists: !!nwcConnectionString,
@@ -182,16 +188,29 @@ export async function makeAutoBoostPayment({
         const paymentPromises = paymentsToMake.map(async (recipientData) => {
           const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
 
-          console.log(`💰 Auto boost sending ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
+          console.log(`💰 Auto boost sending ${recipientAmount} sats to ${recipientData.name || recipientData.address} (type: ${recipientData.type})`);
 
-          // Create TLV records for boost metadata
-          const tlvRecords = boostMetadata ? createBoostTLVRecords(boostMetadata, recipientData.name, recipientAmount) : undefined;
+          let result;
 
-          const result = await nwcService.payKeysend(
-            recipientData.address,
-            recipientAmount,
-            tlvRecords
-          );
+          // Handle different recipient types
+          if (recipientData.type === 'lnaddress') {
+            // Pay to lightning address via LNURL
+            console.log(`💡 AUTO BOOST: Paying to lightning address: ${recipientData.address}`);
+            const { LNURLService } = await import('@/lib/lnurl-service');
+            const amountMillisats = recipientAmount * 1000;
+            const boostMessage = boostMetadata ? `${boostMetadata.senderName || 'Auto Boost'}: Boost for "${boostMetadata.title}"` : 'Auto Boost';
+            const invoice = await LNURLService.getPaymentInvoice(recipientData.address, amountMillisats, boostMessage);
+            result = await nwcService.payInvoice(invoice);
+          } else {
+            // Pay to node address via keysend (default)
+            console.log(`💡 AUTO BOOST: Paying to node via keysend: ${recipientData.address}`);
+            const tlvRecords = boostMetadata ? createBoostTLVRecords(boostMetadata, recipientData.name, recipientAmount) : undefined;
+            result = await nwcService.payKeysend(
+              recipientData.address,
+              recipientAmount,
+              tlvRecords
+            );
+          }
 
           if (result.error) {
             throw new Error(result.error);
@@ -220,11 +239,69 @@ export async function makeAutoBoostPayment({
         }
         
       } catch (nwcError) {
-        console.error('💡 AUTO BOOST: NWC auto boost failed, trying WebLN fallback:', nwcError);
-        // Fall through to WebLN
+        console.error('💡 AUTO BOOST: NWC auto boost failed, trying Breez/WebLN fallback:', nwcError);
+        // Fall through to Breez or WebLN
       }
     } else {
       console.log('💡 AUTO BOOST: Skipping NWC - shouldUseNWC:', shouldUseNWC, 'hasNWCConnection:', hasNWCConnection);
+    }
+
+    // Try Breez if connected (before WebLN)
+    if (hasBreezConnection) {
+      console.log('💡 AUTO BOOST: Using Breez SDK for auto boost payments');
+
+      try {
+        const paymentPromises = paymentsToMake.map(async (recipientData) => {
+          const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
+
+          console.log(`💰 Breez auto boost sending ${recipientAmount} sats to ${recipientData.name || recipientData.address} (type: ${recipientData.type})`);
+
+          // Breez only supports lightning addresses via LNURL, not node pubkeys
+          if (recipientData.type !== 'lnaddress') {
+            console.warn(`⚠️ Breez SDK does not support ${recipientData.type} payments, skipping ${recipientData.name}`);
+            throw new Error(`Breez SDK does not support ${recipientData.type} payments`);
+          }
+
+          // Pay to lightning address via LNURL
+          const { LNURLService } = await import('@/lib/lnurl-service');
+          const amountMillisats = recipientAmount * 1000;
+          const boostMessage = boostMetadata ? `${boostMetadata.senderName || 'Auto Boost'}: Boost for "${boostMetadata.title}"` : 'Auto Boost';
+          const invoice = await LNURLService.getPaymentInvoice(recipientData.address, amountMillisats, boostMessage);
+
+          const payment = await breezService.sendPayment({
+            destination: invoice,
+            amountSats: recipientAmount,
+            message: boostMessage
+          });
+
+          console.log(`✅ Breez auto boost payment successful: ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
+          return { recipient: recipientData.name || recipientData.address, amount: recipientAmount, payment };
+        });
+
+        const paymentResults = await Promise.allSettled(paymentPromises);
+
+        paymentResults.forEach((result, index) => {
+          if (result.status === 'fulfilled') {
+            results.push(result.value);
+          } else {
+            const recipientName = paymentsToMake[index].name || paymentsToMake[index].address;
+            console.error(`❌ Breez auto boost payment failed to ${recipientName}:`, result.reason);
+          }
+        });
+
+        if (results.length > 0) {
+          console.log(`✅ Breez auto boost completed: ${results.length}/${paymentsToMake.length} payments successful`);
+          return { success: true, results };
+        } else {
+          throw new Error('All Breez auto boost payments failed');
+        }
+
+      } catch (breezError) {
+        console.error('💡 AUTO BOOST: Breez auto boost failed, trying WebLN fallback:', breezError);
+        // Fall through to WebLN
+      }
+    } else {
+      console.log('💡 AUTO BOOST: Skipping Breez - not connected');
     }
 
     // WebLN fallback (same as original logic)

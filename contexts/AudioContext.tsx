@@ -502,7 +502,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       // Get payment recipients from track or album data (same logic as manual boost)
       const getPaymentRecipients = () => {
         let recipients: any[] = [];
-        
+
         // Check if current track has value data
         if (track.value && track.value.recipients && track.value.recipients.length > 0) {
           recipients = track.value.recipients
@@ -512,11 +512,11 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               split: r.split,
               name: r.name,
               fee: r.fee,
-              type: 'node'
+              type: r.type || 'node' // Use the type from value data
             }));
           console.log('✅ Using track-level podcast:value recipients for auto boost');
         }
-        
+
         // Note: Platform fee recipient removed - cannot use raw node pubkey with Breez SDK
 
         return recipients.length > 0 ? recipients : null;

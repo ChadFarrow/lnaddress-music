@@ -1020,12 +1020,14 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
             fill
             className="object-cover w-full h-full"
             priority
+            quality={100}
+            unoptimized={backgroundImage.endsWith('.gif')}
           />
         ) : (
           /* Fallback to default background */
           <div className="w-full h-full bg-gradient-to-br from-gray-900 to-black"></div>
         )}
-        
+
         {/* Very subtle gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30"></div>
       </div>
