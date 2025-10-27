@@ -34,11 +34,27 @@ export async function GET(
 ) {
   try {
     const { name } = await params;
-    
-    // Load static albums data
-    const staticAlbumsPath = path.join(process.cwd(), 'public', 'static-albums.json');
-    const staticAlbumsData = JSON.parse(fs.readFileSync(staticAlbumsPath, 'utf8'));
-    const albums: Album[] = staticAlbumsData.albums || [];
+
+    // Load albums from parsed-feeds.json (same source as publishers endpoint)
+    const parsedFeedsPath = path.join(process.cwd(), 'data', 'parsed-feeds.json');
+    const parsedFeedsData = JSON.parse(fs.readFileSync(parsedFeedsPath, 'utf8'));
+
+    // Extract albums from parsed feeds
+    const albums: Album[] = parsedFeedsData.feeds
+      .filter((feed: any) => feed.type === 'album' && feed.parseStatus === 'success' && feed.parsedData?.album)
+      .map((feed: any) => ({
+        title: feed.parsedData.album.title,
+        artist: feed.parsedData.album.artist,
+        description: feed.parsedData.album.description || '',
+        coverArt: feed.parsedData.album.coverArt,
+        tracks: feed.parsedData.album.tracks || [],
+        releaseDate: feed.parsedData.album.releaseDate,
+        feedId: feed.id,
+        feedUrl: feed.originalUrl,
+        funding: feed.parsedData.album.funding,
+        podroll: feed.parsedData.album.podroll,
+        publisher: feed.parsedData.album.publisher
+      }));
 
     // Create slug for matching
     const createSlug = (text: string) => 
