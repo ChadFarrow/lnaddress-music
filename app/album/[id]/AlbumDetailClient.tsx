@@ -1021,7 +1021,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
             className="object-cover w-full h-full"
             priority
             quality={100}
-            unoptimized={backgroundImage.endsWith('.gif')}
+            unoptimized={true}
           />
         ) : (
           /* Fallback to default background */
