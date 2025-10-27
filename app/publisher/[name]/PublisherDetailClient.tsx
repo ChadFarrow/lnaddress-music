@@ -176,9 +176,9 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
             unoptimized={publisher.image?.endsWith('.gif')}
           />
         )}
-        
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 via-black/90 to-gray-900/95"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60"></div>
+
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-black/60 to-gray-900/70"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/40"></div>
       </div>
 
       {/* Content */}
