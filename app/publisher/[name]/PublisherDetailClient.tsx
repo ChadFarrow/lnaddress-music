@@ -267,7 +267,14 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold mb-6">Albums</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {publisher.albums.map((album, index) => (
+              {publisher.albums
+                .sort((a, b) => {
+                  // Sort by release date, newest first
+                  const dateA = new Date(a.releaseDate).getTime();
+                  const dateB = new Date(b.releaseDate).getTime();
+                  return dateB - dateA; // Descending order (newest first)
+                })
+                .map((album, index) => (
                 <div
                   key={`${album.feedId}-${index}`}
                   className="group relative"
