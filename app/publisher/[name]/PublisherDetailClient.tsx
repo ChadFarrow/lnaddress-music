@@ -158,15 +158,13 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
             alt={`${publisher.name} background`}
             fill
             className="object-cover w-full h-full"
-            style={{ filter: 'blur(8px) brightness(1.1) contrast(1.05)' }}
+            style={{ filter: 'blur(0px) brightness(1.0) contrast(1.0)' }}
             priority
             quality={100}
             unoptimized={publisher.image?.endsWith('.gif')}
           />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/40 via-black/30 to-gray-900/40"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20"></div>
       </div>
 
       {/* Content */}
