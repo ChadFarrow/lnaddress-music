@@ -154,15 +154,10 @@ export async function makeAutoBoostPayment({
       console.log(`💰 Using ${paymentsToMake.length} recipients (including fixed amounts)`);
     }
 
-    // Fallback to single recipient if no valid recipients
+    // No fallback - if no valid recipients, don't make payment
     if (paymentsToMake.length === 0) {
-      paymentsToMake = [{
-        address: fallbackRecipient,
-        split: 100,
-        name: 'Default',
-        type: 'lnaddress' // Use lnaddress type for Breez compatibility
-      }];
-      console.log('💰 Using fallback single recipient for auto boost');
+      console.log('⏭️  No valid payment recipients - skipping auto boost');
+      throw new Error('No valid payment recipients configured');
     }
 
     const totalSplit = paymentsToMake.reduce((sum, r) => sum + r.split, 0);

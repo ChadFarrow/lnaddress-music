@@ -498,8 +498,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const triggerAutoBoost = useCallback(async (track: Track) => {
     try {
       console.log('🚀 Auto boost triggered for:', track.title);
-      
-      // Get payment recipients from track or album data (same logic as manual boost)
+
+      // Get payment recipients from track or album data
       const getPaymentRecipients = () => {
         let recipients: any[] = [];
 
@@ -517,17 +517,15 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           console.log('✅ Using track-level podcast:value recipients for auto boost');
         }
 
-        // Note: Platform fee recipient removed - cannot use raw node pubkey with Breez SDK
-
         return recipients.length > 0 ? recipients : null;
       };
 
-      // Get fallback recipient (same as manual boost)
-      const getFallbackRecipient = () => {
-        // For Breez SDK, we cannot send to raw node pubkeys
-        // Use site owner's Lightning address as fallback
-        return 'chadf@getalby.com';
-      };
+      // Check if we have recipients before attempting payment
+      const recipients = getPaymentRecipients();
+      if (!recipients || recipients.length === 0) {
+        console.log('⏭️  No payment recipients configured for this track - skipping auto boost');
+        return;
+      }
 
       // Create boost metadata
       const boostMetadata = {
@@ -553,8 +551,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const paymentResult = await makeAutoBoostPayment({
         amount: autoBoostAmount,
         description: `Auto boost for ${track.title || 'Unknown Song'} by ${track.artist || 'Unknown Artist'}`,
-        recipients: getPaymentRecipients() || undefined,
-        fallbackRecipient: getFallbackRecipient(),
+        recipients,
+        fallbackRecipient: '', // No fallback - if no recipients, we shouldn't call this
         boostMetadata
       });
 
