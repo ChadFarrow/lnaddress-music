@@ -165,8 +165,8 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
           />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-black/60 to-gray-900/70"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/40 via-black/30 to-gray-900/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20"></div>
       </div>
 
       {/* Content */}
