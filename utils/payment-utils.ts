@@ -183,6 +183,12 @@ export async function makeAutoBoostPayment({
         const paymentPromises = paymentsToMake.map(async (recipientData) => {
           const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
 
+          // Skip recipients with 0 sats (happens with small amounts and small splits)
+          if (recipientAmount === 0) {
+            console.log(`⏭️  Skipping ${recipientData.name || recipientData.address} - amount rounds to 0 sats`);
+            throw new Error(`Amount too small for recipient (0 sats)`);
+          }
+
           console.log(`💰 Auto boost sending ${recipientAmount} sats to ${recipientData.name || recipientData.address} (type: ${recipientData.type})`);
 
           let result;
@@ -248,6 +254,12 @@ export async function makeAutoBoostPayment({
       try {
         const paymentPromises = paymentsToMake.map(async (recipientData) => {
           const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
+
+          // Skip recipients with 0 sats (happens with small amounts and small splits)
+          if (recipientAmount === 0) {
+            console.log(`⏭️  Skipping ${recipientData.name || recipientData.address} - amount rounds to 0 sats`);
+            throw new Error(`Amount too small for recipient (0 sats)`);
+          }
 
           console.log(`💰 Breez auto boost sending ${recipientAmount} sats to ${recipientData.name || recipientData.address} (type: ${recipientData.type})`);
 
@@ -317,7 +329,13 @@ export async function makeAutoBoostPayment({
       if (hasKeysend) {
         const paymentPromises = paymentsToMake.map(async (recipientData) => {
           const recipientAmount = (recipientData as any).fixedAmount || Math.floor((amount * recipientData.split) / totalSplit);
-          
+
+          // Skip recipients with 0 sats (happens with small amounts and small splits)
+          if (recipientAmount === 0) {
+            console.log(`⏭️  Skipping ${recipientData.name || recipientData.address} - amount rounds to 0 sats`);
+            throw new Error(`Amount too small for recipient (0 sats)`);
+          }
+
           console.log(`💰 WebLN auto boost sending ${recipientAmount} sats to ${recipientData.name || recipientData.address}`);
           
           // Create TLV records for boost metadata
