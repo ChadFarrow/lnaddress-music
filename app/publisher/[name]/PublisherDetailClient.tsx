@@ -53,6 +53,16 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
   const [error, setError] = useState<string | null>(null);
   const { playAlbum } = useAudio();
 
+  // Get newest album (most recent release date)
+  const getNewestAlbum = (albums: Album[]) => {
+    if (!albums || albums.length === 0) return null;
+    return [...albums].sort((a, b) => {
+      const dateA = new Date(a.releaseDate).getTime();
+      const dateB = new Date(b.releaseDate).getTime();
+      return dateB - dateA; // Newest first
+    })[0];
+  };
+
   useEffect(() => {
     if (!initialPublisher) {
       loadPublisher();
@@ -218,11 +228,11 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col lg:flex-row gap-8 items-start">
-              {/* Artist Artwork */}
+              {/* Artist Artwork - Newest Album */}
               <div className="flex-shrink-0 mx-auto lg:mx-0">
                 <div className="w-64 h-64 lg:w-80 lg:h-80 relative rounded-xl shadow-2xl overflow-hidden border border-white/20">
                   <Image
-                    src={publisher.image || publisherArtwork || publisher.albums[0]?.coverArt || '/placeholder-episode.jpg'}
+                    src={getNewestAlbum(publisher.albums)?.coverArt || publisher.image || publisherArtwork || publisher.albums[0]?.coverArt || '/placeholder-episode.jpg'}
                     alt={publisher.name}
                     fill
                     className="object-cover"
