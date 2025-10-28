@@ -512,7 +512,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               split: r.split,
               name: r.name,
               fee: r.fee,
-              type: r.type || 'node' // Use the type from value data
+              type: r.type || 'lnaddress' // Default to lnaddress for Breez compatibility
             }));
           console.log('✅ Using track-level podcast:value recipients for auto boost');
         }
