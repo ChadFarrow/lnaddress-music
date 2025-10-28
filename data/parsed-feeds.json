@@ -11,7 +11,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:07:55.879Z",
+      "lastParsed": "2025-10-28T22:50:49.717Z",
       "parsedData": {
         "album": {
           "title": "JUKEBOX",
@@ -25,6 +25,25 @@
               "url": "https://feeds.fountain.fm/1OAoykIvo90EwKMk2QKp/items/dJKAClx6gQFkOPG20r0t/files/AUDIO---DEFAULT---db7c512e-bb11-4b0e-bf82-40438067555a.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user51834637@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "68571a90-2024-4996-bb9e-dcc0a4b12a64",
               "feedGuid": "d4920398-e58e-597e-806c-cde83bc4ba00"
             }
@@ -78,7 +97,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-28T22:07:56.309Z",
+      "lastParsed": "2025-10-28T22:50:50.739Z",
       "parseError": "No album data found"
     },
     {
@@ -92,7 +111,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:01.611Z",
+      "lastParsed": "2025-10-28T22:50:56.505Z",
       "parsedData": {
         "album": {
           "title": "Lightswitch (album)",
@@ -106,6 +125,26 @@
               "url": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk/items/fzTqOp34eUPSGNsofxpP/files/AUDIO---DEFAULT---d56586b9-fa91-4e02-90b0-8efab85d5bce.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "1ebc30c2-c1b2-4c1e-a0cd-19c465c27c5b",
               "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336"
             },
@@ -115,6 +154,26 @@
               "url": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk/items/4Wqj1bkTPCtSLunkXjb4/files/AUDIO---DEFAULT---7e37fd7e-41f8-4e8d-8e00-3160568fac50.mp3",
               "trackNumber": 2,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "0a0c378a-7e7c-40ac-b858-0ebf41426c26",
               "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336"
             },
@@ -124,6 +183,26 @@
               "url": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk/items/vLcozDDsraeNdo9oMhGY/files/AUDIO---DEFAULT---1cb28ecd-ae8a-41cd-93eb-09d95bb700dd.mp3",
               "trackNumber": 3,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "c6fb68ad-f90d-4b26-a2cb-8b3defc516c1",
               "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336"
             },
@@ -133,6 +212,26 @@
               "url": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk/items/rUAJzbJavl75AryD91m2/files/AUDIO---DEFAULT---6aad89f1-021f-4fd6-b347-a41a80e24c3a.mp3",
               "trackNumber": 4,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "0c8a3896-c099-4983-8d2b-567b31f57511",
               "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336"
             },
@@ -142,6 +241,26 @@
               "url": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk/items/06hg1tRjSzOO2rppUEOZ/files/AUDIO---DEFAULT---4cd42c60-9f61-4949-bbe8-e5a9f5ddd061.mp3",
               "trackNumber": 5,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "3876f260-fa23-4c68-bcfe-d88ebd82f2ec",
               "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336"
             },
@@ -151,6 +270,26 @@
               "url": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk/items/QZIrMrgjtzEWnIym6Gnw/files/AUDIO---DEFAULT---2fddf218-5b21-40da-b4fc-2454d67d0a91.mp3",
               "trackNumber": 6,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "3062c4ea-dfce-49bb-953e-cb99fdeafe9b",
               "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336"
             },
@@ -160,6 +299,26 @@
               "url": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk/items/jbjrewv6ysvPpMaxYi9a/files/AUDIO---DEFAULT---43bdeb5d-e41f-401f-8f69-80fbe097c191.mp3",
               "trackNumber": 7,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "fcceeda3-38da-4101-a250-2998f08329e5",
               "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336"
             },
@@ -169,6 +328,26 @@
               "url": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk/items/Sjc8bDpIio5zq224bR4u/files/AUDIO---DEFAULT---40c938d0-3a4d-4958-9453-9e3c565eb165.mp3",
               "trackNumber": 8,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "3f524ac6-ce29-4a94-aed6-697d14818c27",
               "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336"
             },
@@ -178,6 +357,26 @@
               "url": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk/items/9VMk9Jr4NfN6vDYwU82P/files/AUDIO---DEFAULT---087c6c16-b326-4e8d-82e8-73eabfde9d0f.mp3",
               "trackNumber": 9,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "c6a91733-370b-4f22-8ebd-bc4e13461897",
               "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336"
             },
@@ -187,6 +386,26 @@
               "url": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk/items/NXppCSbGxb4y2qcP24Oc/files/AUDIO---DEFAULT---5fd95e24-fc90-464f-ac1a-68c2f4eba980.mp3",
               "trackNumber": 10,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "ea0845e6-0453-4a13-b5ad-0bf6f4b00601",
               "feedGuid": "303e6630-986d-51ec-9806-dc6a872f1336"
             }
@@ -241,7 +460,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:01.991Z",
+      "lastParsed": "2025-10-28T22:50:57.129Z",
       "parsedData": {
         "album": {
           "title": "Keep Walking",
@@ -255,6 +474,26 @@
               "url": "https://feeds.fountain.fm/tH0cyRAvMeWE8KS9aohT/items/f8oziHBmkAOk82XCRX0g/files/AUDIO---DEFAULT---0933c0db-355c-49c1-b7ee-33f62da40f6d.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "fe1d6ec9-75e9-4560-9f06-ddceb57f2dfc",
               "feedGuid": "9797bece-64d1-53bb-9eeb-7c3eab4628d1"
             }
@@ -309,7 +548,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:02.409Z",
+      "lastParsed": "2025-10-28T22:50:57.846Z",
       "parsedData": {
         "album": {
           "title": "My test music single",
@@ -323,6 +562,33 @@
               "url": "https://feeds.fountain.fm/MXfzmaDzg11cSw8cOSIo/items/eu4Tmctmu435On6orAXP/files/AUDIO---DEFAULT---f125b350-1945-4d38-980d-925863e9e88c.m4a",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "karamazov@fountain.fm",
+                    "split": 96,
+                    "name": "Karamazov",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompower@strike.me",
+                    "split": 2,
+                    "name": "Phantom Power",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "e0cc5c1e-476c-5ff2-af28-1b6a5517f91c",
               "feedGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7"
             }
@@ -384,7 +650,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:03.069Z",
+      "lastParsed": "2025-10-28T22:50:58.866Z",
       "parsedData": {
         "album": {
           "title": "Big Day (album)",
@@ -399,6 +665,26 @@
               "trackNumber": 1,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/9o6IlNpf3zPnshoY1yol/files/COVER_ART---DEFAULT---6b72fd22-b150-4246-be95-940335be2513.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "2b3a10b6-ec5e-4347-9bfe-9d4ee157af9f",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/9o6IlNpf3zPnshoY1yol/files/COVER_ART---DEFAULT---6b72fd22-b150-4246-be95-940335be2513.jpg"
@@ -410,6 +696,26 @@
               "trackNumber": 2,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/a526HOP5zA52T1ZAkuwU/files/COVER_ART---DEFAULT---821ef9b4-cfe1-4432-96fb-4d38525843d4.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "93916790-f243-4f42-ae27-64109e76f4c1",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/a526HOP5zA52T1ZAkuwU/files/COVER_ART---DEFAULT---821ef9b4-cfe1-4432-96fb-4d38525843d4.jpg"
@@ -421,6 +727,26 @@
               "trackNumber": 3,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/3fO1IaERrMyIcJVxP16J/files/COVER_ART---DEFAULT---a6a02ec5-b6ff-46ca-a99f-4acc057ef277.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "92f09452-7012-45c8-b921-5e4fa52fc3e2",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/3fO1IaERrMyIcJVxP16J/files/COVER_ART---DEFAULT---a6a02ec5-b6ff-46ca-a99f-4acc057ef277.jpg"
@@ -432,6 +758,26 @@
               "trackNumber": 4,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LoYew6r8pcIjiVxNIK5c/files/COVER_ART---DEFAULT---fabab0c9-f7c9-4666-83ce-c4612920614b.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "58b6530d-2150-4fe8-b445-7c241c2a548f",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LoYew6r8pcIjiVxNIK5c/files/COVER_ART---DEFAULT---fabab0c9-f7c9-4666-83ce-c4612920614b.jpg"
@@ -443,6 +789,26 @@
               "trackNumber": 5,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LNFa35O0zx5Q5mYUVI3B/files/COVER_ART---DEFAULT---52831e33-8737-4eb3-9ac7-381060c7a0d3.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "f8757397-4f62-4dd7-82ca-03fabe7045a5",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LNFa35O0zx5Q5mYUVI3B/files/COVER_ART---DEFAULT---52831e33-8737-4eb3-9ac7-381060c7a0d3.jpg"
@@ -454,6 +820,26 @@
               "trackNumber": 6,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/SMSNNHlFNaux97mmdnmo/files/COVER_ART---DEFAULT---013364f2-fbe0-421c-a155-9000e4809414.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "44b68fd7-4bdf-445e-9581-0596038c0ccc",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/SMSNNHlFNaux97mmdnmo/files/COVER_ART---DEFAULT---013364f2-fbe0-421c-a155-9000e4809414.jpg"
@@ -465,6 +851,26 @@
               "trackNumber": 7,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/QvPbINlsM0K1dmogHJf4/files/COVER_ART---DEFAULT---3410f79b-3d66-462c-9150-051a6210e13f.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "78a357ce-8d57-4635-a66e-1363ed789896",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/QvPbINlsM0K1dmogHJf4/files/COVER_ART---DEFAULT---3410f79b-3d66-462c-9150-051a6210e13f.jpg"
@@ -476,6 +882,26 @@
               "trackNumber": 8,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/l9EBcOImpqpFfzjMxtWt/files/COVER_ART---DEFAULT---88c13430-83a0-4801-88c6-480598c11f2d.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "57fb2560-02e3-45f6-a15b-88088b58f614",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/l9EBcOImpqpFfzjMxtWt/files/COVER_ART---DEFAULT---88c13430-83a0-4801-88c6-480598c11f2d.jpg"
@@ -487,6 +913,26 @@
               "trackNumber": 9,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/r0zLgYBAFYSGXbpb91G9/files/COVER_ART---DEFAULT---55fd31ef-920c-41ce-9c43-9950382d5624.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "a496ae6f-021d-43fe-aabf-1608e5ff10a3",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/r0zLgYBAFYSGXbpb91G9/files/COVER_ART---DEFAULT---55fd31ef-920c-41ce-9c43-9950382d5624.jpg"
@@ -498,6 +944,26 @@
               "trackNumber": 10,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/oleyU4i7z5jQkqawVAy3/files/COVER_ART---DEFAULT---0f180796-2cb3-4a27-ac10-f630f943e9e2.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "d1cb548b-0263-4430-bfce-321fbb5aae04",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/oleyU4i7z5jQkqawVAy3/files/COVER_ART---DEFAULT---0f180796-2cb3-4a27-ac10-f630f943e9e2.jpg"
@@ -553,7 +1019,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:03.712Z",
+      "lastParsed": "2025-10-28T22:50:59.398Z",
       "parsedData": {
         "album": {
           "title": "Worried",
@@ -567,6 +1033,26 @@
               "url": "https://feeds.fountain.fm/aCFEYwJijoBbZSUP32JA/items/9zDVqrKCHwMZMvOpQAv1/files/AUDIO---DEFAULT---df67f97a-f73e-4c0c-a4dc-4e238e8feaa1.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "suzannesanto@fountain.fm",
+                    "split": 98,
+                    "name": "Suzanne Santo",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "405be9f7-684f-54b8-9035-009111f1933f",
               "feedGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b"
             }
@@ -621,7 +1107,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:04.142Z",
+      "lastParsed": "2025-10-28T22:51:00.402Z",
       "parsedData": {
         "album": {
           "title": "No one left",
@@ -635,6 +1121,25 @@
               "url": "https://feeds.fountain.fm/pgZdJEJKYMHYI7aIytJc/items/WmJPSZQ8D874AiM4xvC9/files/AUDIO---DEFAULT---397b3568-44f5-42dc-a942-d6ae60d091f2.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "fshr@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "9da2dcf1-a82f-49f1-9467-34eca72a7929",
               "feedGuid": "6c431a3e-7482-524e-86b3-3754d042ecf2"
             }
@@ -688,7 +1193,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:04.868Z",
+      "lastParsed": "2025-10-28T22:51:01.049Z",
       "parsedData": {
         "album": {
           "title": "Gig Harbor Morning",
@@ -702,6 +1207,33 @@
               "url": "https://feeds.fountain.fm/R3PmXl9mv1B6C8VJlTf4/items/rr8J5nRMY56R8AmBre5b/files/AUDIO---DEFAULT---9ad25a91-379d-4060-9ad8-5bfd75d67cdd.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 96,
+                    "name": "James Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompower@strike.me",
+                    "split": 2,
+                    "name": "Phantom Power",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "87945b97-9bf4-4f36-87a6-cc66ca4358bc",
               "feedGuid": "699fdb4b-7ceb-5687-ac19-940e4613aae0"
             }
@@ -763,7 +1295,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:05.481Z",
+      "lastParsed": "2025-10-28T22:51:02.038Z",
       "parsedData": {
         "album": {
           "title": "Somewhere Local",
@@ -777,6 +1309,25 @@
               "url": "https://feeds.fountain.fm/CGjNYFmxbdhxlHTl4OPD/items/engRGZbs2xpdkWR04pCw/files/AUDIO---DEFAULT---a27d70ff-f1dd-47cc-8a49-6daf51f40160.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38400474@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "6170137a-7de9-476b-93ee-576383e9c86f",
               "feedGuid": "725c0a0e-de81-5fb3-bbac-7b58cd03e52f"
             }
@@ -830,7 +1381,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:05.992Z",
+      "lastParsed": "2025-10-28T22:51:02.547Z",
       "parsedData": {
         "album": {
           "title": "No Shotgun",
@@ -844,6 +1395,26 @@
               "url": "https://feeds.fountain.fm/1v5tzlrd5MmaxcsZh405/items/6dwleLqmjK5tcJdPbTCb/files/AUDIO---DEFAULT---4a3a5e7c-72a6-4d98-bb5c-ee8156f4646d.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user18659677@fountain.fm",
+                    "split": 98,
+                    "name": "lucas",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "ca17b9dc-4355-4b0a-a837-0b53a5759b65",
               "feedGuid": "0ab839e7-0504-561b-b569-9d5a8e83ec42"
             }
@@ -898,7 +1469,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:06.882Z",
+      "lastParsed": "2025-10-28T22:51:03.109Z",
       "parsedData": {
         "album": {
           "title": "Decisions to Make",
@@ -912,6 +1483,26 @@
               "url": "https://feeds.fountain.fm/B5qgnnd2WkFcnMZvZtIe/items/spI5VXkk9h2D3rYOsprT/files/AUDIO---DEFAULT---d0fe924b-8cbf-4978-8420-2f0fef7fc30f.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "James Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "fb0b09f8-059c-481d-a470-85d26df99aec",
               "feedGuid": "025ad614-f9f5-5547-863a-3469be606400"
             }
@@ -966,7 +1557,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:07.360Z",
+      "lastParsed": "2025-10-28T22:51:03.929Z",
       "parsedData": {
         "album": {
           "title": "Hiking at Mohawk Lakes, CO",
@@ -980,6 +1571,26 @@
               "url": "https://feeds.fountain.fm/3G0Tk0rZl9isOZexA0uw/items/Cs5UYcKOR5xEMAQuQyjr/files/AUDIO---DEFAULT---49a22c63-fee5-40f1-b45e-cc55912edee7.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "James Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "ee057cf2-52fb-48f4-9c76-f03508878ebf",
               "feedGuid": "a351816d-fbc3-5965-8a5a-31c1720b9d2a"
             }
@@ -1034,7 +1645,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:07.859Z",
+      "lastParsed": "2025-10-28T22:51:04.370Z",
       "parsedData": {
         "album": {
           "title": "Gunfiyas",
@@ -1048,6 +1659,26 @@
               "url": "https://feeds.fountain.fm/cev2UTfIYNxrmo7aRpdv/items/nvarzZvWTcFmh6JgBjbp/files/AUDIO---DEFAULT---e41ecb98-f46b-42ae-b182-ba48e6540a6d.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "sidtylerdj@fountain.fm",
+                    "split": 98,
+                    "name": "Sid Tyler",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "791a0542-dc96-4f03-a276-1ee94af0f49e",
               "feedGuid": "75803897-f9e6-5c7a-81e1-77af029d00dd"
             },
@@ -1057,6 +1688,26 @@
               "url": "https://feeds.fountain.fm/cev2UTfIYNxrmo7aRpdv/items/1DMuP966Wx02A3AQi9CR/files/AUDIO---DEFAULT---1f6d7d30-0a51-4813-8928-ff6db76284c9.wav",
               "trackNumber": 2,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "sidtylerdj@fountain.fm",
+                    "split": 98,
+                    "name": "Sid Tyler",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "69802164-5017-4055-a3e0-c1b66ec20899",
               "feedGuid": "75803897-f9e6-5c7a-81e1-77af029d00dd"
             }
@@ -1111,7 +1762,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:08.495Z",
+      "lastParsed": "2025-10-28T22:51:04.864Z",
       "parsedData": {
         "album": {
           "title": "Ani Ohevet",
@@ -1125,6 +1776,26 @@
               "url": "https://feeds.fountain.fm/Omy7ecTnhzDYs68v4xH6/items/UxTcPfLDqVk5x9gCWxEc/files/AUDIO---DEFAULT---c97b236f-b864-42d6-82ab-9998ce4941c7.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "th@fountain.fm",
+                    "split": 98,
+                    "name": "Theo | Fountain.fm",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "86423180-661e-476e-8b2b-91b081bc2368",
               "feedGuid": "54e811c7-ebfa-5abc-91ee-02841add5677"
             }
@@ -1179,7 +1850,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:09.473Z",
+      "lastParsed": "2025-10-28T22:51:05.406Z",
       "parsedData": {
         "album": {
           "title": "See the World in another Light",
@@ -1193,6 +1864,26 @@
               "url": "https://feeds.fountain.fm/coilo1UtrEhh5fVMUpHm/items/fduigxt0fFaqkrHTPG4y/files/AUDIO---DEFAULT---0278bda4-9deb-457f-8bf0-3eab76dc8c4d.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "c458d1b7-feaf-4891-8963-5cf562ea9a21",
               "feedGuid": "f2b67f93-802d-5062-bebd-6979839d56bd"
             }
@@ -1247,7 +1938,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:09.971Z",
+      "lastParsed": "2025-10-28T22:51:05.937Z",
       "parsedData": {
         "album": {
           "title": "Memories from Room 255 (In Memory of T.A.)",
@@ -1261,6 +1952,26 @@
               "url": "https://feeds.fountain.fm/YhxNVeHCKrMVGr9qrvaf/items/cRKFDmbyhZaZb4uIeeSq/files/AUDIO---DEFAULT---3c63c6d3-71d2-4841-8aa8-5a8ab8545fe2.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "James Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "2b46dd30-d186-4dfb-9659-e4af9b1ea460",
               "feedGuid": "f5dc42c5-31af-5ba3-843b-7d011fccaf5e"
             }
@@ -1315,7 +2026,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:10.420Z",
+      "lastParsed": "2025-10-28T22:51:06.453Z",
       "parsedData": {
         "album": {
           "title": "Reasons You Know",
@@ -1329,6 +2040,26 @@
               "url": "https://feeds.fountain.fm/UR5rjgL09imVtQJ7D309/items/tpLytHU9Ivrbi5K7ofCO/files/AUDIO---DEFAULT---f8458bd5-4e26-4f37-b0d4-1386b2e40f04.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user18659677@fountain.fm",
+                    "split": 98,
+                    "name": "lucas",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "36d29e67-7238-4e42-ab58-25d7955a9c27",
               "feedGuid": "357739a2-2ab0-5f74-a4ac-be8d80199dc9"
             }
@@ -1383,7 +2114,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:10.903Z",
+      "lastParsed": "2025-10-28T22:51:06.885Z",
       "parsedData": {
         "album": {
           "title": "Tender Wolf (featured by InHale and The Flute Prayer)",
@@ -1397,6 +2128,26 @@
               "url": "https://feeds.fountain.fm/2WvuguFOOm1gEL4yHedr/items/gXCIEXO5A7z9AQUgHfB5/files/AUDIO---DEFAULT---85876c80-b2a3-48d9-b97c-e06c0cf4565d.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "2b5e5c88-3422-4728-953e-a182755e80c4",
               "feedGuid": "513ba1ca-b4ad-570a-a077-7eb0ea355ce4"
             }
@@ -1451,7 +2202,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:11.369Z",
+      "lastParsed": "2025-10-28T22:51:07.263Z",
       "parsedData": {
         "album": {
           "title": "In From the Range",
@@ -1465,6 +2216,26 @@
               "url": "https://feeds.fountain.fm/ESZgO788digzo9vN9YLe/items/e6HwP6FnN3MgskV6gJLC/files/AUDIO---DEFAULT---4b0d9297-29b1-43a9-a1ed-2917e1cde14e.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "James Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "33376b09-92e8-4895-94f0-8e3ff1d85d1f",
               "feedGuid": "03d772cf-2573-5fc3-968b-254a259e4476"
             }
@@ -1519,7 +2290,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:11.813Z",
+      "lastParsed": "2025-10-28T22:51:07.660Z",
       "parsedData": {
         "album": {
           "title": "King Size on the Floor",
@@ -1533,6 +2304,26 @@
               "url": "https://feeds.fountain.fm/7T0aCD9SYr62deJoszWB/items/o00hShlqLQ2Z0riC73o9/files/AUDIO---DEFAULT---da2be391-ee1d-4b76-a36f-7182c253fbb1.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user18659677@fountain.fm",
+                    "split": 98,
+                    "name": "lucas",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "283d9352-d71e-4a54-86f5-ac70091b0959",
               "feedGuid": "b9136e82-9d4b-59de-be06-3340bd418be7"
             }
@@ -1587,7 +2378,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:12.342Z",
+      "lastParsed": "2025-10-28T22:51:08.099Z",
       "parsedData": {
         "album": {
           "title": "Bitcoin on the Brink",
@@ -1601,6 +2392,25 @@
               "url": "https://feeds.fountain.fm/6SMkQgK0KNJV2VrEeho6/items/U7svlqGfuPM3Xmu17rHd/files/AUDIO---DEFAULT---7b97171d-fc30-42ef-a746-5e5dffbdba85.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "7a707ef3-7a5f-4c9a-ac3e-fc7359f22c72",
               "feedGuid": "6ef0ca21-307a-511b-b0a1-c7c0d3932773"
             }
@@ -1654,7 +2464,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:12.980Z",
+      "lastParsed": "2025-10-28T22:51:08.515Z",
       "parsedData": {
         "album": {
           "title": "Dem Boiz",
@@ -1668,6 +2478,25 @@
               "url": "https://feeds.fountain.fm/U5hnCkHONC2f7ttVeNe9/items/QlgKbKA9m69nmRbnUkKz/files/AUDIO---DEFAULT---39981d28-6a5a-44c1-abd2-d68690dcbf8f.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user20381644@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "b52e29e3-da6b-4844-b727-2f4d138a2574",
               "feedGuid": "6a0533de-992f-5466-813c-97e3a7489dc1"
             }
@@ -1721,7 +2550,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:13.646Z",
+      "lastParsed": "2025-10-28T22:51:08.971Z",
       "parsedData": {
         "album": {
           "title": "Greatness",
@@ -1735,6 +2564,26 @@
               "url": "https://feeds.fountain.fm/Fjg1w0TDSvh62jPwxGCJ/items/AS3F1AxhrQ8IjQ8SQWWH/files/AUDIO---DEFAULT---cb3a251f-a555-43ba-93e4-528cd5ef904a.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "a0c7c94a-0d1f-4326-9064-235b8da7d671",
               "feedGuid": "9d500597-5fb9-5265-94c0-929686afea6f"
             }
@@ -1789,7 +2638,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:14.066Z",
+      "lastParsed": "2025-10-28T22:51:09.380Z",
       "parsedData": {
         "album": {
           "title": "OM Ganesha",
@@ -1803,6 +2652,32 @@
               "url": "https://feeds.fountain.fm/CRBbOcxJL7c1WxT1C7UA/items/s1PG6ryLYMyXV13HofOQ/files/AUDIO---DEFAULT---d6f2993d-539c-4375-89f4-05c260325be2.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 96,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompower@strike.me",
+                    "split": 2,
+                    "name": "Phantom Power",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "e879b32b-6944-4547-aa72-1ceefbc1d493",
               "feedGuid": "5d218bd0-3b8f-597b-a58e-c7f38e801a0e"
             }
@@ -1863,7 +2738,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:14.540Z",
+      "lastParsed": "2025-10-28T22:51:09.815Z",
       "parsedData": {
         "album": {
           "title": "With Open Arms",
@@ -1877,6 +2752,32 @@
               "url": "https://feeds.fountain.fm/T9DRdlluhdwmf3VRtARJ/items/j7CSEph0no9YY979TTS9/files/AUDIO---DEFAULT---3ef29f2b-a22e-444f-ae65-cdac2f59da9b.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 96,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompower@strike.me",
+                    "split": 2,
+                    "name": "Phantom Power",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "f0932435-b41d-4823-8f1e-475341239b23",
               "feedGuid": "893c21c1-79af-582a-b11c-7886abf3a235"
             }
@@ -1937,7 +2838,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:14.914Z",
+      "lastParsed": "2025-10-28T22:51:10.304Z",
       "parsedData": {
         "album": {
           "title": "As You Were",
@@ -1952,6 +2853,26 @@
               "trackNumber": 1,
               "image": "https://feeds.fountain.fm/EHyzgnq22DmGbcnVSLu7/items/fgUr6mQBcmfzTpNnJYb9/files/COVER_ART---DEFAULT---c0bb856a-b551-4192-98e7-94da47ef81a0.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompowermedia@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "053de147-a215-5c59-99a0-d0b875ca9e9d",
               "feedGuid": "c17b43a2-7a97-504b-883d-ac1b68335bec",
               "imageUrl": "https://feeds.fountain.fm/EHyzgnq22DmGbcnVSLu7/items/fgUr6mQBcmfzTpNnJYb9/files/COVER_ART---DEFAULT---c0bb856a-b551-4192-98e7-94da47ef81a0.jpg"
@@ -2007,7 +2928,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:15.371Z",
+      "lastParsed": "2025-10-28T22:51:10.740Z",
       "parsedData": {
         "album": {
           "title": "OM Vighnanashaya Namah",
@@ -2021,6 +2942,32 @@
               "url": "https://feeds.fountain.fm/vu8OWxdvYHg75EcRi8nm/items/tiB1zJVaPNfXTPLxUmNw/files/AUDIO---DEFAULT---20c39962-e68b-4d3c-9fe9-62035d7777c1.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 96,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompower@strike.me",
+                    "split": 2,
+                    "name": "Phantom Power",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "ce643c48-b60a-49d6-88de-ff162c52570d",
               "feedGuid": "626c72df-c2de-5b4e-9594-76a68e8cbedd"
             }
@@ -2081,7 +3028,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:15.764Z",
+      "lastParsed": "2025-10-28T22:51:11.222Z",
       "parsedData": {
         "album": {
           "title": "When They Come Home",
@@ -2095,6 +3042,26 @@
               "url": "https://feeds.fountain.fm/dKiGRwzhcrYLLlMUhgsM/items/QPSsNZgxJ6bukUJB5ak3/files/AUDIO---DEFAULT---8010a4f9-5283-46b2-8901-dd4d38acbdde.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompowermedia@fountain.fm",
+                    "split": 98,
+                    "name": "Phantom Power Media",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "7c1ac81f-e9f6-4c64-be09-b2b6a8fda387",
               "feedGuid": "22a9725e-48d5-5fe3-a335-9b2c2508586e"
             }
@@ -2149,7 +3116,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:16.198Z",
+      "lastParsed": "2025-10-28T22:51:11.626Z",
       "parsedData": {
         "album": {
           "title": "Consciouseness",
@@ -2163,6 +3130,26 @@
               "url": "https://feeds.fountain.fm/lL6MEcwn09g5qbjWTvH6/items/fQ6qEaJXTCFbMIzi2eUa/files/AUDIO---DEFAULT---220a1699-c625-4eee-8c0d-8ee1e6a5ad00.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "b56e5875-9009-4bbc-9bab-d4da046ced4b",
               "feedGuid": "38c26e83-a642-58a6-96d0-0e9dd95cf091"
             }
@@ -2217,7 +3204,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:16.598Z",
+      "lastParsed": "2025-10-28T22:51:12.092Z",
       "parsedData": {
         "album": {
           "title": "Live at the Reader 2015",
@@ -2231,6 +3218,26 @@
               "url": "https://feeds.fountain.fm/NhPvPPFbR2hrZucIYe2h/items/wEAD9bSaJY6JTpnqQRsA/files/AUDIO---DEFAULT---7d09b657-804e-45ed-9089-f235733c8007.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "name": "Justin Lantrip",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "94547a91-1367-480b-a91b-c1c659d41a75",
               "feedGuid": "618ede0e-f359-5794-a6ee-895846f25ee5"
             },
@@ -2240,6 +3247,26 @@
               "url": "https://feeds.fountain.fm/NhPvPPFbR2hrZucIYe2h/items/vAouvBjPhKT3WPW2KAyv/files/AUDIO---DEFAULT---927afda5-32aa-4695-935e-2546c002657a.wav",
               "trackNumber": 2,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "name": "Justin Lantrip",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "02f5a1d9-ebfa-4754-9cd0-c0bb07614a51",
               "feedGuid": "618ede0e-f359-5794-a6ee-895846f25ee5"
             },
@@ -2249,6 +3276,26 @@
               "url": "https://feeds.fountain.fm/NhPvPPFbR2hrZucIYe2h/items/yYtwdDguxfEIsKWpjOIw/files/AUDIO---DEFAULT---8c2c60d2-545b-4e56-96df-a90ce8612999.wav",
               "trackNumber": 3,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "name": "Justin Lantrip",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "c3aefe71-767f-4302-870a-e940517f356f",
               "feedGuid": "618ede0e-f359-5794-a6ee-895846f25ee5"
             },
@@ -2258,6 +3305,26 @@
               "url": "https://feeds.fountain.fm/NhPvPPFbR2hrZucIYe2h/items/OfTRBP8C6noDfDyNUU13/files/AUDIO---DEFAULT---70d322bb-f2c1-4756-8d95-e30ae95ce822.wav",
               "trackNumber": 4,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "name": "Justin Lantrip",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "9c8dfdb6-7092-4067-a907-36582f84f86d",
               "feedGuid": "618ede0e-f359-5794-a6ee-895846f25ee5"
             }
@@ -2312,7 +3379,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:17.406Z",
+      "lastParsed": "2025-10-28T22:51:12.572Z",
       "parsedData": {
         "album": {
           "title": "A Phoenix Rising",
@@ -2326,6 +3393,26 @@
               "url": "https://feeds.fountain.fm/GmNPfL20WkoyXsDa5Uuc/items/z94myAdD1tno0BnrTsnd/files/AUDIO---DEFAULT---a7afc87e-ba5c-4c0d-988b-f611aea5b1a1.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Hans",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "45eac3b7-8d8d-4781-a5c0-ff2087cba34f",
               "feedGuid": "93b87051-e176-586a-b45f-dc56c22d304d"
             }
@@ -2380,7 +3467,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:17.787Z",
+      "lastParsed": "2025-10-28T22:51:12.977Z",
       "parsedData": {
         "album": {
           "title": "Om Biktaya Namah",
@@ -2394,6 +3481,33 @@
               "url": "https://feeds.fountain.fm/3K44iUwcYOQhFdHvTjZn/items/kXo5Ynzzh4PXr0idamBL/files/AUDIO---DEFAULT---a3461b8d-4968-4d49-8de1-c9a4be739ffa.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 96,
+                    "name": "Hans",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompower@strike.me",
+                    "split": 2,
+                    "name": "Phantom Power",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "b060ba20-2347-4b91-85f2-615723c24a6a",
               "feedGuid": "56558e2b-cc2f-5c16-b104-6e3eee500402"
             }
@@ -2455,7 +3569,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:18.200Z",
+      "lastParsed": "2025-10-28T22:51:13.449Z",
       "parsedData": {
         "album": {
           "title": "Whispers",
@@ -2469,6 +3583,26 @@
               "url": "https://feeds.fountain.fm/uGyN3vE3oVoshkInRwKJ/items/xM4Tbe8s6BbBkQGUAsAf/files/AUDIO---DEFAULT---2821ab87-17de-40fb-b4d5-2dc495823054.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "909975ff-9fae-4846-8faa-5976657c57b3",
               "feedGuid": "09b1bf8b-998f-58f3-ac8f-6f9e283dca1b"
             }
@@ -2523,7 +3657,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:18.534Z",
+      "lastParsed": "2025-10-28T22:51:14.324Z",
       "parsedData": {
         "album": {
           "title": "God, With You",
@@ -2537,6 +3671,26 @@
               "url": "https://feeds.fountain.fm/uBap29oJjwRgYbzWMqba/items/bUYXocXWOWwsJ9sKuuYd/files/AUDIO---DEFAULT---bc2c8089-72a7-4f5f-8867-02296a2b10c2.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "suzannesanto@fountain.fm",
+                    "split": 98,
+                    "name": "Suzanne Santo",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "0d8528b4-915d-4061-aa83-b78279a7fa58",
               "feedGuid": "f298dbe0-7e1a-5e44-93be-07e910477bc0"
             }
@@ -2591,7 +3745,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:19.160Z",
+      "lastParsed": "2025-10-28T22:51:14.866Z",
       "parsedData": {
         "album": {
           "title": "good old days",
@@ -2605,6 +3759,25 @@
               "url": "https://feeds.fountain.fm/uV8REr9zILyiZko9LMLh/items/9eW3JxGl625FSeLmir0f/files/AUDIO---DEFAULT---90375ace-e4b0-4790-8ea2-1397f1df3540.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "lorenzodemedici@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "e9b72d14-c6ea-4bff-b057-a625d96d00e1",
               "feedGuid": "46620f3b-07b7-5344-af81-dc4012dd494c"
             }
@@ -2658,7 +3831,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:19.674Z",
+      "lastParsed": "2025-10-28T22:51:15.452Z",
       "parsedData": {
         "album": {
           "title": "ZIPPA",
@@ -2672,6 +3845,25 @@
               "url": "https://feeds.fountain.fm/3KZyL93lotCBYGQXXOM6/items/apccWNjYDO1cfUcKk1Q3/files/AUDIO---DEFAULT---b8003e4c-28eb-4828-8ece-ab6d5c110ab6.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user72422843@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "c74ec376-d07f-43f5-b366-2fec2dbfb93d",
               "feedGuid": "1f2c585b-86e8-5231-a747-58dfc4f34970"
             }
@@ -2725,7 +3917,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:20.128Z",
+      "lastParsed": "2025-10-28T22:51:16.061Z",
       "parsedData": {
         "album": {
           "title": "seeing stars",
@@ -2739,6 +3931,25 @@
               "url": "https://feeds.fountain.fm/2tkWeg3Bo5jwKAFCVNZo/items/QFHwAzwp8tVkcbUE2MLW/files/AUDIO---DEFAULT---b47e3dff-9a72-4a25-95cd-b226e70bd7d9.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "lorenzodemedici@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "5271ecd9-5bd4-486a-b404-b0dd0e54d42d",
               "feedGuid": "4b7dcd08-9b4e-5026-a58a-22a9438edba5"
             }
@@ -2792,7 +4003,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:20.572Z",
+      "lastParsed": "2025-10-28T22:51:16.547Z",
       "parsedData": {
         "album": {
           "title": "disco girl",
@@ -2806,6 +4017,25 @@
               "url": "https://feeds.fountain.fm/vTnG56FnjCVEQN8Q56DB/items/Jd6XxMGGgpmZ9pczecAj/files/AUDIO---DEFAULT---e8e76349-5296-4e70-89ab-262d24b0fe22.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "lorenzodemedici@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "94be7143-1339-463a-be51-b5817e015505",
               "feedGuid": "1ac5a6c7-bb0a-5ee6-b760-d47dfc605b95"
             }
@@ -2859,7 +4089,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:20.998Z",
+      "lastParsed": "2025-10-28T22:51:17.195Z",
       "parsedData": {
         "album": {
           "title": "if the world stops",
@@ -2873,6 +4103,25 @@
               "url": "https://feeds.fountain.fm/kdoQZAvLTQTTJHBQRyhw/items/gOI7HnRiJKf0HsrIYoEB/files/AUDIO---DEFAULT---cfa5cc1e-5873-434b-933e-822c2bfbbb68.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "lorenzodemedici@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "53d2625e-9e0f-4687-9017-96d9345343c8",
               "feedGuid": "86ac9afa-8187-57aa-a02c-7f1e12d35bfd"
             }
@@ -2926,7 +4175,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:21.414Z",
+      "lastParsed": "2025-10-28T22:51:17.909Z",
       "parsedData": {
         "album": {
           "title": "Love Yourself 528Hz meditation - Haleen",
@@ -2940,6 +4189,26 @@
               "url": "https://feeds.fountain.fm/0jTqX1XMHw3P6dNstBRg/items/vaAt1mq1SHjjvgeQJRSb/files/AUDIO---DEFAULT---f036463c-7485-45aa-9df1-c77a4c9ca220.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "4eaa305a-e83b-4920-b199-050c803cdec6",
               "feedGuid": "2d9fcf5d-6bab-57e0-b63e-a0ee19d11e9a"
             }
@@ -2994,7 +4263,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:21.763Z",
+      "lastParsed": "2025-10-28T22:51:18.470Z",
       "parsedData": {
         "album": {
           "title": "I Miss Home",
@@ -3008,6 +4277,26 @@
               "url": "https://feeds.fountain.fm/A5Gwak2jhw8gEUuZFH86/items/oTLuIQc6weV2GYHsT5eu/files/AUDIO---DEFAULT---ccf0892e-74c3-4572-b716-df9e129b1483.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "2543f600-bca9-55c9-a87c-9634ac563622",
               "feedGuid": "e5c27a40-0763-52c2-923c-847ca8bfb630"
             }
@@ -3062,7 +4351,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:22.171Z",
+      "lastParsed": "2025-10-28T22:51:18.952Z",
       "parsedData": {
         "album": {
           "title": "Om Namah Shivaya",
@@ -3076,6 +4365,26 @@
               "url": "https://feeds.fountain.fm/1qybQ9cyDoa0X6ylGH3n/items/fUHwnC3HwrpkeKRsVFvw/files/AUDIO---DEFAULT---4b4cf801-6008-4e2c-a355-5c261f9d6a4f.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "0ba3c68d-b2a1-4ef6-8f9b-5c563145ca86",
               "feedGuid": "46a82cad-b9ef-534a-9c72-e6dc4ba8994f"
             }
@@ -3130,7 +4439,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-28T22:08:22.532Z",
+      "lastParsed": "2025-10-28T22:51:19.649Z",
       "parseError": "No album data found"
     },
     {
@@ -3144,7 +4453,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-28T22:08:27.685Z",
+      "lastParsed": "2025-10-28T22:51:25.186Z",
       "parseError": "No album data found"
     },
     {
@@ -3158,7 +4467,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:32.559Z",
+      "lastParsed": "2025-10-28T22:51:30.091Z",
       "parsedData": {
         "album": {
           "title": "Confession Booth Blues",
@@ -3172,6 +4481,26 @@
               "url": "https://feeds.fountain.fm/LRyCB789ESBpyZvJ00YE/items/6fgzT1wMtQupDXxKbN6n/files/AUDIO---DEFAULT---1f67a2e9-133a-4f2a-a78d-4fabeda1ee4f.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "karamazov@fountain.fm",
+                    "split": 98,
+                    "name": "Karamazov",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "05ca892e-8c2c-420c-98e5-888f898ac8fe",
               "feedGuid": "f9d2fbaf-b665-5079-9fa4-ba48bb880004"
             }
@@ -3226,7 +4555,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:33.209Z",
+      "lastParsed": "2025-10-28T22:51:30.994Z",
       "parsedData": {
         "album": {
           "title": "Big Tings a Gwarn",
@@ -3240,6 +4569,26 @@
               "url": "https://feeds.fountain.fm/v7OANtOMxLqcxEzWnr9D/items/Lpyydxx8i1KgrPfVLPba/files/AUDIO---DEFAULT---7e992768-2fdf-4797-8fae-e5f836f9aed8.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "telforo@fountain.fm",
+                    "split": 98,
+                    "name": "Telforo",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "00db49bf-862d-48c3-aeab-9353aea827c1",
               "feedGuid": "298b971c-8f38-598a-bc3c-2c265bc0065c"
             }
@@ -3294,7 +4643,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:33.934Z",
+      "lastParsed": "2025-10-28T22:51:31.937Z",
       "parsedData": {
         "album": {
           "title": "TYL001",
@@ -3308,6 +4657,26 @@
               "url": "https://feeds.fountain.fm/pl0avXNfWFS8R4OrwswA/items/JksgdIi25wcBAyij4rzs/files/AUDIO---DEFAULT---c525c80e-43a0-406d-98b6-e8e838aa0c7e.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "sidtylerdj@fountain.fm",
+                    "split": 98,
+                    "name": "Sid Tyler",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "486a0d07-808e-4507-bc94-593058b50b43",
               "feedGuid": "59089109-473d-5572-9b89-56daa9919c97"
             },
@@ -3317,6 +4686,26 @@
               "url": "https://feeds.fountain.fm/pl0avXNfWFS8R4OrwswA/items/su6BmVqZRj3t9lG32Ead/files/AUDIO---DEFAULT---611d824c-5053-4e2f-a6e8-23b7ea90ea3e.wav",
               "trackNumber": 2,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "sidtylerdj@fountain.fm",
+                    "split": 98,
+                    "name": "Sid Tyler",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "861b6c2a-ee82-475e-bca7-feb42e4c4c95",
               "feedGuid": "59089109-473d-5572-9b89-56daa9919c97"
             }
@@ -3371,7 +4760,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:34.432Z",
+      "lastParsed": "2025-10-28T22:51:32.616Z",
       "parsedData": {
         "album": {
           "title": "HYPHEN IS IN THE HOUSE",
@@ -3385,6 +4774,26 @@
               "url": "https://feeds.fountain.fm/ZQhv2gUYIeU9B3JxiAPa/items/pqQAl6JJgp7xAsyACrWT/files/AUDIO---DEFAULT---e401791c-7e08-4613-81dd-e839b81a5cdf.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "hyphennn@fountain.fm",
+                    "split": 98,
+                    "name": "Hyphen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "ed468242-a7d2-455a-972b-46e0ba17ce2d",
               "feedGuid": "5f1924eb-25b2-5bc5-a403-e572e1ccfaf6"
             },
@@ -3394,6 +4803,26 @@
               "url": "https://feeds.fountain.fm/ZQhv2gUYIeU9B3JxiAPa/items/1mAsLvLSEqzpIh3NbB5g/files/AUDIO---DEFAULT---e77f747a-1933-47c5-be29-83bd87cee8dd.wav",
               "trackNumber": 2,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "hyphennn@fountain.fm",
+                    "split": 98,
+                    "name": "Hyphen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "309e4a66-581a-45a8-ab7f-ec493f9d4c80",
               "feedGuid": "5f1924eb-25b2-5bc5-a403-e572e1ccfaf6"
             },
@@ -3403,6 +4832,26 @@
               "url": "https://feeds.fountain.fm/ZQhv2gUYIeU9B3JxiAPa/items/VvEtNyn2KcXi3MefqTXb/files/AUDIO---DEFAULT---05a66a2e-c5fa-455a-95d2-e0781dbdeaaf.wav",
               "trackNumber": 3,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "hyphennn@fountain.fm",
+                    "split": 98,
+                    "name": "Hyphen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "6c9ac04e-393b-4d9f-a93c-c25907a2df54",
               "feedGuid": "5f1924eb-25b2-5bc5-a403-e572e1ccfaf6"
             },
@@ -3412,6 +4861,26 @@
               "url": "https://feeds.fountain.fm/ZQhv2gUYIeU9B3JxiAPa/items/PPrGBRwRmf77XnKOSyxW/files/AUDIO---DEFAULT---e9d774cf-4909-4a55-b4df-bfd998e77938.wav",
               "trackNumber": 4,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "hyphennn@fountain.fm",
+                    "split": 98,
+                    "name": "Hyphen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "9bf0433e-201e-480f-86f6-4bf9fc2b795f",
               "feedGuid": "5f1924eb-25b2-5bc5-a403-e572e1ccfaf6"
             }
@@ -3466,7 +4935,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:35.374Z",
+      "lastParsed": "2025-10-28T22:51:33.193Z",
       "parsedData": {
         "album": {
           "title": "A Lesson in August",
@@ -3480,6 +4949,33 @@
               "url": "https://feeds.fountain.fm/hzbSCuI4mSBqw9JJYWOC/items/UWTqCxZBHnFgQR7l3ctQ/files/AUDIO---DEFAULT---18cb2e74-fdc9-4924-ba10-9305d5675749.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 96,
+                    "name": "James Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompower@strike.me",
+                    "split": 2,
+                    "name": "Phantom Power",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "69dadcea-999a-41f6-b771-06ee109ddb3d",
               "feedGuid": "9880d7f4-5ab8-5a92-806b-59fd27fbd39b"
             }
@@ -3541,7 +5037,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:36.295Z",
+      "lastParsed": "2025-10-28T22:51:33.931Z",
       "parsedData": {
         "album": {
           "title": "Flood Gates",
@@ -3555,6 +5051,25 @@
               "url": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a/items/fk20zyrO42oB9e4qJ5xo/files/AUDIO---DEFAULT---b7c6d6cc-aec4-4383-b574-f8f14bad2e8e.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "ce593255-efd1-451a-85ee-32c36a40bbf0",
               "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8"
             },
@@ -3564,6 +5079,25 @@
               "url": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a/items/Jj5rD2iYQBZCE3Li2X4Y/files/AUDIO---DEFAULT---8dc978d5-2285-411d-8603-fc7f9e9bdd63.wav",
               "trackNumber": 2,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "779bd595-224b-4f74-9c75-b0c4a23d1bb1",
               "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8"
             },
@@ -3573,6 +5107,25 @@
               "url": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a/items/m03Zj8gv5AR4I2B5PNXJ/files/AUDIO---DEFAULT---cc26f309-a535-42c2-8f5f-0572a28871f3.wav",
               "trackNumber": 3,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "f10868ca-5733-4a1d-b526-8b0cc637b21d",
               "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8"
             },
@@ -3582,6 +5135,25 @@
               "url": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a/items/ubJy2sRSiOdGmBh3xH8L/files/AUDIO---DEFAULT---95a9fc12-8186-4d1d-95bc-88e5badcf5c0.wav",
               "trackNumber": 4,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "aee50f61-0243-4ea4-99e5-ca3f95f0ef4d",
               "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8"
             },
@@ -3591,6 +5163,25 @@
               "url": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a/items/9Rp3xqnx2LLogG2dQX6K/files/AUDIO---DEFAULT---21950088-407a-4ecf-b9ea-eb93e269fad5.wav",
               "trackNumber": 5,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "267343c6-8e05-4328-a7fd-7a02aa737880",
               "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8"
             },
@@ -3600,6 +5191,25 @@
               "url": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a/items/7lor6FikbRCy78YyxJDu/files/AUDIO---DEFAULT---28754129-1ee5-459c-906e-c5f4ee68d1cd.wav",
               "trackNumber": 6,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "12602fd1-31a7-4067-808f-289bffefc7e4",
               "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8"
             },
@@ -3609,6 +5219,25 @@
               "url": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a/items/TkWoXiVOXiFJV1aQAoDq/files/AUDIO---DEFAULT---8f17f906-bd49-40fa-8f60-26040e940912.wav",
               "trackNumber": 7,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "d9d036ca-2b4f-47f1-8192-5c02e0819c99",
               "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8"
             },
@@ -3618,6 +5247,25 @@
               "url": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a/items/muh4sqGPBzB54zOFo9bU/files/AUDIO---DEFAULT---64f85357-0d62-43d3-9184-2b8cd352a63a.wav",
               "trackNumber": 8,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "1c461d24-6828-41c6-b1f9-f6916b35cc2c",
               "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8"
             },
@@ -3627,6 +5275,25 @@
               "url": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a/items/9qYgV8PdAwifIjWpkftw/files/AUDIO---DEFAULT---30475612-b04a-4690-8847-10374da5eaf6.wav",
               "trackNumber": 9,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "3a8694ac-834d-43de-b58c-e4c937d529ec",
               "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8"
             },
@@ -3636,6 +5303,25 @@
               "url": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a/items/Xz9ZoUA2Uw6P24RLwPNs/files/AUDIO---DEFAULT---9050bda0-2ce2-4126-9fcc-d5cd45e6fce3.wav",
               "trackNumber": 10,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "4cf28cee-9f02-4417-8f34-65a7943511f2",
               "feedGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8"
             }
@@ -3689,7 +5375,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:36.677Z",
+      "lastParsed": "2025-10-28T22:51:34.866Z",
       "parsedData": {
         "album": {
           "title": "Running Like Poison",
@@ -3703,6 +5389,25 @@
               "url": "https://feeds.fountain.fm/3TeMBYBDe8frzSusqKPD/items/tlq4yYq4RkF1MLOIo47K/files/AUDIO---DEFAULT---162a7d18-5b06-4862-8ce0-d07b59f8567c.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user70370493@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "e432effc-cb2b-4f52-a629-5a7a788d2da6",
               "feedGuid": "c254e8e7-bd45-5f7a-921a-bc1f61d7b654"
             }
@@ -3756,7 +5461,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:37.134Z",
+      "lastParsed": "2025-10-28T22:51:35.521Z",
       "parsedData": {
         "album": {
           "title": "Move To Da Riddim",
@@ -3844,7 +5549,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:37.631Z",
+      "lastParsed": "2025-10-28T22:51:36.167Z",
       "parsedData": {
         "album": {
           "title": "Bridge Back Over Again",
@@ -3858,6 +5563,33 @@
               "url": "https://feeds.fountain.fm/cUimuGO6YH8wJxkpdugt/items/DPxULiBEQk6Y7wheEGju/files/AUDIO---DEFAULT---b598800d-3b57-46da-a36d-77e8eae6cb60.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 96,
+                    "name": "Phantom Power Media",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompower@strike.me",
+                    "split": 2,
+                    "name": "Phantom Power",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "0fe867e1-e059-4d60-821e-57f6871024a5",
               "feedGuid": "2ce81388-8ddf-57fd-8696-298b825cdb78"
             }
@@ -3919,7 +5651,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:38.185Z",
+      "lastParsed": "2025-10-28T22:51:36.851Z",
       "parsedData": {
         "album": {
           "title": "Collateral Damage",
@@ -3933,6 +5665,26 @@
               "url": "https://feeds.fountain.fm/fyK4N0muoFLT8eNS1g94/items/9SIc9krDZw0LrpC6XQX7/files/AUDIO---DEFAULT---8a2f39ff-587e-4f6e-b32b-0f89fdc13120.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "julianahale@fountain.fm",
+                    "split": 98,
+                    "name": "Juliana Porreca",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "21bb2558-d3b9-40c5-8138-5bb8520e3482",
               "feedGuid": "bae24096-5d60-58cd-8b6b-ea413ce09194"
             }
@@ -3987,7 +5739,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:38.895Z",
+      "lastParsed": "2025-10-28T22:51:37.353Z",
       "parsedData": {
         "album": {
           "title": "TOLD YA",
@@ -4001,6 +5753,25 @@
               "url": "https://feeds.fountain.fm/aIDAD9HcDX3noCidUeAf/items/zHsLMJ8BnTU1nkqNSYuT/files/AUDIO---DEFAULT---c1439090-45d3-4717-89f8-f58fa034644d.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user18857412@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "b084dc72-436c-4913-a371-c11106e321d3",
               "feedGuid": "3da22368-2f0e-57c9-8fcd-93be53a8da34"
             }
@@ -4054,7 +5825,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:39.412Z",
+      "lastParsed": "2025-10-28T22:51:37.912Z",
       "parsedData": {
         "album": {
           "title": "404: Album Not Found",
@@ -4068,6 +5839,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/856K0YDanrWkjlxLAyCx/files/AUDIO---DEFAULT---010fd376-0c7c-4a45-96ae-927b7ded8125.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "d96ce82d-37fe-402d-aee1-273098f1ecb0",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4077,6 +5867,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/pGmToS2E1oKJQrsYnHbd/files/AUDIO---DEFAULT---e4cf67a2-82bb-4f24-bf57-45578bf05759.mp3",
               "trackNumber": 2,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "efbcef45-f532-4dbe-87e7-ea8aabc87961",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4086,6 +5895,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/e1sbybOLLyN8WnNIiCdu/files/AUDIO---DEFAULT---f4ae2a48-4a9b-43ee-8c09-c86aaedfad04.mp3",
               "trackNumber": 3,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "8c6f179d-e672-4488-a1d7-1966eb89daf8",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4095,6 +5923,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/6HFGE7x41PdefHyz70xY/files/AUDIO---DEFAULT---e7c4b76c-bdac-4df0-89b8-99ac08964915.mp3",
               "trackNumber": 4,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "2de9100c-1412-4b9a-b085-d33885ab0b47",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4104,6 +5951,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/enLXRaJUN8QcFwny66md/files/AUDIO---DEFAULT---d8aa56b2-23be-4dbf-9d72-d95fe161c292.mp3",
               "trackNumber": 5,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "e7cbb176-de92-4c8a-9161-f955079e5e78",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4113,6 +5979,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/9vBeTImxo5XGhLy48GU8/files/AUDIO---DEFAULT---53931ba4-267f-4a82-928e-9cafec440959.mp3",
               "trackNumber": 6,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "011b93d5-2615-45d9-b0a1-5fd780222a68",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4122,6 +6007,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/w11nhF9H3aopYKRcfzTZ/files/AUDIO---DEFAULT---9c9e061e-3a33-49d9-a8ca-b842339210f8.mp3",
               "trackNumber": 7,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "66a06040-07b8-4ea9-aa0b-4c8cfc550c27",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4131,6 +6035,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/5L2TJ6cEcgBxhB1IXX6Z/files/AUDIO---DEFAULT---4ddcafb3-561d-457e-b3fa-ef7a5588e5ad.mp3",
               "trackNumber": 8,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "fb7edf06-94de-4525-8246-eca3c4b9580c",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4140,6 +6063,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/B25QBKx41UuOccuqnRiA/files/AUDIO---DEFAULT---ae6454b7-e1c2-4eda-947f-389c812faff1.mp3",
               "trackNumber": 9,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "cc073e45-e9f1-4d17-beb0-97b647a36ade",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4149,6 +6091,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/sh6hQJ3JxxVsSljbhYme/files/AUDIO---DEFAULT---f34012e8-bf75-41ad-bdbb-65c2c52014ac.mp3",
               "trackNumber": 10,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "7621215f-cd30-41a3-b37e-a2173f9828bf",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4158,6 +6119,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/bjy5AywLct8E7H1GWKlR/files/AUDIO---DEFAULT---369c0312-0ab1-4036-b971-82c078ea9661.mp3",
               "trackNumber": 11,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "38f77e79-2908-4d2b-bdd5-4da64a030f53",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4167,6 +6147,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/uRAfFfXyol6YYeaHUR61/files/AUDIO---DEFAULT---ea74ba7b-f0a9-406e-a51e-671c8839152e.mp3",
               "trackNumber": 12,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "8028b9a5-1acd-4b84-98f5-c5fb8d5e40fb",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             },
@@ -4176,6 +6175,25 @@
               "url": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI/items/CyUwroU9T6aGFXdHrUzV/files/AUDIO---DEFAULT---198bb9ab-9d41-4e2b-a31c-5f0352ac39ca.mp3",
               "trackNumber": 13,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "cryptodonkey@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "8cc4518f-f028-44d2-9fb1-9b31ecafc398",
               "feedGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5"
             }
@@ -4229,7 +6247,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:39.791Z",
+      "lastParsed": "2025-10-28T22:51:38.318Z",
       "parsedData": {
         "album": {
           "title": "Until its Beautiful",
@@ -4243,6 +6261,26 @@
               "url": "https://feeds.fountain.fm/yqLJKFtlZbYzf6XAD1iL/items/gkKIEoPUYM6TNi2yjcVu/files/AUDIO---DEFAULT---5179a939-ad1e-4b42-917d-5f3589603225.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "justinlantrip@fountain.fm",
+                    "split": 98,
+                    "name": "Justin Lantrip",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "b9bc26ec-6fb2-4f4a-9b7f-c073c3f5cd0d",
               "feedGuid": "e7e2d12e-4074-516f-9f37-3a9c103316fb"
             }
@@ -4297,7 +6335,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:40.233Z",
+      "lastParsed": "2025-10-28T22:51:38.866Z",
       "parsedData": {
         "album": {
           "title": "Take Me",
@@ -4311,6 +6349,25 @@
               "url": "https://feeds.fountain.fm/LcgtGqAY1i9hrxAEYvL3/items/DRopey2akZZu1uRQ2Rdm/files/AUDIO---DEFAULT---7a629b05-b23e-45e1-be23-96248ff23f87.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user40304767@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "f6c7cb2e-2e95-4408-a20b-1f20ffa07786",
               "feedGuid": "f79efc89-1629-52c4-af91-1d2440a57782"
             }
@@ -4364,7 +6421,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:40.937Z",
+      "lastParsed": "2025-10-28T22:51:39.349Z",
       "parsedData": {
         "album": {
           "title": "Catacomb",
@@ -4378,6 +6435,26 @@
               "url": "https://feeds.fountain.fm/gwHF787p8qI7YJZ9i3zm/items/tjBMv0XpXKFIkLTKV25S/files/AUDIO---DEFAULT---5647e909-cdf4-4336-87b3-c09715086b52.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompowermedia@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "31cb107e-e699-4821-a1a0-91f8ecb9b413",
               "feedGuid": "5888ede6-1656-43cb-9c4a-50c05abcc2a0"
             }
@@ -4432,7 +6509,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-28T22:08:41.419Z",
+      "lastParsed": "2025-10-28T22:51:39.887Z",
       "parseError": "No album data found"
     },
     {
@@ -4446,7 +6523,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:46.643Z",
+      "lastParsed": "2025-10-28T22:51:45.244Z",
       "parsedData": {
         "album": {
           "title": "twenties high",
@@ -4460,6 +6537,25 @@
               "url": "https://feeds.fountain.fm/dkL64h6wJWQIWXx9AvSh/items/dx6FvIWQuokygYcTARZu/files/AUDIO---DEFAULT---30e68f9a-37a7-49e9-a657-e5e92f4254d8.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "lorenzodemedici@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "5e4d0ba2-e745-4c82-91bc-d3020e69d177",
               "feedGuid": "6d7931a8-bf38-530e-b45a-ca53f5626b47"
             }
@@ -4513,7 +6609,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:47.164Z",
+      "lastParsed": "2025-10-28T22:51:46.151Z",
       "parsedData": {
         "album": {
           "title": "The God You Are",
@@ -4527,6 +6623,26 @@
               "url": "https://feeds.fountain.fm/2LAkQVbuWCIhgBKulNNk/items/XdyLUlCMeuuZ1SdCJCma/files/AUDIO---DEFAULT---5cd7046d-7eca-462a-b0a9-228f1eed5a54.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "0f2e86a2-cbf9-497c-9a4b-42d241088c35",
               "feedGuid": "d3849a74-91f6-5044-8698-0398fd1042a1"
             }
@@ -4581,7 +6697,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:48.199Z",
+      "lastParsed": "2025-10-28T22:51:46.753Z",
       "parsedData": {
         "album": {
           "title": "myself",
@@ -4595,6 +6711,25 @@
               "url": "https://feeds.fountain.fm/fZEmNt4QCtTPT3Mz3Npv/items/s1w6FPYWOhGl5YhZ7ZL8/files/AUDIO---DEFAULT---8105c573-b846-4012-990d-7f899c561add.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "lorenzodemedici@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "c29127f1-0f82-48ea-814c-0235110e69d7",
               "feedGuid": "9fe82f01-5a66-5239-a6c3-59259839566f"
             }
@@ -4648,7 +6783,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:48.684Z",
+      "lastParsed": "2025-10-28T22:51:47.566Z",
       "parsedData": {
         "album": {
           "title": "In Love and alliance ( Dance free - rewind )",
@@ -4662,6 +6797,33 @@
               "url": "https://feeds.fountain.fm/ovW4DibooYs19qzFBQvp/items/Q1X24YWsz7skw5X7zAHo/files/AUDIO---DEFAULT---92427bc9-4cf4-43de-a284-7379c749c6a2.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 96,
+                    "name": "Hans",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompower@strike.me",
+                    "split": 2,
+                    "name": "Phantom Power",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "6b2642f3-df89-4c2d-a847-bd68de3b4b1d",
               "feedGuid": "7a847b60-5c5c-5257-8dd2-b062b8df9040"
             }
@@ -4723,7 +6885,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:49.136Z",
+      "lastParsed": "2025-10-28T22:51:48.253Z",
       "parsedData": {
         "album": {
           "title": "Sing Om",
@@ -4737,6 +6899,26 @@
               "url": "https://feeds.fountain.fm/CHknZYUzFqv6Q0AE5uoy/items/Whf0k6hZ8OyfFbVBTGM2/files/AUDIO---DEFAULT---afe5b581-d3d9-4a08-ab6e-b1bd0f1bda26.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "bf25de35-a9a6-4a2f-9556-d9998d4e52b8",
               "feedGuid": "d76e9783-0b8e-51db-8922-97c917d9f4fc"
             }
@@ -4791,7 +6973,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:49.867Z",
+      "lastParsed": "2025-10-28T22:51:48.731Z",
       "parsedData": {
         "album": {
           "title": "wake up next to you",
@@ -4805,6 +6987,25 @@
               "url": "https://feeds.fountain.fm/0yKFZSEWr2zWeEGhds6S/items/nt1QapgoakyUPF4rlkCO/files/AUDIO---DEFAULT---23b0ad19-358c-4f31-a8e9-c8ee1109234f.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "lorenzodemedici@fountain.fm",
+                    "split": 98,
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "ddffcf99-3a6f-4c07-9bce-5eeae110e7d2",
               "feedGuid": "fb0aee9c-5c8f-5f7a-ac4d-83af4e4f72c7"
             }
@@ -4858,7 +7059,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "error",
-      "lastParsed": "2025-10-28T22:08:50.276Z",
+      "lastParsed": "2025-10-28T22:51:49.343Z",
       "parseError": "No album data found"
     },
     {
@@ -4872,7 +7073,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:55.473Z",
+      "lastParsed": "2025-10-28T22:51:55.282Z",
       "parsedData": {
         "album": {
           "title": "Healing",
@@ -4886,6 +7087,26 @@
               "url": "https://feeds.fountain.fm/LMMkitUpsEICX82elS1R/items/H6acVuKUL55aZF9pX4hV/files/AUDIO---DEFAULT---b5da7a1c-2a26-467a-aa0b-29acc49390ce.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "3d6eda69-4505-47c0-a2bb-e68166c04c5a",
               "feedGuid": "71229772-0692-5139-b7f5-a0961b9a074b"
             }
@@ -4940,7 +7161,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:55.930Z",
+      "lastParsed": "2025-10-28T22:51:56.207Z",
       "parsedData": {
         "album": {
           "title": "The Silence",
@@ -4954,6 +7175,26 @@
               "url": "https://feeds.fountain.fm/wCfIBd1BiCQ20cNRw8FX/items/CLidEnCQgvmjl84BVGhZ/files/AUDIO---DEFAULT---19192ad8-21fd-4e83-bca3-b5f42d2d5829.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Haleen",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "9e669c63-7a3a-42a2-b91a-2aa7f3e81ca4",
               "feedGuid": "64e5badd-e2e0-5e3b-a8a9-1075cf1b04f9"
             }
@@ -5008,7 +7249,7 @@
       "lastUpdated": "2025-10-20T00:00:00.000Z",
       "source": "manual",
       "parseStatus": "success",
-      "lastParsed": "2025-10-28T22:08:56.329Z",
+      "lastParsed": "2025-10-28T22:51:56.865Z",
       "parsedData": {
         "album": {
           "title": "Build on Stone",
@@ -5022,6 +7263,26 @@
               "url": "https://feeds.fountain.fm/AgOHjxN1MI6uXK1lZMPm/items/NbNpl93iiQzbmeOme1Pw/files/AUDIO---DEFAULT---55af4e96-4854-4126-bfa3-dc5707ee90f5.wav",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "user38866896@fountain.fm",
+                    "split": 98,
+                    "name": "Hans",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "df467c79-ffbc-46ed-aa75-905fc3fc79a6",
               "feedGuid": "6ff779fa-f4ea-5a48-b45f-658346e64ae1"
             }
@@ -5080,7 +7341,7 @@
         "publisherGuid": "f5f9661d-080a-510f-b639-b0d2bcf0a6f3",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:08:56.744Z",
+      "lastParsed": "2025-10-28T22:51:57.640Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Amelia Leigh",
@@ -5106,7 +7367,7 @@
         "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
         "albumCount": 13
       },
-      "lastParsed": "2025-10-28T22:08:57.146Z",
+      "lastParsed": "2025-10-28T22:51:58.266Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Jim Costello",
@@ -5187,7 +7448,7 @@
         "publisherGuid": "64569161-a8f7-52e5-8aae-9e0385043149",
         "albumCount": 19
       },
-      "lastParsed": "2025-10-28T22:08:57.628Z",
+      "lastParsed": "2025-10-28T22:51:59.278Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Haleen",
@@ -5316,7 +7577,7 @@
         "publisherGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:08:58.008Z",
+      "lastParsed": "2025-10-28T22:51:59.865Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Artist X",
@@ -5349,7 +7610,7 @@
         "publisherGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
         "albumCount": 2
       },
-      "lastParsed": "2025-10-28T22:08:58.443Z",
+      "lastParsed": "2025-10-28T22:52:00.552Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Suzanne Santo",
@@ -5388,7 +7649,7 @@
         "publisherGuid": "7f918bb0-a80c-5a48-b5df-4d2686f2e843",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:08:59.057Z",
+      "lastParsed": "2025-10-28T22:52:01.322Z",
       "parsedData": {
         "publisherInfo": {
           "title": "FSHR",
@@ -5421,7 +7682,7 @@
         "publisherGuid": "8b6435be-ad4c-55eb-9470-5df152e7639f",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:08:59.743Z",
+      "lastParsed": "2025-10-28T22:52:02.023Z",
       "parsedData": {
         "publisherInfo": {
           "title": "PHJ",
@@ -5447,7 +7708,7 @@
         "publisherGuid": "6c5357da-0f8a-5450-b595-6ee8be334fb3",
         "albumCount": 3
       },
-      "lastParsed": "2025-10-28T22:09:00.367Z",
+      "lastParsed": "2025-10-28T22:52:02.860Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Lucas Maddy",
@@ -5480,7 +7741,7 @@
         "publisherGuid": "babc93f7-2eec-568a-8c01-4f60ffff9528",
         "albumCount": 2
       },
-      "lastParsed": "2025-10-28T22:09:01.073Z",
+      "lastParsed": "2025-10-28T22:52:03.508Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Sid Tyler",
@@ -5519,7 +7780,7 @@
         "publisherGuid": "33faf933-4125-5518-9f29-98e088301bca",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:01.544Z",
+      "lastParsed": "2025-10-28T22:52:04.112Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Theo",
@@ -5552,7 +7813,7 @@
         "publisherGuid": "c9d29a1f-08ac-518b-947b-d47f2fbeaac4",
         "albumCount": 2
       },
-      "lastParsed": "2025-10-28T22:09:02.301Z",
+      "lastParsed": "2025-10-28T22:52:04.866Z",
       "parsedData": {
         "publisherInfo": {
           "title": "The Crypto Donkey",
@@ -5591,7 +7852,7 @@
         "publisherGuid": "03ad419a-d854-56bf-9dcc-6b419eee7c3a",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:02.852Z",
+      "lastParsed": "2025-10-28T22:52:05.525Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Gabreal",
@@ -5624,7 +7885,7 @@
         "publisherGuid": "0709a0ae-e835-5129-86d6-7b2ad3c8adf1",
         "albumCount": 3
       },
-      "lastParsed": "2025-10-28T22:09:03.484Z",
+      "lastParsed": "2025-10-28T22:52:06.164Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Justin Lantrip",
@@ -5657,7 +7918,7 @@
         "publisherGuid": "55aab371-a1d8-5883-b463-c743947e66ee",
         "albumCount": 7
       },
-      "lastParsed": "2025-10-28T22:09:04.044Z",
+      "lastParsed": "2025-10-28T22:52:06.855Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Ben Kai",
@@ -5696,7 +7957,7 @@
         "publisherGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:04.519Z",
+      "lastParsed": "2025-10-28T22:52:07.570Z",
       "parsedData": {
         "publisherInfo": {
           "title": "PJ Statham",
@@ -5729,7 +7990,7 @@
         "publisherGuid": "9a0e2f8c-80d5-581e-a826-1aec566b9a6d",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:05.373Z",
+      "lastParsed": "2025-10-28T22:52:08.190Z",
       "parsedData": {
         "publisherInfo": {
           "title": "The Karamazov Sons",
@@ -5755,7 +8016,7 @@
         "publisherGuid": "b6ea1713-05f0-5e53-88dd-966f13edb219",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:06.088Z",
+      "lastParsed": "2025-10-28T22:52:08.887Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Telforo",
@@ -5781,7 +8042,7 @@
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:07.314Z",
+      "lastParsed": "2025-10-28T22:52:09.557Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Hyphen",
@@ -5832,7 +8093,7 @@
         "publisherGuid": "5ee6b931-0591-58e9-83de-da8cfcdab6d3",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:07.717Z",
+      "lastParsed": "2025-10-28T22:52:10.233Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Milzy",
@@ -5858,7 +8119,7 @@
         "publisherGuid": "a300cf10-434c-5ae3-837a-ed0c899694af",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:08.444Z",
+      "lastParsed": "2025-10-28T22:52:10.952Z",
       "parsedData": {
         "publisherInfo": {
           "title": "ADDAX",
@@ -5891,7 +8152,7 @@
         "publisherGuid": "0819da5f-1386-5295-af6d-95d14044045d",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:08.856Z",
+      "lastParsed": "2025-10-28T22:52:11.459Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Juliana Hale",
@@ -5924,7 +8185,7 @@
         "publisherGuid": "5b8ba101-6af2-53b6-a376-414c290665f4",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:09.572Z",
+      "lastParsed": "2025-10-28T22:52:12.282Z",
       "parsedData": {
         "publisherInfo": {
           "title": "TABZ",
@@ -5950,7 +8211,7 @@
         "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
         "albumCount": 1
       },
-      "lastParsed": "2025-10-28T22:09:10.188Z",
+      "lastParsed": "2025-10-28T22:52:12.897Z",
       "parsedData": {
         "publisherInfo": {
           "title": "SKYHIGH",
@@ -5992,7 +8253,7 @@
         "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
         "itemGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1"
       },
-      "lastParsed": "2025-10-28T22:09:10.657Z",
+      "lastParsed": "2025-10-28T22:52:13.509Z",
       "parsedData": {
         "album": {
           "title": "Big Day (album)",
@@ -6007,6 +8268,26 @@
               "trackNumber": 1,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/9o6IlNpf3zPnshoY1yol/files/COVER_ART---DEFAULT---6b72fd22-b150-4246-be95-940335be2513.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "2b3a10b6-ec5e-4347-9bfe-9d4ee157af9f",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/9o6IlNpf3zPnshoY1yol/files/COVER_ART---DEFAULT---6b72fd22-b150-4246-be95-940335be2513.jpg"
@@ -6018,6 +8299,26 @@
               "trackNumber": 2,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/a526HOP5zA52T1ZAkuwU/files/COVER_ART---DEFAULT---821ef9b4-cfe1-4432-96fb-4d38525843d4.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "93916790-f243-4f42-ae27-64109e76f4c1",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/a526HOP5zA52T1ZAkuwU/files/COVER_ART---DEFAULT---821ef9b4-cfe1-4432-96fb-4d38525843d4.jpg"
@@ -6029,6 +8330,26 @@
               "trackNumber": 3,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/3fO1IaERrMyIcJVxP16J/files/COVER_ART---DEFAULT---a6a02ec5-b6ff-46ca-a99f-4acc057ef277.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "92f09452-7012-45c8-b921-5e4fa52fc3e2",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/3fO1IaERrMyIcJVxP16J/files/COVER_ART---DEFAULT---a6a02ec5-b6ff-46ca-a99f-4acc057ef277.jpg"
@@ -6040,6 +8361,26 @@
               "trackNumber": 4,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LoYew6r8pcIjiVxNIK5c/files/COVER_ART---DEFAULT---fabab0c9-f7c9-4666-83ce-c4612920614b.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "58b6530d-2150-4fe8-b445-7c241c2a548f",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LoYew6r8pcIjiVxNIK5c/files/COVER_ART---DEFAULT---fabab0c9-f7c9-4666-83ce-c4612920614b.jpg"
@@ -6051,6 +8392,26 @@
               "trackNumber": 5,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LNFa35O0zx5Q5mYUVI3B/files/COVER_ART---DEFAULT---52831e33-8737-4eb3-9ac7-381060c7a0d3.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "f8757397-4f62-4dd7-82ca-03fabe7045a5",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/LNFa35O0zx5Q5mYUVI3B/files/COVER_ART---DEFAULT---52831e33-8737-4eb3-9ac7-381060c7a0d3.jpg"
@@ -6062,6 +8423,26 @@
               "trackNumber": 6,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/SMSNNHlFNaux97mmdnmo/files/COVER_ART---DEFAULT---013364f2-fbe0-421c-a155-9000e4809414.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "44b68fd7-4bdf-445e-9581-0596038c0ccc",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/SMSNNHlFNaux97mmdnmo/files/COVER_ART---DEFAULT---013364f2-fbe0-421c-a155-9000e4809414.jpg"
@@ -6073,6 +8454,26 @@
               "trackNumber": 7,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/QvPbINlsM0K1dmogHJf4/files/COVER_ART---DEFAULT---3410f79b-3d66-462c-9150-051a6210e13f.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "78a357ce-8d57-4635-a66e-1363ed789896",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/QvPbINlsM0K1dmogHJf4/files/COVER_ART---DEFAULT---3410f79b-3d66-462c-9150-051a6210e13f.jpg"
@@ -6084,6 +8485,26 @@
               "trackNumber": 8,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/l9EBcOImpqpFfzjMxtWt/files/COVER_ART---DEFAULT---88c13430-83a0-4801-88c6-480598c11f2d.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "57fb2560-02e3-45f6-a15b-88088b58f614",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/l9EBcOImpqpFfzjMxtWt/files/COVER_ART---DEFAULT---88c13430-83a0-4801-88c6-480598c11f2d.jpg"
@@ -6095,6 +8516,26 @@
               "trackNumber": 9,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/r0zLgYBAFYSGXbpb91G9/files/COVER_ART---DEFAULT---55fd31ef-920c-41ce-9c43-9950382d5624.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "a496ae6f-021d-43fe-aabf-1608e5ff10a3",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/r0zLgYBAFYSGXbpb91G9/files/COVER_ART---DEFAULT---55fd31ef-920c-41ce-9c43-9950382d5624.jpg"
@@ -6106,6 +8547,26 @@
               "trackNumber": 10,
               "image": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/oleyU4i7z5jQkqawVAy3/files/COVER_ART---DEFAULT---0f180796-2cb3-4a27-ac10-f630f943e9e2.jpg",
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "jamespcostello@getalby.com",
+                    "split": 98,
+                    "name": "Jim Costello",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "d1cb548b-0263-4430-bfce-321fbb5aae04",
               "feedGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
               "imageUrl": "https://feeds.fountain.fm/YbqPMpZ8WyvyEbtS0rOC/items/oleyU4i7z5jQkqawVAy3/files/COVER_ART---DEFAULT---0f180796-2cb3-4a27-ac10-f630f943e9e2.jpg"
@@ -6168,7 +8629,7 @@
         "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
         "itemGuid": "d7f37903-1bf3-5e23-a46f-cc6f1f740c4c"
       },
-      "lastParsed": "2025-10-28T22:09:11.209Z",
+      "lastParsed": "2025-10-28T22:52:14.023Z",
       "parseError": "No album data found"
     },
     {
@@ -6189,7 +8650,7 @@
         "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
         "itemGuid": "dbe4a32c-eea1-5824-81e8-6403d0a0146a"
       },
-      "lastParsed": "2025-10-28T22:09:15.006Z",
+      "lastParsed": "2025-10-28T22:52:18.014Z",
       "parseError": "No album data found"
     },
     {
@@ -6210,7 +8671,7 @@
         "publisherGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
         "itemGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7"
       },
-      "lastParsed": "2025-10-28T22:09:19.091Z",
+      "lastParsed": "2025-10-28T22:52:22.110Z",
       "parsedData": {
         "album": {
           "title": "My test music single",
@@ -6224,6 +8685,33 @@
               "url": "https://feeds.fountain.fm/MXfzmaDzg11cSw8cOSIo/items/eu4Tmctmu435On6orAXP/files/AUDIO---DEFAULT---f125b350-1945-4d38-980d-925863e9e88c.m4a",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "karamazov@fountain.fm",
+                    "split": 96,
+                    "name": "Karamazov",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "phantompower@strike.me",
+                    "split": 2,
+                    "name": "Phantom Power",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "e0cc5c1e-476c-5ff2-af28-1b6a5517f91c",
               "feedGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7"
             }
@@ -6292,7 +8780,7 @@
         "publisherGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
         "itemGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b"
       },
-      "lastParsed": "2025-10-28T22:09:19.606Z",
+      "lastParsed": "2025-10-28T22:52:22.698Z",
       "parsedData": {
         "album": {
           "title": "Worried",
@@ -6306,6 +8794,26 @@
               "url": "https://feeds.fountain.fm/aCFEYwJijoBbZSUP32JA/items/9zDVqrKCHwMZMvOpQAv1/files/AUDIO---DEFAULT---df67f97a-f73e-4c0c-a4dc-4e238e8feaa1.mp3",
               "trackNumber": 1,
               "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "suzannesanto@fountain.fm",
+                    "split": 98,
+                    "name": "Suzanne Santo",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 2,
+                    "name": "Fountain",
+                    "fee": false
+                  }
+                ]
+              },
               "guid": "405be9f7-684f-54b8-9035-009111f1933f",
               "feedGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b"
             }
@@ -6367,7 +8875,7 @@
         "publisherGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
         "itemGuid": "22468782-f3d9-5f1f-9e56-a2dc42bf22eb"
       },
-      "lastParsed": "2025-10-28T22:09:20.271Z",
+      "lastParsed": "2025-10-28T22:52:23.339Z",
       "parsedData": {
         "album": {
           "title": "Money Money",
@@ -6431,7 +8939,7 @@
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "itemGuid": "6ad2a9af-a980-548c-808f-4870e1d5f4c9"
       },
-      "lastParsed": "2025-10-28T22:09:21.041Z",
+      "lastParsed": "2025-10-28T22:52:24.160Z",
       "parsedData": {
         "album": {
           "title": "The Party House",
@@ -6489,7 +8997,7 @@
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "itemGuid": "8ebc9bd3-b093-56d2-8c13-ace2a11abb56"
       },
-      "lastParsed": "2025-10-28T22:09:21.543Z",
+      "lastParsed": "2025-10-28T22:52:24.629Z",
       "parsedData": {
         "album": {
           "title": "Steezin' EP",
@@ -6553,7 +9061,7 @@
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "itemGuid": "10d388d4-8d49-5308-9586-f37c1be02892"
       },
-      "lastParsed": "2025-10-28T22:09:22.079Z",
+      "lastParsed": "2025-10-28T22:52:25.594Z",
       "parsedData": {
         "album": {
           "title": "Badu Thick",
@@ -6610,7 +9118,7 @@
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "itemGuid": "91bca062-3855-5d68-a58f-187900068c95"
       },
-      "lastParsed": "2025-10-28T22:09:22.801Z",
+      "lastParsed": "2025-10-28T22:52:26.208Z",
       "parsedData": {
         "album": {
           "title": "Lemon N Lime",
@@ -6667,7 +9175,7 @@
         "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
         "itemGuid": "1e6e5b57-e827-571f-8575-848921b647cb"
       },
-      "lastParsed": "2025-10-28T22:09:23.325Z",
+      "lastParsed": "2025-10-28T22:52:26.857Z",
       "parsedData": {
         "album": {
           "title": "See This",
@@ -6731,10 +9239,10 @@
         "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
         "itemGuid": "de5b9554-5c0d-5e2a-a3a9-7cfda11b21a9"
       },
-      "lastParsed": "2025-10-28T22:09:23.859Z",
+      "lastParsed": "2025-10-28T22:52:27.635Z",
       "parseError": "No album data found"
     }
   ],
-  "lastUpdated": "2025-10-28T22:09:27.578Z",
+  "lastUpdated": "2025-10-28T22:52:31.739Z",
   "version": 1
 }
