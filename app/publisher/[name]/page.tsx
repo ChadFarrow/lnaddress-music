@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
 import PublisherDetailClient from './PublisherDetailClient';
 
+// Enable ISR with 5 minute revalidation
+export const revalidate = 300;
+
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
   const { name } = await params;
   const publisherName = decodeURIComponent(name).replace(/-/g, ' ');

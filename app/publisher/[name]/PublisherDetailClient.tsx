@@ -48,7 +48,6 @@ interface PublisherDetailClientProps {
 
 export default function PublisherDetailClient({ publisherName, initialPublisher }: PublisherDetailClientProps) {
   const [publisher, setPublisher] = useState<Publisher | null>(initialPublisher);
-  const [publisherArtwork, setPublisherArtwork] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(!initialPublisher);
   const [error, setError] = useState<string | null>(null);
   const { playAlbum } = useAudio();
@@ -67,29 +66,7 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
     if (!initialPublisher) {
       loadPublisher();
     }
-    loadPublisherArtwork();
   }, [publisherName, initialPublisher]);
-
-  const loadPublisherArtwork = useCallback(async () => {
-    try {
-      const response = await fetch('/publishers.json');
-      if (response.ok) {
-        const publishers = await response.json();
-        const decodedName = decodeURIComponent(publisherName);
-        const currentPublisher = publishers.find((pub: any) => 
-          pub.name.toLowerCase() === decodedName.toLowerCase() ||
-          pub.name.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '') === 
-          decodedName.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '')
-        );
-        
-        if (currentPublisher?.latestAlbum?.coverArt) {
-          setPublisherArtwork(currentPublisher.latestAlbum.coverArt);
-        }
-      }
-    } catch (error) {
-      console.warn('Could not load artist artwork:', error);
-    }
-  }, [publisherName]);
 
   const loadPublisher = useCallback(async () => {
     try {
@@ -174,10 +151,10 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
     <div className="min-h-screen text-white relative overflow-hidden">
       {/* Background */}
       <div className="fixed inset-0 z-0">
-        {/* Use publisher artwork, fallback to publisherArtwork from /publishers.json, then first album */}
-        {(publisher.image || publisherArtwork || publisher.albums[0]?.coverArt) && (
+        {/* Use publisher artwork, fallback to newest album artwork */}
+        {(publisher.image || getNewestAlbum(publisher.albums)?.coverArt) && (
           <Image
-            src={publisher.image || publisherArtwork || publisher.albums[0].coverArt}
+            src={publisher.image || getNewestAlbum(publisher.albums)!.coverArt}
             alt={`${publisher.name} background`}
             fill
             className="object-cover w-full h-full"
@@ -232,7 +209,7 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
               <div className="flex-shrink-0 mx-auto lg:mx-0">
                 <div className="w-64 h-64 lg:w-80 lg:h-80 relative rounded-xl shadow-2xl overflow-hidden border border-white/20">
                   <Image
-                    src={getNewestAlbum(publisher.albums)?.coverArt || publisher.image || publisherArtwork || publisher.albums[0]?.coverArt || '/placeholder-episode.jpg'}
+                    src={getNewestAlbum(publisher.albums)?.coverArt || publisher.image || publisher.albums[0]?.coverArt || '/placeholder-episode.jpg'}
                     alt={publisher.name}
                     fill
                     className="object-cover"

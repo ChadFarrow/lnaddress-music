@@ -14,7 +14,9 @@ export interface ParsedFeedData {
   lastUpdated: string;
   // Parsed content
   parsedData?: {
-    album?: RSSAlbum;
+    album?: RSSAlbum & {
+      publisherImage?: string; // Cached publisher artwork for album's publisher
+    };
     publisherInfo?: {
       title?: string;
       description?: string;
@@ -88,7 +90,25 @@ export class FeedParser {
           // Parse album feed
           const album = await RSSParser.parseAlbumFeed(feed.originalUrl);
           if (album) {
-            parsedData.parsedData = { album };
+            // Fetch publisher artwork if available
+            let publisherImage: string | undefined;
+            if (album.publisher?.feedUrl) {
+              try {
+                const publisherInfo = await RSSParser.parsePublisherFeedInfo(album.publisher.feedUrl);
+                if (publisherInfo?.coverArt) {
+                  publisherImage = publisherInfo.coverArt;
+                }
+              } catch (error) {
+                console.warn(`Could not fetch publisher artwork for ${album.artist}:`, error);
+              }
+            }
+
+            parsedData.parsedData = {
+              album: {
+                ...album,
+                publisherImage
+              }
+            };
             parsedData.parseStatus = 'success';
             parsedData.trackCount = album.tracks.length;
             parsedData.duration = album.duration;
@@ -186,7 +206,25 @@ export class FeedParser {
       if (feed.type === 'album') {
         const album = await RSSParser.parseAlbumFeed(feed.originalUrl);
         if (album) {
-          parsedData.parsedData = { album };
+          // Fetch publisher artwork if available
+          let publisherImage: string | undefined;
+          if (album.publisher?.feedUrl) {
+            try {
+              const publisherInfo = await RSSParser.parsePublisherFeedInfo(album.publisher.feedUrl);
+              if (publisherInfo?.coverArt) {
+                publisherImage = publisherInfo.coverArt;
+              }
+            } catch (error) {
+              console.warn(`Could not fetch publisher artwork for ${album.artist}:`, error);
+            }
+          }
+
+          parsedData.parsedData = {
+            album: {
+              ...album,
+              publisherImage
+            }
+          };
           parsedData.parseStatus = 'success';
           parsedData.trackCount = album.tracks.length;
           parsedData.duration = album.duration;

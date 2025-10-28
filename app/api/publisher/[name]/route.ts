@@ -18,6 +18,7 @@ interface Album {
     feedUrl: string;
     medium: string;
   };
+  publisherImage?: string; // Cached publisher artwork
 }
 
 interface Publisher {
@@ -28,6 +29,9 @@ interface Publisher {
   albums: Album[];
   image?: string; // Publisher artwork from their feed
 }
+
+// Enable ISR with 5 minute revalidation
+export const revalidate = 300;
 
 export async function GET(
   request: NextRequest,
@@ -54,7 +58,8 @@ export async function GET(
         feedUrl: feed.originalUrl,
         funding: feed.parsedData.album.funding,
         podroll: feed.parsedData.album.podroll,
-        publisher: feed.parsedData.album.publisher
+        publisher: feed.parsedData.album.publisher,
+        publisherImage: feed.parsedData.album.publisherImage
       }));
 
     // Create slug for matching
@@ -84,21 +89,12 @@ export async function GET(
 
     // Get publisher info from first album
     const firstAlbum = publisherAlbums[0];
-    const publisherFeedUrl = firstAlbum.publisher!.feedUrl;
 
-    // Fetch publisher feed to get artwork
+    // Get cached publisher artwork from parsed feed data
     let publisherImage: string | undefined;
-    try {
-      const feedResponse = await fetch(publisherFeedUrl);
-      if (feedResponse.ok) {
-        const feedXml = await feedResponse.text();
-        // Extract image from iTunes tag or regular image tag
-        const itunesImageMatch = feedXml.match(/<itunes:image\s+href="([^"]+)"/i);
-        const regularImageMatch = feedXml.match(/<image>\s*<url>([^<]+)<\/url>/i);
-        publisherImage = itunesImageMatch?.[1] || regularImageMatch?.[1];
-      }
-    } catch (error) {
-      console.warn('Could not fetch publisher artwork:', error);
+    const albumWithImage = publisherAlbums.find((album: any) => album.publisherImage);
+    if (albumWithImage) {
+      publisherImage = (albumWithImage as any).publisherImage;
     }
 
     const publisherInfo: Publisher = {
