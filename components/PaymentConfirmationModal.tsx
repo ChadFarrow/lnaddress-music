@@ -136,9 +136,10 @@ export function PaymentConfirmationModal({
                 const isFailed = status?.status === 'failed';
                 const isUnsupported = recipient.supported === false;
 
-                // Calculate actual payment percentage based on total boost amount
-                const totalBoostAmount = confirmation.amount;
-                const actualPercentage = totalBoostAmount > 0 ? Math.round((recipient.amount / totalBoostAmount) * 100) : 0;
+                // Calculate actual payment amounts based on current input amount
+                const currentAmount = parseInt(paymentAmount) || 0;
+                const actualAmount = Math.round((recipient.split / 100) * currentAmount);
+                const actualPercentage = recipient.split;
 
                 return (
                   <div
@@ -192,7 +193,7 @@ export function PaymentConfirmationModal({
                     </div>
                     <div className="text-right ml-3">
                       <div className={`font-semibold ${isUnsupported ? 'text-gray-600 line-through' : 'text-purple-300'}`}>
-                        {recipient.amount.toLocaleString()} sats
+                        {actualAmount.toLocaleString()} sats
                       </div>
                       <div className="text-gray-500 text-xs">
                         {isUnsupported ? (
