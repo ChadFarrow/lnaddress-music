@@ -160,7 +160,7 @@ export async function makeAutoBoostPayment({
         address: fallbackRecipient,
         split: 100,
         name: 'Default',
-        type: 'node'
+        type: 'lnaddress' // Use lnaddress type for Breez compatibility
       }];
       console.log('💰 Using fallback single recipient for auto boost');
     }
