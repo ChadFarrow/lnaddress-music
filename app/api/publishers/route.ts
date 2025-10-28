@@ -32,6 +32,9 @@ interface Publisher {
   };
 }
 
+// Enable ISR with 5 minute revalidation
+export const revalidate = 300;
+
 export async function GET(request: NextRequest) {
   try {
     // Load albums from local parsed-feeds.json

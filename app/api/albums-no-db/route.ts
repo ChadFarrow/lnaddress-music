@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { FeedManager } from '@/lib/feed-manager';
 import { RSSParser } from '@/lib/rss-parser';
 
+// Enable ISR with 5 minute revalidation
+export const revalidate = 300;
+
 export async function GET(request: NextRequest) {
   console.log('🔄 Parsing albums without database dependency...');
   
