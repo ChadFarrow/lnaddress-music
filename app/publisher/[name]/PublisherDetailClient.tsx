@@ -269,7 +269,7 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
                     href={`/album/${getAlbumSlug(album)}`}
                     className="block"
                   >
-                    <div className="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors border border-white/10">
+                    <div className="bg-black/70 rounded-lg p-4 hover:bg-black/60 transition-colors border border-white/20">
                       <div className="aspect-square mb-3 rounded overflow-hidden relative">
                         <Image
                           src={album.coverArt}

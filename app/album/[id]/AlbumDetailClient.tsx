@@ -947,7 +947,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         {/* Track List Skeleton */}
         <div className="container mx-auto px-4 pb-8">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-black/30 rounded-xl border border-white/20 overflow-hidden">
+            <div className="bg-black/70 rounded-xl border border-white/20 overflow-hidden">
               <div className="p-6 border-b border-white/10">
                 <div className="h-8 bg-gray-700 rounded animate-pulse w-24"></div>
               </div>
@@ -1128,7 +1128,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   </div>
 
                   {album.description && (
-                    <div className="max-w-2xl mx-auto lg:mx-0 mb-6 bg-black/30 rounded-xl border border-white/20 p-6">
+                    <div className="max-w-2xl mx-auto lg:mx-0 mb-6 bg-black/70 rounded-xl border border-white/20 p-6">
                       <p className="text-white leading-relaxed">{album.description}</p>
                     </div>
                   )}
@@ -1197,7 +1197,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         {/* Track List */}
         <div className="container mx-auto px-4 pb-8">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-black/30 rounded-xl border border-white/20 overflow-hidden">
+            <div className="bg-black/70 rounded-xl border border-white/20 overflow-hidden">
               <div className="p-6 border-b border-white/10">
                 <h2 className="text-2xl font-bold text-shadow">Tracks</h2>
               </div>
