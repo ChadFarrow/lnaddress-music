@@ -947,7 +947,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         {/* Track List Skeleton */}
         <div className="container mx-auto px-4 pb-8">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-black/30 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
+            <div className="bg-black/30 md:backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
               <div className="p-6 border-b border-white/10">
                 <div className="h-8 bg-gray-700 rounded animate-pulse w-24"></div>
               </div>
@@ -1036,7 +1036,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       {/* Content */}
       <div className="relative z-10">
         {/* Header */}
-        <header className="bg-black/50 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <header className="bg-black/50 md:backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -1085,7 +1085,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <button
                       onClick={handlePlayAlbum}
-                      className="p-4 lg:p-6 bg-white/20 backdrop-blur-sm border border-white/40 text-white rounded-full hover:scale-110 hover:bg-white/30 transition-all shadow-2xl"
+                      className="p-4 lg:p-6 bg-white/20 md:backdrop-blur-sm border border-white/40 text-white rounded-full hover:scale-110 hover:bg-white/30 transition-all shadow-2xl"
                       title={`Play ${album.title}`}
                     >
                       <svg className="w-8 h-8 lg:w-12 lg:h-12 ml-1" fill="currentColor" viewBox="0 0 24 24">
@@ -1130,7 +1130,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   </div>
 
                   {album.description && (
-                    <div className="max-w-2xl mx-auto lg:mx-0 mb-6 bg-black/30 backdrop-blur-sm rounded-xl border border-white/20 p-6">
+                    <div className="max-w-2xl mx-auto lg:mx-0 mb-6 bg-black/30 md:backdrop-blur-sm rounded-xl border border-white/20 p-6">
                       <p className="text-white leading-relaxed">{album.description}</p>
                     </div>
                   )}
@@ -1150,7 +1150,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
                   
                   <button
                     onClick={() => toggleShuffle()}
-                    className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all backdrop-blur-sm border-2 border-white/40 hover:border-white/60 shadow-lg"
+                    className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all md:backdrop-blur-sm border-2 border-white/40 hover:border-white/60 shadow-lg"
                     title="Shuffle"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -1199,7 +1199,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
         {/* Track List */}
         <div className="container mx-auto px-4 pb-8">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-black/30 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
+            <div className="bg-black/30 md:backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
               <div className="p-6 border-b border-white/10">
                 <h2 className="text-2xl font-bold text-shadow">Tracks</h2>
               </div>

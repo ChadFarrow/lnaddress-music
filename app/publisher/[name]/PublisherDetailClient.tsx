@@ -195,7 +195,7 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
       {/* Content */}
       <div className="relative z-10">
         {/* Header */}
-        <header className="bg-black/20 backdrop-blur-sm border-b border-white/10 sticky top-0 z-50">
+        <header className="bg-black/20 md:backdrop-blur-sm border-b border-white/10 sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -294,7 +294,7 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
                     href={`/album/${getAlbumSlug(album)}`}
                     className="block"
                   >
-                    <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 hover:bg-white/10 transition-colors border border-white/10">
+                    <div className="bg-white/5 md:backdrop-blur-sm rounded-lg p-4 hover:bg-white/10 transition-colors border border-white/10">
                       <div className="aspect-square mb-3 rounded overflow-hidden relative">
                         <Image
                           src={album.coverArt}
