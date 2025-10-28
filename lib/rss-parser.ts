@@ -885,8 +885,17 @@ export class RSSParser {
           verboseLog(`💰 Processed ${paymentRecipients.length} payment recipients for "${title}"`);
         }
       }
-      
-      
+
+      // Copy album-level value data to tracks that don't have their own
+      if (value && value.recipients && value.recipients.length > 0) {
+        tracks.forEach(track => {
+          if (!track.value || !track.value.recipients || track.value.recipients.length === 0) {
+            track.value = value;
+            verboseLog(`💰 Inherited album-level value data for track: "${track.title}"`);
+          }
+        });
+      }
+
       const album = {
         title,
         artist,
