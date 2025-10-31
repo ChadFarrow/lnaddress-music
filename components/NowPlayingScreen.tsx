@@ -568,14 +568,14 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           if (nwc.isConnected) {
             // NWC wallet supports both lightning addresses and keysend
             if (recipient.type === 'lnaddress') {
-              // Pay to lightning address via LNURL
-              const invoice = await fetch(`https://${recipient.address.split('@')[1]}/.well-known/lnurlp/${recipient.address.split('@')[0]}`)
-                .then(r => r.json())
-                .then(async data => {
-                  const amountMsats = recipient.amount * 1000;
-                  const callbackUrl = `${data.callback}?amount=${amountMsats}&comment=${encodeURIComponent(fullMessage)}`;
-                  return fetch(callbackUrl).then(r => r.json()).then(d => d.pr);
-                });
+              // Pay to lightning address via LNURL with LUD-12 comment support
+              const { LNURLService } = await import('@/lib/lnurl-service');
+              const amountMsats = recipient.amount * 1000;
+              const invoice = await LNURLService.getPaymentInvoice(
+                recipient.address,
+                amountMsats,
+                fullMessage
+              );
 
               const result = await nwc.payInvoice(invoice);
               if (!result.success) {
