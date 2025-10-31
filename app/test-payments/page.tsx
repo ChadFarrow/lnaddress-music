@@ -517,11 +517,37 @@ export default function TestPaymentsPage() {
                   throw new Error(result.error || 'Payment failed');
                 }
               } else if (recipient.type === 'node') {
-                // Pay to node address via keysend
+                // Pay to node address via keysend with structured TLV records
+                const { createBoostTLVRecords } = await import('@/lib/tlv-utils');
+                
+                const tlvRecords = createBoostTLVRecords({
+                  recipients: [{ 
+                    address: recipient.address, 
+                    name: recipient.name, 
+                    split: recipient.split 
+                  }],
+                  action: 'boost',
+                  amount: recipientAmount * 1000, // Convert to msats
+                  message: fullMessage,
+                  senderName: senderName || 'Test Payments User',
+                  podcastTitle: 'Podcasting 2.0', // Could be from feed title
+                  episodeTitle: episode.title,
+                  appName: 'Lightning Address Music Test',
+                  appVersion: '1.0.0',
+                  timestamp: Math.floor(Date.now() / 1000),
+                  itemId: episode.guid,
+                });
+
+                // Convert TLV records to array format for NWC
+                const tlvArray = Object.entries(tlvRecords).map(([type, value]) => ({
+                  type: parseInt(type),
+                  value: Buffer.from(value, 'utf8').toString('hex')
+                }));
+
                 const result = await nwc.payKeysend(
                   recipient.address, // node pubkey
                   recipientAmount,
-                  fullMessage
+                  tlvArray
                 );
                 if (!result.success) {
                   throw new Error(result.error || 'Keysend payment failed');
