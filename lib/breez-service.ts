@@ -601,54 +601,15 @@ class BreezService {
   /**
    * LNURL-Withdraw support (new in v0.3.4)
    * Process a withdraw request from an LNURL service
+   * Note: Method names may not be finalized in this SDK version
    */
   async lnurlWithdraw(lnurlWithdrawUrl: string, description?: string): Promise<Payment> {
     if (!this.sdk) {
       throw new Error('Not connected to Breez SDK');
     }
 
-    try {
-      console.log('🔍 Processing LNURL-Withdraw:', lnurlWithdrawUrl);
-      
-      // Parse the LNURL-Withdraw request
-      const inputType = await this.sdk.parse(lnurlWithdrawUrl);
-      console.log('✅ Parsed LNURL input type:', inputType.type);
-
-      if (inputType.type !== 'lnurlWithdraw') {
-        throw new Error(`Expected lnurlWithdraw but got ${inputType.type}`);
-      }
-
-      // Get available amount range from the service
-      const { minWithdrawable, maxWithdrawable, defaultDescription } = inputType;
-      console.log(`💰 Withdraw range: ${minWithdrawable} - ${maxWithdrawable} sats`);
-
-      // Use the maximum available amount or custom amount
-      const amountSats = Math.floor(maxWithdrawable / 1000); // Convert from msats to sats
-      
-      // Prepare the withdrawal
-      const prepareRequest = {
-        lnurlWithdrawRequest: inputType,
-        amountSats,
-        description: description || defaultDescription || 'LNURL Withdraw'
-      };
-
-      console.log('📤 Preparing LNURL withdrawal:', prepareRequest);
-      const prepareResponse = await this.sdk.prepareLnurlWithdraw(prepareRequest);
-      console.log('✅ LNURL withdrawal prepared');
-
-      // Execute the withdrawal
-      const withdrawRequest = {
-        prepareResponse
-      };
-
-      const withdrawResponse = await this.sdk.lnurlWithdraw(withdrawRequest);
-      console.log('✅ LNURL withdrawal completed:', withdrawResponse);
-
-      return withdrawResponse.payment;
-    } catch (error) {
-      console.error('❌ Failed to process LNURL withdrawal:', error);
-      throw error;
-    }
+    // TODO: LNURL-Withdraw support will be added when method names are confirmed in SDK
+    throw new Error('LNURL-Withdraw support not yet available in this SDK version');
   }
 
   /**
