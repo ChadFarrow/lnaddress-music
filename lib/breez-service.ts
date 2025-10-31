@@ -634,7 +634,7 @@ class BreezService {
 
       return {
         signature: signResponse.signature,
-        recoveryId: signResponse.recoveryId
+        recoveryId: 0 // Recovery ID not available in current SDK version
       };
     } catch (error) {
       console.error('❌ Failed to sign message:', error);
