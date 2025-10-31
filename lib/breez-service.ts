@@ -625,7 +625,8 @@ class BreezService {
       console.log('🔐 Signing message:', message);
       
       const signRequest = {
-        message
+        message,
+        compact: true // Use compact signature format
       };
 
       const signResponse = await this.sdk.signMessage(signRequest);
