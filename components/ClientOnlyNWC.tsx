@@ -93,6 +93,7 @@ export function ClientOnlyLightningWallet() {
 interface ClientOnlyLightningPaymentProps {
   recipientName?: string;
   recipientPubkey?: string;
+  recipientAddress?: string; // Lightning address for LUD-12 comments
   defaultAmount?: number;
   description?: string;
   onSuccess?: (preimage: string) => void;

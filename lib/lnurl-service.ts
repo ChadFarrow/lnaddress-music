@@ -13,6 +13,7 @@ export interface LNURLResponse {
   tag: string;
   allowsNostr?: boolean;
   nostrPubkey?: string;
+  commentAllowed?: number;
 }
 
 export interface LNURLInvoiceResponse {
@@ -103,6 +104,16 @@ export class LNURLService {
       );
     }
 
+    // Validate comment if provided (LUD-12)
+    if (comment) {
+      if (!lnurlMetadata.commentAllowed || lnurlMetadata.commentAllowed === 0) {
+        throw new Error('Comments are not supported by this LNURL endpoint');
+      }
+      if (comment.length > lnurlMetadata.commentAllowed) {
+        throw new Error(`Comment too long. Maximum ${lnurlMetadata.commentAllowed} characters allowed`);
+      }
+    }
+
     // Build callback URL with parameters
     const callbackUrl = new URL(lnurlMetadata.callback);
     callbackUrl.searchParams.set('amount', amountMillisats.toString());
@@ -112,8 +123,8 @@ export class LNURLService {
       callbackUrl.searchParams.set('nostr', zapRequest);
     }
 
-    // Add comment if provided and supported
-    if (comment) {
+    // Add comment if provided and supported (LUD-12)
+    if (comment && lnurlMetadata.commentAllowed && lnurlMetadata.commentAllowed > 0) {
       callbackUrl.searchParams.set('comment', comment);
     }
 
@@ -187,11 +198,22 @@ export class LNURLService {
       // 2. Fetch LNURL metadata
       const metadata = await this.fetchLNURLMetadata(url);
       
+      // Validate comment if provided (LUD-12)
+      if (comment) {
+        if (!metadata.commentAllowed || metadata.commentAllowed === 0) {
+          throw new Error('Comments are not supported by this LNURL endpoint');
+        }
+        if (comment.length > metadata.commentAllowed) {
+          throw new Error(`Comment too long. Maximum ${metadata.commentAllowed} characters allowed`);
+        }
+      }
+      
       // 3. Request invoice without zap request (simple payment)
       const callbackUrl = new URL(metadata.callback);
       callbackUrl.searchParams.set('amount', amountMillisats.toString());
       
-      if (comment) {
+      // Add comment if provided and supported (LUD-12)
+      if (comment && metadata.commentAllowed && metadata.commentAllowed > 0) {
         callbackUrl.searchParams.set('comment', comment);
       }
       
@@ -210,6 +232,24 @@ export class LNURLService {
     } catch (error) {
       console.error('Failed to get payment invoice:', error);
       throw error;
+    }
+  }
+
+  /**
+   * Check if an LNURL endpoint supports comments and get max length (LUD-12)
+   */
+  static async getCommentInfo(lnurlOrAddress: string): Promise<{ supported: boolean; maxLength: number }> {
+    try {
+      const url = this.decodeLNURL(lnurlOrAddress);
+      const metadata = await this.fetchLNURLMetadata(url);
+      
+      const supported = !!(metadata.commentAllowed && metadata.commentAllowed > 0);
+      const maxLength = metadata.commentAllowed || 0;
+      
+      return { supported, maxLength };
+    } catch (error) {
+      console.error('Failed to get comment info:', error);
+      return { supported: false, maxLength: 0 };
     }
   }
 

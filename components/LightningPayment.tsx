@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import { Zap, Loader2, CheckCircle, AlertCircle, Copy, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Zap, Loader2, CheckCircle, AlertCircle, Copy, X, MessageSquare } from 'lucide-react';
 import { useNWC } from '@/hooks/useNWC';
+import { LNURLService } from '@/lib/lnurl-service';
 
 interface LightningPaymentProps {
   recipientName?: string;
   recipientPubkey?: string;
+  recipientAddress?: string; // Lightning address for LUD-12 comments
   defaultAmount?: number;
   description?: string;
   onSuccess?: (preimage: string) => void;
@@ -17,6 +19,7 @@ interface LightningPaymentProps {
 export function LightningPayment({
   recipientName = 'Creator',
   recipientPubkey,
+  recipientAddress,
   defaultAmount = 1000,
   description = 'Support the creator',
   onSuccess,
@@ -27,6 +30,8 @@ export function LightningPayment({
   const [amount, setAmount] = useState(defaultAmount);
   const [customAmount, setCustomAmount] = useState('');
   const [invoice, setInvoice] = useState('');
+  const [comment, setComment] = useState('');
+  const [commentInfo, setCommentInfo] = useState<{ supported: boolean; maxLength: number }>({ supported: false, maxLength: 0 });
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
   const [paymentMessage, setPaymentMessage] = useState('');
   const [copied, setCopied] = useState(false);
@@ -34,6 +39,21 @@ export function LightningPayment({
   const { isConnected, balance, payInvoice, payKeysend, makeInvoice, loading } = useNWC();
 
   const presetAmounts = [100, 500, 1000, 5000, 10000];
+
+  // Check for comment support when recipient address is provided
+  useEffect(() => {
+    if (recipientAddress && isOpen) {
+      LNURLService.getCommentInfo(recipientAddress)
+        .then(info => {
+          setCommentInfo(info);
+          console.log('LUD-12 Comment support:', info);
+        })
+        .catch(error => {
+          console.warn('Failed to check comment support:', error);
+          setCommentInfo({ supported: false, maxLength: 0 });
+        });
+    }
+  }, [recipientAddress, isOpen]);
 
   const handlePayment = async () => {
     console.log('🔌 Payment attempt - isConnected:', isConnected, 'balance:', balance);
@@ -64,7 +84,22 @@ export function LightningPayment({
       
       console.log('💳 Payment decision - invoice:', invoice, 'recipientPubkey:', recipientPubkey);
       
-      if (recipientPubkey) {
+      if (recipientAddress && !invoice) {
+        // Pay via LNURL/Lightning Address with potential comment support
+        console.log('💳 Attempting LNURL payment to address:', recipientAddress);
+        try {
+          const commentToSend = comment.trim() || undefined;
+          const invoiceFromLNURL = await LNURLService.getPaymentInvoice(
+            recipientAddress, 
+            finalAmount * 1000, // Convert sats to millisats
+            commentToSend
+          );
+          result = await payInvoice(invoiceFromLNURL);
+        } catch (error) {
+          console.error('LNURL payment failed:', error);
+          result = { success: false, error: error instanceof Error ? error.message : 'LNURL payment failed' };
+        }
+      } else if (recipientPubkey) {
         // Pay via keysend
         console.log('💳 Attempting keysend payment to pubkey:', recipientPubkey);
         result = await payKeysend(recipientPubkey, finalAmount, description);
@@ -112,6 +147,7 @@ export function LightningPayment({
           setPaymentStatus('idle');
           setPaymentMessage('');
           setInvoice('');
+          setComment('');
         }, 3000);
       } else {
         setPaymentStatus('error');
@@ -230,6 +266,33 @@ export function LightningPayment({
                 />
               </div>
 
+              {/* Comment Input (LUD-12) */}
+              {recipientAddress && commentInfo.supported && (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <MessageSquare className="w-4 h-4 text-gray-400" />
+                    <label className="block text-sm font-medium text-gray-300">
+                      Message (optional)
+                    </label>
+                    <span className="text-xs text-gray-500">
+                      max {commentInfo.maxLength} chars
+                    </span>
+                  </div>
+                  <textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="Send a message with your payment..."
+                    maxLength={commentInfo.maxLength}
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent resize-none"
+                    rows={2}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>Messages are sent with your Lightning payment</span>
+                    <span>{comment.length}/{commentInfo.maxLength}</span>
+                  </div>
+                </div>
+              )}
+
               {/* Balance Display */}
               {isConnected && balance !== null && (
                 <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
@@ -270,7 +333,12 @@ export function LightningPayment({
                 </button>
                 <button
                   onClick={handlePayment}
-                  disabled={loading || paymentStatus === 'processing' || (!invoice && !recipientPubkey)}
+                  disabled={
+                    loading || 
+                    paymentStatus === 'processing' || 
+                    (!invoice && !recipientPubkey && !recipientAddress) ||
+                    (commentInfo.supported && comment.length > commentInfo.maxLength)
+                  }
                   className="flex-1 py-3 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-700 disabled:text-gray-500 text-black font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
                   {loading || paymentStatus === 'processing' ? (
