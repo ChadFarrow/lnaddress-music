@@ -200,10 +200,13 @@ export default function TestPaymentsPage() {
       const pc20Image = pc20Doc.querySelector('channel image url')?.textContent ||
                         pc20Doc.querySelector('channel itunes\\:image')?.getAttribute('href') || '';
 
-      // Find episode 239 from PC20 feed
+      // Find episodes 239 and 240 from PC20 feed
       const pc20Items = Array.from(pc20Doc.querySelectorAll('item'));
       const episode239 = pc20Items.find(item =>
         item.querySelector('title')?.textContent?.includes('Episode 239')
+      );
+      const episode240 = pc20Items.find(item =>
+        item.querySelector('title')?.textContent?.includes('Episode 240')
       );
 
       // Parse test feed episodes
@@ -234,23 +237,25 @@ export default function TestPaymentsPage() {
         return episode;
       });
 
-      // Parse PC20 episode 239
+      // Parse PC20 episodes 239 and 240
       const pc20Episodes: Episode[] = [];
-      if (episode239) {
+      
+      // Helper function to parse an episode
+      const parseEpisode = (episodeElement: Element) => {
         const episode: Episode = {
-          title: episode239.querySelector('title')?.textContent || 'Untitled',
-          description: episode239.querySelector('description')?.textContent || '',
-          enclosureUrl: episode239.querySelector('enclosure')?.getAttribute('url') || '',
-          duration: episode239.querySelector('itunes\\:duration, duration')?.textContent || '',
-          pubDate: episode239.querySelector('pubDate')?.textContent || '',
-          guid: episode239.querySelector('guid')?.textContent || Math.random().toString(),
-          image: episode239.querySelector('itunes\\:image')?.getAttribute('href') ||
-                 episode239.querySelector('image')?.getAttribute('href') ||
+          title: episodeElement.querySelector('title')?.textContent || 'Untitled',
+          description: episodeElement.querySelector('description')?.textContent || '',
+          enclosureUrl: episodeElement.querySelector('enclosure')?.getAttribute('url') || '',
+          duration: episodeElement.querySelector('itunes\\:duration, duration')?.textContent || '',
+          pubDate: episodeElement.querySelector('pubDate')?.textContent || '',
+          guid: episodeElement.querySelector('guid')?.textContent || Math.random().toString(),
+          image: episodeElement.querySelector('itunes\\:image')?.getAttribute('href') ||
+                 episodeElement.querySelector('image')?.getAttribute('href') ||
                  pc20Image
         };
 
         // Parse value recipients from episode-specific value block
-        const valueRecipients = Array.from(episode239.querySelectorAll('podcast\\:value > podcast\\:valueRecipient, value > valueRecipient'));
+        const valueRecipients = Array.from(episodeElement.querySelectorAll('podcast\\:value > podcast\\:valueRecipient, value > valueRecipient'));
         if (valueRecipients.length > 0) {
           episode.valueRecipients = valueRecipients.map(recipient => ({
             name: recipient.getAttribute('name') || '',
@@ -260,7 +265,17 @@ export default function TestPaymentsPage() {
           }));
         }
 
-        pc20Episodes.push(episode);
+        return episode;
+      };
+
+      // Add episode 240 first (most recent)
+      if (episode240) {
+        pc20Episodes.push(parseEpisode(episode240));
+      }
+      
+      // Add episode 239
+      if (episode239) {
+        pc20Episodes.push(parseEpisode(episode239));
       }
 
       setTestFeed({

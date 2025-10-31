@@ -136,8 +136,13 @@ export class RSSParser {
       let response;
       try {
         if (isServer) {
-          // Server-side: fetch directly
-          response = await fetch(feedUrl);
+          // Server-side: fetch directly with redirect following
+          response = await fetch(feedUrl, { 
+            redirect: 'follow',
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (compatible; RSS Parser/1.0)'
+            }
+          });
         } else {
           // Client-side: use proxy or direct API routes
           const isApiRoute = feedUrl.startsWith('/api/');
@@ -1038,8 +1043,13 @@ export class RSSParser {
       
       let response;
       if (isServer) {
-        // Server-side: fetch directly
-        response = await fetch(feedUrl);
+        // Server-side: fetch directly with redirect following
+        response = await fetch(feedUrl, { 
+          redirect: 'follow',
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (compatible; RSS Parser/1.0)'
+          }
+        });
       } else {
         // Client-side: use proxy or direct API routes
         const isApiRoute = feedUrl.startsWith('/api/');
@@ -1152,8 +1162,13 @@ export class RSSParser {
         
         let response;
         if (isServer) {
-          // Server-side: fetch directly
-          response = await fetch('https://wavlake.com/feed/artist/8a9c2e54-785a-4128-9412-737610f5d00a');
+          // Server-side: fetch directly with redirect following
+          response = await fetch('https://wavlake.com/feed/artist/8a9c2e54-785a-4128-9412-737610f5d00a', { 
+            redirect: 'follow',
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (compatible; RSS Parser/1.0)'
+            }
+          });
         } else {
           // Client-side: use proxy
           const proxyUrl = `/api/fetch-rss?url=${encodeURIComponent('https://wavlake.com/feed/artist/8a9c2e54-785a-4128-9412-737610f5d00a')}`;
@@ -1227,8 +1242,13 @@ export class RSSParser {
       
       let response;
       if (isServer) {
-        // Server-side: fetch directly
-        response = await fetch(feedUrl);
+        // Server-side: fetch directly with redirect following
+        response = await fetch(feedUrl, { 
+          redirect: 'follow',
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (compatible; RSS Parser/1.0)'
+          }
+        });
       } else {
         // Client-side: use proxy or direct API routes
         const isApiRoute = feedUrl.startsWith('/api/');
