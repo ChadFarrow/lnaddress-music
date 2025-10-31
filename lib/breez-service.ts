@@ -597,6 +597,119 @@ class BreezService {
 
     return localStorage.getItem('breez:connected') === 'true';
   }
+
+  /**
+   * LNURL-Withdraw support (new in v0.3.4)
+   * Process a withdraw request from an LNURL service
+   */
+  async lnurlWithdraw(lnurlWithdrawUrl: string, description?: string): Promise<Payment> {
+    if (!this.sdk) {
+      throw new Error('Not connected to Breez SDK');
+    }
+
+    try {
+      console.log('🔍 Processing LNURL-Withdraw:', lnurlWithdrawUrl);
+      
+      // Parse the LNURL-Withdraw request
+      const inputType = await this.sdk.parse(lnurlWithdrawUrl);
+      console.log('✅ Parsed LNURL input type:', inputType.type);
+
+      if (inputType.type !== 'lnurlWithdraw') {
+        throw new Error(`Expected lnurlWithdraw but got ${inputType.type}`);
+      }
+
+      // Get available amount range from the service
+      const { minWithdrawable, maxWithdrawable, defaultDescription } = inputType;
+      console.log(`💰 Withdraw range: ${minWithdrawable} - ${maxWithdrawable} sats`);
+
+      // Use the maximum available amount or custom amount
+      const amountSats = Math.floor(maxWithdrawable / 1000); // Convert from msats to sats
+      
+      // Prepare the withdrawal
+      const prepareRequest = {
+        lnurlWithdrawRequest: inputType,
+        amountSats,
+        description: description || defaultDescription || 'LNURL Withdraw'
+      };
+
+      console.log('📤 Preparing LNURL withdrawal:', prepareRequest);
+      const prepareResponse = await this.sdk.prepareLnurlWithdraw(prepareRequest);
+      console.log('✅ LNURL withdrawal prepared');
+
+      // Execute the withdrawal
+      const withdrawRequest = {
+        prepareResponse
+      };
+
+      const withdrawResponse = await this.sdk.lnurlWithdraw(withdrawRequest);
+      console.log('✅ LNURL withdrawal completed:', withdrawResponse);
+
+      return withdrawResponse.payment;
+    } catch (error) {
+      console.error('❌ Failed to process LNURL withdrawal:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Sign a message (new in v0.3.4)
+   * Sign arbitrary messages for authentication or verification
+   */
+  async signMessage(message: string): Promise<{ signature: string; recoveryId: number }> {
+    if (!this.sdk) {
+      throw new Error('Not connected to Breez SDK');
+    }
+
+    try {
+      console.log('🔐 Signing message:', message);
+      
+      const signRequest = {
+        message
+      };
+
+      const signResponse = await this.sdk.signMessage(signRequest);
+      console.log('✅ Message signed successfully');
+
+      return {
+        signature: signResponse.signature,
+        recoveryId: signResponse.recoveryId
+      };
+    } catch (error) {
+      console.error('❌ Failed to sign message:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Verify a message signature (new in v0.3.4)
+   * Verify that a message was signed by a specific public key
+   */
+  async checkMessage(message: string, pubkey: string, signature: string): Promise<boolean> {
+    if (!this.sdk) {
+      throw new Error('Not connected to Breez SDK');
+    }
+
+    try {
+      console.log('🔍 Verifying message signature');
+      console.log('Message:', message);
+      console.log('Public key:', pubkey);
+      console.log('Signature:', signature);
+      
+      const checkRequest = {
+        message,
+        pubkey,
+        signature
+      };
+
+      const checkResponse = await this.sdk.checkMessage(checkRequest);
+      console.log('✅ Message verification result:', checkResponse.isValid);
+
+      return checkResponse.isValid;
+    } catch (error) {
+      console.error('❌ Failed to verify message:', error);
+      throw error;
+    }
+  }
 }
 
 // Singleton instance

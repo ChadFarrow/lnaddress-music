@@ -14,6 +14,9 @@ export interface UseBreezReturn {
   refreshBalance: () => Promise<void>;
   syncWallet: () => Promise<void>;
   listPayments: (filters?: { offset?: number; limit?: number }) => Promise<Payment[]>;
+  lnurlWithdraw: (lnurlWithdrawUrl: string, description?: string) => Promise<Payment>;
+  signMessage: (message: string) => Promise<{ signature: string; recoveryId: number }>;
+  checkMessage: (message: string, pubkey: string, signature: string) => Promise<boolean>;
 }
 
 /**
@@ -326,6 +329,68 @@ export function useBreez(): UseBreezReturn {
     }
   }, [breezService, isConnected]);
 
+  /**
+   * LNURL-Withdraw (new in v0.3.4)
+   */
+  const lnurlWithdraw = useCallback(async (lnurlWithdrawUrl: string, description?: string): Promise<Payment> => {
+    if (!isConnected) {
+      throw new Error('Not connected to Breez');
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const payment = await breezService.lnurlWithdraw(lnurlWithdrawUrl, description);
+      await refreshBalance();
+      return payment;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'LNURL withdrawal failed';
+      setError(errorMessage);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [breezService, isConnected, refreshBalance]);
+
+  /**
+   * Sign a message (new in v0.3.4)
+   */
+  const signMessage = useCallback(async (message: string): Promise<{ signature: string; recoveryId: number }> => {
+    if (!isConnected) {
+      throw new Error('Not connected to Breez');
+    }
+
+    setError(null);
+
+    try {
+      return await breezService.signMessage(message);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Message signing failed';
+      setError(errorMessage);
+      throw err;
+    }
+  }, [breezService, isConnected]);
+
+  /**
+   * Verify a message signature (new in v0.3.4)
+   */
+  const checkMessage = useCallback(async (message: string, pubkey: string, signature: string): Promise<boolean> => {
+    if (!isConnected) {
+      throw new Error('Not connected to Breez');
+    }
+
+    setError(null);
+
+    try {
+      return await breezService.checkMessage(message, pubkey, signature);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Message verification failed';
+      setError(errorMessage);
+      throw err;
+    }
+  }, [breezService, isConnected]);
+
   return {
     isConnected,
     balance,
@@ -337,6 +402,9 @@ export function useBreez(): UseBreezReturn {
     receivePayment,
     refreshBalance,
     syncWallet,
-    listPayments
+    listPayments,
+    lnurlWithdraw,
+    signMessage,
+    checkMessage
   };
 }
