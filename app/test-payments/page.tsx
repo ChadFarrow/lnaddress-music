@@ -538,16 +538,11 @@ export default function TestPaymentsPage() {
                   itemId: episode.guid,
                 });
 
-                // Convert TLV records to array format for NWC
-                const tlvArray = Object.entries(tlvRecords).map(([type, value]) => ({
-                  type: parseInt(type),
-                  value: Buffer.from(value, 'utf8').toString('hex')
-                }));
-
+                // Pass TLV records directly to NWC service
                 const result = await nwc.payKeysend(
                   recipient.address, // node pubkey
                   recipientAmount,
-                  tlvArray
+                  tlvRecords
                 );
                 if (!result.success) {
                   throw new Error(result.error || 'Keysend payment failed');
