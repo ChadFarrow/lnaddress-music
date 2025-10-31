@@ -246,6 +246,8 @@ export default function HomePage() {
       try {
         // Prepare metadata
         const fullMessage = `${boostMessage || ''}\n\nSent from lnaddress music by ${senderName || 'Anonymous'}`.trim();
+        console.log(`🔍 Boost Payment: Full message = "${fullMessage}"`);
+        console.log(`🔍 Boost Payment: Original message = "${boostMessage}", sender = "${senderName}"`);
 
         if (nwc.isConnected) {
           if (recipient.type === 'lnaddress') {

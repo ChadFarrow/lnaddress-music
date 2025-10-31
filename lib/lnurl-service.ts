@@ -214,9 +214,13 @@ export class LNURLService {
       
       // Add comment if provided and supported (LUD-12)
       if (comment && metadata.commentAllowed && metadata.commentAllowed > 0) {
+        console.log(`🔍 LNURL Service: Adding comment "${comment}" to Lightning address ${lnurlOrAddress}`);
         callbackUrl.searchParams.set('comment', comment);
+      } else {
+        console.log(`⚠️ LNURL Service: Comment not added. comment=${!!comment}, commentAllowed=${metadata.commentAllowed}`);
       }
       
+      console.log(`🔗 LNURL Service: Final callback URL: ${callbackUrl.toString()}`);
       const response = await fetch(callbackUrl.toString());
       if (!response.ok) {
         throw new Error(`Failed to get invoice: ${response.statusText}`);
