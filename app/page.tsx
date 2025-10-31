@@ -657,8 +657,11 @@ export default function HomePage() {
 
   // Helper functions for filtering and sorting
   const getFilteredAlbums = () => {
-    // Filter out LNURL Testing Podcast from main page display (accessible via sidebar)
-    const albumsToUse = albums.filter(album => album.title !== 'LNURL Testing Podcast');
+    // Filter out LNURL Testing Podcast and Podcasting 2.0 from main page display (accessible via sidebar)
+    const albumsToUse = albums.filter(album => 
+      album.title !== 'LNURL Testing Podcast' && 
+      album.title !== 'Podcasting 2.0'
+    );
     
           // Universal sorting function that implements hierarchical order: Pinned → Albums → EPs → Singles
       const sortWithHierarchy = (albums: Album[]) => {
