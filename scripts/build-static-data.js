@@ -45,11 +45,11 @@ async function buildStaticData() {
     }
     
     // Determine the base URL
-    const baseUrl = process.env.VERCEL_URL 
+    const baseUrl = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
-      : process.env.NEXT_PUBLIC_SITE_URL 
+      : process.env.NEXT_PUBLIC_SITE_URL
       ? process.env.NEXT_PUBLIC_SITE_URL
-      : 'https://itdv-site.vercel.app';
+      : 'https://lnaddress-music.vercel.app';
     
     console.log(`📡 Fetching album data from: ${baseUrl}/api/albums`);
     

@@ -1376,9 +1376,657 @@
         "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
         "itemGuid": "de5b9554-5c0d-5e2a-a3a9-7cfda11b21a9"
       }
+    },
+    {
+      "id": "fountain-cmzGa1uhxLpUBPdFQLp2",
+      "originalUrl": "https://feeds.fountain.fm/cmzGa1uhxLpUBPdFQLp2",
+      "type": "album",
+      "title": "Paper Bird",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7606172,
+        "podcastGuid": "808dc647-f945-5096-95d1-e0558a6d68aa",
+        "author": "Justin Lantrip",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-TnpkJyRb6q93gIYXBA9y",
+      "originalUrl": "https://feeds.fountain.fm/TnpkJyRb6q93gIYXBA9y",
+      "type": "album",
+      "title": "Brothers and Sisters",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7603336,
+        "podcastGuid": "7ab43f5f-947c-58d6-af06-dad0d6edd4b3",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-P2VuoihiUAMW648zvI5C",
+      "originalUrl": "https://feeds.fountain.fm/P2VuoihiUAMW648zvI5C",
+      "type": "album",
+      "title": "Goodbye",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7594370,
+        "podcastGuid": "883c8d23-7ad4-54c5-ac11-898a838b6742",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-LBgNfWsH0NDMlEOTW3Lf",
+      "originalUrl": "https://feeds.fountain.fm/LBgNfWsH0NDMlEOTW3Lf",
+      "type": "album",
+      "title": "canvas",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7590902,
+        "podcastGuid": "5fec20ef-0902-5580-b520-6e86dda4dc6f",
+        "author": "Kathryn",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-9YrxXpSj8Sg3AGtNwCfl",
+      "originalUrl": "https://feeds.fountain.fm/9YrxXpSj8Sg3AGtNwCfl",
+      "type": "album",
+      "title": "body",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7590898,
+        "podcastGuid": "851597c7-9248-5053-a0f6-066598d1c7f1",
+        "author": "Kathryn",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-EYndOSwMiLnUqsXGJbcs",
+      "originalUrl": "https://feeds.fountain.fm/EYndOSwMiLnUqsXGJbcs",
+      "type": "album",
+      "title": "relevance",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7590890,
+        "podcastGuid": "fd7f7e8b-8b7d-5415-b7f5-ceb0ab58e1a9",
+        "author": "Kathryn",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-DsIzE8JF79ZiGmlen8uC",
+      "originalUrl": "https://feeds.fountain.fm/DsIzE8JF79ZiGmlen8uC",
+      "type": "album",
+      "title": "scoot",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7590882,
+        "podcastGuid": "b2c1f762-1f54-5a71-aeb0-b3a041a85f8d",
+        "author": "Kathryn",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-lAH6A6WHNE39mR4ffv4o",
+      "originalUrl": "https://feeds.fountain.fm/lAH6A6WHNE39mR4ffv4o",
+      "type": "album",
+      "title": "socrates",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7590881,
+        "podcastGuid": "60815bd3-adbd-5800-a127-3512ccae14a7",
+        "author": "Kathryn",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-LWiFoZQAF0h9SMJt7fjb",
+      "originalUrl": "https://feeds.fountain.fm/LWiFoZQAF0h9SMJt7fjb",
+      "type": "album",
+      "title": "what comes next?",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7590877,
+        "podcastGuid": "23faf0fe-6778-532f-80b9-2278a1fc5727",
+        "author": "Kathryn",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-XpoHROuagwJqMomhHvNN",
+      "originalUrl": "https://feeds.fountain.fm/XpoHROuagwJqMomhHvNN",
+      "type": "album",
+      "title": "Runnin'",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7587675,
+        "podcastGuid": "db4f967f-4c56-5602-9442-daf318deb3b3",
+        "author": "CHARLEY T",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-NPyW9oY7MlCy23JRP4UN",
+      "originalUrl": "https://feeds.fountain.fm/NPyW9oY7MlCy23JRP4UN",
+      "type": "album",
+      "title": "Overwhelmed By Beauty",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7582360,
+        "podcastGuid": "4a31e7f5-ec28-5688-b1ef-490761518007",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-2sR3iCbV0pctRHTug4dp",
+      "originalUrl": "https://feeds.fountain.fm/2sR3iCbV0pctRHTug4dp",
+      "type": "album",
+      "title": "KNEW ALL ALONG",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7572758,
+        "podcastGuid": "0cdcbc24-6901-5422-aca9-5aa2c91c49e3",
+        "author": "Suzanne Santo",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-K4CPlG1NvwGSpvEVjNUM",
+      "originalUrl": "https://feeds.fountain.fm/K4CPlG1NvwGSpvEVjNUM",
+      "type": "album",
+      "title": "The Inner Child",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7569408,
+        "podcastGuid": "143cd944-bbc5-52e9-9116-fb9c0157b485",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-oXnhstrNbulFv5d477JI",
+      "originalUrl": "https://feeds.fountain.fm/oXnhstrNbulFv5d477JI",
+      "type": "album",
+      "title": "Clarity",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7565303,
+        "podcastGuid": "e2366da8-84e7-5f71-a63a-d724e637f021",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-22hLHsSszE59ao2nSv13",
+      "originalUrl": "https://feeds.fountain.fm/22hLHsSszE59ao2nSv13",
+      "type": "album",
+      "title": "A Rolling Stone",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7561681,
+        "podcastGuid": "1f578902-16b5-5b5b-bee2-91c6e73ecb2f",
+        "author": "Barbara & The Dirty Shirleys",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-LwiwH7S08gTYTtdvxhYY",
+      "originalUrl": "https://feeds.fountain.fm/LwiwH7S08gTYTtdvxhYY",
+      "type": "album",
+      "title": "lemons",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7560785,
+        "podcastGuid": "27bc3c57-6b47-5029-873d-9876c7ba2f1e",
+        "author": "Kathryn",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-TmOs2XDcLIRqTXm9XfrV",
+      "originalUrl": "https://feeds.fountain.fm/TmOs2XDcLIRqTXm9XfrV",
+      "type": "album",
+      "title": "Mother Earth",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7559881,
+        "podcastGuid": "ab59ae81-7e96-5c59-af83-9db97d91a4d5",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-lut1kM1ZrDDgGKQzLubD",
+      "originalUrl": "https://feeds.fountain.fm/lut1kM1ZrDDgGKQzLubD",
+      "type": "album",
+      "title": "Freight Train",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7556490,
+        "podcastGuid": "b750168f-c96a-5150-936c-7f3c46b31adb",
+        "author": "Lucas Maddy",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-iomyoloMln2XzJ9hSmEn",
+      "originalUrl": "https://feeds.fountain.fm/iomyoloMln2XzJ9hSmEn",
+      "type": "album",
+      "title": "Forgiveness",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7555136,
+        "podcastGuid": "6521e31c-5955-59d7-bb79-3d8bb1a81300",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-IpQzn6DAfIHQuak1teWK",
+      "originalUrl": "https://feeds.fountain.fm/IpQzn6DAfIHQuak1teWK",
+      "type": "album",
+      "title": "Bitcoin Singh",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7554505,
+        "podcastGuid": "ac9acacb-2d11-5b01-803c-3a19364ff8f8",
+        "author": "The Crypto Donkey",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-NEiXHSh8NRBxPeZ6qrTQ",
+      "originalUrl": "https://feeds.fountain.fm/NEiXHSh8NRBxPeZ6qrTQ",
+      "type": "album",
+      "title": "Lively",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7553876,
+        "podcastGuid": "9a5ba65f-de0f-5635-a49b-06e554bce1a3",
+        "author": "FSHR",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-2cfekOrptasKMAchTzoZ",
+      "originalUrl": "https://feeds.fountain.fm/2cfekOrptasKMAchTzoZ",
+      "type": "album",
+      "title": "Free Your Mind",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7552146,
+        "podcastGuid": "de4f2850-6a53-5c39-9ece-e710667cf7c8",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-qCJ4CGsGxcpwvQ2Ka1YS",
+      "originalUrl": "https://feeds.fountain.fm/qCJ4CGsGxcpwvQ2Ka1YS",
+      "type": "album",
+      "title": "Aad Guray",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7549646,
+        "podcastGuid": "025221eb-12ca-5f8a-8165-e325bd5c5941",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-uyFipWoM0VLlaqkijXfw",
+      "originalUrl": "https://feeds.fountain.fm/uyFipWoM0VLlaqkijXfw",
+      "type": "album",
+      "title": "Guadalajara",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7546339,
+        "podcastGuid": "e450e18f-951e-5519-8c09-7175ffca9d64",
+        "author": "Perceptronik",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-iBpYs5HImEMJkFpEpbkE",
+      "originalUrl": "https://feeds.fountain.fm/iBpYs5HImEMJkFpEpbkE",
+      "type": "album",
+      "title": "Eve Can",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7546333,
+        "podcastGuid": "198bbb45-3fce-543e-a02f-dcae344f676e",
+        "author": "Perceptronik",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-SrTKIlmuRjdg36Lallms",
+      "originalUrl": "https://feeds.fountain.fm/SrTKIlmuRjdg36Lallms",
+      "type": "album",
+      "title": "Pimped to the Grave",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7546328,
+        "podcastGuid": "cedf1a6c-8447-5fdf-88ea-32d2e6b91378",
+        "author": "Perceptronik",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-12dleqxJWYa49mEpNTbq",
+      "originalUrl": "https://feeds.fountain.fm/12dleqxJWYa49mEpNTbq",
+      "type": "album",
+      "title": "Ethereal Realm ( 528hz )",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7545055,
+        "podcastGuid": "3aaad751-3936-52ed-b779-2008e8d35107",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-xGlxfh0QHJtms8r2a1OU",
+      "originalUrl": "https://feeds.fountain.fm/xGlxfh0QHJtms8r2a1OU",
+      "type": "album",
+      "title": "Pour the Water",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7542787,
+        "podcastGuid": "3a87127b-7633-5cc3-832e-39deac7611c2",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-WQNd6X1YmcSITnZ1G3tH",
+      "originalUrl": "https://feeds.fountain.fm/WQNd6X1YmcSITnZ1G3tH",
+      "type": "album",
+      "title": "U Alright mate?",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7540773,
+        "podcastGuid": "096f33e8-c4d5-5a8e-a1b2-6d63d31ac039",
+        "author": "Milzy",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-UjI0F3zwrjcblbFHYAlc",
+      "originalUrl": "https://feeds.fountain.fm/UjI0F3zwrjcblbFHYAlc",
+      "type": "album",
+      "title": "A Greater Call",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7539300,
+        "podcastGuid": "67ae17fe-338b-50dc-a96c-c7fa3413d86a",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-WfezDXpJuuwCkaIvZ7ZO",
+      "originalUrl": "https://feeds.fountain.fm/WfezDXpJuuwCkaIvZ7ZO",
+      "type": "album",
+      "title": "With U Next 2 Me (FREE SHAG 074)",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7538723,
+        "podcastGuid": "3eef2716-8a08-5c03-ba78-5ecd2e36a0f4",
+        "author": "ADDAX",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-tPuKKFta5GklYeRMmrQu",
+      "originalUrl": "https://feeds.fountain.fm/tPuKKFta5GklYeRMmrQu",
+      "type": "album",
+      "title": "Addax - Steppa Flex",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7538696,
+        "podcastGuid": "34b00d35-b5db-5591-80d9-46657264454d",
+        "author": "ADDAX",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-jOkeJZ4Z5pEYnBNPkBR7",
+      "originalUrl": "https://feeds.fountain.fm/jOkeJZ4Z5pEYnBNPkBR7",
+      "type": "album",
+      "title": "The Beauty Of Change",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7536624,
+        "podcastGuid": "37ec5601-83f0-595b-ba57-4332a02c40a5",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-N01z5tkYHUDAYephj5wL",
+      "originalUrl": "https://feeds.fountain.fm/N01z5tkYHUDAYephj5wL",
+      "type": "album",
+      "title": "Waiting for Snow",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7534762,
+        "podcastGuid": "ab55e3dd-5ef1-5173-8330-e75911ce714b",
+        "author": "James Costello",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-QqdFjwvXZUJhVxGrmBO6",
+      "originalUrl": "https://feeds.fountain.fm/QqdFjwvXZUJhVxGrmBO6",
+      "type": "album",
+      "title": "Who you decide to be",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7533764,
+        "podcastGuid": "d8979a85-4c7f-5c9c-a91f-d43dc72ff77f",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
+    },
+    {
+      "id": "fountain-nttUKs0v4LO0obCJVedA",
+      "originalUrl": "https://feeds.fountain.fm/nttUKs0v4LO0obCJVedA",
+      "type": "album",
+      "title": "We Rise Again",
+      "priority": "extended",
+      "status": "active",
+      "addedAt": "2025-12-04T01:39:18.234Z",
+      "lastUpdated": "2025-12-04T01:39:18.234Z",
+      "source": "podcastindex-discovery",
+      "parseStatus": "pending",
+      "metadata": {
+        "podcastIndexId": 7533742,
+        "podcastGuid": "49957d8a-0bc5-595b-8933-38605109bf77",
+        "author": "Haleen",
+        "discoveredFrom": "podcastindex-music-medium"
+      }
     }
   ],
-  "lastUpdated": "2025-10-26T22:10:16.621Z",
+  "lastUpdated": "2025-12-04T01:39:18.235Z",
   "version": 2,
   "notes": {
     "feedTypes": {
