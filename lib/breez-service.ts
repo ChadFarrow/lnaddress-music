@@ -1,4 +1,5 @@
-import type { BreezSdk, ConnectRequest, SendPaymentRequest, ReceivePaymentRequest, GetInfoResponse, Payment, Config, Network, Seed, EventListener, SdkEvent } from '@breeztech/breez-sdk-spark/web';
+import type { BreezSdk, ConnectRequest, SendPaymentRequest, ReceivePaymentRequest, GetInfoResponse, Payment, Config, Network, Seed, EventListener, SdkEvent, LnurlPayRequestDetails } from '@breeztech/breez-sdk-spark/web';
+import type { Event as NostrEvent } from 'nostr-tools';
 
 /**
  * Breez SDK Spark Service
@@ -23,6 +24,32 @@ export interface BreezInvoiceRequest {
   amountSats: number;
   description?: string;
   expiry?: number;
+}
+
+export interface BreezZapRequest {
+  destination: string;  // Lightning Address or LNURL
+  amountSats: number;
+  recipientPubkey: string;  // Nostr pubkey of recipient
+  comment?: string;
+  relays?: string[];
+  track?: {
+    title?: string;
+    artist?: string;
+    album?: string;
+    guid?: string;
+    feedGuid?: string;
+    publisherGuid?: string;
+    feedUrl?: string;
+    publisherUrl?: string;
+  };
+}
+
+export interface ZapCheckResult {
+  supportsZaps: boolean;
+  nostrPubkey?: string;
+  minSendable?: number;
+  maxSendable?: number;
+  commentAllowed?: number;
 }
 
 class BreezService {
@@ -656,7 +683,7 @@ class BreezService {
       console.log('Message:', message);
       console.log('Public key:', pubkey);
       console.log('Signature:', signature);
-      
+
       const checkRequest = {
         message,
         pubkey,
@@ -671,6 +698,208 @@ class BreezService {
       console.error('❌ Failed to verify message:', error);
       throw error;
     }
+  }
+
+  /**
+   * Check if a Lightning Address or LNURL supports Nostr zaps (NIP-57)
+   * Returns zap support info including the recipient's Nostr pubkey
+   */
+  async checkZapSupport(destination: string): Promise<ZapCheckResult> {
+    if (!this.sdk) {
+      throw new Error('Not connected to Breez SDK');
+    }
+
+    try {
+      console.log('🔍 Checking zap support for:', destination);
+
+      // Parse the destination to get LNURL details
+      const inputType = await this.sdk.parse(destination);
+
+      if (inputType.type === 'lnurlPay' || inputType.type === 'lightningAddress') {
+        const payRequest: LnurlPayRequestDetails = inputType.type === 'lightningAddress'
+          ? (inputType as any).payRequest
+          : inputType as unknown as LnurlPayRequestDetails;
+
+        const result: ZapCheckResult = {
+          supportsZaps: !!(payRequest.allowsNostr && payRequest.nostrPubkey),
+          nostrPubkey: payRequest.nostrPubkey,
+          minSendable: payRequest.minSendable,
+          maxSendable: payRequest.maxSendable,
+          commentAllowed: payRequest.commentAllowed
+        };
+
+        console.log('⚡ Zap support check result:', result);
+        return result;
+      }
+
+      // Not an LNURL/Lightning Address - no zap support
+      return { supportsZaps: false };
+    } catch (error) {
+      console.error('❌ Failed to check zap support:', error);
+      return { supportsZaps: false };
+    }
+  }
+
+  /**
+   * Send a Nostr zap (NIP-57) via Breez SDK
+   * Creates a zap request, gets invoice with nostr param, and pays it
+   *
+   * @param request - Zap request parameters
+   * @param zapRequestEvent - Pre-created NIP-57 Kind 9734 event (optional - will create if not provided)
+   * @returns Payment result with zap metadata
+   */
+  async sendZap(
+    request: BreezZapRequest,
+    zapRequestEvent?: NostrEvent
+  ): Promise<{ payment: Payment; zapRequest?: NostrEvent }> {
+    if (!this.sdk) {
+      throw new Error('Not connected to Breez SDK');
+    }
+
+    try {
+      console.log('⚡ Starting Nostr zap flow:', {
+        destination: request.destination,
+        amount: request.amountSats,
+        recipientPubkey: request.recipientPubkey?.slice(0, 16) + '...'
+      });
+
+      // 1. Parse destination to check zap support
+      const inputType = await this.sdk.parse(request.destination);
+
+      if (inputType.type !== 'lnurlPay' && inputType.type !== 'lightningAddress') {
+        throw new Error('Zaps only supported for Lightning Addresses and LNURL-Pay');
+      }
+
+      const payRequest: LnurlPayRequestDetails = inputType.type === 'lightningAddress'
+        ? (inputType as any).payRequest
+        : inputType as unknown as LnurlPayRequestDetails;
+
+      // 2. Check if zaps are supported
+      if (!payRequest.allowsNostr) {
+        console.warn('⚠️ Recipient does not support Nostr zaps, falling back to regular payment');
+        // Fall back to regular LNURL payment
+        const payment = await this.sendPayment({
+          destination: request.destination,
+          amountSats: request.amountSats,
+          message: request.comment
+        });
+        return { payment };
+      }
+
+      // 3. Import LNURLService for zap invoice
+      const { LNURLService } = await import('./lnurl-service');
+
+      // 4. If no zap request provided, create one
+      let finalZapRequest = zapRequestEvent;
+      if (!finalZapRequest) {
+        console.log('📝 Creating zap request event...');
+        const { getBoostToNostrService } = await import('./boost-to-nostr-service');
+        const boostService = getBoostToNostrService(request.relays);
+
+        // Generate keys if not available
+        if (!boostService.hasKeys()) {
+          console.log('🔑 Generating keys for zap request...');
+          boostService.generateKeys();
+        }
+
+        const zapResult = await boostService.createZapRequest({
+          amount: request.amountSats * 1000, // Convert to millisats
+          recipientPubkey: request.recipientPubkey,
+          comment: request.comment,
+          relays: request.relays || [
+            'wss://relay.damus.io',
+            'wss://relay.nostr.band',
+            'wss://relay.primal.net'
+          ],
+          track: request.track
+        });
+
+        if (!zapResult) {
+          throw new Error('Failed to create zap request');
+        }
+
+        finalZapRequest = zapResult.event;
+      }
+
+      console.log('📝 Zap request created:', finalZapRequest.id);
+
+      // 5. Get invoice with zap request attached
+      console.log('🔄 Getting zap invoice...');
+      const invoice = await LNURLService.getZapInvoice(
+        request.destination,
+        request.amountSats * 1000, // millisats
+        finalZapRequest,
+        request.comment
+      );
+
+      console.log('✅ Got zap invoice, paying via Breez SDK...');
+
+      // 6. Pay the invoice using Breez SDK
+      const prepareRequest = {
+        paymentRequest: invoice
+      };
+
+      const prepareResponse = await this.sdk.prepareSendPayment(prepareRequest);
+
+      const sendRequest: SendPaymentRequest = {
+        prepareResponse
+      };
+
+      const sendResponse = await this.sdk.sendPayment(sendRequest);
+
+      console.log('✅ Zap payment completed:', sendResponse.payment.id);
+
+      return {
+        payment: sendResponse.payment,
+        zapRequest: finalZapRequest
+      };
+    } catch (error) {
+      console.error('❌ Failed to send zap:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Send payment with optional zap support
+   * Automatically uses zaps if recipient supports it and Nostr params provided
+   */
+  async sendPaymentWithZap(
+    request: BreezPaymentRequest & {
+      recipientPubkey?: string;
+      relays?: string[];
+      track?: BreezZapRequest['track'];
+    }
+  ): Promise<{ payment: Payment; isZap: boolean; zapRequest?: NostrEvent }> {
+    // If no recipient pubkey provided, use regular payment
+    if (!request.recipientPubkey) {
+      const payment = await this.sendPayment(request);
+      return { payment, isZap: false };
+    }
+
+    // Check if destination supports zaps
+    const zapSupport = await this.checkZapSupport(request.destination);
+
+    if (zapSupport.supportsZaps && zapSupport.nostrPubkey) {
+      // Use zap flow
+      const result = await this.sendZap({
+        destination: request.destination,
+        amountSats: request.amountSats,
+        recipientPubkey: zapSupport.nostrPubkey, // Use the pubkey from LNURL
+        comment: request.message,
+        relays: request.relays,
+        track: request.track
+      });
+
+      return {
+        payment: result.payment,
+        isZap: true,
+        zapRequest: result.zapRequest
+      };
+    }
+
+    // Fall back to regular payment
+    const payment = await this.sendPayment(request);
+    return { payment, isZap: false };
   }
 }
 
