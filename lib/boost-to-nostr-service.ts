@@ -84,8 +84,7 @@ export class BoostToNostrService {
       'wss://relay.damus.io',
       'wss://relay.nostr.band',
       'wss://relay.primal.net',
-      'wss://fountain.fm/',
-      'wss://7srr7chyc6vlhzpc2hl6lyungvluohzrmt76kbs4kmydhrxoakkbquad.local/',
+      'wss://nos.lol',
       'wss://chadf.nostr1.com/'
     ];
 
