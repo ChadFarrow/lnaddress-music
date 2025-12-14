@@ -22,14 +22,14 @@ async function getPublisherData(publisherName: string) {
                      ? process.env.NEXT_PUBLIC_SITE_URL || 'https://zaps.podtards.com'
                      : `http://localhost:${process.env.PORT || '3000'}`);
     
-    // Use static endpoint as primary since it has all albums
-    let response = await fetch(`${baseUrl}/api/albums-static`, {
+    // Use database-backed endpoint to get latest feeds (updated by cron)
+    let response = await fetch(`${baseUrl}/api/albums`, {
       next: { revalidate: 300 }, // Cache for 5 minutes
     });
-    
+
     if (!response.ok) {
-      console.log('Static endpoint failed, trying database-free...');
-      response = await fetch(`${baseUrl}/api/albums-no-db`, {
+      console.log('Database endpoint failed, trying static fallback...');
+      response = await fetch(`${baseUrl}/api/albums-static`, {
         next: { revalidate: 60 }, // Cache for 1 minute
       });
     }

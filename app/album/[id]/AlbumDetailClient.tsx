@@ -668,10 +668,10 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
     loadingRelatedRef.current = true;
     
     try {
-      const response = await fetch('/api/albums-static');
+      const response = await fetch('/api/albums');
       if (response.ok) {
         const data = await response.json();
-        const albums = Array.isArray(data) ? data : [];
+        const albums = Array.isArray(data.albums) ? data.albums : (Array.isArray(data) ? data : []);
         
         const relatedAlbums = albums.filter((relatedAlbum: Album) => {
           // Simple related album logic - same artist or exclude current album
