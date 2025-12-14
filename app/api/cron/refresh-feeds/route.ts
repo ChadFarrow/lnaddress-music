@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createHash } from 'crypto';
 import { addFeed, getAllFeeds, DBFeed } from '@/lib/db';
-import { FeedParser } from '@/lib/feed-parser';
 import { discoverPodrollFeeds } from '@/lib/podroll-discovery';
 
 const PODCAST_INDEX_API_KEY = process.env.PODCAST_INDEX_API_KEY || '';
@@ -180,25 +179,16 @@ export async function GET(request: NextRequest) {
     console.error('Podroll discovery error:', error);
   }
 
-  // Step 3: Parse all feeds
-  try {
-    console.log('🔄 Parsing all active feeds...');
-    const parseReport = await FeedParser.parseAllFeeds();
-
-    results.parsing = {
-      success: true,
-      totalFeeds: parseReport.totalFeeds,
-      successfulParses: parseReport.successfulParses,
-      failedParses: parseReport.failedParses,
-      error: null
-    };
-
-    console.log(`✅ Parsed ${parseReport.successfulParses}/${parseReport.totalFeeds} feeds`);
-  } catch (error) {
-    const errorMsg = error instanceof Error ? error.message : 'Unknown error';
-    results.parsing.error = errorMsg;
-    console.error('Parse error:', error);
-  }
+  // Step 3: Skip file-based parsing on Vercel (read-only filesystem)
+  // Feed data is fetched fresh on each request, so no parsing needed here
+  results.parsing = {
+    success: true,
+    totalFeeds: 0,
+    successfulParses: 0,
+    failedParses: 0,
+    error: 'Skipped - Vercel has read-only filesystem. Feeds are parsed on-demand.'
+  };
+  console.log('ℹ️ Skipping file-based parsing (Vercel read-only filesystem)');
 
   results.duration = Date.now() - startTime;
 
