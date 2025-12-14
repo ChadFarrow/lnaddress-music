@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createHash } from 'crypto';
-import { addFeed, getAllFeeds } from '@/lib/db';
+import { addFeed, getAllFeeds, DBFeed } from '@/lib/db';
 import { FeedParser } from '@/lib/feed-parser';
+import { discoverPodrollFeeds } from '@/lib/podroll-discovery';
 
 const PODCAST_INDEX_API_KEY = process.env.PODCAST_INDEX_API_KEY || '';
 const PODCAST_INDEX_API_SECRET = process.env.PODCAST_INDEX_API_SECRET || '';
@@ -35,6 +36,12 @@ export async function GET(request: NextRequest) {
       found: 0,
       added: 0,
       skipped: 0,
+      errors: [] as string[]
+    },
+    podrollDiscovery: {
+      publishersChecked: 0,
+      newAlbumsFound: 0,
+      added: 0,
       errors: [] as string[]
     },
     parsing: {
@@ -136,7 +143,44 @@ export async function GET(request: NextRequest) {
     console.log('⚠️ PodcastIndex API credentials not configured, skipping discovery');
   }
 
-  // Step 2: Parse all feeds
+  // Step 2: Discover new albums from publisher podrolls
+  try {
+    console.log('🔍 Checking publisher feeds for new albums...');
+    const existingFeeds = await getAllFeeds();
+    const publisherFeeds = existingFeeds.filter((f: DBFeed) => f.type === 'publisher');
+
+    results.podrollDiscovery.publishersChecked = publisherFeeds.length;
+    console.log(`📚 Checking ${publisherFeeds.length} publisher feeds for new albums`);
+
+    for (const publisher of publisherFeeds) {
+      try {
+        const podrollResult = await discoverPodrollFeeds(publisher.original_url, {
+          autoAdd: true,
+          recursive: false, // Only direct podroll items
+          maxDepth: 1,
+          priority: 'extended'
+        });
+
+        results.podrollDiscovery.newAlbumsFound += podrollResult.stats.new;
+        results.podrollDiscovery.added += podrollResult.stats.added;
+
+        if (podrollResult.stats.added > 0) {
+          console.log(`✅ Added ${podrollResult.stats.added} new albums from ${publisher.title}`);
+        }
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+        results.podrollDiscovery.errors.push(`${publisher.title}: ${errorMsg}`);
+      }
+    }
+
+    console.log(`📊 Podroll discovery: found ${results.podrollDiscovery.newAlbumsFound} new, added ${results.podrollDiscovery.added}`);
+  } catch (error) {
+    const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+    results.podrollDiscovery.errors.push(`Podroll discovery failed: ${errorMsg}`);
+    console.error('Podroll discovery error:', error);
+  }
+
+  // Step 3: Parse all feeds
   try {
     console.log('🔄 Parsing all active feeds...');
     const parseReport = await FeedParser.parseAllFeeds();
@@ -159,8 +203,8 @@ export async function GET(request: NextRequest) {
   results.duration = Date.now() - startTime;
 
   console.log(`🏁 Feed refresh complete in ${results.duration}ms`);
-  console.log(`   - Discovered: ${results.discovery.found} feeds`);
-  console.log(`   - Added: ${results.discovery.added} new feeds`);
+  console.log(`   - PodcastIndex: ${results.discovery.found} feeds found, ${results.discovery.added} added`);
+  console.log(`   - Publisher podrolls: ${results.podrollDiscovery.publishersChecked} checked, ${results.podrollDiscovery.added} new albums added`);
   console.log(`   - Parsed: ${results.parsing.successfulParses}/${results.parsing.totalFeeds} feeds`);
 
   return NextResponse.json({
