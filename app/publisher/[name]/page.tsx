@@ -17,9 +17,11 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
 
 async function getPublisherData(publisherName: string) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
-                   (process.env.NODE_ENV === 'production' 
-                     ? process.env.NEXT_PUBLIC_SITE_URL || 'https://zaps.podtards.com'
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL ||
+                   process.env.NEXT_PUBLIC_SITE_URL ||
+                   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
+                   (process.env.NODE_ENV === 'production'
+                     ? 'https://lnaddress-music.vercel.app'
                      : `http://localhost:${process.env.PORT || '3000'}`);
     
     // Use database-backed endpoint to get latest feeds (updated by cron)
