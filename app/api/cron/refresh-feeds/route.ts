@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createHash } from 'crypto';
 import { addFeed, getAllFeeds, DBFeed } from '@/lib/db';
-import { discoverPodrollFeeds } from '@/lib/podroll-discovery';
+import { RSSParser } from '@/lib/rss-parser';
 
 const PODCAST_INDEX_API_KEY = process.env.PODCAST_INDEX_API_KEY || '';
 const PODCAST_INDEX_API_SECRET = process.env.PODCAST_INDEX_API_SECRET || '';
@@ -142,29 +142,54 @@ export async function GET(request: NextRequest) {
     console.log('⚠️ PodcastIndex API credentials not configured, skipping discovery');
   }
 
-  // Step 2: Discover new albums from publisher podrolls
+  // Step 2: Discover new albums from publisher feeds (podcast:remoteItem medium="music")
   try {
     console.log('🔍 Checking publisher feeds for new albums...');
     const existingFeeds = await getAllFeeds();
     const publisherFeeds = existingFeeds.filter((f: DBFeed) => f.type === 'publisher');
+    const existingUrls = new Set(existingFeeds.map(f => f.original_url.toLowerCase()));
 
     results.podrollDiscovery.publishersChecked = publisherFeeds.length;
     console.log(`📚 Checking ${publisherFeeds.length} publisher feeds for new albums`);
 
     for (const publisher of publisherFeeds) {
       try {
-        const podrollResult = await discoverPodrollFeeds(publisher.original_url, {
-          autoAdd: true,
-          recursive: false, // Only direct podroll items
-          maxDepth: 1,
-          priority: 'extended'
-        });
+        // Use parsePublisherFeed to get album URLs from <podcast:remoteItem medium="music">
+        const publisherItems = await RSSParser.parsePublisherFeed(publisher.original_url);
 
-        results.podrollDiscovery.newAlbumsFound += podrollResult.stats.new;
-        results.podrollDiscovery.added += podrollResult.stats.added;
+        console.log(`📻 Found ${publisherItems.length} album items in ${publisher.title}`);
 
-        if (podrollResult.stats.added > 0) {
-          console.log(`✅ Added ${podrollResult.stats.added} new albums from ${publisher.title}`);
+        for (const item of publisherItems) {
+          const feedUrl = item.feedUrl;
+          if (!feedUrl || existingUrls.has(feedUrl.toLowerCase())) {
+            continue; // Skip if no URL or already exists
+          }
+
+          results.podrollDiscovery.newAlbumsFound++;
+
+          try {
+            const addResult = await addFeed(
+              feedUrl,
+              'album',
+              item.title || 'Discovered Album',
+              {
+                priority: 'extended',
+                source: 'podroll',
+                discoveredFrom: publisher.original_url
+              }
+            );
+
+            if (addResult.success) {
+              results.podrollDiscovery.added++;
+              existingUrls.add(feedUrl.toLowerCase()); // Prevent duplicates in same run
+              console.log(`✅ Added album: ${item.title} from ${publisher.title}`);
+            } else if (addResult.error !== 'Feed already exists') {
+              results.podrollDiscovery.errors.push(`${item.title}: ${addResult.error}`);
+            }
+          } catch (err) {
+            const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+            results.podrollDiscovery.errors.push(`${item.title}: ${errorMsg}`);
+          }
         }
       } catch (err) {
         const errorMsg = err instanceof Error ? err.message : 'Unknown error';
@@ -172,11 +197,11 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    console.log(`📊 Podroll discovery: found ${results.podrollDiscovery.newAlbumsFound} new, added ${results.podrollDiscovery.added}`);
+    console.log(`📊 Publisher discovery: found ${results.podrollDiscovery.newAlbumsFound} new, added ${results.podrollDiscovery.added}`);
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : 'Unknown error';
-    results.podrollDiscovery.errors.push(`Podroll discovery failed: ${errorMsg}`);
-    console.error('Podroll discovery error:', error);
+    results.podrollDiscovery.errors.push(`Publisher discovery failed: ${errorMsg}`);
+    console.error('Publisher discovery error:', error);
   }
 
   // Step 3: Skip file-based parsing on Vercel (read-only filesystem)
