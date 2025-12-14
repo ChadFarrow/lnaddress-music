@@ -1308,10 +1308,15 @@ export class RSSParser {
       const channel = channels[0];
       
       const publisherItems: RSSPublisherItem[] = [];
-      
+
       // Look for podcast:remoteItem elements with medium="music"
-      const remoteItems = Array.from(channel.getElementsByTagName('podcast:remoteItem'));
-      
+      // Try both namespaced and non-namespaced versions for compatibility
+      const remoteItems1 = Array.from(channel.getElementsByTagName('podcast:remoteItem'));
+      const remoteItems2 = Array.from(channel.getElementsByTagName('remoteItem'));
+      const remoteItems = [...remoteItems1, ...remoteItems2];
+
+      console.log(`📡 Found ${remoteItems.length} remoteItem elements (${remoteItems1.length} namespaced, ${remoteItems2.length} non-namespaced)`);
+
       remoteItems.forEach((item: unknown) => {
         const element = item as Element;
         const medium = element.getAttribute('medium');
