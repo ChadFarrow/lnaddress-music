@@ -1,5 +1,7 @@
 # RSS Music Site Template
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A Lightning Network-powered Value4Value music platform template for bands and artists with existing RSS feeds. Built with Next.js, featuring instant Bitcoin payments, Nostr integration, and Podcasting 2.0 support.
 
 > **Note**: This is a template repository. Clone it and customize it for your band or music project.
@@ -285,3 +287,7 @@ This template was originally created for a multi-artist platform. You can custom
 - Podcast networks with music content
 
 Deploy your customized version to Vercel, Netlify, or any Next.js hosting platform.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
