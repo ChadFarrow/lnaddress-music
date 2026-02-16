@@ -70,6 +70,8 @@ Payment recipients come from Podcasting 2.0 `<podcast:value>` tags in RSS feeds,
 
 After payment, boosts are published to Nostr relays as NIP-57 zaps (`lib/boost-to-nostr-service.ts`).
 
+**BoostBox** (`lib/boostbox-service.ts`) — persistent boost metadata storage via [boostbox.cloud](https://boostbox.cloud). Before each payment, boost metadata is POSTed to BoostBox, which returns a URL. That URL is embedded in the Lightning invoice LUD-12 comment so receiving services can retrieve the full payload. Active by default (defaults to `https://boostbox.cloud` with API key `v4v4me`). Fire-and-forget — failures are logged but never block payments. Integrations in `components/NowPlayingScreen.tsx` (manual boosts) and `utils/payment-utils.ts` (auto-boosts).
+
 ### Key Directories
 
 - `app/api/` — 20+ API routes (albums, feeds, auth, admin, cron, proxy endpoints)
@@ -101,6 +103,12 @@ Required for dev:
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_ENABLE_LIGHTNING=true   # or false for basic mode
 JWT_SECRET=<any-secret>
+```
+
+Optional BoostBox config (defaults work out of the box):
+```
+NEXT_PUBLIC_BOOSTBOX_URL=https://boostbox.cloud   # default
+NEXT_PUBLIC_BOOSTBOX_API_KEY=v4v4me                # default
 ```
 
 See `env.lightning.template` and `env.basic.template` for full variable lists. The dev modes (`dev:lightning`/`dev:basic`) copy the appropriate template to `.env.local`.

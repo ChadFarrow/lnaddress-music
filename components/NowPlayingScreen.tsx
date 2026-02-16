@@ -564,6 +564,22 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
             fullMessage = `From ${senderName}: ${fullMessage}`;
           }
 
+          // BoostBox: store metadata and use returned description if available
+          const { tryStoreBoostBox } = await import('@/lib/boostbox-service');
+          const boostboxDesc = await tryStoreBoostBox({
+            action: 'boost',
+            recipient: { address: recipient.address, name: recipient.name, split: recipient.split },
+            amount: recipient.amount,
+            totalAmount: amount,
+            senderName: senderName || undefined,
+            message: boostMessage || undefined,
+            track: currentTrack,
+            album: currentAlbum,
+          });
+          if (boostboxDesc) {
+            fullMessage = boostboxDesc;
+          }
+
           // Use appropriate wallet based on what's connected
           if (nwc.isConnected) {
             // NWC wallet supports both lightning addresses and keysend

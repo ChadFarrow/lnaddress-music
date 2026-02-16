@@ -193,13 +193,26 @@ export async function makeAutoBoostPayment({
 
           let result;
 
+          // BoostBox: store metadata and use returned description if available
+          const { tryStoreBoostBox } = await import('@/lib/boostbox-service');
+          const boostboxDesc = await tryStoreBoostBox({
+            action: 'stream',
+            recipient: { address: recipientData.address, name: recipientData.name, split: recipientData.split },
+            amount: recipientAmount,
+            totalAmount: amount,
+            senderName: boostMetadata?.senderName,
+            message: boostMetadata?.message,
+            track: boostMetadata ? { title: boostMetadata.title, guid: boostMetadata.itemGuid, feedGuid: boostMetadata.podcastFeedGuid, feedUrl: boostMetadata.feedUrl, artist: boostMetadata.artist, publisherGuid: boostMetadata.publisherGuid } : undefined,
+            album: boostMetadata?.album,
+          });
+
           // Handle different recipient types
           if (recipientData.type === 'lnaddress') {
             // Pay to lightning address via LNURL
             console.log(`💡 AUTO BOOST: Paying to lightning address: ${recipientData.address}`);
             const { LNURLService } = await import('@/lib/lnurl-service');
             const amountMillisats = recipientAmount * 1000;
-            const boostMessage = boostMetadata ? `${boostMetadata.senderName || 'Auto Boost'}: Boost for "${boostMetadata.title}"` : 'Auto Boost';
+            const boostMessage = boostboxDesc || (boostMetadata ? `${boostMetadata.senderName || 'Auto Boost'}: Boost for "${boostMetadata.title}"` : 'Auto Boost');
             const invoice = await LNURLService.getPaymentInvoice(recipientData.address, amountMillisats, boostMessage);
             result = await nwcService.payInvoice(invoice);
           } else {
@@ -269,10 +282,23 @@ export async function makeAutoBoostPayment({
             throw new Error(`Breez SDK does not support ${recipientData.type} payments`);
           }
 
+          // BoostBox: store metadata and use returned description if available
+          const { tryStoreBoostBox } = await import('@/lib/boostbox-service');
+          const breezBoostboxDesc = await tryStoreBoostBox({
+            action: 'stream',
+            recipient: { address: recipientData.address, name: recipientData.name, split: recipientData.split },
+            amount: recipientAmount,
+            totalAmount: amount,
+            senderName: boostMetadata?.senderName,
+            message: boostMetadata?.message,
+            track: boostMetadata ? { title: boostMetadata.title, guid: boostMetadata.itemGuid, feedGuid: boostMetadata.podcastFeedGuid, feedUrl: boostMetadata.feedUrl, artist: boostMetadata.artist, publisherGuid: boostMetadata.publisherGuid } : undefined,
+            album: boostMetadata?.album,
+          });
+
           // Pay to lightning address via LNURL
           const { LNURLService } = await import('@/lib/lnurl-service');
           const amountMillisats = recipientAmount * 1000;
-          const boostMessage = boostMetadata ? `${boostMetadata.senderName || 'Auto Boost'}: Boost for "${boostMetadata.title}"` : 'Auto Boost';
+          const boostMessage = breezBoostboxDesc || (boostMetadata ? `${boostMetadata.senderName || 'Auto Boost'}: Boost for "${boostMetadata.title}"` : 'Auto Boost');
           const invoice = await LNURLService.getPaymentInvoice(recipientData.address, amountMillisats, boostMessage);
 
           const payment = await breezService.sendPayment({
