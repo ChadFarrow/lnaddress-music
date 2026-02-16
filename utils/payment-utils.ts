@@ -194,8 +194,8 @@ export async function makeAutoBoostPayment({
           let result;
 
           // BoostBox: store metadata and use returned description if available
-          const { tryStoreBoostBox } = await import('@/lib/boostbox-service');
-          const boostboxDesc = await tryStoreBoostBox({
+          const { tryStoreBoostBox, saveBoostHistory } = await import('@/lib/boostbox-service');
+          const boostboxResult = await tryStoreBoostBox({
             action: 'stream',
             recipient: { address: recipientData.address, name: recipientData.name, split: recipientData.split },
             amount: recipientAmount,
@@ -205,6 +205,16 @@ export async function makeAutoBoostPayment({
             track: boostMetadata ? { title: boostMetadata.title, guid: boostMetadata.itemGuid, feedGuid: boostMetadata.podcastFeedGuid, feedUrl: boostMetadata.feedUrl, artist: boostMetadata.artist, publisherGuid: boostMetadata.publisherGuid } : undefined,
             album: boostMetadata?.album,
           });
+          if (boostboxResult) {
+            saveBoostHistory({
+              url: boostboxResult.url,
+              amount: recipientAmount,
+              recipientName: recipientData.name || recipientData.address,
+              trackTitle: boostMetadata?.title || 'Unknown',
+              timestamp: new Date().toISOString(),
+              action: 'stream',
+            });
+          }
 
           // Handle different recipient types
           if (recipientData.type === 'lnaddress') {
@@ -212,7 +222,10 @@ export async function makeAutoBoostPayment({
             console.log(`💡 AUTO BOOST: Paying to lightning address: ${recipientData.address}`);
             const { LNURLService } = await import('@/lib/lnurl-service');
             const amountMillisats = recipientAmount * 1000;
-            const boostMessage = boostboxDesc || (boostMetadata ? `${boostMetadata.senderName || 'Auto Boost'}: Boost for "${boostMetadata.title}"` : 'Auto Boost');
+            const fallbackMessage = boostMetadata ? `${boostMetadata.senderName || 'Auto Boost'}: Boost for "${boostMetadata.title}"` : 'Auto Boost';
+            const boostMessage = boostboxResult?.url
+              ? `rss::payment::boost ${boostboxResult.url} ${fallbackMessage}`
+              : fallbackMessage;
             const invoice = await LNURLService.getPaymentInvoice(recipientData.address, amountMillisats, boostMessage);
             result = await nwcService.payInvoice(invoice);
           } else {
@@ -283,8 +296,8 @@ export async function makeAutoBoostPayment({
           }
 
           // BoostBox: store metadata and use returned description if available
-          const { tryStoreBoostBox } = await import('@/lib/boostbox-service');
-          const breezBoostboxDesc = await tryStoreBoostBox({
+          const { tryStoreBoostBox: tryStoreBreez, saveBoostHistory: saveBreezHistory } = await import('@/lib/boostbox-service');
+          const breezBoostboxResult = await tryStoreBreez({
             action: 'stream',
             recipient: { address: recipientData.address, name: recipientData.name, split: recipientData.split },
             amount: recipientAmount,
@@ -294,11 +307,24 @@ export async function makeAutoBoostPayment({
             track: boostMetadata ? { title: boostMetadata.title, guid: boostMetadata.itemGuid, feedGuid: boostMetadata.podcastFeedGuid, feedUrl: boostMetadata.feedUrl, artist: boostMetadata.artist, publisherGuid: boostMetadata.publisherGuid } : undefined,
             album: boostMetadata?.album,
           });
+          if (breezBoostboxResult) {
+            saveBreezHistory({
+              url: breezBoostboxResult.url,
+              amount: recipientAmount,
+              recipientName: recipientData.name || recipientData.address,
+              trackTitle: boostMetadata?.title || 'Unknown',
+              timestamp: new Date().toISOString(),
+              action: 'stream',
+            });
+          }
 
           // Pay to lightning address via LNURL
           const { LNURLService } = await import('@/lib/lnurl-service');
           const amountMillisats = recipientAmount * 1000;
-          const boostMessage = breezBoostboxDesc || (boostMetadata ? `${boostMetadata.senderName || 'Auto Boost'}: Boost for "${boostMetadata.title}"` : 'Auto Boost');
+          const fallbackMessage = boostMetadata ? `${boostMetadata.senderName || 'Auto Boost'}: Boost for "${boostMetadata.title}"` : 'Auto Boost';
+          const boostMessage = breezBoostboxResult?.url
+            ? `rss::payment::boost ${breezBoostboxResult.url} ${fallbackMessage}`
+            : fallbackMessage;
           const invoice = await LNURLService.getPaymentInvoice(recipientData.address, amountMillisats, boostMessage);
 
           const payment = await breezService.sendPayment({

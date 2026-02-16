@@ -635,8 +635,32 @@ class BreezService {
       throw new Error('Not connected to Breez SDK');
     }
 
-    // TODO: LNURL-Withdraw support will be added when method names are confirmed in SDK
-    throw new Error('LNURL-Withdraw support not yet available in this SDK version');
+    try {
+      console.log('🔍 Parsing LNURL-Withdraw URL:', lnurlWithdrawUrl);
+      const inputType = await this.sdk.parse(lnurlWithdrawUrl);
+
+      if (inputType.type !== 'lnurlWithdraw') {
+        throw new Error('Not a valid LNURL-Withdraw URL');
+      }
+
+      console.log('✅ Parsed LNURL-Withdraw request:', JSON.stringify(inputType, null, 2));
+
+      const withdrawResponse = await this.sdk.lnurlWithdraw({
+        amountSats: inputType.maxWithdrawable,
+        withdrawRequest: inputType,
+      });
+
+      console.log('✅ LNURL-Withdraw completed:', withdrawResponse);
+
+      if (!withdrawResponse.payment) {
+        throw new Error('LNURL-Withdraw succeeded but no payment was returned');
+      }
+
+      return withdrawResponse.payment;
+    } catch (error) {
+      console.error('❌ LNURL-Withdraw failed:', error);
+      throw error;
+    }
   }
 
   /**

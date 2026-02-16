@@ -198,26 +198,28 @@ export class LNURLService {
       // 2. Fetch LNURL metadata
       const metadata = await this.fetchLNURLMetadata(url);
       
-      // Validate comment if provided (LUD-12)
-      if (comment) {
+      // Handle comment (LUD-12): truncate or skip gracefully, never block payment
+      let effectiveComment = comment;
+      if (effectiveComment) {
         if (!metadata.commentAllowed || metadata.commentAllowed === 0) {
-          throw new Error('Comments are not supported by this LNURL endpoint');
-        }
-        if (comment.length > metadata.commentAllowed) {
-          throw new Error(`Comment too long. Maximum ${metadata.commentAllowed} characters allowed`);
+          console.warn(`⚠️ LNURL Service: Endpoint does not support comments (commentAllowed=${metadata.commentAllowed}). Proceeding without comment.`);
+          effectiveComment = undefined;
+        } else if (effectiveComment.length > metadata.commentAllowed) {
+          console.warn(`⚠️ LNURL Service: Comment too long (${effectiveComment.length}/${metadata.commentAllowed}). Truncating.`);
+          effectiveComment = effectiveComment.substring(0, metadata.commentAllowed);
         }
       }
-      
+
       // 3. Request invoice without zap request (simple payment)
       const callbackUrl = new URL(metadata.callback);
       callbackUrl.searchParams.set('amount', amountMillisats.toString());
-      
-      // Add comment if provided and supported (LUD-12)
-      if (comment && metadata.commentAllowed && metadata.commentAllowed > 0) {
-        console.log(`🔍 LNURL Service: Adding comment "${comment}" to Lightning address ${lnurlOrAddress}`);
-        callbackUrl.searchParams.set('comment', comment);
-      } else {
-        console.log(`⚠️ LNURL Service: Comment not added. comment=${!!comment}, commentAllowed=${metadata.commentAllowed}`);
+
+      // Add comment if supported (LUD-12)
+      if (effectiveComment) {
+        console.log(`🔍 LNURL Service: Adding comment "${effectiveComment}" to Lightning address ${lnurlOrAddress}`);
+        callbackUrl.searchParams.set('comment', effectiveComment);
+      } else if (comment) {
+        console.log(`⚠️ LNURL Service: Comment not added. commentAllowed=${metadata.commentAllowed}`);
       }
       
       console.log(`🔗 LNURL Service: Final callback URL: ${callbackUrl.toString()}`);

@@ -17,6 +17,7 @@ import { PaymentConfirmationModal, type PaymentConfirmation, type PaymentRecipie
 import { useNWC } from '@/hooks/useNWC';
 import { useBreez } from '@/hooks/useBreez';
 import { useBoostToNostr } from '@/hooks/useBoostToNostr';
+import { toast } from '@/components/Toast';
 
 interface NowPlayingScreenProps {
   isOpen: boolean;
@@ -541,6 +542,7 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
 
     const supportedRecipients = confirmPayment.recipients.filter(r => r.supported);
     const amount = parseInt(boostAmount) || 1;
+    const boostboxUrls: string[] = [];
 
     try {
       // Send to each supported recipient sequentially
@@ -565,8 +567,8 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
           }
 
           // BoostBox: store metadata and use returned description if available
-          const { tryStoreBoostBox } = await import('@/lib/boostbox-service');
-          const boostboxDesc = await tryStoreBoostBox({
+          const { tryStoreBoostBox, saveBoostHistory } = await import('@/lib/boostbox-service');
+          const boostboxResult = await tryStoreBoostBox({
             action: 'boost',
             recipient: { address: recipient.address, name: recipient.name, split: recipient.split },
             amount: recipient.amount,
@@ -576,9 +578,24 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
             track: currentTrack,
             album: currentAlbum,
           });
-          if (boostboxDesc) {
-            fullMessage = boostboxDesc;
+          if (boostboxResult) {
+            // Combine BoostBox URL with user's message (like Fountain's format)
+            // Sender name is stored in BoostBox metadata, so use raw boostMessage here
+            fullMessage = boostMessage
+              ? `rss::payment::boost ${boostboxResult.url} ${boostMessage}`
+              : `rss::payment::boost ${boostboxResult.url}`;
+            boostboxUrls.push(boostboxResult.url);
+            saveBoostHistory({
+              url: boostboxResult.url,
+              amount: recipient.amount,
+              recipientName: recipient.name || 'Unknown',
+              trackTitle: currentTrack?.title || 'Unknown',
+              timestamp: new Date().toISOString(),
+              action: 'boost',
+            });
           }
+
+          console.log(`💬 Comment for ${recipient.name}: "${fullMessage}" (boostbox=${!!boostboxResult}, wallet=${nwc.isConnected ? 'NWC' : breez.isConnected ? 'Breez' : 'none'}, type=${recipient.type})`);
 
           // Use appropriate wallet based on what's connected
           if (nwc.isConnected) {
@@ -629,6 +646,11 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
 
       // All payments complete (or failed)
       setConfirmPayment(prev => prev ? { ...prev, processing: false } : null);
+
+      // Show BoostBox URL toast if we have any
+      if (boostboxUrls.length > 0) {
+        toast.success(`📦 BoostBox: ${boostboxUrls[0]}`, 5000);
+      }
 
       // Trigger success effects
       console.log('💫 About to call handleBoostSuccess with amount:', amount);

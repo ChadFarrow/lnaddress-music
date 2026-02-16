@@ -121,19 +121,54 @@ export async function healthCheck(): Promise<boolean> {
 }
 
 /**
- * Try to store boost metadata in BoostBox. Returns the `desc` string
- * to use as the invoice comment, or null if BoostBox is not configured
- * or the call fails. Never throws — payment flow is never blocked.
+ * Try to store boost metadata in BoostBox. Returns `{ desc, url }` on success,
+ * or null if BoostBox is not configured or the call fails.
+ * Never throws — payment flow is never blocked.
  */
-export async function tryStoreBoostBox(params: BoostBoxStoreParams): Promise<string | null> {
+export async function tryStoreBoostBox(params: BoostBoxStoreParams): Promise<{ desc: string; url: string } | null> {
   if (!isConfigured()) return null;
 
   try {
     const result = await storeBoost(params);
     console.log('📦 BoostBox stored:', result.url);
-    return result.desc;
+    return { desc: result.desc, url: result.url };
   } catch (error) {
     console.warn('⚠️ BoostBox storage failed (payment will proceed normally):', error);
     return null;
+  }
+}
+
+const BOOSTBOX_HISTORY_KEY = 'boostbox_history';
+const BOOSTBOX_HISTORY_MAX = 100;
+
+export interface BoostHistoryEntry {
+  url: string;
+  amount: number;
+  recipientName: string;
+  trackTitle: string;
+  timestamp: string;
+  action: 'boost' | 'stream';
+}
+
+export function saveBoostHistory(entry: BoostHistoryEntry): void {
+  try {
+    const history = getBoostHistory();
+    history.unshift(entry);
+    if (history.length > BOOSTBOX_HISTORY_MAX) {
+      history.length = BOOSTBOX_HISTORY_MAX;
+    }
+    localStorage.setItem(BOOSTBOX_HISTORY_KEY, JSON.stringify(history));
+  } catch (error) {
+    console.warn('Failed to save boost history:', error);
+  }
+}
+
+export function getBoostHistory(): BoostHistoryEntry[] {
+  try {
+    const raw = localStorage.getItem(BOOSTBOX_HISTORY_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw);
+  } catch {
+    return [];
   }
 }
