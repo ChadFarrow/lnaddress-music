@@ -244,14 +244,28 @@ export default function HomePage() {
       setConfirmPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
 
       try {
-        // Prepare metadata
-        const fullMessage = `${boostMessage || ''}\n\nSent from lnaddress music by ${senderName || 'Anonymous'}`.trim();
-        console.log(`🔍 Boost Payment: Full message = "${fullMessage}"`);
-        console.log(`🔍 Boost Payment: Original message = "${boostMessage}", sender = "${senderName}"`);
+        // Build comment with BoostBox URL if available
+        const { tryStoreBoostBox } = await import('@/lib/boostbox-service');
+        const boostboxResult = await tryStoreBoostBox({
+          action: 'boost',
+          recipient: { address: recipient.address, name: recipient.name, split: recipient.split },
+          amount: recipient.amount,
+          totalAmount: confirmPayment.amount,
+          senderName: senderName || undefined,
+          message: boostMessage || undefined,
+        });
+        const userMessage = boostMessage || '';
+        const fullMessage = boostboxResult?.url
+          ? `rss::payment::boost ${boostboxResult.url} ${userMessage}`.trim()
+          : userMessage
+            ? `${userMessage} Sent from lnaddress music by ${senderName || 'Anonymous'}`
+            : `Sent from lnaddress music by ${senderName || 'Anonymous'}`;
+
+        console.log(`💬 Comment for ${recipient.name}: "${fullMessage}" (boostbox=${!!boostboxResult}, wallet=${nwc.isConnected ? 'NWC' : breez.isConnected ? 'Breez' : 'none'}, type=${recipient.type})`);
 
         if (nwc.isConnected) {
           if (recipient.type === 'lnaddress') {
-            // Pay via lightning address
+            // Pay via lightning address — comment goes in LNURL callback
             const { LNURLService } = await import('@/lib/lnurl-service');
             const amountMillisats = recipient.amount * 1000;
             const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
@@ -269,13 +283,13 @@ export default function HomePage() {
             }
           }
         } else if (breez.isConnected && recipient.type === 'lnaddress') {
-          // Breez only supports lightning addresses
+          // Get invoice with comment via LNURL callback, then pay the invoice
           const { LNURLService } = await import('@/lib/lnurl-service');
           const amountMillisats = recipient.amount * 1000;
           const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
 
           await breez.sendPayment({
-            destination: recipient.address,
+            destination: invoice,
             amountSats: recipient.amount,
             message: fullMessage
           });

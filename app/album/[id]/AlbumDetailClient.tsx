@@ -309,7 +309,24 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       setConfirmAlbumPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
 
       try {
-        const fullMessage = `${boostMessage || ''}\n\nSent from lnaddress music by ${senderName || 'Anonymous'}`.trim();
+        // Build comment with BoostBox URL if available
+        const { tryStoreBoostBox } = await import('@/lib/boostbox-service');
+        const boostboxResult = await tryStoreBoostBox({
+          action: 'boost',
+          recipient: { address: recipient.address, name: recipient.name, split: recipient.split },
+          amount: recipient.amount,
+          totalAmount: confirmAlbumPayment.amount,
+          senderName: senderName || undefined,
+          message: boostMessage || undefined,
+        });
+        const userMessage = boostMessage || '';
+        const fullMessage = boostboxResult?.url
+          ? `rss::payment::boost ${boostboxResult.url} ${userMessage}`.trim()
+          : userMessage
+            ? `${userMessage} Sent from lnaddress music by ${senderName || 'Anonymous'}`
+            : `Sent from lnaddress music by ${senderName || 'Anonymous'}`;
+
+        console.log(`💬 Comment for ${recipient.name}: "${fullMessage}" (boostbox=${!!boostboxResult}, wallet=${nwc.isConnected ? 'NWC' : breez.isConnected ? 'Breez' : 'none'}, type=${recipient.type})`);
 
         if (nwc.isConnected) {
           if (recipient.type === 'lnaddress') {
@@ -327,7 +344,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
           const amountMillisats = recipient.amount * 1000;
           const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
           await breez.sendPayment({
-            destination: recipient.address,
+            destination: invoice,
             amountSats: recipient.amount,
             message: fullMessage
           });
@@ -387,7 +404,24 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
       setConfirmTrackPayment(prev => prev ? { ...prev, recipientStatus: new Map(recipientStatus) } : null);
 
       try {
-        const fullMessage = `${trackBoostMessage || ''}\n\nSent from lnaddress music by ${senderName || 'Anonymous'}`.trim();
+        // Build comment with BoostBox URL if available
+        const { tryStoreBoostBox } = await import('@/lib/boostbox-service');
+        const boostboxResult = await tryStoreBoostBox({
+          action: 'boost',
+          recipient: { address: recipient.address, name: recipient.name, split: recipient.split },
+          amount: recipient.amount,
+          totalAmount: confirmTrackPayment.amount,
+          senderName: senderName || undefined,
+          message: trackBoostMessage || undefined,
+        });
+        const userMessage = trackBoostMessage || '';
+        const fullMessage = boostboxResult?.url
+          ? `rss::payment::boost ${boostboxResult.url} ${userMessage}`.trim()
+          : userMessage
+            ? `${userMessage} Sent from lnaddress music by ${senderName || 'Anonymous'}`
+            : `Sent from lnaddress music by ${senderName || 'Anonymous'}`;
+
+        console.log(`💬 Comment for ${recipient.name}: "${fullMessage}" (boostbox=${!!boostboxResult}, wallet=${nwc.isConnected ? 'NWC' : breez.isConnected ? 'Breez' : 'none'}, type=${recipient.type})`);
 
         if (nwc.isConnected) {
           if (recipient.type === 'lnaddress') {
@@ -405,7 +439,7 @@ export default function AlbumDetailClient({ albumTitle, initialAlbum }: AlbumDet
           const amountMillisats = recipient.amount * 1000;
           const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
           await breez.sendPayment({
-            destination: recipient.address,
+            destination: invoice,
             amountSats: recipient.amount,
             message: fullMessage
           });

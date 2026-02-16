@@ -625,10 +625,17 @@ const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({ isOpen, onClose }) 
                 throw new Error(result.error || 'Keysend payment failed');
               }
             }
-          } else if (breez.isConnected) {
-            // Breez SDK only supports lightning addresses
+          } else if (breez.isConnected && recipient.type === 'lnaddress') {
+            // Get invoice with comment via LNURL callback, then pay the invoice
+            const { LNURLService } = await import('@/lib/lnurl-service');
+            const amountMsats = recipient.amount * 1000;
+            const invoice = await LNURLService.getPaymentInvoice(
+              recipient.address,
+              amountMsats,
+              fullMessage
+            );
             await breez.sendPayment({
-              destination: recipient.address,
+              destination: invoice,
               amountSats: recipient.amount,
               message: fullMessage
             });
