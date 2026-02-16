@@ -60,17 +60,31 @@ All state management uses React Context — no Redux or external state library.
 
 ### Payment Processing
 
-Multiple wallet backends, all converging through a common payment flow:
+Multiple wallet backends, each independent — NWC and Breez are separate wallets, not fallbacks for each other:
+- **NWC** (`lib/nwc-service.ts`, `hooks/useNWC.ts`) — Nostr Wallet Connect (NIP-47), supports `lnaddress` and `node` (keysend, Alby only)
+- **Breez SDK Spark** (`lib/breez-service.ts`, `hooks/useBreez.ts`) — self-custodial WASM-based on-device wallet (v0.7.21), supports `lnaddress` only
 - **WebLN** (`lib/webln-service.ts`) — browser extension wallets (Alby)
-- **NWC** (`lib/nwc-service.ts`, `hooks/useNWC.ts`) — Nostr Wallet Connect (NIP-47)
-- **Breez SDK** (`lib/breez-service.ts`, `hooks/useBreez.ts`) — self-custodial on-device
-- **Lightning Address** (`lib/lnurl-service.ts`) — LNURL-pay with LUD-12 comments
+- **LNURL-Pay** (`lib/lnurl-service.ts`) — converts Lightning Addresses to invoices, carries LUD-12 comments via `?comment=` callback param
 
-Payment recipients come from Podcasting 2.0 `<podcast:value>` tags in RSS feeds, which specify split percentages across multiple recipients. TLV records (`lib/tlv-utils.ts`) encode boost metadata.
+Payment recipients come from Podcasting 2.0 `<podcast:value>` tags in RSS feeds. Recipients have a `type` field: `lnaddress` (Lightning Address) or `node` (keysend pubkey). Split percentages determine payment amounts. TLV records (`lib/tlv-utils.ts`) encode boost metadata for keysend.
+
+**Critical: 4+ independent payment code paths** exist across the app — changes to payment logic must be applied to ALL of them:
+1. `app/page.tsx` ~line 218 `sendPayment()` — main page album boost
+2. `app/album/[id]/AlbumDetailClient.tsx` ~line 290 — album detail boost (album-level + track-level)
+3. `components/NowPlayingScreen.tsx` ~line 560 — now playing screen boost
+4. `utils/payment-utils.ts` — auto-boost (streaming sats) for both NWC and Breez
+
+Each path has its own wallet selection logic (`if nwc... else if breez...`). When modifying payment behavior, grep for the pattern and update all paths.
+
+**NWC keysend support**: Only Alby NWC connections support keysend (checked via `supportsKeysend` in `hooks/useNWC.ts` — looks for `getalby.com` in the connection string). Other NWC wallets (Primal, etc.) only support `lnaddress` recipients.
+
+**React state vs service state**: Payment functions should check wallet connection via the service directly (`getNWCService().isConnected()`) rather than relying on React hook state (`nwc.isConnected`) which can be stale in closures.
 
 After payment, boosts are published to Nostr relays as NIP-57 zaps (`lib/boost-to-nostr-service.ts`).
 
-**BoostBox** (`lib/boostbox-service.ts`) — persistent boost metadata storage via [boostbox.cloud](https://boostbox.cloud). Before each payment, boost metadata is POSTed to BoostBox, which returns a URL. That URL is embedded in the Lightning invoice LUD-12 comment so receiving services can retrieve the full payload. Active by default (defaults to `https://boostbox.cloud` with API key `v4v4me`). Fire-and-forget — failures are logged but never block payments. Integrations in `components/NowPlayingScreen.tsx` (manual boosts) and `utils/payment-utils.ts` (auto-boosts).
+**BoostBox** (`lib/boostbox-service.ts`) — persistent boost metadata storage via [boostbox.cloud](https://boostbox.cloud). Before each payment, boost metadata is POSTed to BoostBox, which returns `{url, desc}`. The URL is embedded in the LUD-12 comment in Fountain-compatible format: `rss::payment::boost <boostbox_url> <user_message>`. Active by default (defaults to `https://boostbox.cloud` with API key `v4v4me`). Fire-and-forget — failures are logged but never block payments.
+
+**LNURL comment flow**: For `lnaddress` recipients, `LNURLService.getPaymentInvoice()` fetches LNURL metadata, appends `?comment=` to the callback URL (LUD-12), and returns a BOLT11 invoice. The comment is sent when the invoice is created, NOT when it's paid. The `commentAllowed` field from the LNURL endpoint determines max comment length (e.g., Alby allows 255 chars). Comments that exceed the limit are truncated; unsupported endpoints skip the comment silently.
 
 ### Key Directories
 
@@ -117,7 +131,7 @@ See `env.lightning.template` and `env.basic.template` for full variable lists. T
 
 - **Platform**: Vercel (read-only filesystem, in-memory RSS cache)
 - **Cron**: Daily feed refresh at 6 AM UTC (`vercel.json`)
-- **PWA**: Auto-versioned via `scripts/auto-version-update.js` on deploy
+- **PWA**: Auto-versioned via `scripts/auto-version-update.js` on deploy. Service worker caches aggressively — after deploying, users may need to hard-refresh (Cmd+Shift+R) or unregister the service worker (DevTools → Application → Service Workers) to see changes. Check chunk hashes in console vs build output to confirm which version is running.
 - **Capacitor**: Android build support via `@capacitor/android` (dev dependency)
 
 ## Conventions
@@ -127,3 +141,4 @@ See `env.lightning.template` and `env.basic.template` for full variable lists. T
 - Image optimization via Next.js Image with 20+ allowed domains in `next.config.js`
 - Constants centralized in `lib/constants.ts` (payment amounts, TLV types, storage keys, cache TTLs)
 - Heavy use of `dynamic()` imports with `ssr: false` for wallet/payment components
+- Git: Quote paths with brackets in shell commands (e.g., `git add "app/album/[id]/AlbumDetailClient.tsx"`) — zsh treats `[]` as glob patterns
