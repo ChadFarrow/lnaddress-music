@@ -218,6 +218,14 @@ export default function HomePage() {
   const sendPayment = async () => {
     if (!confirmPayment || !selectedAlbum) return;
 
+    // Check wallet connection directly from services (not stale React state)
+    const { getNWCService } = await import('@/lib/nwc-service');
+    const nwcService = getNWCService();
+    const nwcConnected = nwcService.isConnected();
+    const nwcKeysend = nwc.supportsKeysend;
+
+    console.log(`🔌 Wallet state at payment time: NWC=${nwcConnected} (react=${nwc.isConnected}), Breez=${breez.isConnected}, keysend=${nwcKeysend}`);
+
     // Mark as processing
     setConfirmPayment({
       ...confirmPayment,
@@ -261,38 +269,47 @@ export default function HomePage() {
             ? `${userMessage} Sent from lnaddress music by ${senderName || 'Anonymous'}`
             : `Sent from lnaddress music by ${senderName || 'Anonymous'}`;
 
-        console.log(`💬 Comment for ${recipient.name}: "${fullMessage}" (boostbox=${!!boostboxResult}, wallet=${nwc.isConnected ? 'NWC' : breez.isConnected ? 'Breez' : 'none'}, type=${recipient.type})`);
+        console.log(`💬 Comment for ${recipient.name}: "${fullMessage}" (boostbox=${!!boostboxResult}, wallet=${nwcConnected ? 'NWC' : breez.isConnected ? 'Breez' : 'none'}, type=${recipient.type})`);
 
-        if (nwc.isConnected) {
+        if (nwcConnected) {
           if (recipient.type === 'lnaddress') {
             // Pay via lightning address — comment goes in LNURL callback
             const { LNURLService } = await import('@/lib/lnurl-service');
             const amountMillisats = recipient.amount * 1000;
             const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
+            console.log(`⚡ NWC paying invoice for ${recipient.name} (${recipient.amount} sats, lnaddress)`);
             const result = await nwc.payInvoice(invoice);
 
             if (!result.success) {
               throw new Error(result.error || 'Payment failed');
             }
-          } else if (recipient.type === 'node' && nwc.supportsKeysend) {
+          } else if (recipient.type === 'node' && nwcKeysend) {
             // Pay via keysend
+            console.log(`⚡ NWC keysend to ${recipient.name} (${recipient.amount} sats, node)`);
             const result = await nwc.payKeysend(recipient.address, recipient.amount, fullMessage);
 
             if (!result.success) {
               throw new Error(result.error || 'Keysend payment failed');
             }
+          } else if (recipient.type === 'node' && !nwcKeysend) {
+            console.warn(`⚠️ Skipping ${recipient.name}: NWC doesn't support keysend for node-type recipients`);
+            throw new Error('NWC wallet does not support keysend payments to this recipient');
           }
         } else if (breez.isConnected && recipient.type === 'lnaddress') {
           // Get invoice with comment via LNURL callback, then pay the invoice
           const { LNURLService } = await import('@/lib/lnurl-service');
           const amountMillisats = recipient.amount * 1000;
           const invoice = await LNURLService.getPaymentInvoice(recipient.address, amountMillisats, fullMessage);
+          console.log(`⚡ Breez paying invoice for ${recipient.name} (${recipient.amount} sats, lnaddress)`);
 
           await breez.sendPayment({
             destination: invoice,
             amountSats: recipient.amount,
             message: fullMessage
           });
+        } else {
+          console.error(`❌ No wallet can handle ${recipient.name} (type=${recipient.type}, nwc=${nwcConnected}, breez=${breez.isConnected})`);
+          throw new Error(`No connected wallet supports ${recipient.type} payments`);
         }
 
         // Mark as success
