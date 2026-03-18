@@ -1,5 +1,5 @@
 // Increment these versions when you need to force cache invalidation during development
-const CACHE_VERSION = 'v3'; // <-- Change this when you need fresh cache
+const CACHE_VERSION = 'v4'; // <-- Change this when you need fresh cache
 const CACHE_NAME = `music-site-${CACHE_VERSION}`;
 const STATIC_CACHE_NAME = `music-site-static-${CACHE_VERSION}`;
 
