@@ -16,19 +16,17 @@ export default function PasskeyRegisterForm({
   onSwitchToPassword,
   className = '',
 }: PasskeyRegisterFormProps) {
-  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const { registerWithPasskey } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setLoading(true);
     setError('');
 
     try {
-      const result = await registerWithPasskey(username);
+      const result = await registerWithPasskey();
 
       if (result.success) {
         onSuccess?.(result.credentialId!, result.prfSupported || false);
@@ -51,33 +49,12 @@ export default function PasskeyRegisterForm({
         <p className="text-gray-400">Set up your account with a passkey</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-6">
         {error && (
           <div className="bg-red-900/30 border border-red-500/50 rounded-lg p-4">
             <p className="text-red-200 text-sm">{error}</p>
           </div>
         )}
-
-        <div>
-          <label htmlFor="pk-username" className="block text-sm font-medium text-gray-300 mb-2">
-            Username
-          </label>
-          <input
-            type="text"
-            id="pk-username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
-            placeholder="Choose a username"
-            required
-            disabled={loading}
-            minLength={3}
-            maxLength={50}
-          />
-          <p className="text-gray-500 text-xs mt-1">
-            3-50 characters, letters, numbers, underscores, and hyphens only
-          </p>
-        </div>
 
         <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
           <div className="flex items-start gap-3">
@@ -94,7 +71,7 @@ export default function PasskeyRegisterForm({
         </div>
 
         <button
-          type="submit"
+          onClick={handleSubmit}
           disabled={loading}
           className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
@@ -109,7 +86,7 @@ export default function PasskeyRegisterForm({
             </>
           )}
         </button>
-      </form>
+      </div>
 
       <div className="mt-6 space-y-3 text-center">
         {onSwitchToPassword && (

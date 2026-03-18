@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { X, Loader2, Zap } from 'lucide-react';
 
 export interface PaymentRecipient {
@@ -43,6 +44,12 @@ export function PaymentConfirmationModal({
   onCancel,
   onConfirm
 }: PaymentConfirmationModalProps) {
+  const [nameSaved, setNameSaved] = useState(false);
+
+  // Check if the current name differs from what's saved
+  const savedName = typeof window !== 'undefined' ? localStorage.getItem('boost-sender-name') || '' : '';
+  const nameChanged = senderName && senderName !== savedName;
+
   if (!confirmation) return null;
 
   return (
@@ -80,16 +87,39 @@ export function PaymentConfirmationModal({
             />
           </div>
           <div>
-            <label className="block text-gray-400 text-xs mb-1">Your Name (optional, saved)</label>
-            <input
-              type="text"
-              value={senderName}
-              onChange={(e) => onSenderNameChange(e.target.value)}
-              disabled={confirmation.processing}
-              placeholder="Enter your name..."
-              className="w-full px-3 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg text-sm focus:outline-none focus:border-purple-400 placeholder:text-gray-500 disabled:opacity-50"
-              maxLength={50}
-            />
+            <label className="block text-gray-400 text-xs mb-1">Your Name (optional)</label>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={senderName}
+                onChange={(e) => {
+                  onSenderNameChange(e.target.value);
+                  setNameSaved(false);
+                }}
+                disabled={confirmation.processing}
+                placeholder="Enter your name..."
+                className="flex-1 px-3 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg text-sm focus:outline-none focus:border-purple-400 placeholder:text-gray-500 disabled:opacity-50"
+                maxLength={50}
+              />
+              {nameChanged && !nameSaved && (
+                <button
+                  onClick={() => {
+                    localStorage.setItem('boost-sender-name', senderName);
+                    setNameSaved(true);
+                    setTimeout(() => setNameSaved(false), 2000);
+                  }}
+                  disabled={confirmation.processing}
+                  className="px-3 py-2 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white text-xs rounded-lg transition-colors whitespace-nowrap"
+                >
+                  Save
+                </button>
+              )}
+              {nameSaved && (
+                <span className="px-3 py-2 bg-green-600 text-white text-xs rounded-lg flex items-center">
+                  Saved
+                </span>
+              )}
+            </div>
           </div>
           <div>
             <label className="block text-gray-400 text-xs mb-1">Message (optional)</label>
