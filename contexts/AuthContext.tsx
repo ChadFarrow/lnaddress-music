@@ -18,7 +18,7 @@ export interface AuthContextType {
   login: (username: string, password: string) => Promise<{ success: boolean; error?: string }>;
   register: (username: string, password: string, confirmPassword: string) => Promise<{ success: boolean; error?: string }>;
   // Passkey auth (default)
-  registerWithPasskey: (username: string) => Promise<{ success: boolean; error?: string; credentialId?: string; prfSupported?: boolean }>;
+  registerWithPasskey: (username?: string) => Promise<{ success: boolean; error?: string; credentialId?: string; prfSupported?: boolean }>;
   loginWithPasskey: (username?: string) => Promise<{ success: boolean; error?: string; credentialId?: string; prfSupported?: boolean }>;
   logout: () => Promise<void>;
   getMnemonic: (password: string) => Promise<{ success: boolean; mnemonic?: string; network?: string; error?: string }>;
@@ -150,14 +150,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  const registerWithPasskey = async (username: string): Promise<{ success: boolean; error?: string; credentialId?: string; prfSupported?: boolean }> => {
+  const registerWithPasskey = async (username?: string): Promise<{ success: boolean; error?: string; credentialId?: string; prfSupported?: boolean }> => {
     try {
+      // Auto-generate username if not provided
+      const finalUsername = username || `user_${Date.now().toString(36)}`;
+
       // Step 1: Get registration options from server
       const startRes = await fetch('/api/auth/passkey/register/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ username }),
+        body: JSON.stringify({ username: finalUsername }),
       });
 
       const startData = await startRes.json();
@@ -184,7 +187,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({
-          username,
+          username: finalUsername,
           challengeToken: startData.challengeToken,
           credential: attResp,
         }),

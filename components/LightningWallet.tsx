@@ -37,10 +37,18 @@ export function LightningWallet() {
   const [hasMoreTransactions, setHasMoreTransactions] = useState(true);
   const TRANSACTIONS_PER_PAGE = 20;
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [boostName, setBoostName] = useState('');
+  const [boostNameSaved, setBoostNameSaved] = useState(false);
 
   const nwc = useNWC();
   const breez = useBreez();
   const { user } = useAuth();
+
+  // Load boost name from localStorage
+  useEffect(() => {
+    const savedName = localStorage.getItem('boost-sender-name');
+    if (savedName) setBoostName(savedName);
+  }, []);
 
   // Use a ref to track if event listener is registered (prevents duplicate registrations)
   const eventListenerRegistered = useRef(false);
@@ -636,6 +644,39 @@ export function LightningWallet() {
                         </div>
                       </div>
                     )}
+
+                    {/* Boost Name Setting */}
+                    <div className="p-3 bg-gray-800/50 rounded-lg">
+                      <label className="block text-xs text-gray-400 mb-1">Boost Name</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={boostName}
+                          onChange={(e) => {
+                            setBoostName(e.target.value);
+                            setBoostNameSaved(false);
+                          }}
+                          placeholder="Your name in boosts"
+                          className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-purple-500"
+                          maxLength={50}
+                        />
+                        <button
+                          onClick={() => {
+                            localStorage.setItem('boost-sender-name', boostName);
+                            setBoostNameSaved(true);
+                            setTimeout(() => setBoostNameSaved(false), 2000);
+                          }}
+                          className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                            boostNameSaved
+                              ? 'bg-green-600 text-white'
+                              : 'bg-purple-600 hover:bg-purple-700 text-white'
+                          }`}
+                        >
+                          {boostNameSaved ? 'Saved' : 'Save'}
+                        </button>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">Shown to artists when you boost</p>
+                    </div>
 
                     <button
                       onClick={refreshBalance}
