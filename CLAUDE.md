@@ -82,7 +82,7 @@ Each path has its own wallet selection logic (`if nwc... else if breez...`). Whe
 
 After payment, boosts are published to Nostr relays as NIP-57 zaps (`lib/boost-to-nostr-service.ts`).
 
-**BoostBox** (`lib/boostbox-service.ts`) — persistent boost metadata storage via [boostbox.cloud](https://boostbox.cloud). Before each payment, boost metadata is POSTed to BoostBox, which returns `{url, desc}`. The URL is embedded in the LUD-12 comment in Fountain-compatible format: `rss::payment::boost <boostbox_url> <user_message>`. Active by default (defaults to `https://boostbox.cloud` with API key `v4v4me`). Fire-and-forget — failures are logged but never block payments.
+**BoostBox** (`lib/boostbox-service.ts`) — persistent boost metadata storage via [tardbox.com](https://tardbox.com). Before each payment, boost metadata is POSTed to BoostBox, which returns `{url, desc}`. The URL is embedded in the LUD-12 comment in Fountain-compatible format: `rss::payment::boost <boostbox_url> <user_message>`. Active by default (defaults to `https://tardbox.com`, API key must be set via `NEXT_PUBLIC_BOOSTBOX_API_KEY` env var). Fire-and-forget — failures are logged but never block payments.
 
 **LNURL comment flow**: For `lnaddress` recipients, `LNURLService.getPaymentInvoice()` fetches LNURL metadata, appends `?comment=` to the callback URL (LUD-12), and returns a BOLT11 invoice. The comment is sent when the invoice is created, NOT when it's paid. The `commentAllowed` field from the LNURL endpoint determines max comment length (e.g., Alby allows 255 chars). Comments that exceed the limit are truncated; unsupported endpoints skip the comment silently.
 
@@ -119,10 +119,10 @@ NEXT_PUBLIC_ENABLE_LIGHTNING=true   # or false for basic mode
 JWT_SECRET=<any-secret>
 ```
 
-Optional BoostBox config (defaults work out of the box):
+BoostBox config (API key required for boost metadata storage):
 ```
-NEXT_PUBLIC_BOOSTBOX_URL=https://boostbox.cloud   # default
-NEXT_PUBLIC_BOOSTBOX_API_KEY=v4v4me                # default
+NEXT_PUBLIC_BOOSTBOX_URL=https://tardbox.com       # default
+NEXT_PUBLIC_BOOSTBOX_API_KEY=your-api-key          # required
 ```
 
 See `env.lightning.template` and `env.basic.template` for full variable lists. The dev modes (`dev:lightning`/`dev:basic`) copy the appropriate template to `.env.local`.

@@ -7,8 +7,8 @@
  * When not configured, all calls are no-ops.
  */
 
-const BOOSTBOX_URL = process.env.NEXT_PUBLIC_BOOSTBOX_URL || 'https://boostbox.cloud';
-const BOOSTBOX_API_KEY = process.env.NEXT_PUBLIC_BOOSTBOX_API_KEY || 'v4v4me';
+const BOOSTBOX_URL = process.env.NEXT_PUBLIC_BOOSTBOX_URL || 'https://tardbox.com';
+const BOOSTBOX_API_KEY = process.env.NEXT_PUBLIC_BOOSTBOX_API_KEY || '';
 
 interface BoostBoxResponse {
   id: string;
