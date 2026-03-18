@@ -10,9 +10,9 @@ import type { RegistrationResponseJSON } from '@simplewebauthn/server';
  */
 export async function POST(request: NextRequest) {
   try {
-    const { username, tempUserId, credential } = await request.json();
+    const { username, challengeToken, credential } = await request.json();
 
-    if (!username || !tempUserId || !credential) {
+    if (!username || !challengeToken || !credential) {
       return createErrorResponse('Missing required fields', 400);
     }
 
@@ -22,10 +22,10 @@ export async function POST(request: NextRequest) {
       return createErrorResponse('Username already exists', 409);
     }
 
-    // Verify the registration response
+    // Verify the registration response using the signed challenge token
     const requestOrigin = getRequestOrigin(request);
     const verification = await verifyPasskeyRegistration(
-      tempUserId,
+      challengeToken,
       credential as RegistrationResponseJSON,
       requestOrigin
     );

@@ -10,9 +10,9 @@ import type { AuthenticationResponseJSON } from '@simplewebauthn/server';
  */
 export async function POST(request: NextRequest) {
   try {
-    const { challengeKey, credential } = await request.json();
+    const { challengeToken, credential } = await request.json();
 
-    if (!challengeKey || !credential) {
+    if (!challengeToken || !credential) {
       return createErrorResponse('Missing required fields', 400);
     }
 
@@ -24,10 +24,10 @@ export async function POST(request: NextRequest) {
       return createErrorResponse('Unknown credential', 401);
     }
 
-    // Verify the authentication response
+    // Verify the authentication response using the signed challenge token
     const requestOrigin = getRequestOrigin(request);
     const verification = await verifyPasskeyAuthentication(
-      challengeKey,
+      challengeToken,
       authResponse,
       {
         credentialId: storedCredential.credential_id,

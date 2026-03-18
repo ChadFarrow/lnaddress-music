@@ -34,16 +34,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate a temporary userId for the registration options
-    // The actual user record is created after successful registration verification
     const tempUserId = `pending:${username}:${Date.now()}`;
 
     const requestOrigin = getRequestOrigin(request);
-    const options = await generatePasskeyRegistrationOptions(tempUserId, username, [], requestOrigin);
+    const { options, challengeToken } = await generatePasskeyRegistrationOptions(tempUserId, username, [], requestOrigin);
 
     return NextResponse.json({
       success: true,
       options,
       tempUserId,
+      challengeToken,
     });
   } catch (error) {
     console.error('Passkey registration start error:', error);

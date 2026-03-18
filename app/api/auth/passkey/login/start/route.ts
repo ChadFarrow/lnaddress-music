@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
     let credentials;
 
     if (username) {
-      // If username provided, get their specific credentials
       const user = await findUserByUsername(username);
       if (!user) {
         return createErrorResponse('User not found', 404);
@@ -39,15 +38,14 @@ export async function POST(request: NextRequest) {
         transports: c.transports as any,
       }));
     }
-    // If no username, allow discoverable credentials (empty allowCredentials)
 
     const requestOrigin = getRequestOrigin(request);
-    const { options, challengeKey } = await generatePasskeyAuthenticationOptions(credentials, undefined, requestOrigin);
+    const { options, challengeToken } = await generatePasskeyAuthenticationOptions(credentials, undefined, requestOrigin);
 
     return NextResponse.json({
       success: true,
       options,
-      challengeKey,
+      challengeToken,
     });
   } catch (error) {
     console.error('Passkey login start error:', error);
