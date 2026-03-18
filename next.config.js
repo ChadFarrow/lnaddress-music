@@ -371,6 +371,13 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      // Phafe.com self-hosted music feeds (Matt Finlay etc.)
+      {
+        protocol: 'https',
+        hostname: 'phafe.com',
+        port: '',
+        pathname: '/**',
+      },
       // GitHub raw content for LNURL test feed artwork
       {
         protocol: 'https',
