@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { findPasskeyCredential, updatePasskeyCounter, updateUserLastLogin } from '@/lib/db';
-import { verifyPasskeyAuthentication } from '@/lib/webauthn-service';
+import { verifyPasskeyAuthentication, getRequestOrigin } from '@/lib/webauthn-service';
 import { generateToken, setAuthCookie, createErrorResponse } from '@/lib/session-service';
 import type { AuthenticationResponseJSON } from '@simplewebauthn/server';
 
@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify the authentication response
+    const requestOrigin = getRequestOrigin(request);
     const verification = await verifyPasskeyAuthentication(
       challengeKey,
       authResponse,
@@ -33,7 +34,8 @@ export async function POST(request: NextRequest) {
         publicKey: storedCredential.public_key,
         counter: storedCredential.counter,
         transports: storedCredential.transports as any,
-      }
+      },
+      requestOrigin
     );
 
     if (!verification.verified) {

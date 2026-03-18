@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { findUserByUsername, initializeDatabase } from '@/lib/db';
-import { generatePasskeyRegistrationOptions } from '@/lib/webauthn-service';
+import { generatePasskeyRegistrationOptions, getRequestOrigin } from '@/lib/webauthn-service';
 import { validateUsername } from '@/lib/encryption-service';
 import { createErrorResponse } from '@/lib/session-service';
 
@@ -37,7 +37,8 @@ export async function POST(request: NextRequest) {
     // The actual user record is created after successful registration verification
     const tempUserId = `pending:${username}:${Date.now()}`;
 
-    const options = await generatePasskeyRegistrationOptions(tempUserId, username);
+    const requestOrigin = getRequestOrigin(request);
+    const options = await generatePasskeyRegistrationOptions(tempUserId, username, [], requestOrigin);
 
     return NextResponse.json({
       success: true,

@@ -16,9 +16,14 @@ import type {
  */
 
 // Relying Party configuration
-function getRPID(): string {
+// These can be overridden per-request by passing requestOrigin to functions.
+function getRPID(requestOrigin?: string): string {
   if (process.env.NEXT_PUBLIC_WEBAUTHN_RP_ID) {
     return process.env.NEXT_PUBLIC_WEBAUTHN_RP_ID;
+  }
+  // Derive from request origin (most reliable in deployed environments)
+  if (requestOrigin) {
+    return new URL(requestOrigin).hostname;
   }
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   return new URL(siteUrl).hostname;
@@ -28,7 +33,29 @@ function getRPName(): string {
   return process.env.NEXT_PUBLIC_WEBAUTHN_RP_NAME || 'Lightning Music';
 }
 
-function getOrigin(): string {
+function getOrigin(requestOrigin?: string): string {
+  if (requestOrigin) {
+    return requestOrigin;
+  }
+  return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+}
+
+/**
+ * Extract the origin from a Next.js request using headers.
+ * Works on Vercel, localhost, and custom domains.
+ */
+export function getRequestOrigin(request: Request): string {
+  // Try Origin header first (sent with POST requests)
+  const origin = request.headers.get('origin');
+  if (origin) return origin;
+
+  // Fall back to constructing from host header
+  const host = request.headers.get('x-forwarded-host') || request.headers.get('host');
+  if (host) {
+    const proto = request.headers.get('x-forwarded-proto') || 'https';
+    return `${proto}://${host}`;
+  }
+
   return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 }
 
@@ -73,11 +100,15 @@ export interface StoredCredential {
 export async function generatePasskeyRegistrationOptions(
   userId: string,
   username: string,
-  existingCredentials: StoredCredential[] = []
+  existingCredentials: StoredCredential[] = [],
+  requestOrigin?: string
 ) {
+  const rpID = getRPID(requestOrigin);
+  console.log('🔑 WebAuthn registration - rpID:', rpID, 'origin:', requestOrigin);
+
   const options = await generateRegistrationOptions({
     rpName: getRPName(),
-    rpID: getRPID(),
+    rpID,
     userName: username,
     userID: new TextEncoder().encode(userId),
     attestationType: 'none',
@@ -107,7 +138,8 @@ export async function generatePasskeyRegistrationOptions(
  */
 export async function verifyPasskeyRegistration(
   userId: string,
-  response: RegistrationResponseJSON
+  response: RegistrationResponseJSON,
+  requestOrigin?: string
 ): Promise<{
   verified: boolean;
   credential?: StoredCredential;
@@ -120,12 +152,16 @@ export async function verifyPasskeyRegistration(
     return { verified: false, error: 'Challenge expired or not found' };
   }
 
+  const origin = getOrigin(requestOrigin);
+  const rpID = getRPID(requestOrigin);
+  console.log('🔑 WebAuthn verify registration - origin:', origin, 'rpID:', rpID);
+
   try {
     const verification = await verifyRegistrationResponse({
       response,
       expectedChallenge,
-      expectedOrigin: getOrigin(),
-      expectedRPID: getRPID(),
+      expectedOrigin: origin,
+      expectedRPID: rpID,
     });
 
     if (!verification.verified || !verification.registrationInfo) {
@@ -159,12 +195,15 @@ export async function verifyPasskeyRegistration(
  */
 export async function generatePasskeyAuthenticationOptions(
   credentials?: StoredCredential[],
-  sessionId?: string
+  sessionId?: string,
+  requestOrigin?: string
 ) {
   const challengeKey = sessionId || `auth:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+  const rpID = getRPID(requestOrigin);
+  console.log('🔑 WebAuthn authentication options - rpID:', rpID);
 
   const options = await generateAuthenticationOptions({
-    rpID: getRPID(),
+    rpID,
     userVerification: 'required',
     allowCredentials: credentials?.map((cred) => ({
       id: cred.credentialId,
@@ -183,7 +222,8 @@ export async function generatePasskeyAuthenticationOptions(
 export async function verifyPasskeyAuthentication(
   challengeKey: string,
   response: AuthenticationResponseJSON,
-  credential: StoredCredential
+  credential: StoredCredential,
+  requestOrigin?: string
 ): Promise<{
   verified: boolean;
   newCounter?: number;
@@ -195,12 +235,16 @@ export async function verifyPasskeyAuthentication(
     return { verified: false, error: 'Challenge expired or not found' };
   }
 
+  const origin = getOrigin(requestOrigin);
+  const rpID = getRPID(requestOrigin);
+  console.log('🔑 WebAuthn verify authentication - origin:', origin, 'rpID:', rpID);
+
   try {
     const verification = await verifyAuthenticationResponse({
       response,
       expectedChallenge,
-      expectedOrigin: getOrigin(),
-      expectedRPID: getRPID(),
+      expectedOrigin: origin,
+      expectedRPID: rpID,
       credential: {
         id: credential.credentialId,
         publicKey: Buffer.from(credential.publicKey, 'base64url'),
