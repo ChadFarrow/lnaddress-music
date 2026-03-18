@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { findUserByUsername, getPasskeyCredentialsByUsername, initializeDatabase } from '@/lib/db';
-import { generatePasskeyAuthenticationOptions } from '@/lib/webauthn-service';
+import { generatePasskeyAuthenticationOptions, getRequestOrigin } from '@/lib/webauthn-service';
 import { createErrorResponse } from '@/lib/session-service';
 
 /**
@@ -41,7 +41,8 @@ export async function POST(request: NextRequest) {
     }
     // If no username, allow discoverable credentials (empty allowCredentials)
 
-    const { options, challengeKey } = await generatePasskeyAuthenticationOptions(credentials);
+    const requestOrigin = getRequestOrigin(request);
+    const { options, challengeKey } = await generatePasskeyAuthenticationOptions(credentials, undefined, requestOrigin);
 
     return NextResponse.json({
       success: true,

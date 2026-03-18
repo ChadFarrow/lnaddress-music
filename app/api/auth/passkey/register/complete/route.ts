@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createUserWithPasskey, storePasskeyCredential, findUserByUsername } from '@/lib/db';
-import { verifyPasskeyRegistration } from '@/lib/webauthn-service';
+import { verifyPasskeyRegistration, getRequestOrigin } from '@/lib/webauthn-service';
 import { generateToken, setAuthCookie, createErrorResponse } from '@/lib/session-service';
 import type { RegistrationResponseJSON } from '@simplewebauthn/server';
 
@@ -23,9 +23,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify the registration response
+    const requestOrigin = getRequestOrigin(request);
     const verification = await verifyPasskeyRegistration(
       tempUserId,
-      credential as RegistrationResponseJSON
+      credential as RegistrationResponseJSON,
+      requestOrigin
     );
 
     if (!verification.verified || !verification.credential) {
