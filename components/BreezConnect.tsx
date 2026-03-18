@@ -189,6 +189,13 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
           return;
         }
 
+        // Passkey users without PRF: skip DB wallet check, just show create/import UI
+        // They have no password to decrypt a DB-stored wallet
+        if (authMethod === 'passkey') {
+          console.log('🔑 Passkey user without PRF, showing wallet creation UI');
+          return;
+        }
+
         try {
           // Check if user has a wallet by calling the wallet API
           const response = await fetch('/api/auth/wallet', {
@@ -1076,8 +1083,40 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
                     setTimeout(async () => {
                       await handleAutoCreateWallet(password);
                     }, 500);
+                  } else if (authMethod === 'passkey') {
+                    // Passkey user without PRF — no password available.
+                    // Generate mnemonic, connect directly, save to localStorage only.
+                    try {
+                      const { generateMnemonic } = await import('bip39');
+                      const newMnemonic = generateMnemonic();
+                      setConnectionStatus('Connecting to Lightning Network...');
+
+                      const breezApiKey = process.env.NEXT_PUBLIC_BREEZ_API_KEY;
+                      if (!breezApiKey) throw new Error('Breez API key not configured');
+
+                      await connect({
+                        apiKey: breezApiKey,
+                        mnemonic: newMnemonic,
+                        network: (network as 'mainnet' | 'regtest') || 'mainnet',
+                        storageDir: './breez-sdk-data'
+                      });
+
+                      localStorage.setItem('wallet_mnemonic', newMnemonic);
+                      localStorage.setItem('wallet_network', network || 'mainnet');
+                      console.log('✅ Passkey wallet created (localStorage only, no DB backup)');
+
+                      setConnectionStatus('');
+                      setAuthView('none');
+                    } catch (err) {
+                      const errorMsg = err instanceof Error ? err.message : 'Failed to create wallet';
+                      console.error('❌ Passkey wallet creation failed:', errorMsg);
+                      setPasswordError(errorMsg);
+                      setConnectionStatus('');
+                    } finally {
+                      setIsCreatingWallet(false);
+                    }
                   } else {
-                    // User is logged in but we don't have their password cached,
+                    // Password user but we don't have their password cached,
                     // prompt for it via the password auth view
                     setIsCreatingWallet(false);
                     setAuthView('password');
