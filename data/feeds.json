@@ -4,12 +4,16 @@
       "id": "fountain-1OAoykIvo90EwKMk2QKp",
       "originalUrl": "https://feeds.fountain.fm/1OAoykIvo90EwKMk2QKp",
       "type": "album",
-      "title": "Feed 1",
+      "title": "JUKEBOX - Amelia Leigh",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:31.020Z",
+      "source": "manual",
+      "author": "Amelia Leigh",
+      "podcastGuid": "d4920398-e58e-597e-806c-cde83bc4ba00",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "strangetextures-connector",
@@ -19,30 +23,39 @@
       "priority": "core",
       "status": "inactive",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2026-02-08T23:18:31.294Z",
+      "source": "manual",
+      "parseStatus": "error"
     },
     {
       "id": "fountain-7K4mZlg2Zg0mL54IedOk",
       "originalUrl": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk",
       "type": "album",
-      "title": "Feed 3",
+      "title": "Lightswitch (album) - Jim Costello",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:36.942Z",
+      "source": "manual",
+      "author": "Jim Costello",
+      "podcastGuid": "303e6630-986d-51ec-9806-dc6a872f1336",
+      "parseStatus": "success",
+      "trackCount": 10
     },
     {
       "id": "fountain-tH0cyRAvMeWE8KS9aohT",
       "originalUrl": "https://feeds.fountain.fm/tH0cyRAvMeWE8KS9aohT",
       "type": "album",
-      "title": "Feed 4",
+      "title": "Keep Walking - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:37.960Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "9797bece-64d1-53bb-9eeb-7c3eab4628d1",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "rssblue-album-with-one-song",
@@ -52,8 +65,12 @@
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:38.407Z",
+      "source": "manual",
+      "author": "Artist X",
+      "podcastGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "rssblue-bigday",
@@ -63,8 +80,12 @@
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:38.654Z",
+      "source": "manual",
+      "author": "Local Zero",
+      "podcastGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+      "parseStatus": "success",
+      "trackCount": 10
     },
     {
       "id": "rssblue-worried",
@@ -74,404 +95,552 @@
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:38.894Z",
+      "source": "manual",
+      "author": "Suzanne Santo",
+      "podcastGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-pgZdJEJKYMHYI7aIytJc",
       "originalUrl": "https://feeds.fountain.fm/pgZdJEJKYMHYI7aIytJc",
       "type": "album",
-      "title": "Feed 8",
+      "title": "No one left - FSHR",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:39.396Z",
+      "source": "manual",
+      "author": "FSHR",
+      "podcastGuid": "6c431a3e-7482-524e-86b3-3754d042ecf2",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-R3PmXl9mv1B6C8VJlTf4",
       "originalUrl": "https://feeds.fountain.fm/R3PmXl9mv1B6C8VJlTf4",
       "type": "album",
-      "title": "Feed 9",
+      "title": "Gig Harbor Morning - James Costello",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:39.656Z",
+      "source": "manual",
+      "author": "James Costello",
+      "podcastGuid": "699fdb4b-7ceb-5687-ac19-940e4613aae0",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-CGjNYFmxbdhxlHTl4OPD",
       "originalUrl": "https://feeds.fountain.fm/CGjNYFmxbdhxlHTl4OPD",
       "type": "album",
-      "title": "Feed 10",
+      "title": "Somewhere Local - PHJ",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:39.957Z",
+      "source": "manual",
+      "author": "PHJ",
+      "podcastGuid": "725c0a0e-de81-5fb3-bbac-7b58cd03e52f",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-1v5tzlrd5MmaxcsZh405",
       "originalUrl": "https://feeds.fountain.fm/1v5tzlrd5MmaxcsZh405",
       "type": "album",
-      "title": "Feed 11",
+      "title": "No Shotgun - Lucas Maddy",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:40.210Z",
+      "source": "manual",
+      "author": "Lucas Maddy",
+      "podcastGuid": "0ab839e7-0504-561b-b569-9d5a8e83ec42",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-B5qgnnd2WkFcnMZvZtIe",
       "originalUrl": "https://feeds.fountain.fm/B5qgnnd2WkFcnMZvZtIe",
       "type": "album",
-      "title": "Feed 12",
+      "title": "Decisions to Make - James Costello",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:40.461Z",
+      "source": "manual",
+      "author": "James Costello",
+      "podcastGuid": "025ad614-f9f5-5547-863a-3469be606400",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-3G0Tk0rZl9isOZexA0uw",
       "originalUrl": "https://feeds.fountain.fm/3G0Tk0rZl9isOZexA0uw",
       "type": "album",
-      "title": "Feed 13",
+      "title": "Hiking at Mohawk Lakes, CO - James Costello",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:40.679Z",
+      "source": "manual",
+      "author": "James Costello",
+      "podcastGuid": "a351816d-fbc3-5965-8a5a-31c1720b9d2a",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-cev2UTfIYNxrmo7aRpdv",
       "originalUrl": "https://feeds.fountain.fm/cev2UTfIYNxrmo7aRpdv",
       "type": "album",
-      "title": "Feed 14",
+      "title": "Gunfiyas - Sid Tyler",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:40.923Z",
+      "source": "manual",
+      "author": "Sid Tyler",
+      "podcastGuid": "75803897-f9e6-5c7a-81e1-77af029d00dd",
+      "parseStatus": "success",
+      "trackCount": 2
     },
     {
       "id": "fountain-Omy7ecTnhzDYs68v4xH6",
       "originalUrl": "https://feeds.fountain.fm/Omy7ecTnhzDYs68v4xH6",
       "type": "album",
-      "title": "Feed 15",
+      "title": "Ani Ohevet - Theo",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:41.145Z",
+      "source": "manual",
+      "author": "Theo",
+      "podcastGuid": "54e811c7-ebfa-5abc-91ee-02841add5677",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-coilo1UtrEhh5fVMUpHm",
       "originalUrl": "https://feeds.fountain.fm/coilo1UtrEhh5fVMUpHm",
       "type": "album",
-      "title": "Feed 16",
+      "title": "See the World in another Light - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:41.372Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "f2b67f93-802d-5062-bebd-6979839d56bd",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-YhxNVeHCKrMVGr9qrvaf",
       "originalUrl": "https://feeds.fountain.fm/YhxNVeHCKrMVGr9qrvaf",
       "type": "album",
-      "title": "Feed 17",
+      "title": "Memories from Room 255 (In Memory of T.A.) - James Costello",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:41.595Z",
+      "source": "manual",
+      "author": "James Costello",
+      "podcastGuid": "f5dc42c5-31af-5ba3-843b-7d011fccaf5e",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-UR5rjgL09imVtQJ7D309",
       "originalUrl": "https://feeds.fountain.fm/UR5rjgL09imVtQJ7D309",
       "type": "album",
-      "title": "Feed 18",
+      "title": "Reasons You Know - Lucas Maddy",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:41.822Z",
+      "source": "manual",
+      "author": "Lucas Maddy",
+      "podcastGuid": "357739a2-2ab0-5f74-a4ac-be8d80199dc9",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-2WvuguFOOm1gEL4yHedr",
       "originalUrl": "https://feeds.fountain.fm/2WvuguFOOm1gEL4yHedr",
       "type": "album",
-      "title": "Feed 19",
+      "title": "Tender Wolf (featured by InHale and The Flute Prayer) - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:42.052Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "513ba1ca-b4ad-570a-a077-7eb0ea355ce4",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-ESZgO788digzo9vN9YLe",
       "originalUrl": "https://feeds.fountain.fm/ESZgO788digzo9vN9YLe",
       "type": "album",
-      "title": "Feed 20",
+      "title": "In From the Range - James Costello",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:42.404Z",
+      "source": "manual",
+      "author": "James Costello",
+      "podcastGuid": "03d772cf-2573-5fc3-968b-254a259e4476",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-7T0aCD9SYr62deJoszWB",
       "originalUrl": "https://feeds.fountain.fm/7T0aCD9SYr62deJoszWB",
       "type": "album",
-      "title": "Feed 21",
+      "title": "King Size on the Floor - Lucas Maddy",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:42.691Z",
+      "source": "manual",
+      "author": "Lucas Maddy",
+      "podcastGuid": "b9136e82-9d4b-59de-be06-3340bd418be7",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-6SMkQgK0KNJV2VrEeho6",
       "originalUrl": "https://feeds.fountain.fm/6SMkQgK0KNJV2VrEeho6",
       "type": "album",
-      "title": "Feed 22",
+      "title": "Bitcoin on the Brink - The Crypto Donkey",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:43.185Z",
+      "source": "manual",
+      "author": "The Crypto Donkey",
+      "podcastGuid": "6ef0ca21-307a-511b-b0a1-c7c0d3932773",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-U5hnCkHONC2f7ttVeNe9",
       "originalUrl": "https://feeds.fountain.fm/U5hnCkHONC2f7ttVeNe9",
       "type": "album",
-      "title": "Feed 23",
+      "title": "Dem Boiz - Gabreal",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:43.576Z",
+      "source": "manual",
+      "author": "Gabreal",
+      "podcastGuid": "6a0533de-992f-5466-813c-97e3a7489dc1",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-Fjg1w0TDSvh62jPwxGCJ",
       "originalUrl": "https://feeds.fountain.fm/Fjg1w0TDSvh62jPwxGCJ",
       "type": "album",
-      "title": "Feed 24",
+      "title": "Greatness - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:43.866Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "9d500597-5fb9-5265-94c0-929686afea6f",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-CRBbOcxJL7c1WxT1C7UA",
       "originalUrl": "https://feeds.fountain.fm/CRBbOcxJL7c1WxT1C7UA",
       "type": "album",
-      "title": "Feed 25",
+      "title": "OM Ganesha - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:44.095Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "5d218bd0-3b8f-597b-a58e-c7f38e801a0e",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-T9DRdlluhdwmf3VRtARJ",
       "originalUrl": "https://feeds.fountain.fm/T9DRdlluhdwmf3VRtARJ",
       "type": "album",
-      "title": "Feed 26",
+      "title": "With Open Arms - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:44.346Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "893c21c1-79af-582a-b11c-7886abf3a235",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-EHyzgnq22DmGbcnVSLu7",
       "originalUrl": "https://feeds.fountain.fm/EHyzgnq22DmGbcnVSLu7",
       "type": "album",
-      "title": "Feed 27",
+      "title": "As You Were - Local Zero",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:44.574Z",
+      "source": "manual",
+      "author": "Local Zero",
+      "podcastGuid": "c17b43a2-7a97-504b-883d-ac1b68335bec",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-vu8OWxdvYHg75EcRi8nm",
       "originalUrl": "https://feeds.fountain.fm/vu8OWxdvYHg75EcRi8nm",
       "type": "album",
-      "title": "Feed 28",
+      "title": "OM Vighnanashaya Namah - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:44.813Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "626c72df-c2de-5b4e-9594-76a68e8cbedd",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-dKiGRwzhcrYLLlMUhgsM",
       "originalUrl": "https://feeds.fountain.fm/dKiGRwzhcrYLLlMUhgsM",
       "type": "album",
-      "title": "Feed 29",
+      "title": "When They Come Home - James Costello",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:45.049Z",
+      "source": "manual",
+      "author": "James Costello",
+      "podcastGuid": "22a9725e-48d5-5fe3-a335-9b2c2508586e",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-lL6MEcwn09g5qbjWTvH6",
       "originalUrl": "https://feeds.fountain.fm/lL6MEcwn09g5qbjWTvH6",
       "type": "album",
-      "title": "Feed 30",
+      "title": "Consciouseness - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:45.277Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "38c26e83-a642-58a6-96d0-0e9dd95cf091",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-NhPvPPFbR2hrZucIYe2h",
       "originalUrl": "https://feeds.fountain.fm/NhPvPPFbR2hrZucIYe2h",
       "type": "album",
-      "title": "Feed 31",
+      "title": "Live at the Reader 2015 - Justin Lantrip",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:45.502Z",
+      "source": "manual",
+      "author": "Justin Lantrip",
+      "podcastGuid": "618ede0e-f359-5794-a6ee-895846f25ee5",
+      "parseStatus": "success",
+      "trackCount": 4
     },
     {
       "id": "fountain-GmNPfL20WkoyXsDa5Uuc",
       "originalUrl": "https://feeds.fountain.fm/GmNPfL20WkoyXsDa5Uuc",
       "type": "album",
-      "title": "Feed 32",
+      "title": "A Phoenix Rising - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:45.785Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "93b87051-e176-586a-b45f-dc56c22d304d",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-3K44iUwcYOQhFdHvTjZn",
       "originalUrl": "https://feeds.fountain.fm/3K44iUwcYOQhFdHvTjZn",
       "type": "album",
-      "title": "Feed 33",
+      "title": "Om Biktaya Namah - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:46.015Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "56558e2b-cc2f-5c16-b104-6e3eee500402",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-uGyN3vE3oVoshkInRwKJ",
       "originalUrl": "https://feeds.fountain.fm/uGyN3vE3oVoshkInRwKJ",
       "type": "album",
-      "title": "Feed 34",
+      "title": "Whispers - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:46.251Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "09b1bf8b-998f-58f3-ac8f-6f9e283dca1b",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-uBap29oJjwRgYbzWMqba",
       "originalUrl": "https://feeds.fountain.fm/uBap29oJjwRgYbzWMqba",
       "type": "album",
-      "title": "Feed 35",
+      "title": "God, With You - Suzanne Santo",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:46.477Z",
+      "source": "manual",
+      "author": "Suzanne Santo",
+      "podcastGuid": "f298dbe0-7e1a-5e44-93be-07e910477bc0",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-uV8REr9zILyiZko9LMLh",
       "originalUrl": "https://feeds.fountain.fm/uV8REr9zILyiZko9LMLh",
       "type": "album",
-      "title": "Feed 36",
+      "title": "good old days - Ben Kai",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:46.703Z",
+      "source": "manual",
+      "author": "Ben Kai",
+      "podcastGuid": "46620f3b-07b7-5344-af81-dc4012dd494c",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-3KZyL93lotCBYGQXXOM6",
       "originalUrl": "https://feeds.fountain.fm/3KZyL93lotCBYGQXXOM6",
       "type": "album",
-      "title": "Feed 37",
+      "title": "ZIPPA - PJ Statham",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:46.991Z",
+      "source": "manual",
+      "author": "PJ Statham",
+      "podcastGuid": "1f2c585b-86e8-5231-a747-58dfc4f34970",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-2tkWeg3Bo5jwKAFCVNZo",
       "originalUrl": "https://feeds.fountain.fm/2tkWeg3Bo5jwKAFCVNZo",
       "type": "album",
-      "title": "Feed 38",
+      "title": "seeing stars - Ben Kai",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:47.222Z",
+      "source": "manual",
+      "author": "Ben Kai",
+      "podcastGuid": "4b7dcd08-9b4e-5026-a58a-22a9438edba5",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-vTnG56FnjCVEQN8Q56DB",
       "originalUrl": "https://feeds.fountain.fm/vTnG56FnjCVEQN8Q56DB",
       "type": "album",
-      "title": "Feed 39",
+      "title": "disco girl - Ben Kai",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:47.439Z",
+      "source": "manual",
+      "author": "Ben Kai",
+      "podcastGuid": "1ac5a6c7-bb0a-5ee6-b760-d47dfc605b95",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-kdoQZAvLTQTTJHBQRyhw",
       "originalUrl": "https://feeds.fountain.fm/kdoQZAvLTQTTJHBQRyhw",
       "type": "album",
-      "title": "Feed 40",
+      "title": "if the world stops - Ben Kai",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:47.663Z",
+      "source": "manual",
+      "author": "Ben Kai",
+      "podcastGuid": "86ac9afa-8187-57aa-a02c-7f1e12d35bfd",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-0jTqX1XMHw3P6dNstBRg",
       "originalUrl": "https://feeds.fountain.fm/0jTqX1XMHw3P6dNstBRg",
       "type": "album",
-      "title": "Feed 41",
+      "title": "Love Yourself 528Hz meditation - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:47.891Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "2d9fcf5d-6bab-57e0-b63e-a0ee19d11e9a",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-A5Gwak2jhw8gEUuZFH86",
       "originalUrl": "https://feeds.fountain.fm/A5Gwak2jhw8gEUuZFH86",
       "type": "album",
-      "title": "Feed 42",
+      "title": "I Miss Home - James Costello",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:48.122Z",
+      "source": "manual",
+      "author": "James Costello",
+      "podcastGuid": "e5c27a40-0763-52c2-923c-847ca8bfb630",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-1qybQ9cyDoa0X6ylGH3n",
       "originalUrl": "https://feeds.fountain.fm/1qybQ9cyDoa0X6ylGH3n",
       "type": "album",
-      "title": "Feed 43",
+      "title": "Om Namah Shivaya - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:48.348Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "46a82cad-b9ef-534a-9c72-e6dc4ba8994f",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "strangetextures-hc",
@@ -481,8 +650,9 @@
       "priority": "core",
       "status": "inactive",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2026-02-08T23:18:31.308Z",
+      "source": "manual",
+      "parseStatus": "error"
     },
     {
       "id": "strangetextures-endless",
@@ -492,173 +662,234 @@
       "priority": "core",
       "status": "inactive",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2026-02-08T23:18:31.309Z",
+      "source": "manual",
+      "parseStatus": "error"
     },
     {
       "id": "fountain-LRyCB789ESBpyZvJ00YE",
       "originalUrl": "https://feeds.fountain.fm/LRyCB789ESBpyZvJ00YE",
       "type": "album",
-      "title": "Feed 46",
+      "title": "Confession Booth Blues - The Karamazov Sons",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:10:59.660Z",
+      "source": "manual",
+      "author": "The Karamazov Sons",
+      "podcastGuid": "f9d2fbaf-b665-5079-9fa4-ba48bb880004",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-v7OANtOMxLqcxEzWnr9D",
       "originalUrl": "https://feeds.fountain.fm/v7OANtOMxLqcxEzWnr9D",
       "type": "album",
-      "title": "Feed 47",
+      "title": "Big Tings a Gwarn - Telforo",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:00.057Z",
+      "source": "manual",
+      "author": "Telforo",
+      "podcastGuid": "298b971c-8f38-598a-bc3c-2c265bc0065c",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-pl0avXNfWFS8R4OrwswA",
       "originalUrl": "https://feeds.fountain.fm/pl0avXNfWFS8R4OrwswA",
       "type": "album",
-      "title": "Feed 48",
+      "title": "TYL001 - Sid Tyler",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:00.379Z",
+      "source": "manual",
+      "author": "Sid Tyler",
+      "podcastGuid": "59089109-473d-5572-9b89-56daa9919c97",
+      "parseStatus": "success",
+      "trackCount": 2
     },
     {
       "id": "fountain-ZQhv2gUYIeU9B3JxiAPa",
       "originalUrl": "https://feeds.fountain.fm/ZQhv2gUYIeU9B3JxiAPa",
       "type": "album",
-      "title": "Feed 49",
+      "title": "HYPHEN IS IN THE HOUSE - Hyphen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:00.746Z",
+      "source": "manual",
+      "author": "Hyphen",
+      "podcastGuid": "5f1924eb-25b2-5bc5-a403-e572e1ccfaf6",
+      "parseStatus": "success",
+      "trackCount": 4
     },
     {
       "id": "fountain-hzbSCuI4mSBqw9JJYWOC",
       "originalUrl": "https://feeds.fountain.fm/hzbSCuI4mSBqw9JJYWOC",
       "type": "album",
-      "title": "Feed 50",
+      "title": "A Lesson in August - James Costello",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:01.069Z",
+      "source": "manual",
+      "author": "James Costello",
+      "podcastGuid": "9880d7f4-5ab8-5a92-806b-59fd27fbd39b",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-Pw6d3L9h2Itp3KxLpF3a",
       "originalUrl": "https://feeds.fountain.fm/Pw6d3L9h2Itp3KxLpF3a",
       "type": "album",
-      "title": "Feed 51",
+      "title": "Flood Gates - Justin Lantrip",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:01.510Z",
+      "source": "manual",
+      "author": "Justin Lantrip",
+      "podcastGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8",
+      "parseStatus": "success",
+      "trackCount": 10
     },
     {
       "id": "fountain-3TeMBYBDe8frzSusqKPD",
       "originalUrl": "https://feeds.fountain.fm/3TeMBYBDe8frzSusqKPD",
       "type": "album",
-      "title": "Feed 52",
+      "title": "Running Like Poison - Milzy",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:01.755Z",
+      "source": "manual",
+      "author": "Milzy",
+      "podcastGuid": "c254e8e7-bd45-5f7a-921a-bc1f61d7b654",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-eJ09yoOnjNDa9tP01ngW",
       "originalUrl": "https://feeds.fountain.fm/eJ09yoOnjNDa9tP01ngW",
       "type": "album",
-      "title": "Feed 53",
+      "title": "Move To Da Riddim - ADDAX",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:02.044Z",
+      "source": "manual",
+      "author": "ADDAX",
+      "podcastGuid": "034e795e-a8e9-5455-a9be-7d96afe75ec3",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-cUimuGO6YH8wJxkpdugt",
       "originalUrl": "https://feeds.fountain.fm/cUimuGO6YH8wJxkpdugt",
       "type": "album",
-      "title": "Feed 54",
+      "title": "Bridge Back Over Again - James Costello",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:02.405Z",
+      "source": "manual",
+      "author": "James Costello",
+      "podcastGuid": "2ce81388-8ddf-57fd-8696-298b825cdb78",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-fyK4N0muoFLT8eNS1g94",
       "originalUrl": "https://feeds.fountain.fm/fyK4N0muoFLT8eNS1g94",
       "type": "album",
-      "title": "Feed 55",
+      "title": "Collateral Damage - Juliana Hale",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:02.671Z",
+      "source": "manual",
+      "author": "Juliana Hale",
+      "podcastGuid": "bae24096-5d60-58cd-8b6b-ea413ce09194",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-aIDAD9HcDX3noCidUeAf",
       "originalUrl": "https://feeds.fountain.fm/aIDAD9HcDX3noCidUeAf",
       "type": "album",
-      "title": "Feed 56",
+      "title": "TOLD YA - TABZ",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:02.908Z",
+      "source": "manual",
+      "author": "TABZ",
+      "podcastGuid": "3da22368-2f0e-57c9-8fcd-93be53a8da34",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-v920EfYHvfAQ5nXl68OI",
       "originalUrl": "https://feeds.fountain.fm/v920EfYHvfAQ5nXl68OI",
       "type": "album",
-      "title": "Feed 57",
+      "title": "404: Album Not Found - The Crypto Donkey",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:03.146Z",
+      "source": "manual",
+      "author": "The Crypto Donkey",
+      "podcastGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5",
+      "parseStatus": "success",
+      "trackCount": 13
     },
     {
       "id": "fountain-yqLJKFtlZbYzf6XAD1iL",
       "originalUrl": "https://feeds.fountain.fm/yqLJKFtlZbYzf6XAD1iL",
       "type": "album",
-      "title": "Feed 58",
+      "title": "Until its Beautiful - Justin Lantrip",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:03.451Z",
+      "source": "manual",
+      "author": "Justin Lantrip",
+      "podcastGuid": "e7e2d12e-4074-516f-9f37-3a9c103316fb",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-LcgtGqAY1i9hrxAEYvL3",
       "originalUrl": "https://feeds.fountain.fm/LcgtGqAY1i9hrxAEYvL3",
       "type": "album",
-      "title": "Feed 59",
+      "title": "Take Me - SKYHIGH",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:03.759Z",
+      "source": "manual",
+      "author": "SKYHIGH",
+      "podcastGuid": "f79efc89-1629-52c4-af91-1d2440a57782",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-gwHF787p8qI7YJZ9i3zm",
       "originalUrl": "https://feeds.fountain.fm/gwHF787p8qI7YJZ9i3zm",
       "type": "album",
-      "title": "Feed 60",
+      "title": "Catacomb - Local Zero",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:04.054Z",
+      "source": "manual",
+      "author": "Local Zero",
+      "podcastGuid": "5888ede6-1656-43cb-9c4a-50c05abcc2a0",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "strangetextures-aoe",
@@ -668,74 +899,99 @@
       "priority": "core",
       "status": "inactive",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2026-02-08T23:18:31.309Z",
+      "source": "manual",
+      "parseStatus": "error"
     },
     {
       "id": "fountain-dkL64h6wJWQIWXx9AvSh",
       "originalUrl": "https://feeds.fountain.fm/dkL64h6wJWQIWXx9AvSh",
       "type": "album",
-      "title": "Feed 62",
+      "title": "twenties high - Ben Kai",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:10.001Z",
+      "source": "manual",
+      "author": "Ben Kai",
+      "podcastGuid": "6d7931a8-bf38-530e-b45a-ca53f5626b47",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-2LAkQVbuWCIhgBKulNNk",
       "originalUrl": "https://feeds.fountain.fm/2LAkQVbuWCIhgBKulNNk",
       "type": "album",
-      "title": "Feed 63",
+      "title": "The God You Are - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:10.364Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "d3849a74-91f6-5044-8698-0398fd1042a1",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-fZEmNt4QCtTPT3Mz3Npv",
       "originalUrl": "https://feeds.fountain.fm/fZEmNt4QCtTPT3Mz3Npv",
       "type": "album",
-      "title": "Feed 64",
+      "title": "myself - Ben Kai",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:10.590Z",
+      "source": "manual",
+      "author": "Ben Kai",
+      "podcastGuid": "9fe82f01-5a66-5239-a6c3-59259839566f",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-ovW4DibooYs19qzFBQvp",
       "originalUrl": "https://feeds.fountain.fm/ovW4DibooYs19qzFBQvp",
       "type": "album",
-      "title": "Feed 65",
+      "title": "In Love and alliance ( Dance free - rewind ) - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:10.850Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "7a847b60-5c5c-5257-8dd2-b062b8df9040",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-CHknZYUzFqv6Q0AE5uoy",
       "originalUrl": "https://feeds.fountain.fm/CHknZYUzFqv6Q0AE5uoy",
       "type": "album",
-      "title": "Feed 66",
+      "title": "Sing Om - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:11.437Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "d76e9783-0b8e-51db-8922-97c917d9f4fc",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-0yKFZSEWr2zWeEGhds6S",
       "originalUrl": "https://feeds.fountain.fm/0yKFZSEWr2zWeEGhds6S",
       "type": "album",
-      "title": "Feed 67",
+      "title": "wake up next to you - Ben Kai",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:11.746Z",
+      "source": "manual",
+      "author": "Ben Kai",
+      "podcastGuid": "fb0aee9c-5c8f-5f7a-ac4d-83af4e4f72c7",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "strangetextures-ee",
@@ -745,41 +1001,54 @@
       "priority": "core",
       "status": "inactive",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2026-02-08T23:18:31.309Z",
+      "source": "manual",
+      "parseStatus": "error"
     },
     {
       "id": "fountain-LMMkitUpsEICX82elS1R",
       "originalUrl": "https://feeds.fountain.fm/LMMkitUpsEICX82elS1R",
       "type": "album",
-      "title": "Feed 69",
+      "title": "Healing - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:16.964Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "71229772-0692-5139-b7f5-a0961b9a074b",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-wCfIBd1BiCQ20cNRw8FX",
       "originalUrl": "https://feeds.fountain.fm/wCfIBd1BiCQ20cNRw8FX",
       "type": "album",
-      "title": "Feed 70",
+      "title": "The Silence - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:17.685Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "64e5badd-e2e0-5e3b-a8a9-1075cf1b04f9",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "fountain-AgOHjxN1MI6uXK1lZMPm",
       "originalUrl": "https://feeds.fountain.fm/AgOHjxN1MI6uXK1lZMPm",
       "type": "album",
-      "title": "Feed 71",
+      "title": "Build on Stone - Haleen",
       "priority": "core",
       "status": "active",
       "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-10-20T00:00:00.000Z",
-      "source": "manual"
+      "lastUpdated": "2025-12-04T02:11:17.973Z",
+      "source": "manual",
+      "author": "Haleen",
+      "podcastGuid": "6ff779fa-f4ea-5a48-b45f-658346e64ae1",
+      "parseStatus": "success",
+      "trackCount": 1
     },
     {
       "id": "publisher-Ags07cJin5xPdvFebV81",
@@ -791,7 +1060,7 @@
       "addedAt": "2025-10-21T22:45:19.035Z",
       "lastUpdated": "2025-10-21T22:45:19.035Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "f5f9661d-080a-510f-b639-b0d2bcf0a6f3",
         "albumCount": 1
@@ -807,7 +1076,7 @@
       "addedAt": "2025-10-21T22:45:19.035Z",
       "lastUpdated": "2025-10-21T22:45:19.035Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
         "albumCount": 13
@@ -823,7 +1092,7 @@
       "addedAt": "2025-10-21T22:45:19.035Z",
       "lastUpdated": "2025-10-21T22:45:19.035Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "64569161-a8f7-52e5-8aae-9e0385043149",
         "albumCount": 19
@@ -839,7 +1108,7 @@
       "addedAt": "2025-10-21T22:45:19.035Z",
       "lastUpdated": "2025-10-21T22:45:19.035Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
         "albumCount": 1
@@ -855,7 +1124,7 @@
       "addedAt": "2025-10-21T22:45:19.035Z",
       "lastUpdated": "2025-10-21T22:45:19.035Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
         "albumCount": 2
@@ -871,7 +1140,7 @@
       "addedAt": "2025-10-21T22:45:19.035Z",
       "lastUpdated": "2025-10-21T22:45:19.035Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "7f918bb0-a80c-5a48-b5df-4d2686f2e843",
         "albumCount": 1
@@ -887,7 +1156,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "8b6435be-ad4c-55eb-9470-5df152e7639f",
         "albumCount": 1
@@ -903,7 +1172,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "6c5357da-0f8a-5450-b595-6ee8be334fb3",
         "albumCount": 3
@@ -919,7 +1188,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "babc93f7-2eec-568a-8c01-4f60ffff9528",
         "albumCount": 2
@@ -935,7 +1204,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "33faf933-4125-5518-9f29-98e088301bca",
         "albumCount": 1
@@ -951,7 +1220,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "c9d29a1f-08ac-518b-947b-d47f2fbeaac4",
         "albumCount": 2
@@ -967,7 +1236,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "03ad419a-d854-56bf-9dcc-6b419eee7c3a",
         "albumCount": 1
@@ -983,7 +1252,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "0709a0ae-e835-5129-86d6-7b2ad3c8adf1",
         "albumCount": 3
@@ -999,7 +1268,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "55aab371-a1d8-5883-b463-c743947e66ee",
         "albumCount": 7
@@ -1015,7 +1284,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
         "albumCount": 1
@@ -1031,7 +1300,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "9a0e2f8c-80d5-581e-a826-1aec566b9a6d",
         "albumCount": 1
@@ -1047,7 +1316,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "b6ea1713-05f0-5e53-88dd-966f13edb219",
         "albumCount": 1
@@ -1063,7 +1332,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "albumCount": 1
@@ -1079,7 +1348,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "5ee6b931-0591-58e9-83de-da8cfcdab6d3",
         "albumCount": 1
@@ -1095,7 +1364,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "a300cf10-434c-5ae3-837a-ed0c899694af",
         "albumCount": 1
@@ -1111,7 +1380,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "0819da5f-1386-5295-af6d-95d14044045d",
         "albumCount": 1
@@ -1127,7 +1396,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "5b8ba101-6af2-53b6-a376-414c290665f4",
         "albumCount": 1
@@ -1143,7 +1412,7 @@
       "addedAt": "2025-10-21T22:45:19.036Z",
       "lastUpdated": "2025-10-21T22:45:19.036Z",
       "source": "auto-discovered",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
         "albumCount": 1
@@ -1159,14 +1428,17 @@
       "addedAt": "2025-10-21T22:47:27.007Z",
       "lastUpdated": "2025-10-21T22:47:27.007Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "Jim Costello",
         "publisherFeedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
         "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
         "itemGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1"
-      }
+      },
+      "author": "Local Zero",
+      "podcastGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
+      "trackCount": 10
     },
     {
       "id": "publisher-item-oU2YfTFLK4er61p1uNAQ",
@@ -1176,9 +1448,9 @@
       "priority": "extended",
       "status": "inactive",
       "addedAt": "2025-10-21T22:47:27.007Z",
-      "lastUpdated": "2025-10-21T22:47:27.007Z",
+      "lastUpdated": "2026-02-08T23:18:31.309Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "error",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "Jim Costello",
@@ -1195,9 +1467,9 @@
       "priority": "extended",
       "status": "inactive",
       "addedAt": "2025-10-21T22:47:27.007Z",
-      "lastUpdated": "2025-10-21T22:47:27.007Z",
+      "lastUpdated": "2026-02-08T23:18:31.309Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "error",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "Jim Costello",
@@ -1216,14 +1488,17 @@
       "addedAt": "2025-10-21T22:47:27.008Z",
       "lastUpdated": "2025-10-21T22:47:27.008Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "Artist X",
         "publisherFeedUrl": "https://feeds.fountain.fm/f0WjAlcgVSpHbouFETDQ",
         "publisherGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
         "itemGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7"
-      }
+      },
+      "author": "Artist X",
+      "podcastGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7",
+      "trackCount": 1
     },
     {
       "id": "publisher-item-aCFEYwJijoBbZSUP32JA",
@@ -1235,14 +1510,17 @@
       "addedAt": "2025-10-21T22:47:27.008Z",
       "lastUpdated": "2025-10-21T22:47:27.008Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "Suzanne Santo",
         "publisherFeedUrl": "https://feeds.fountain.fm/NjTmcKvDEj4DJvN2Hbpq",
         "publisherGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
         "itemGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b"
-      }
+      },
+      "author": "Suzanne Santo",
+      "podcastGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b",
+      "trackCount": 1
     },
     {
       "id": "publisher-item-Sycr0zCVktlab3jpA6ar",
@@ -1254,14 +1532,16 @@
       "addedAt": "2025-10-21T22:47:27.008Z",
       "lastUpdated": "2025-10-21T22:47:27.008Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "PJ Statham",
         "publisherFeedUrl": "https://feeds.fountain.fm/dvo7rfd8OCTE4L2Si6BF",
         "publisherGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
         "itemGuid": "22468782-f3d9-5f1f-9e56-a2dc42bf22eb"
-      }
+      },
+      "author": "PJ Statham",
+      "podcastGuid": "22468782-f3d9-5f1f-9e56-a2dc42bf22eb"
     },
     {
       "id": "publisher-item-3fW99GhMJgY4EOQ87y6P",
@@ -1273,14 +1553,16 @@
       "addedAt": "2025-10-21T22:47:27.008Z",
       "lastUpdated": "2025-10-21T22:47:27.008Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "Hyphen",
         "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "itemGuid": "6ad2a9af-a980-548c-808f-4870e1d5f4c9"
-      }
+      },
+      "author": "Hyphen",
+      "podcastGuid": "6ad2a9af-a980-548c-808f-4870e1d5f4c9"
     },
     {
       "id": "publisher-item-46jAB1CWf2eBjnU7pyQx",
@@ -1292,14 +1574,16 @@
       "addedAt": "2025-10-21T22:47:27.008Z",
       "lastUpdated": "2025-10-21T22:47:27.008Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "Hyphen",
         "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "itemGuid": "8ebc9bd3-b093-56d2-8c13-ace2a11abb56"
-      }
+      },
+      "author": "Hyphen",
+      "podcastGuid": "8ebc9bd3-b093-56d2-8c13-ace2a11abb56"
     },
     {
       "id": "publisher-item-NU9WiOkaYgPDsz0xmfXo",
@@ -1311,14 +1595,16 @@
       "addedAt": "2025-10-21T22:47:27.008Z",
       "lastUpdated": "2025-10-21T22:47:27.008Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "Hyphen",
         "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "itemGuid": "10d388d4-8d49-5308-9586-f37c1be02892"
-      }
+      },
+      "author": "Hyphen",
+      "podcastGuid": "10d388d4-8d49-5308-9586-f37c1be02892"
     },
     {
       "id": "publisher-item-j0ZWXTkpfI1WUFfy8Q4g",
@@ -1330,14 +1616,16 @@
       "addedAt": "2025-10-21T22:47:27.008Z",
       "lastUpdated": "2025-10-21T22:47:27.008Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "Hyphen",
         "publisherFeedUrl": "https://feeds.fountain.fm/KVP4my9qEcllJs2YgTTp",
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "itemGuid": "91bca062-3855-5d68-a58f-187900068c95"
-      }
+      },
+      "author": "Hyphen",
+      "podcastGuid": "91bca062-3855-5d68-a58f-187900068c95"
     },
     {
       "id": "publisher-item-K3lq2cJltR8yJQ7lycGY",
@@ -1349,14 +1637,16 @@
       "addedAt": "2025-10-21T22:47:27.008Z",
       "lastUpdated": "2025-10-21T22:47:27.008Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "SKYHIGH",
         "publisherFeedUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
         "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
         "itemGuid": "1e6e5b57-e827-571f-8575-848921b647cb"
-      }
+      },
+      "author": "SKYHIGH",
+      "podcastGuid": "1e6e5b57-e827-571f-8575-848921b647cb"
     },
     {
       "id": "publisher-item-XkKpNohr6rl35XLidXYi",
@@ -1366,9 +1656,9 @@
       "priority": "extended",
       "status": "inactive",
       "addedAt": "2025-10-21T22:47:27.008Z",
-      "lastUpdated": "2025-10-21T22:47:27.008Z",
+      "lastUpdated": "2026-02-08T23:18:31.309Z",
       "source": "publisher-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "error",
       "metadata": {
         "discoveredFrom": "publisher",
         "publisherName": "SKYHIGH",
@@ -1387,13 +1677,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7606172,
         "podcastGuid": "808dc647-f945-5096-95d1-e0558a6d68aa",
         "author": "Justin Lantrip",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Justin Lantrip",
+      "podcastGuid": "808dc647-f945-5096-95d1-e0558a6d68aa",
+      "trackCount": 11
     },
     {
       "id": "fountain-TnpkJyRb6q93gIYXBA9y",
@@ -1405,13 +1698,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7603336,
         "podcastGuid": "7ab43f5f-947c-58d6-af06-dad0d6edd4b3",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "7ab43f5f-947c-58d6-af06-dad0d6edd4b3",
+      "trackCount": 1
     },
     {
       "id": "fountain-P2VuoihiUAMW648zvI5C",
@@ -1423,13 +1719,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7594370,
         "podcastGuid": "883c8d23-7ad4-54c5-ac11-898a838b6742",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "883c8d23-7ad4-54c5-ac11-898a838b6742",
+      "trackCount": 1
     },
     {
       "id": "fountain-LBgNfWsH0NDMlEOTW3Lf",
@@ -1441,13 +1740,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7590902,
         "podcastGuid": "5fec20ef-0902-5580-b520-6e86dda4dc6f",
         "author": "Kathryn",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Kathryn",
+      "podcastGuid": "5fec20ef-0902-5580-b520-6e86dda4dc6f",
+      "trackCount": 1
     },
     {
       "id": "fountain-9YrxXpSj8Sg3AGtNwCfl",
@@ -1459,13 +1761,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7590898,
         "podcastGuid": "851597c7-9248-5053-a0f6-066598d1c7f1",
         "author": "Kathryn",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Kathryn",
+      "podcastGuid": "851597c7-9248-5053-a0f6-066598d1c7f1",
+      "trackCount": 1
     },
     {
       "id": "fountain-EYndOSwMiLnUqsXGJbcs",
@@ -1477,13 +1782,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7590890,
         "podcastGuid": "fd7f7e8b-8b7d-5415-b7f5-ceb0ab58e1a9",
         "author": "Kathryn",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Kathryn",
+      "podcastGuid": "fd7f7e8b-8b7d-5415-b7f5-ceb0ab58e1a9",
+      "trackCount": 1
     },
     {
       "id": "fountain-DsIzE8JF79ZiGmlen8uC",
@@ -1495,13 +1803,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7590882,
         "podcastGuid": "b2c1f762-1f54-5a71-aeb0-b3a041a85f8d",
         "author": "Kathryn",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Kathryn",
+      "podcastGuid": "b2c1f762-1f54-5a71-aeb0-b3a041a85f8d",
+      "trackCount": 1
     },
     {
       "id": "fountain-lAH6A6WHNE39mR4ffv4o",
@@ -1513,13 +1824,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7590881,
         "podcastGuid": "60815bd3-adbd-5800-a127-3512ccae14a7",
         "author": "Kathryn",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Kathryn",
+      "podcastGuid": "60815bd3-adbd-5800-a127-3512ccae14a7",
+      "trackCount": 1
     },
     {
       "id": "fountain-LWiFoZQAF0h9SMJt7fjb",
@@ -1531,13 +1845,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7590877,
         "podcastGuid": "23faf0fe-6778-532f-80b9-2278a1fc5727",
         "author": "Kathryn",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Kathryn",
+      "podcastGuid": "23faf0fe-6778-532f-80b9-2278a1fc5727",
+      "trackCount": 1
     },
     {
       "id": "fountain-XpoHROuagwJqMomhHvNN",
@@ -1549,13 +1866,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7587675,
         "podcastGuid": "db4f967f-4c56-5602-9442-daf318deb3b3",
         "author": "CHARLEY T",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "CHARLEY T",
+      "podcastGuid": "db4f967f-4c56-5602-9442-daf318deb3b3",
+      "trackCount": 1
     },
     {
       "id": "fountain-NPyW9oY7MlCy23JRP4UN",
@@ -1567,13 +1887,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7582360,
         "podcastGuid": "4a31e7f5-ec28-5688-b1ef-490761518007",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "4a31e7f5-ec28-5688-b1ef-490761518007",
+      "trackCount": 1
     },
     {
       "id": "fountain-2sR3iCbV0pctRHTug4dp",
@@ -1585,13 +1908,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7572758,
         "podcastGuid": "0cdcbc24-6901-5422-aca9-5aa2c91c49e3",
         "author": "Suzanne Santo",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Suzanne Santo",
+      "podcastGuid": "0cdcbc24-6901-5422-aca9-5aa2c91c49e3",
+      "trackCount": 1
     },
     {
       "id": "fountain-K4CPlG1NvwGSpvEVjNUM",
@@ -1603,13 +1929,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7569408,
         "podcastGuid": "143cd944-bbc5-52e9-9116-fb9c0157b485",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "143cd944-bbc5-52e9-9116-fb9c0157b485",
+      "trackCount": 1
     },
     {
       "id": "fountain-oXnhstrNbulFv5d477JI",
@@ -1621,13 +1950,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7565303,
         "podcastGuid": "e2366da8-84e7-5f71-a63a-d724e637f021",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "e2366da8-84e7-5f71-a63a-d724e637f021",
+      "trackCount": 1
     },
     {
       "id": "fountain-22hLHsSszE59ao2nSv13",
@@ -1639,13 +1971,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7561681,
         "podcastGuid": "1f578902-16b5-5b5b-bee2-91c6e73ecb2f",
         "author": "Barbara & The Dirty Shirleys",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Barbara & The Dirty Shirleys",
+      "podcastGuid": "1f578902-16b5-5b5b-bee2-91c6e73ecb2f",
+      "trackCount": 1
     },
     {
       "id": "fountain-LwiwH7S08gTYTtdvxhYY",
@@ -1657,13 +1992,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7560785,
         "podcastGuid": "27bc3c57-6b47-5029-873d-9876c7ba2f1e",
         "author": "Kathryn",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Kathryn",
+      "podcastGuid": "27bc3c57-6b47-5029-873d-9876c7ba2f1e",
+      "trackCount": 1
     },
     {
       "id": "fountain-TmOs2XDcLIRqTXm9XfrV",
@@ -1675,13 +2013,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7559881,
         "podcastGuid": "ab59ae81-7e96-5c59-af83-9db97d91a4d5",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "ab59ae81-7e96-5c59-af83-9db97d91a4d5",
+      "trackCount": 1
     },
     {
       "id": "fountain-lut1kM1ZrDDgGKQzLubD",
@@ -1693,13 +2034,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7556490,
         "podcastGuid": "b750168f-c96a-5150-936c-7f3c46b31adb",
         "author": "Lucas Maddy",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Lucas Maddy",
+      "podcastGuid": "b750168f-c96a-5150-936c-7f3c46b31adb",
+      "trackCount": 1
     },
     {
       "id": "fountain-iomyoloMln2XzJ9hSmEn",
@@ -1711,13 +2055,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7555136,
         "podcastGuid": "6521e31c-5955-59d7-bb79-3d8bb1a81300",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "6521e31c-5955-59d7-bb79-3d8bb1a81300",
+      "trackCount": 1
     },
     {
       "id": "fountain-IpQzn6DAfIHQuak1teWK",
@@ -1729,13 +2076,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7554505,
         "podcastGuid": "ac9acacb-2d11-5b01-803c-3a19364ff8f8",
         "author": "The Crypto Donkey",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "The Crypto Donkey",
+      "podcastGuid": "ac9acacb-2d11-5b01-803c-3a19364ff8f8",
+      "trackCount": 1
     },
     {
       "id": "fountain-NEiXHSh8NRBxPeZ6qrTQ",
@@ -1747,13 +2097,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7553876,
         "podcastGuid": "9a5ba65f-de0f-5635-a49b-06e554bce1a3",
         "author": "FSHR",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "FSHR",
+      "podcastGuid": "9a5ba65f-de0f-5635-a49b-06e554bce1a3",
+      "trackCount": 1
     },
     {
       "id": "fountain-2cfekOrptasKMAchTzoZ",
@@ -1765,13 +2118,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7552146,
         "podcastGuid": "de4f2850-6a53-5c39-9ece-e710667cf7c8",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "de4f2850-6a53-5c39-9ece-e710667cf7c8",
+      "trackCount": 1
     },
     {
       "id": "fountain-qCJ4CGsGxcpwvQ2Ka1YS",
@@ -1783,13 +2139,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7549646,
         "podcastGuid": "025221eb-12ca-5f8a-8165-e325bd5c5941",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "025221eb-12ca-5f8a-8165-e325bd5c5941",
+      "trackCount": 1
     },
     {
       "id": "fountain-uyFipWoM0VLlaqkijXfw",
@@ -1801,13 +2160,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7546339,
         "podcastGuid": "e450e18f-951e-5519-8c09-7175ffca9d64",
         "author": "Perceptronik",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Perceptronik",
+      "podcastGuid": "e450e18f-951e-5519-8c09-7175ffca9d64",
+      "trackCount": 1
     },
     {
       "id": "fountain-iBpYs5HImEMJkFpEpbkE",
@@ -1819,13 +2181,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7546333,
         "podcastGuid": "198bbb45-3fce-543e-a02f-dcae344f676e",
         "author": "Perceptronik",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Perceptronik",
+      "podcastGuid": "198bbb45-3fce-543e-a02f-dcae344f676e",
+      "trackCount": 1
     },
     {
       "id": "fountain-SrTKIlmuRjdg36Lallms",
@@ -1837,13 +2202,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7546328,
         "podcastGuid": "cedf1a6c-8447-5fdf-88ea-32d2e6b91378",
         "author": "Perceptronik",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Perceptronik",
+      "podcastGuid": "cedf1a6c-8447-5fdf-88ea-32d2e6b91378",
+      "trackCount": 1
     },
     {
       "id": "fountain-12dleqxJWYa49mEpNTbq",
@@ -1855,13 +2223,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7545055,
         "podcastGuid": "3aaad751-3936-52ed-b779-2008e8d35107",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "3aaad751-3936-52ed-b779-2008e8d35107",
+      "trackCount": 1
     },
     {
       "id": "fountain-xGlxfh0QHJtms8r2a1OU",
@@ -1873,13 +2244,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7542787,
         "podcastGuid": "3a87127b-7633-5cc3-832e-39deac7611c2",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "3a87127b-7633-5cc3-832e-39deac7611c2",
+      "trackCount": 1
     },
     {
       "id": "fountain-WQNd6X1YmcSITnZ1G3tH",
@@ -1891,13 +2265,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7540773,
         "podcastGuid": "096f33e8-c4d5-5a8e-a1b2-6d63d31ac039",
         "author": "Milzy",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Milzy",
+      "podcastGuid": "096f33e8-c4d5-5a8e-a1b2-6d63d31ac039",
+      "trackCount": 1
     },
     {
       "id": "fountain-UjI0F3zwrjcblbFHYAlc",
@@ -1909,13 +2286,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7539300,
         "podcastGuid": "67ae17fe-338b-50dc-a96c-c7fa3413d86a",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "67ae17fe-338b-50dc-a96c-c7fa3413d86a",
+      "trackCount": 1
     },
     {
       "id": "fountain-WfezDXpJuuwCkaIvZ7ZO",
@@ -1927,13 +2307,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7538723,
         "podcastGuid": "3eef2716-8a08-5c03-ba78-5ecd2e36a0f4",
         "author": "ADDAX",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "ADDAX",
+      "podcastGuid": "3eef2716-8a08-5c03-ba78-5ecd2e36a0f4",
+      "trackCount": 1
     },
     {
       "id": "fountain-tPuKKFta5GklYeRMmrQu",
@@ -1945,13 +2328,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7538696,
         "podcastGuid": "34b00d35-b5db-5591-80d9-46657264454d",
         "author": "ADDAX",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "ADDAX",
+      "podcastGuid": "34b00d35-b5db-5591-80d9-46657264454d",
+      "trackCount": 1
     },
     {
       "id": "fountain-jOkeJZ4Z5pEYnBNPkBR7",
@@ -1963,13 +2349,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7536624,
         "podcastGuid": "37ec5601-83f0-595b-ba57-4332a02c40a5",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "37ec5601-83f0-595b-ba57-4332a02c40a5",
+      "trackCount": 1
     },
     {
       "id": "fountain-N01z5tkYHUDAYephj5wL",
@@ -1981,13 +2370,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7534762,
         "podcastGuid": "ab55e3dd-5ef1-5173-8330-e75911ce714b",
         "author": "James Costello",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "James Costello",
+      "podcastGuid": "ab55e3dd-5ef1-5173-8330-e75911ce714b",
+      "trackCount": 1
     },
     {
       "id": "fountain-QqdFjwvXZUJhVxGrmBO6",
@@ -1999,13 +2391,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7533764,
         "podcastGuid": "d8979a85-4c7f-5c9c-a91f-d43dc72ff77f",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "d8979a85-4c7f-5c9c-a91f-d43dc72ff77f",
+      "trackCount": 1
     },
     {
       "id": "fountain-nttUKs0v4LO0obCJVedA",
@@ -2017,13 +2412,16 @@
       "addedAt": "2025-12-04T01:39:18.234Z",
       "lastUpdated": "2025-12-04T01:39:18.234Z",
       "source": "podcastindex-discovery",
-      "parseStatus": "pending",
+      "parseStatus": "success",
       "metadata": {
         "podcastIndexId": 7533742,
         "podcastGuid": "49957d8a-0bc5-595b-8933-38605109bf77",
         "author": "Haleen",
         "discoveredFrom": "podcastindex-music-medium"
-      }
+      },
+      "author": "Haleen",
+      "podcastGuid": "49957d8a-0bc5-595b-8933-38605109bf77",
+      "trackCount": 1
     }
   ],
   "lastUpdated": "2025-12-04T01:39:18.235Z",
