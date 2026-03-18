@@ -5,6 +5,8 @@ import { useBreez } from '@/hooks/useBreez';
 import { useAuth } from '@/contexts/AuthContext';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import PasskeyLoginForm from './PasskeyLoginForm';
+import PasskeyRegisterForm from './PasskeyRegisterForm';
 
 interface BreezConnectProps {
   onSuccess?: () => void;
@@ -14,11 +16,11 @@ interface BreezConnectProps {
 
 export default function BreezConnect({ onSuccess, onError, className = '' }: BreezConnectProps) {
   const { connect, isConnected, loading, error, disconnect } = useBreez();
-  const { user, getMnemonic, storeWallet } = useAuth();
+  const { user, getMnemonic, storeWallet, authMethod, credentialId, prfSupported } = useAuth();
   const [mnemonic, setMnemonic] = useState('');
   const [forceShowForm, setForceShowForm] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<string>('');
-  const [authView, setAuthView] = useState<'none' | 'login' | 'register' | 'password'>('none');
+  const [authView, setAuthView] = useState<'none' | 'login' | 'register' | 'password' | 'passkey-login' | 'passkey-register' | 'passkey-connect'>('none');
   const [loginPassword, setLoginPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [isCreatingWallet, setIsCreatingWallet] = useState(false);
@@ -100,6 +102,65 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     autoConnectFromLocalStorage();
   }, [user, isConnected, loading, error, authView, connect, onSuccess]);
 
+  // Auto-connect from passkey PRF for passkey-authenticated users
+  const handlePasskeyWalletConnect = async (salt: string = 'default') => {
+    if (!credentialId) {
+      console.error('No credential ID available for PRF derivation');
+      return;
+    }
+
+    try {
+      setConnectionStatus('Deriving wallet from passkey...');
+
+      // Dynamic import of PRF service (client-side only)
+      const { deriveMnemonicFromPasskey } = await import('@/lib/prf-service');
+      const mnemonic = await deriveMnemonicFromPasskey(credentialId, salt);
+
+      if (!mnemonic) {
+        setConnectionStatus('');
+        setPasswordError('PRF derivation failed. Your device may not support this feature.');
+        return;
+      }
+
+      // Connect to Breez with the derived mnemonic
+      const breezApiKey = process.env.NEXT_PUBLIC_BREEZ_API_KEY;
+      if (!breezApiKey) {
+        setPasswordError('Breez API key not configured');
+        setConnectionStatus('');
+        return;
+      }
+
+      setConnectionStatus('Connecting to Lightning Network...');
+
+      await connect({
+        apiKey: breezApiKey,
+        mnemonic,
+        network: 'mainnet',
+        storageDir: './breez-sdk-data'
+      });
+
+      // Save to localStorage for future auto-connect (avoids PRF prompt every time)
+      try {
+        localStorage.setItem('wallet_mnemonic', mnemonic);
+        localStorage.setItem('wallet_network', 'mainnet');
+      } catch (err) {
+        console.warn('Failed to save wallet to localStorage:', err);
+      }
+
+      setConnectionStatus('');
+      setAuthView('none');
+
+      if (onSuccess) {
+        onSuccess();
+      }
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to connect with passkey';
+      console.error('Passkey wallet connect failed:', errorMsg);
+      setPasswordError(errorMsg);
+      setConnectionStatus('');
+    }
+  };
+
   // Check if user has a wallet and auto-prompt for connection
   useEffect(() => {
     const checkWalletAndPrompt = async () => {
@@ -120,6 +181,13 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
       // 7. No login password waiting (if we have loginPassword, auto-connect will handle it)
       if (user && !isConnected && !loading && !error && !forceShowForm && authView === 'none' && !isCreatingWallet && !loginPassword) {
         console.log('🔄 Checking if user has saved wallet:', user.username);
+
+        // If user authenticated via passkey with PRF support, offer passkey-based wallet connection
+        if (authMethod === 'passkey' && prfSupported && credentialId) {
+          console.log('🔑 Passkey user with PRF, offering passkey wallet connect');
+          setAuthView('passkey-connect');
+          return;
+        }
 
         try {
           // Check if user has a wallet by calling the wallet API
@@ -146,7 +214,7 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
     };
 
     checkWalletAndPrompt();
-  }, [user, isConnected, loading, error, forceShowForm, authView, isCreatingWallet, loginPassword, onSuccess]);
+  }, [user, isConnected, loading, error, forceShowForm, authView, isCreatingWallet, loginPassword, onSuccess, authMethod, prfSupported, credentialId]);
 
   const handleAutoCreateWallet = async (password: string) => {
     // Set flag to prevent modal from closing prematurely
@@ -569,25 +637,122 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
 
       {/* Auth Forms or Account Buttons */}
       {authView === 'none' ? (
-        <div className="grid grid-cols-2 gap-2 mb-6">
+        <div className="space-y-2 mb-6">
+          {/* Passkey as default (prominent) */}
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setAuthView('passkey-register')}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+              </svg>
+              Sign Up
+            </button>
+            <button
+              onClick={() => setAuthView('passkey-login')}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+              </svg>
+              Login
+            </button>
+          </div>
+          {/* Password fallback (subtle) */}
+          <div className="text-center">
+            <button
+              onClick={() => setAuthView('login')}
+              className="text-xs text-gray-500 hover:text-gray-400"
+            >
+              Use password instead
+            </button>
+          </div>
+        </div>
+      ) : authView === 'passkey-login' ? (
+        <div className="mb-6">
           <button
-            onClick={() => setAuthView('register')}
-            className="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
+            onClick={() => setAuthView('none')}
+            className="text-sm text-gray-400 hover:text-white flex items-center gap-1 mb-4"
           >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
-            </svg>
-            Sign Up
+            ← Back
           </button>
+          <PasskeyLoginForm
+            onSuccess={async (credId, prf) => {
+              console.log('🔑 Passkey login successful, PRF supported:', prf);
+              setAuthView('none');
+              if (prf && credId) {
+                // Auto-connect wallet using PRF-derived mnemonic
+                await handlePasskeyWalletConnect('default');
+              }
+            }}
+            onSwitchToRegister={() => setAuthView('passkey-register')}
+            onSwitchToPassword={() => setAuthView('login')}
+            className="!bg-transparent !border-0 !p-0"
+          />
+        </div>
+      ) : authView === 'passkey-register' ? (
+        <div className="mb-6">
           <button
-            onClick={() => setAuthView('login')}
-            className="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
+            onClick={() => setAuthView('none')}
+            className="text-sm text-gray-400 hover:text-white flex items-center gap-1 mb-4"
           >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clipRule="evenodd" />
-            </svg>
-            Login
+            ← Back
           </button>
+          <PasskeyRegisterForm
+            onSuccess={async (credId, prf) => {
+              console.log('🔑 Passkey registration successful, PRF supported:', prf);
+              setAuthView('none');
+              if (prf && credId) {
+                // Auto-create wallet using PRF-derived mnemonic
+                await handlePasskeyWalletConnect('default');
+              }
+            }}
+            onSwitchToLogin={() => setAuthView('passkey-login')}
+            onSwitchToPassword={() => setAuthView('register')}
+            className="!bg-transparent !border-0 !p-0"
+          />
+        </div>
+      ) : authView === 'passkey-connect' ? (
+        <div className="mb-6">
+          <button
+            onClick={() => setAuthView('none')}
+            className="text-sm text-gray-400 hover:text-white flex items-center gap-1 mb-4"
+          >
+            ← Back
+          </button>
+          <div className="space-y-4">
+            <h3 className="text-white font-semibold">Connect Wallet with Passkey</h3>
+            <p className="text-sm text-gray-400">
+              Your wallet key will be derived from your passkey. No password needed.
+            </p>
+            {passwordError && (
+              <div className="bg-red-900/30 border border-red-500/50 rounded-lg p-4">
+                <p className="text-red-200 text-sm">{passwordError}</p>
+              </div>
+            )}
+            {connectionStatus && (
+              <div className="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+                <p className="text-blue-200 text-sm flex items-center gap-2">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  {connectionStatus}
+                </p>
+              </div>
+            )}
+            <button
+              onClick={() => handlePasskeyWalletConnect('default')}
+              disabled={!!connectionStatus}
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+              </svg>
+              Connect with Passkey
+            </button>
+          </div>
         </div>
       ) : authView === 'login' ? (
         <div className="mb-6">
