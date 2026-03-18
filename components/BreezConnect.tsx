@@ -609,29 +609,35 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
             </div>
           </div>
 
-          {/* Create Wallet Button */}
-          <button
-            onClick={handleConnect}
-            disabled={loading}
-            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-3"
-          >
-            {loading ? (
-              <>
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                <span>{connectionStatus || 'Connecting...'}</span>
-              </>
-            ) : (
-              <>
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
-                </svg>
-                Create Wallet
-              </>
-            )}
-          </button>
+          {/* Create Wallet Button - requires auth first */}
+          {!user ? (
+            <p className="text-gray-400 text-sm text-center mb-3">
+              Sign up or login below to create a wallet
+            </p>
+          ) : (
+            <button
+              onClick={() => setShowWalletChoiceModal(true)}
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-3"
+            >
+              {loading ? (
+                <>
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  <span>{connectionStatus || 'Connecting...'}</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                  </svg>
+                  Create Wallet
+                </>
+              )}
+            </button>
+          )}
         </>
       )}
 
@@ -1064,11 +1070,17 @@ export default function BreezConnect({ onSuccess, onError, className = '' }: Bre
                   setIsCreatingWallet(true);
                   setAuthView('none');
 
-                  if (newUserPassword) {
-                    setLoginPassword(newUserPassword);
+                  const password = newUserPassword || loginPassword;
+                  if (password) {
+                    setLoginPassword(password);
                     setTimeout(async () => {
-                      await handleAutoCreateWallet(newUserPassword);
+                      await handleAutoCreateWallet(password);
                     }, 500);
+                  } else {
+                    // User is logged in but we don't have their password cached,
+                    // prompt for it via the password auth view
+                    setIsCreatingWallet(false);
+                    setAuthView('password');
                   }
                 }}
                 className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
