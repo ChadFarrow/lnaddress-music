@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import PasskeyLoginForm from './PasskeyLoginForm';
+import PasskeyRegisterForm from './PasskeyRegisterForm';
 import WalletSetup from './WalletSetup';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -11,19 +13,21 @@ interface AuthModalProps {
   className?: string;
 }
 
+type AuthMode = 'passkey-login' | 'passkey-register' | 'password-login' | 'password-register' | 'wallet-setup';
+
 export default function AuthModal({ onClose, className = '' }: AuthModalProps) {
-  const [mode, setMode] = useState<'login' | 'register' | 'wallet-setup'>('login');
+  const [mode, setMode] = useState<AuthMode>('passkey-login');
   const [showWalletSetup, setShowWalletSetup] = useState(false);
   const { user } = useAuth();
 
   const handleLoginSuccess = () => {
-    // Check if user has a wallet, if not show wallet setup
     setShowWalletSetup(true);
   };
 
-  const handleRegisterSuccess = () => {
-    // After registration, show wallet setup
-    setShowWalletSetup(true);
+  const handlePasskeySuccess = (_credentialId: string, _prfSupported: boolean) => {
+    // For passkey users with PRF, wallet mnemonic is derived on-demand — no setup needed
+    // Just close the modal
+    onClose?.();
   };
 
   const handleWalletSetupSuccess = () => {
@@ -34,7 +38,7 @@ export default function AuthModal({ onClose, className = '' }: AuthModalProps) {
     onClose?.();
   };
 
-  // If user is logged in and we're showing wallet setup
+  // If user is logged in and we're showing wallet setup (password flow)
   if (user && showWalletSetup) {
     return (
       <div className={`fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[9999] p-4 ${className}`}>
@@ -60,18 +64,58 @@ export default function AuthModal({ onClose, className = '' }: AuthModalProps) {
           </button>
         )}
 
-        {mode === 'login' && (
-          <LoginForm
-            onSuccess={handleLoginSuccess}
-            onSwitchToRegister={() => setMode('register')}
+        {/* Passkey Login (default) */}
+        {mode === 'passkey-login' && (
+          <PasskeyLoginForm
+            onSuccess={handlePasskeySuccess}
+            onSwitchToRegister={() => setMode('passkey-register')}
+            onSwitchToPassword={() => setMode('password-login')}
           />
         )}
 
-        {mode === 'register' && (
-          <RegisterForm
-            onSuccess={handleRegisterSuccess}
-            onSwitchToLogin={() => setMode('login')}
+        {/* Passkey Register */}
+        {mode === 'passkey-register' && (
+          <PasskeyRegisterForm
+            onSuccess={handlePasskeySuccess}
+            onSwitchToLogin={() => setMode('passkey-login')}
+            onSwitchToPassword={() => setMode('password-register')}
           />
+        )}
+
+        {/* Password Login (fallback) */}
+        {mode === 'password-login' && (
+          <div>
+            <LoginForm
+              onSuccess={handleLoginSuccess}
+              onSwitchToRegister={() => setMode('password-register')}
+            />
+            <div className="text-center mt-3">
+              <button
+                onClick={() => setMode('passkey-login')}
+                className="text-blue-400 hover:text-blue-300 text-sm font-medium"
+              >
+                Use passkey instead
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Password Register (fallback) */}
+        {mode === 'password-register' && (
+          <div>
+            <RegisterForm
+              onSuccess={handleLoginSuccess}
+              onSwitchToLogin={() => setMode('password-login')}
+            />
+            <div className="text-center mt-3">
+              <button
+                onClick={() => setMode('passkey-register')}
+                className="text-blue-400 hover:text-blue-300 text-sm font-medium"
+              >
+                Use passkey instead
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>

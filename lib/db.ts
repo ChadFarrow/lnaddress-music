@@ -56,6 +56,17 @@ export interface DBUserWallet {
   updated_at: Date;
 }
 
+export interface DBPasskeyCredential {
+  id: number;
+  user_id: number;
+  credential_id: string;
+  public_key: string;
+  counter: number;
+  transports: string[] | null;
+  prf_supported: boolean;
+  created_at: Date;
+}
+
 export async function seedDatabase() {
   try {
     console.log('🌱 Seeding database with feeds from feeds.json...');
@@ -147,6 +158,31 @@ export async function initializeDatabase(shouldSeed = true) {
     `);
     console.log('✅ User wallets table created/verified');
 
+    // Create passkey_credentials table for WebAuthn passkey storage
+    await sql(`
+      CREATE TABLE IF NOT EXISTS passkey_credentials (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        credential_id TEXT UNIQUE NOT NULL,
+        public_key TEXT NOT NULL,
+        counter INTEGER DEFAULT 0,
+        transports TEXT[],
+        prf_supported BOOLEAN DEFAULT false,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+    `);
+    console.log('✅ Passkey credentials table created/verified');
+
+    // Make password_hash nullable for passkey-only users (migration)
+    try {
+      await sql(`
+        ALTER TABLE users ALTER COLUMN password_hash DROP NOT NULL;
+      `);
+      console.log('✅ password_hash made nullable for passkey users');
+    } catch {
+      // Column may already be nullable
+    }
+
     // Create index for better query performance
     await sql(`
       CREATE INDEX IF NOT EXISTS idx_feeds_status ON feeds(status);
@@ -167,6 +203,14 @@ export async function initializeDatabase(shouldSeed = true) {
       CREATE INDEX IF NOT EXISTS idx_user_wallets_user_id ON user_wallets(user_id);
     `);
     console.log('✅ User wallets index created/verified');
+
+    await sql(`
+      CREATE INDEX IF NOT EXISTS idx_passkey_credentials_user_id ON passkey_credentials(user_id);
+    `);
+    await sql(`
+      CREATE INDEX IF NOT EXISTS idx_passkey_credentials_credential_id ON passkey_credentials(credential_id);
+    `);
+    console.log('✅ Passkey credentials indexes created/verified');
 
     // Add new columns if they don't exist (migration)
     try {
@@ -437,5 +481,125 @@ export async function deleteUserWallet(userId: number): Promise<boolean> {
   } catch (error) {
     console.error('Failed to delete user wallet:', error);
     return false;
+  }
+}
+
+// ===== PASSKEY CREDENTIAL FUNCTIONS =====
+
+/**
+ * Create a new user with passkey (no password required)
+ */
+export async function createUserWithPasskey(username: string): Promise<{ success: boolean; user?: DBUser; error?: string }> {
+  try {
+    const result = await sql(
+      'INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING *',
+      [username, ''] // Empty password_hash for passkey-only users
+    );
+
+    if (result.rows.length > 0) {
+      return { success: true, user: result.rows[0] as DBUser };
+    }
+
+    return { success: false, error: 'Failed to create user' };
+  } catch (error: any) {
+    if (error?.message?.includes('duplicate key')) {
+      return { success: false, error: 'Username already exists' };
+    }
+    console.error('Failed to create user with passkey:', error);
+    return { success: false, error: 'Database error occurred' };
+  }
+}
+
+/**
+ * Store a passkey credential for a user
+ */
+export async function storePasskeyCredential(
+  userId: number,
+  credentialId: string,
+  publicKey: string,
+  counter: number,
+  transports?: string[],
+  prfSupported: boolean = false
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    await sql(
+      'INSERT INTO passkey_credentials (user_id, credential_id, public_key, counter, transports, prf_supported) VALUES ($1, $2, $3, $4, $5, $6)',
+      [userId, credentialId, publicKey, counter, transports || null, prfSupported]
+    );
+    return { success: true };
+  } catch (error: any) {
+    if (error?.message?.includes('duplicate key')) {
+      return { success: false, error: 'Credential already exists' };
+    }
+    console.error('Failed to store passkey credential:', error);
+    return { success: false, error: 'Database error occurred' };
+  }
+}
+
+/**
+ * Get all passkey credentials for a user
+ */
+export async function getPasskeyCredentials(userId: number): Promise<DBPasskeyCredential[]> {
+  try {
+    const result = await sql(
+      'SELECT * FROM passkey_credentials WHERE user_id = $1',
+      [userId]
+    );
+    return result.rows as DBPasskeyCredential[];
+  } catch (error) {
+    console.error('Failed to get passkey credentials:', error);
+    return [];
+  }
+}
+
+/**
+ * Find a passkey credential by credential ID
+ */
+export async function findPasskeyCredential(credentialId: string): Promise<(DBPasskeyCredential & { username: string }) | null> {
+  try {
+    const result = await sql(
+      `SELECT pc.*, u.username FROM passkey_credentials pc
+       JOIN users u ON pc.user_id = u.id
+       WHERE pc.credential_id = $1`,
+      [credentialId]
+    );
+    return result.rows.length > 0 ? result.rows[0] as (DBPasskeyCredential & { username: string }) : null;
+  } catch (error) {
+    console.error('Failed to find passkey credential:', error);
+    return null;
+  }
+}
+
+/**
+ * Update passkey credential counter (for replay attack prevention)
+ */
+export async function updatePasskeyCounter(credentialId: string, newCounter: number): Promise<boolean> {
+  try {
+    await sql(
+      'UPDATE passkey_credentials SET counter = $1 WHERE credential_id = $2',
+      [newCounter, credentialId]
+    );
+    return true;
+  } catch (error) {
+    console.error('Failed to update passkey counter:', error);
+    return false;
+  }
+}
+
+/**
+ * Get all passkey credentials by username (for login flow)
+ */
+export async function getPasskeyCredentialsByUsername(username: string): Promise<DBPasskeyCredential[]> {
+  try {
+    const result = await sql(
+      `SELECT pc.* FROM passkey_credentials pc
+       JOIN users u ON pc.user_id = u.id
+       WHERE u.username = $1`,
+      [username]
+    );
+    return result.rows as DBPasskeyCredential[];
+  } catch (error) {
+    console.error('Failed to get passkey credentials by username:', error);
+    return [];
   }
 }
