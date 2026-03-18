@@ -9,19 +9,25 @@ import type {
   AuthenticationResponseJSON,
   AuthenticatorTransportFuture,
 } from '@simplewebauthn/server';
+import jwt from 'jsonwebtoken';
 
 /**
  * WebAuthn service for passkey registration and authentication
  * Server-side only — handles challenge generation and credential verification
+ *
+ * Challenge storage uses signed JWTs instead of in-memory Maps so that
+ * /start and /complete can hit different serverless function instances
+ * (required for Vercel / any stateless deployment).
  */
 
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const CHALLENGE_TTL_SECONDS = 300; // 5 minutes
+
 // Relying Party configuration
-// These can be overridden per-request by passing requestOrigin to functions.
 function getRPID(requestOrigin?: string): string {
   if (process.env.NEXT_PUBLIC_WEBAUTHN_RP_ID) {
     return process.env.NEXT_PUBLIC_WEBAUTHN_RP_ID;
   }
-  // Derive from request origin (most reliable in deployed environments)
   if (requestOrigin) {
     return new URL(requestOrigin).hostname;
   }
@@ -45,11 +51,9 @@ function getOrigin(requestOrigin?: string): string {
  * Works on Vercel, localhost, and custom domains.
  */
 export function getRequestOrigin(request: Request): string {
-  // Try Origin header first (sent with POST requests)
   const origin = request.headers.get('origin');
   if (origin) return origin;
 
-  // Fall back to constructing from host header
   const host = request.headers.get('x-forwarded-host') || request.headers.get('host');
   if (host) {
     const proto = request.headers.get('x-forwarded-proto') || 'https';
@@ -59,32 +63,28 @@ export function getRequestOrigin(request: Request): string {
   return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 }
 
-// In-memory challenge store with TTL (5 minutes)
-const challengeStore = new Map<string, { challenge: string; expiresAt: number }>();
-
-// Cleanup expired challenges every minute
-setInterval(() => {
-  const now = Date.now();
-  challengeStore.forEach((value, key) => {
-    if (value.expiresAt < now) {
-      challengeStore.delete(key);
-    }
-  });
-}, 60_000);
-
-function storeChallenge(key: string, challenge: string): void {
-  challengeStore.set(key, {
-    challenge,
-    expiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
-  });
+/**
+ * Create a signed challenge token (JWT) that encodes the challenge string.
+ * This replaces in-memory storage so it works across serverless invocations.
+ */
+function createChallengeToken(challenge: string, context?: Record<string, string>): string {
+  return jwt.sign(
+    { challenge, ...context },
+    JWT_SECRET,
+    { expiresIn: CHALLENGE_TTL_SECONDS }
+  );
 }
 
-function getAndDeleteChallenge(key: string): string | null {
-  const entry = challengeStore.get(key);
-  if (!entry) return null;
-  challengeStore.delete(key);
-  if (entry.expiresAt < Date.now()) return null;
-  return entry.challenge;
+/**
+ * Verify and extract the challenge from a signed token.
+ */
+function verifyChallengeToken(token: string): { challenge: string; [key: string]: unknown } | null {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as { challenge: string; [key: string]: unknown };
+    return decoded;
+  } catch {
+    return null;
+  }
 }
 
 export interface StoredCredential {
@@ -95,7 +95,8 @@ export interface StoredCredential {
 }
 
 /**
- * Generate registration options for a new passkey
+ * Generate registration options for a new passkey.
+ * Returns the options + a signed challengeToken to send to the client.
  */
 export async function generatePasskeyRegistrationOptions(
   userId: string,
@@ -127,17 +128,17 @@ export async function generatePasskeyRegistrationOptions(
     },
   });
 
-  // Store challenge keyed by the generated challenge itself for simplicity
-  storeChallenge(`reg:${userId}`, options.challenge);
+  // Encode challenge in a signed JWT instead of storing in memory
+  const challengeToken = createChallengeToken(options.challenge, { type: 'registration', userId });
 
-  return options;
+  return { options, challengeToken };
 }
 
 /**
  * Verify passkey registration response
  */
 export async function verifyPasskeyRegistration(
-  userId: string,
+  challengeToken: string,
   response: RegistrationResponseJSON,
   requestOrigin?: string
 ): Promise<{
@@ -146,12 +147,12 @@ export async function verifyPasskeyRegistration(
   prfSupported?: boolean;
   error?: string;
 }> {
-  const expectedChallenge = getAndDeleteChallenge(`reg:${userId}`);
-
-  if (!expectedChallenge) {
-    return { verified: false, error: 'Challenge expired or not found' };
+  const tokenData = verifyChallengeToken(challengeToken);
+  if (!tokenData) {
+    return { verified: false, error: 'Challenge expired or invalid' };
   }
 
+  const expectedChallenge = tokenData.challenge;
   const origin = getOrigin(requestOrigin);
   const rpID = getRPID(requestOrigin);
   console.log('🔑 WebAuthn verify registration - origin:', origin, 'rpID:', rpID);
@@ -170,7 +171,6 @@ export async function verifyPasskeyRegistration(
 
     const { credential } = verification.registrationInfo;
 
-    // Check if PRF was enabled in the response
     const clientExtensionResults = response.clientExtensionResults as Record<string, unknown> | undefined;
     const prfSupported = !!(clientExtensionResults?.prf as { enabled?: boolean })?.enabled;
 
@@ -191,14 +191,14 @@ export async function verifyPasskeyRegistration(
 }
 
 /**
- * Generate authentication options for passkey login
+ * Generate authentication options for passkey login.
+ * Returns the options + a signed challengeToken.
  */
 export async function generatePasskeyAuthenticationOptions(
   credentials?: StoredCredential[],
   sessionId?: string,
   requestOrigin?: string
 ) {
-  const challengeKey = sessionId || `auth:${Date.now()}:${Math.random().toString(36).slice(2)}`;
   const rpID = getRPID(requestOrigin);
   console.log('🔑 WebAuthn authentication options - rpID:', rpID);
 
@@ -211,16 +211,16 @@ export async function generatePasskeyAuthenticationOptions(
     })),
   });
 
-  storeChallenge(challengeKey, options.challenge);
+  const challengeToken = createChallengeToken(options.challenge, { type: 'authentication' });
 
-  return { options, challengeKey };
+  return { options, challengeToken };
 }
 
 /**
  * Verify passkey authentication response
  */
 export async function verifyPasskeyAuthentication(
-  challengeKey: string,
+  challengeToken: string,
   response: AuthenticationResponseJSON,
   credential: StoredCredential,
   requestOrigin?: string
@@ -229,12 +229,12 @@ export async function verifyPasskeyAuthentication(
   newCounter?: number;
   error?: string;
 }> {
-  const expectedChallenge = getAndDeleteChallenge(challengeKey);
-
-  if (!expectedChallenge) {
-    return { verified: false, error: 'Challenge expired or not found' };
+  const tokenData = verifyChallengeToken(challengeToken);
+  if (!tokenData) {
+    return { verified: false, error: 'Challenge expired or invalid' };
   }
 
+  const expectedChallenge = tokenData.challenge;
   const origin = getOrigin(requestOrigin);
   const rpID = getRPID(requestOrigin);
   console.log('🔑 WebAuthn verify authentication - origin:', origin, 'rpID:', rpID);

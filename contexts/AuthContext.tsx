@@ -185,7 +185,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         credentials: 'include',
         body: JSON.stringify({
           username,
-          tempUserId: startData.tempUserId,
+          challengeToken: startData.challengeToken,
           credential: attResp,
         }),
       });
@@ -251,7 +251,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({
-          challengeKey: startData.challengeKey,
+          challengeToken: startData.challengeToken,
           credential: assertionResp,
         }),
       });
