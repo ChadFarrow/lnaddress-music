@@ -751,8 +751,10 @@ export default function HomePage() {
         filtered = albumsToUse.filter(album => album.tracks.length === 1);
         break;
       case 'publishers':
-        // For publishers filter, we'll show publishers instead of albums
-        return publishers;
+        // For publishers filter, show publishers sorted by name
+        return [...publishers].sort((a, b) =>
+          (a.name || '').localeCompare(b.name || '', undefined, { sensitivity: 'base' })
+        );
       default: // 'all'
         filtered = albumsToUse;
     }

@@ -17,21 +17,20 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
 
 async function getPublisherData(publisherName: string) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL ||
-                   process.env.NEXT_PUBLIC_SITE_URL ||
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ||
                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
                    (process.env.NODE_ENV === 'production'
                      ? 'https://lnaddress-music.vercel.app'
                      : `http://localhost:${process.env.PORT || '3000'}`);
-    
-    // Use database-backed endpoint to get latest feeds (updated by cron)
-    let response = await fetch(`${baseUrl}/api/albums`, {
+
+    // Use static cached endpoint (primary) with fallback
+    let response = await fetch(`${baseUrl}/api/albums-static-cached`, {
       next: { revalidate: 300 }, // Cache for 5 minutes
     });
 
     if (!response.ok) {
-      console.log('Database endpoint failed, trying static fallback...');
-      response = await fetch(`${baseUrl}/api/albums-static`, {
+      console.log('Static cached endpoint failed, trying albums-no-db fallback...');
+      response = await fetch(`${baseUrl}/api/albums-no-db`, {
         next: { revalidate: 60 }, // Cache for 1 minute
       });
     }
