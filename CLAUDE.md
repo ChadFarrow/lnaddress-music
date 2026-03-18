@@ -18,7 +18,7 @@ npm run build            # Production build
 npm run build:lightning  # Build Lightning version
 npm run build:basic      # Build basic (no payments) version
 npm run lint             # ESLint
-npm run test-feeds       # Validate RSS feeds in feeds.json
+npm run test-feeds       # Validate RSS feeds in feeds.json (NOTE: script missing as of 2026-03)
 npm run clear-cache      # Clear RSS feed cache
 npm run deploy           # Auto-version PWA + deploy
 ```
@@ -107,8 +107,13 @@ After payment, boosts are published to Nostr relays as NIP-57 zaps (`lib/boost-t
 ### Adding a New Feed
 
 1. Add entry to `data/feeds.json` with URL, type, priority, status
-2. Run `npm run test-feeds` to validate
-3. Re-parse feeds to update `data/parsed-feeds.json`
+2. Re-parse feeds to update `data/parsed-feeds.json`
+
+### Discovering New Feeds
+
+`scripts/discover-new-fountain-feeds.ts` queries the Podcast Index API (`/podcasts/bymedium?medium=music` and `/search/music/byterm?q=fountain`) to find fountain.fm music feeds not yet in `feeds.json`. Run with `npx tsx scripts/discover-new-fountain-feeds.ts` (dry run) or `--write` to add directly. Requires `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` in `.env.local`.
+
+Feed sources include fountain.fm, phafe.com (self-hosted RSS), and wavlake.com. Feeds use either `lnaddress` recipients (Lightning Address) or `node` recipients (keysend) — some sources like Wavlake are keysend-only.
 
 ## Environment Variables
 
