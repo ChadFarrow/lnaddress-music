@@ -391,7 +391,11 @@ export function useBreezWallet({ onSuccess, onError }: UseBreezWalletOptions) {
   const handleLogout = useCallback(async () => {
     if (confirm('Logout from your account? This will also disconnect your wallet.')) {
       clearWalletFromLocalStorage();
-      await disconnect();
+      try {
+        await disconnect();
+      } catch (err) {
+        console.error('Error disconnecting during logout:', err);
+      }
       window.location.href = '/api/auth/logout';
     }
   }, [clearWalletFromLocalStorage, disconnect]);

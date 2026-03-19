@@ -157,7 +157,7 @@ export function LightningWallet() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     console.log('🚪 Starting logout...');
 
     // Clear wallet data from localStorage
@@ -165,14 +165,22 @@ export function LightningWallet() {
     localStorage.removeItem('wallet_network');
     console.log('🗑️ Cleared wallet from localStorage');
 
-    // Disconnect wallet directly
-    if (nwc.isConnected) {
-      console.log('🔌 Disconnecting NWC wallet...');
-      nwc.disconnect();
+    // Disconnect wallets - don't let errors prevent logout
+    try {
+      if (nwc.isConnected) {
+        console.log('🔌 Disconnecting NWC wallet...');
+        nwc.disconnect();
+      }
+    } catch (err) {
+      console.error('Error disconnecting NWC during logout:', err);
     }
-    if (breez.isConnected) {
-      console.log('🔌 Disconnecting Breez wallet...');
-      breez.disconnect();
+    try {
+      if (breez.isConnected) {
+        console.log('🔌 Disconnecting Breez wallet...');
+        await breez.disconnect();
+      }
+    } catch (err) {
+      console.error('Error disconnecting Breez during logout:', err);
     }
     console.log('🔌 Wallet disconnected');
 
