@@ -158,13 +158,14 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
             alt={`${publisher.name} background`}
             fill
             className="object-cover w-full h-full"
-            style={{ filter: 'blur(0px) brightness(1.0) contrast(1.0)' }}
+            style={{ filter: 'blur(30px) brightness(0.3)' }}
             priority
-            quality={100}
+            quality={50}
             unoptimized={publisher.image?.endsWith('.gif')}
           />
         )}
-
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
       {/* Content */}
