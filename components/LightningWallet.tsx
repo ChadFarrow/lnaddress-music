@@ -387,6 +387,33 @@ export function LightningWallet() {
 
               {!loading && !isConnected && selectedWallet === 'none' && (
                 <div className="space-y-4">
+                  {/* Show logged-in account with logout option */}
+                  {user && (
+                    <div className="p-3 bg-green-900/20 border border-green-500/30 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                          </svg>
+                          <p className="text-green-300 text-sm">
+                            <strong>{user.username}</strong>
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            if (confirm('Are you sure you want to logout?')) {
+                              handleLogout();
+                            }
+                          }}
+                          className="text-xs text-red-400 hover:text-red-300 underline flex items-center gap-1"
+                        >
+                          <LogOut className="w-3 h-3" />
+                          Logout
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="text-center mb-6">
                     <Wallet className="w-16 h-16 mx-auto mb-4 text-gray-500" />
                     <p className="text-gray-400">
