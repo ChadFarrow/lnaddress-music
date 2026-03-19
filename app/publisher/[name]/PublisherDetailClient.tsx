@@ -149,23 +149,22 @@ export default function PublisherDetailClient({ publisherName, initialPublisher 
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
-      {/* Background */}
-      <div className="fixed inset-0 z-0">
-        {/* Use publisher artwork, fallback to newest album artwork */}
+      {/* Background - blurred and darkened for readability */}
+      <div className="fixed inset-0 z-0 overflow-hidden">
         {(publisher.image || getNewestAlbum(publisher.albums)?.coverArt) && (
-          <Image
-            src={publisher.image || getNewestAlbum(publisher.albums)!.coverArt}
-            alt={`${publisher.name} background`}
-            fill
-            className="object-cover w-full h-full"
-            style={{ filter: 'blur(30px) brightness(0.3)' }}
-            priority
-            quality={50}
-            unoptimized={publisher.image?.endsWith('.gif')}
-          />
+          <div className="absolute -inset-8 blur-2xl brightness-[0.25] scale-110">
+            <Image
+              src={publisher.image || getNewestAlbum(publisher.albums)!.coverArt}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+              quality={30}
+              unoptimized
+            />
+          </div>
         )}
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/70" />
       </div>
 
       {/* Content */}
