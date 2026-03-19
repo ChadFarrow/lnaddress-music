@@ -42,7 +42,7 @@ export function LightningWallet() {
 
   const nwc = useNWC();
   const breez = useBreez();
-  const { user } = useAuth();
+  const { user, logout: authLogout } = useAuth();
 
   // Load boost name from localStorage
   useEffect(() => {
@@ -165,7 +165,7 @@ export function LightningWallet() {
     localStorage.removeItem('wallet_network');
     console.log('🗑️ Cleared wallet from localStorage');
 
-    // Disconnect wallets - don't let errors prevent logout
+    // Disconnect wallets with a timeout - don't let hangs prevent logout
     try {
       if (nwc.isConnected) {
         console.log('🔌 Disconnecting NWC wallet...');
@@ -177,14 +177,28 @@ export function LightningWallet() {
     try {
       if (breez.isConnected) {
         console.log('🔌 Disconnecting Breez wallet...');
-        await breez.disconnect();
+        await Promise.race([
+          breez.disconnect(),
+          new Promise(resolve => setTimeout(resolve, 3000)),
+        ]);
       }
     } catch (err) {
       console.error('Error disconnecting Breez during logout:', err);
     }
     console.log('🔌 Wallet disconnected');
 
-    // Redirect to logout
+    // Clear auth state and cookie
+    console.log('🚪 Logging out via auth context...');
+    try {
+      await Promise.race([
+        authLogout(),
+        new Promise(resolve => setTimeout(resolve, 3000)),
+      ]);
+    } catch (err) {
+      console.error('Error in auth logout:', err);
+    }
+
+    // Always redirect - this is the last resort to ensure logout completes
     console.log('🚪 Redirecting to /api/auth/logout...');
     window.location.href = '/api/auth/logout';
   };
@@ -400,11 +414,7 @@ export function LightningWallet() {
                           </p>
                         </div>
                         <button
-                          onClick={() => {
-                            if (confirm('Are you sure you want to logout?')) {
-                              handleLogout();
-                            }
-                          }}
+                          onClick={() => handleLogout()}
                           className="text-xs text-red-400 hover:text-red-300 underline flex items-center gap-1"
                         >
                           <LogOut className="w-3 h-3" />
