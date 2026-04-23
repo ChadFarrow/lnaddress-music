@@ -62,7 +62,7 @@ All state management uses React Context — no Redux or external state library.
 
 Multiple wallet backends, each independent — NWC and Breez are separate wallets, not fallbacks for each other:
 - **NWC** (`lib/nwc-service.ts`, `hooks/useNWC.ts`) — Nostr Wallet Connect (NIP-47), supports `lnaddress` and `node` (keysend, Alby only)
-- **Breez SDK Spark** (`lib/breez-service.ts`, `hooks/useBreez.ts`) — self-custodial WASM-based on-device wallet (v0.7.21), supports `lnaddress` only
+- **Breez SDK Spark** (`lib/breez-service.ts`, `hooks/useBreez.ts`) — self-custodial WASM-based on-device wallet (v0.13.1), supports `lnaddress` only. The `prepareLnurlPay` branch in `sendPayment()` is dormant — app converts Lightning Addresses to BOLT11 via `LNURLService.getPaymentInvoice()` first, then pays via `prepareSendPayment` (expects `amount: BigInt(sats)`)
 - **WebLN** (`lib/webln-service.ts`) — browser extension wallets (Alby)
 - **LNURL-Pay** (`lib/lnurl-service.ts`) — converts Lightning Addresses to invoices, carries LUD-12 comments via `?comment=` callback param
 
