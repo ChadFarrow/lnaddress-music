@@ -468,7 +468,7 @@ class BreezService {
         // Prepare LNURL payment with the parsed payRequest
         const prepareLnurlRequest = {
           payRequest: payRequestData,
-          amountSats: request.amountSats,
+          amount: BigInt(request.amountSats),
           comment: request.message || '',
           // Disable strict success action URL validation to allow payments to services like Fountain
           // that use different domains for success actions (which is safe and common)
