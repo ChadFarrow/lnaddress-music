@@ -1,0 +1,14 @@
+{
+  "totalFeeds": 208,
+  "successfulParses": 208,
+  "failedParses": 0,
+  "albumsFound": 184,
+  "publishersFound": 24,
+  "totalTracks": 344,
+  "totalDuration": "00:00",
+  "podRollFeeds": 0,
+  "fundingFeeds": 5,
+  "parseTime": 49749,
+  "timestamp": "2026-07-11T21:09:04.343Z",
+  "errors": []
+}

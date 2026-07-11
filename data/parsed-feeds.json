@@ -14,7 +14,7 @@
       "podcastGuid": "d4920398-e58e-597e-806c-cde83bc4ba00",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:51.003Z",
+      "lastParsed": "2026-07-11T21:08:14.595Z",
       "parsedData": {
         "album": {
           "title": "JUKEBOX",
@@ -102,7 +102,7 @@
       "podcastGuid": "303e6630-986d-51ec-9806-dc6a872f1336",
       "parseStatus": "success",
       "trackCount": 10,
-      "lastParsed": "2026-03-18T23:42:51.595Z",
+      "lastParsed": "2026-07-11T21:08:15.122Z",
       "parsedData": {
         "album": {
           "title": "Lightswitch (album)",
@@ -453,7 +453,7 @@
       "podcastGuid": "9797bece-64d1-53bb-9eeb-7c3eab4628d1",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:51.974Z",
+      "lastParsed": "2026-07-11T21:08:15.378Z",
       "parsedData": {
         "album": {
           "title": "Keep Walking",
@@ -473,7 +473,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -499,7 +499,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -543,7 +543,7 @@
       "podcastGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:52.320Z",
+      "lastParsed": "2026-07-11T21:08:15.593Z",
       "parsedData": {
         "album": {
           "title": "My test music single",
@@ -647,7 +647,7 @@
       "podcastGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
       "parseStatus": "success",
       "trackCount": 10,
-      "lastParsed": "2026-03-18T23:42:52.900Z",
+      "lastParsed": "2026-07-11T21:08:15.807Z",
       "parsedData": {
         "album": {
           "title": "Big Day (album)",
@@ -1018,7 +1018,7 @@
       "podcastGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:53.297Z",
+      "lastParsed": "2026-07-11T21:08:16.009Z",
       "parsedData": {
         "album": {
           "title": "Worried",
@@ -1108,7 +1108,7 @@
       "podcastGuid": "6c431a3e-7482-524e-86b3-3754d042ecf2",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:53.855Z",
+      "lastParsed": "2026-07-11T21:08:16.240Z",
       "parsedData": {
         "album": {
           "title": "No one left",
@@ -1196,7 +1196,7 @@
       "podcastGuid": "699fdb4b-7ceb-5687-ac19-940e4613aae0",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:54.234Z",
+      "lastParsed": "2026-07-11T21:08:16.457Z",
       "parsedData": {
         "album": {
           "title": "Gig Harbor Morning",
@@ -1300,7 +1300,7 @@
       "podcastGuid": "725c0a0e-de81-5fb3-bbac-7b58cd03e52f",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:54.580Z",
+      "lastParsed": "2026-07-11T21:08:16.677Z",
       "parsedData": {
         "album": {
           "title": "Somewhere Local",
@@ -1388,7 +1388,7 @@
       "podcastGuid": "0ab839e7-0504-561b-b569-9d5a8e83ec42",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:55.059Z",
+      "lastParsed": "2026-07-11T21:08:16.956Z",
       "parsedData": {
         "album": {
           "title": "No Shotgun",
@@ -1478,7 +1478,7 @@
       "podcastGuid": "025ad614-f9f5-5547-863a-3469be606400",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:55.416Z",
+      "lastParsed": "2026-07-11T21:08:17.183Z",
       "parsedData": {
         "album": {
           "title": "Decisions to Make",
@@ -1568,7 +1568,7 @@
       "podcastGuid": "a351816d-fbc3-5965-8a5a-31c1720b9d2a",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:55.773Z",
+      "lastParsed": "2026-07-11T21:08:17.573Z",
       "parsedData": {
         "album": {
           "title": "Hiking at Mohawk Lakes, CO",
@@ -1658,7 +1658,7 @@
       "podcastGuid": "75803897-f9e6-5c7a-81e1-77af029d00dd",
       "parseStatus": "success",
       "trackCount": 2,
-      "lastParsed": "2026-03-18T23:42:56.109Z",
+      "lastParsed": "2026-07-11T21:08:17.770Z",
       "parsedData": {
         "album": {
           "title": "Gunfiyas",
@@ -1777,7 +1777,7 @@
       "podcastGuid": "54e811c7-ebfa-5abc-91ee-02841add5677",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:56.553Z",
+      "lastParsed": "2026-07-11T21:08:18.044Z",
       "parsedData": {
         "album": {
           "title": "Ani Ohevet",
@@ -1867,7 +1867,7 @@
       "podcastGuid": "f2b67f93-802d-5062-bebd-6979839d56bd",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:56.885Z",
+      "lastParsed": "2026-07-11T21:08:18.244Z",
       "parsedData": {
         "album": {
           "title": "See the World in another Light",
@@ -1887,7 +1887,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -1913,7 +1913,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -1957,7 +1957,7 @@
       "podcastGuid": "f5dc42c5-31af-5ba3-843b-7d011fccaf5e",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:57.230Z",
+      "lastParsed": "2026-07-11T21:08:18.462Z",
       "parsedData": {
         "album": {
           "title": "Memories from Room 255 (In Memory of T.A.)",
@@ -2047,7 +2047,7 @@
       "podcastGuid": "357739a2-2ab0-5f74-a4ac-be8d80199dc9",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:57.562Z",
+      "lastParsed": "2026-07-11T21:08:18.679Z",
       "parsedData": {
         "album": {
           "title": "Reasons You Know",
@@ -2137,7 +2137,7 @@
       "podcastGuid": "513ba1ca-b4ad-570a-a077-7eb0ea355ce4",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:57.909Z",
+      "lastParsed": "2026-07-11T21:08:19.013Z",
       "parsedData": {
         "album": {
           "title": "Tender Wolf (featured by InHale and The Flute Prayer)",
@@ -2157,7 +2157,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -2183,7 +2183,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -2227,7 +2227,7 @@
       "podcastGuid": "03d772cf-2573-5fc3-968b-254a259e4476",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:58.259Z",
+      "lastParsed": "2026-07-11T21:08:19.273Z",
       "parsedData": {
         "album": {
           "title": "In From the Range",
@@ -2317,7 +2317,7 @@
       "podcastGuid": "b9136e82-9d4b-59de-be06-3340bd418be7",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:58.619Z",
+      "lastParsed": "2026-07-11T21:08:19.493Z",
       "parsedData": {
         "album": {
           "title": "King Size on the Floor",
@@ -2407,7 +2407,7 @@
       "podcastGuid": "6ef0ca21-307a-511b-b0a1-c7c0d3932773",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:59.007Z",
+      "lastParsed": "2026-07-11T21:08:19.704Z",
       "parsedData": {
         "album": {
           "title": "Bitcoin on the Brink",
@@ -2495,7 +2495,7 @@
       "podcastGuid": "6a0533de-992f-5466-813c-97e3a7489dc1",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:59.464Z",
+      "lastParsed": "2026-07-11T21:08:19.922Z",
       "parsedData": {
         "album": {
           "title": "Dem Boiz",
@@ -2583,7 +2583,7 @@
       "podcastGuid": "9d500597-5fb9-5265-94c0-929686afea6f",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:42:59.987Z",
+      "lastParsed": "2026-07-11T21:08:20.146Z",
       "parsedData": {
         "album": {
           "title": "Greatness",
@@ -2603,7 +2603,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -2629,7 +2629,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -2673,7 +2673,7 @@
       "podcastGuid": "5d218bd0-3b8f-597b-a58e-c7f38e801a0e",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:00.328Z",
+      "lastParsed": "2026-07-11T21:08:20.376Z",
       "parsedData": {
         "album": {
           "title": "OM Ganesha",
@@ -2693,7 +2693,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 88,
                     "fee": false
                   },
@@ -2725,7 +2725,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 88,
                 "fee": false
               },
@@ -2775,7 +2775,7 @@
       "podcastGuid": "893c21c1-79af-582a-b11c-7886abf3a235",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:00.683Z",
+      "lastParsed": "2026-07-11T21:08:20.577Z",
       "parsedData": {
         "album": {
           "title": "With Open Arms",
@@ -2795,7 +2795,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 88,
                     "fee": false
                   },
@@ -2827,7 +2827,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 88,
                 "fee": false
               },
@@ -2877,7 +2877,7 @@
       "podcastGuid": "c17b43a2-7a97-504b-883d-ac1b68335bec",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:01.032Z",
+      "lastParsed": "2026-07-11T21:08:20.791Z",
       "parsedData": {
         "album": {
           "title": "As You Were",
@@ -2969,7 +2969,7 @@
       "podcastGuid": "626c72df-c2de-5b4e-9594-76a68e8cbedd",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:01.369Z",
+      "lastParsed": "2026-07-11T21:08:21.001Z",
       "parsedData": {
         "album": {
           "title": "OM Vighnanashaya Namah",
@@ -2989,7 +2989,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 88,
                     "fee": false
                   },
@@ -3021,7 +3021,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 88,
                 "fee": false
               },
@@ -3071,7 +3071,7 @@
       "podcastGuid": "22a9725e-48d5-5fe3-a335-9b2c2508586e",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:01.733Z",
+      "lastParsed": "2026-07-11T21:08:21.204Z",
       "parsedData": {
         "album": {
           "title": "When They Come Home",
@@ -3161,16 +3161,16 @@
       "podcastGuid": "38c26e83-a642-58a6-96d0-0e9dd95cf091",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:02.122Z",
+      "lastParsed": "2026-07-11T21:08:21.417Z",
       "parsedData": {
         "album": {
-          "title": "Consciouseness",
+          "title": "Consciousness",
           "artist": "Haleen",
-          "description": "Raise your consciousness, enjoy this soothing song, \nThe love that we use is not about 2 people loving eachother but refers to the Love in LIfe and and the oneness of all beings in the universe.\nSending much Love to you all, \nHaleen\nLyrics\nRaise your consciousness \nAbove the mass \nHear hearts calling for freedom \nMother Earth \nSister Moon \nHealing Sun \nSpreading knowledge for you\nI'm building new \nOh I'm loving you \nLight is what we are \nWe are shinning bright \nI do love you \ndo love you\nTake my hand and feel \nThe energy that's coming from \nThe etheric sea \nMother Earth \nSister Moon \nHealing Sun \nSpreading love for you",
+          "description": "Raise your consciousness, enjoy this soothing song,\nThe love that we use is not about 2 people loving eachother but refers to the Love in LIfe and and the oneness of all beings in the universe.\nSending much Love to you all,\nHaleen\nLyrics\nRaise your consciousness\nAbove the mass\nHear hearts calling for freedom\nMother Earth\nSister Moon\nHealing Sun\nSpreading knowledge for you\nI'm building new\nOh I'm loving you\nLight is what we are\nWe are shinning bright\nI do love you\ndo love you\nTake my hand and feel\nThe energy that's coming from\nThe etheric sea\nMother Earth\nSister Moon\nHealing Sun\nSpreading love for you",
           "coverArt": "https://feeds.fountain.fm/lL6MEcwn09g5qbjWTvH6/files/COVER_ART---DEFAULT---16044284-a373-4f8e-bdfa-d7149ad47d03.jpg",
           "tracks": [
             {
-              "title": "Consciouseness",
+              "title": "Consciousness",
               "duration": "4:52",
               "url": "https://feeds.fountain.fm/lL6MEcwn09g5qbjWTvH6/items/fQ6qEaJXTCFbMIzi2eUa/files/AUDIO---DEFAULT---220a1699-c625-4eee-8c0d-8ee1e6a5ad00.wav",
               "trackNumber": 1,
@@ -3181,7 +3181,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -3207,7 +3207,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -3251,7 +3251,7 @@
       "podcastGuid": "618ede0e-f359-5794-a6ee-895846f25ee5",
       "parseStatus": "success",
       "trackCount": 4,
-      "lastParsed": "2026-03-18T23:43:02.516Z",
+      "lastParsed": "2026-07-11T21:08:21.625Z",
       "parsedData": {
         "album": {
           "title": "Live at the Reader 2015",
@@ -3428,7 +3428,7 @@
       "podcastGuid": "93b87051-e176-586a-b45f-dc56c22d304d",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:02.880Z",
+      "lastParsed": "2026-07-11T21:08:21.848Z",
       "parsedData": {
         "album": {
           "title": "A Phoenix Rising",
@@ -3448,7 +3448,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Hans",
                     "fee": false
@@ -3474,7 +3474,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Hans",
                 "fee": false
@@ -3518,7 +3518,7 @@
       "podcastGuid": "56558e2b-cc2f-5c16-b104-6e3eee500402",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:03.264Z",
+      "lastParsed": "2026-07-11T21:08:22.041Z",
       "parsedData": {
         "album": {
           "title": "Om Biktaya Namah",
@@ -3538,7 +3538,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 88,
                     "name": "Hans",
                     "fee": false
@@ -3571,7 +3571,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 88,
                 "name": "Hans",
                 "fee": false
@@ -3622,7 +3622,7 @@
       "podcastGuid": "09b1bf8b-998f-58f3-ac8f-6f9e283dca1b",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:03.623Z",
+      "lastParsed": "2026-07-11T21:08:22.246Z",
       "parsedData": {
         "album": {
           "title": "Whispers",
@@ -3642,7 +3642,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -3668,7 +3668,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -3712,7 +3712,7 @@
       "podcastGuid": "f298dbe0-7e1a-5e44-93be-07e910477bc0",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:03.969Z",
+      "lastParsed": "2026-07-11T21:08:22.449Z",
       "parsedData": {
         "album": {
           "title": "God, With You",
@@ -3802,7 +3802,7 @@
       "podcastGuid": "46620f3b-07b7-5344-af81-dc4012dd494c",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:04.316Z",
+      "lastParsed": "2026-07-11T21:08:22.647Z",
       "parsedData": {
         "album": {
           "title": "good old days",
@@ -3890,7 +3890,7 @@
       "podcastGuid": "1f2c585b-86e8-5231-a747-58dfc4f34970",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:04.702Z",
+      "lastParsed": "2026-07-11T21:08:22.849Z",
       "parsedData": {
         "album": {
           "title": "ZIPPA",
@@ -3978,7 +3978,7 @@
       "podcastGuid": "4b7dcd08-9b4e-5026-a58a-22a9438edba5",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:05.092Z",
+      "lastParsed": "2026-07-11T21:08:23.047Z",
       "parsedData": {
         "album": {
           "title": "seeing stars",
@@ -4066,7 +4066,7 @@
       "podcastGuid": "1ac5a6c7-bb0a-5ee6-b760-d47dfc605b95",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:05.438Z",
+      "lastParsed": "2026-07-11T21:08:23.259Z",
       "parsedData": {
         "album": {
           "title": "disco girl",
@@ -4154,7 +4154,7 @@
       "podcastGuid": "86ac9afa-8187-57aa-a02c-7f1e12d35bfd",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:05.794Z",
+      "lastParsed": "2026-07-11T21:08:23.457Z",
       "parsedData": {
         "album": {
           "title": "if the world stops",
@@ -4242,7 +4242,7 @@
       "podcastGuid": "2d9fcf5d-6bab-57e0-b63e-a0ee19d11e9a",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:06.249Z",
+      "lastParsed": "2026-07-11T21:08:23.657Z",
       "parsedData": {
         "album": {
           "title": "Love Yourself 528Hz meditation - Haleen",
@@ -4262,7 +4262,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -4288,7 +4288,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -4332,7 +4332,7 @@
       "podcastGuid": "e5c27a40-0763-52c2-923c-847ca8bfb630",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:06.590Z",
+      "lastParsed": "2026-07-11T21:08:23.864Z",
       "parsedData": {
         "album": {
           "title": "I Miss Home",
@@ -4422,7 +4422,7 @@
       "podcastGuid": "46a82cad-b9ef-534a-9c72-e6dc4ba8994f",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:07.039Z",
+      "lastParsed": "2026-07-11T21:08:24.064Z",
       "parsedData": {
         "album": {
           "title": "Om Namah Shivaya",
@@ -4442,7 +4442,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -4468,7 +4468,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -4512,7 +4512,7 @@
       "podcastGuid": "f9d2fbaf-b665-5079-9fa4-ba48bb880004",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:07.432Z",
+      "lastParsed": "2026-07-11T21:08:24.278Z",
       "parsedData": {
         "album": {
           "title": "Confession Booth Blues",
@@ -4588,7 +4588,7 @@
       "podcastGuid": "298b971c-8f38-598a-bc3c-2c265bc0065c",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:07.888Z",
+      "lastParsed": "2026-07-11T21:08:24.561Z",
       "parsedData": {
         "album": {
           "title": "Big Tings a Gwarn",
@@ -4678,7 +4678,7 @@
       "podcastGuid": "59089109-473d-5572-9b89-56daa9919c97",
       "parseStatus": "success",
       "trackCount": 2,
-      "lastParsed": "2026-03-18T23:43:08.229Z",
+      "lastParsed": "2026-07-11T21:08:24.755Z",
       "parsedData": {
         "album": {
           "title": "TYL001",
@@ -4797,7 +4797,7 @@
       "podcastGuid": "5f1924eb-25b2-5bc5-a403-e572e1ccfaf6",
       "parseStatus": "success",
       "trackCount": 4,
-      "lastParsed": "2026-03-18T23:43:08.559Z",
+      "lastParsed": "2026-07-11T21:08:25.006Z",
       "parsedData": {
         "album": {
           "title": "HYPHEN IS IN THE HOUSE",
@@ -4974,7 +4974,7 @@
       "podcastGuid": "9880d7f4-5ab8-5a92-806b-59fd27fbd39b",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:08.976Z",
+      "lastParsed": "2026-07-11T21:08:25.367Z",
       "parsedData": {
         "album": {
           "title": "A Lesson in August",
@@ -5078,7 +5078,7 @@
       "podcastGuid": "7b6bc244-743a-5639-81c4-7ebafea342d8",
       "parseStatus": "success",
       "trackCount": 10,
-      "lastParsed": "2026-03-18T23:43:09.364Z",
+      "lastParsed": "2026-07-11T21:08:25.558Z",
       "parsedData": {
         "album": {
           "title": "Flood Gates",
@@ -5418,7 +5418,7 @@
       "podcastGuid": "c254e8e7-bd45-5f7a-921a-bc1f61d7b654",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:09.722Z",
+      "lastParsed": "2026-07-11T21:08:25.754Z",
       "parsedData": {
         "album": {
           "title": "Running Like Poison",
@@ -5506,7 +5506,7 @@
       "podcastGuid": "034e795e-a8e9-5455-a9be-7d96afe75ec3",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:10.125Z",
+      "lastParsed": "2026-07-11T21:08:25.964Z",
       "parsedData": {
         "album": {
           "title": "Move To Da Riddim",
@@ -5596,7 +5596,7 @@
       "podcastGuid": "2ce81388-8ddf-57fd-8696-298b825cdb78",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:10.512Z",
+      "lastParsed": "2026-07-11T21:08:26.166Z",
       "parsedData": {
         "album": {
           "title": "Bridge Back Over Again",
@@ -5700,7 +5700,7 @@
       "podcastGuid": "bae24096-5d60-58cd-8b6b-ea413ce09194",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:10.851Z",
+      "lastParsed": "2026-07-11T21:08:26.368Z",
       "parsedData": {
         "album": {
           "title": "Collateral Damage",
@@ -5790,7 +5790,7 @@
       "podcastGuid": "3da22368-2f0e-57c9-8fcd-93be53a8da34",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:11.258Z",
+      "lastParsed": "2026-07-11T21:08:26.574Z",
       "parsedData": {
         "album": {
           "title": "TOLD YA",
@@ -5878,7 +5878,7 @@
       "podcastGuid": "1bd21971-7181-5cdb-9474-dd913ca9c0e5",
       "parseStatus": "success",
       "trackCount": 13,
-      "lastParsed": "2026-03-18T23:43:11.674Z",
+      "lastParsed": "2026-07-11T21:08:26.791Z",
       "parsedData": {
         "album": {
           "title": "404: Album Not Found",
@@ -6302,7 +6302,7 @@
       "podcastGuid": "e7e2d12e-4074-516f-9f37-3a9c103316fb",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:12.054Z",
+      "lastParsed": "2026-07-11T21:08:26.990Z",
       "parsedData": {
         "album": {
           "title": "Until its Beautiful",
@@ -6392,7 +6392,7 @@
       "podcastGuid": "f79efc89-1629-52c4-af91-1d2440a57782",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:12.408Z",
+      "lastParsed": "2026-07-11T21:08:27.187Z",
       "parsedData": {
         "album": {
           "title": "Take Me",
@@ -6480,7 +6480,7 @@
       "podcastGuid": "5888ede6-1656-43cb-9c4a-50c05abcc2a0",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:12.806Z",
+      "lastParsed": "2026-07-11T21:08:27.426Z",
       "parsedData": {
         "album": {
           "title": "Catacomb",
@@ -6570,7 +6570,7 @@
       "podcastGuid": "6d7931a8-bf38-530e-b45a-ca53f5626b47",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:13.179Z",
+      "lastParsed": "2026-07-11T21:08:27.640Z",
       "parsedData": {
         "album": {
           "title": "twenties high",
@@ -6658,7 +6658,7 @@
       "podcastGuid": "d3849a74-91f6-5044-8698-0398fd1042a1",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:13.515Z",
+      "lastParsed": "2026-07-11T21:08:27.838Z",
       "parsedData": {
         "album": {
           "title": "The God You Are",
@@ -6678,7 +6678,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -6704,7 +6704,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -6748,7 +6748,7 @@
       "podcastGuid": "9fe82f01-5a66-5239-a6c3-59259839566f",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:13.868Z",
+      "lastParsed": "2026-07-11T21:08:28.029Z",
       "parsedData": {
         "album": {
           "title": "myself",
@@ -6836,7 +6836,7 @@
       "podcastGuid": "7a847b60-5c5c-5257-8dd2-b062b8df9040",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:14.200Z",
+      "lastParsed": "2026-07-11T21:08:28.241Z",
       "parsedData": {
         "album": {
           "title": "In Love and alliance ( Dance free - rewind )",
@@ -6856,7 +6856,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 88,
                     "name": "Hans",
                     "fee": false
@@ -6889,7 +6889,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 88,
                 "name": "Hans",
                 "fee": false
@@ -6940,7 +6940,7 @@
       "podcastGuid": "d76e9783-0b8e-51db-8922-97c917d9f4fc",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:14.576Z",
+      "lastParsed": "2026-07-11T21:08:28.442Z",
       "parsedData": {
         "album": {
           "title": "Sing Om",
@@ -6960,7 +6960,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -6986,7 +6986,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -7030,7 +7030,7 @@
       "podcastGuid": "fb0aee9c-5c8f-5f7a-ac4d-83af4e4f72c7",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:14.944Z",
+      "lastParsed": "2026-07-11T21:08:28.636Z",
       "parsedData": {
         "album": {
           "title": "wake up next to you",
@@ -7118,7 +7118,7 @@
       "podcastGuid": "71229772-0692-5139-b7f5-a0961b9a074b",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:15.322Z",
+      "lastParsed": "2026-07-11T21:08:28.846Z",
       "parsedData": {
         "album": {
           "title": "Healing",
@@ -7138,7 +7138,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -7164,7 +7164,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -7208,7 +7208,7 @@
       "podcastGuid": "64e5badd-e2e0-5e3b-a8a9-1075cf1b04f9",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:15.680Z",
+      "lastParsed": "2026-07-11T21:08:29.053Z",
       "parsedData": {
         "album": {
           "title": "The Silence",
@@ -7228,7 +7228,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -7254,7 +7254,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -7298,7 +7298,7 @@
       "podcastGuid": "6ff779fa-f4ea-5a48-b45f-658346e64ae1",
       "parseStatus": "success",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:16.049Z",
+      "lastParsed": "2026-07-11T21:08:29.261Z",
       "parsedData": {
         "album": {
           "title": "Build on Stone",
@@ -7318,7 +7318,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Hans",
                     "fee": false
@@ -7344,7 +7344,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Hans",
                 "fee": false
@@ -7389,7 +7389,7 @@
         "publisherGuid": "f5f9661d-080a-510f-b639-b0d2bcf0a6f3",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:16.428Z",
+      "lastParsed": "2026-07-11T21:08:29.472Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Amelia Leigh",
@@ -7428,7 +7428,7 @@
         "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
         "albumCount": 13
       },
-      "lastParsed": "2026-03-18T23:43:16.794Z",
+      "lastParsed": "2026-07-11T21:08:29.766Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Jim Costello",
@@ -7539,7 +7539,7 @@
         "publisherGuid": "64569161-a8f7-52e5-8aae-9e0385043149",
         "albumCount": 19
       },
-      "lastParsed": "2026-03-18T23:43:17.183Z",
+      "lastParsed": "2026-07-11T21:08:30.067Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Haleen",
@@ -7549,256 +7549,34 @@
         },
         "publisherItems": [
           {
-            "feedGuid": "2d9fcf5d-6bab-57e0-b63e-a0ee19d11e9a",
-            "feedUrl": "https://feeds.fountain.fm/0jTqX1XMHw3P6dNstBRg",
+            "feedGuid": "d64460ea-05e3-5c10-91a2-48dc9607cd7f",
+            "feedUrl": "https://feeds.fountain.fm/c7Rtp0gbCmrpSoMszblG",
             "medium": "music",
-            "title": "Love Yourself 528Hz meditation - Haleen"
+            "title": "Damn Your Idols"
           },
           {
-            "feedGuid": "3aaad751-3936-52ed-b779-2008e8d35107",
-            "feedUrl": "https://feeds.fountain.fm/12dleqxJWYa49mEpNTbq",
+            "feedGuid": "f9c9ede6-eb56-53a9-b2b8-c0ce899f40dc",
+            "feedUrl": "https://feeds.fountain.fm/j3W7UW93PdWfAmFTwVwh",
             "medium": "music",
-            "title": "Ethereal Realm ( 528hz )"
+            "title": "OM Namo Narayanaya"
           },
           {
-            "feedGuid": "46a82cad-b9ef-534a-9c72-e6dc4ba8994f",
-            "feedUrl": "https://feeds.fountain.fm/1qybQ9cyDoa0X6ylGH3n",
+            "feedGuid": "d32febd6-733e-5ef4-a3c5-63116bd0ed89",
+            "feedUrl": "https://feeds.fountain.fm/2VOCTj3sCmp4jJ6X7vpI",
             "medium": "music",
-            "title": "Om Namah Shivaya"
+            "title": "I Can Still Smile"
           },
           {
-            "feedGuid": "d3849a74-91f6-5044-8698-0398fd1042a1",
-            "feedUrl": "https://feeds.fountain.fm/2LAkQVbuWCIhgBKulNNk",
+            "feedGuid": "5cd9cbc0-0538-58fc-80db-d43ea86ce19b",
+            "feedUrl": "https://feeds.fountain.fm/wy2XLIYTsT11h05opooz",
             "medium": "music",
-            "title": "The God You Are"
+            "title": "Adi Mantra"
           },
           {
-            "feedGuid": "513ba1ca-b4ad-570a-a077-7eb0ea355ce4",
-            "feedUrl": "https://feeds.fountain.fm/2WvuguFOOm1gEL4yHedr",
+            "feedGuid": "c85fb751-c786-5473-bc23-3e2edb4c5757",
+            "feedUrl": "https://feeds.fountain.fm/nYS1PuwpdD1LfzgbBJpK",
             "medium": "music",
-            "title": "Tender Wolf (featured by InHale and The Flute Prayer)"
-          },
-          {
-            "feedGuid": "de4f2850-6a53-5c39-9ece-e710667cf7c8",
-            "feedUrl": "https://feeds.fountain.fm/2cfekOrptasKMAchTzoZ",
-            "medium": "music",
-            "title": "Free Your Mind"
-          },
-          {
-            "feedGuid": "56558e2b-cc2f-5c16-b104-6e3eee500402",
-            "feedUrl": "https://feeds.fountain.fm/3K44iUwcYOQhFdHvTjZn",
-            "medium": "music",
-            "title": "Om Biktaya Namah"
-          },
-          {
-            "feedGuid": "4d2c1113-8f6f-5fd7-9e04-a91a7c51b6e6",
-            "feedUrl": "https://feeds.fountain.fm/7c8E9WRq0nuwG8MgOntw",
-            "medium": "music",
-            "title": "Stories of the Mind"
-          },
-          {
-            "feedGuid": "6ff779fa-f4ea-5a48-b45f-658346e64ae1",
-            "feedUrl": "https://feeds.fountain.fm/AgOHjxN1MI6uXK1lZMPm",
-            "medium": "music",
-            "title": "Build on Stone"
-          },
-          {
-            "feedGuid": "d76e9783-0b8e-51db-8922-97c917d9f4fc",
-            "feedUrl": "https://feeds.fountain.fm/CHknZYUzFqv6Q0AE5uoy",
-            "medium": "music",
-            "title": "Sing Om"
-          },
-          {
-            "feedGuid": "5d218bd0-3b8f-597b-a58e-c7f38e801a0e",
-            "feedUrl": "https://feeds.fountain.fm/CRBbOcxJL7c1WxT1C7UA",
-            "medium": "music",
-            "title": "OM Ganesha"
-          },
-          {
-            "feedGuid": "676d5eb9-38a7-5ab5-8a54-6b15abb9f934",
-            "feedUrl": "https://feeds.fountain.fm/CWAvsHKgyhGeCl5owxS8",
-            "medium": "music",
-            "title": "In The Now"
-          },
-          {
-            "feedGuid": "9d500597-5fb9-5265-94c0-929686afea6f",
-            "feedUrl": "https://feeds.fountain.fm/Fjg1w0TDSvh62jPwxGCJ",
-            "medium": "music",
-            "title": "Greatness"
-          },
-          {
-            "feedGuid": "93b87051-e176-586a-b45f-dc56c22d304d",
-            "feedUrl": "https://feeds.fountain.fm/GmNPfL20WkoyXsDa5Uuc",
-            "medium": "music",
-            "title": "A Phoenix Rising"
-          },
-          {
-            "feedGuid": "143cd944-bbc5-52e9-9116-fb9c0157b485",
-            "feedUrl": "https://feeds.fountain.fm/K4CPlG1NvwGSpvEVjNUM",
-            "medium": "music",
-            "title": "The Inner Child"
-          },
-          {
-            "feedGuid": "34e288dc-2799-5c82-b141-c85e18f1323b",
-            "feedUrl": "https://feeds.fountain.fm/LFeB31V2bGZUjOE3QOvm",
-            "medium": "music",
-            "title": "Spinning In Circles"
-          },
-          {
-            "feedGuid": "71229772-0692-5139-b7f5-a0961b9a074b",
-            "feedUrl": "https://feeds.fountain.fm/LMMkitUpsEICX82elS1R",
-            "medium": "music",
-            "title": "Healing"
-          },
-          {
-            "feedGuid": "4a31e7f5-ec28-5688-b1ef-490761518007",
-            "feedUrl": "https://feeds.fountain.fm/NPyW9oY7MlCy23JRP4UN",
-            "medium": "music",
-            "title": "Overwhelmed By Beauty"
-          },
-          {
-            "feedGuid": "c00d65ba-e04e-573d-9514-ccdbdf7c6ce8",
-            "feedUrl": "https://feeds.fountain.fm/OrlwMI4CMKyrisRw97nk",
-            "medium": "music",
-            "title": "Ra ma da sa"
-          },
-          {
-            "feedGuid": "883c8d23-7ad4-54c5-ac11-898a838b6742",
-            "feedUrl": "https://feeds.fountain.fm/P2VuoihiUAMW648zvI5C",
-            "medium": "music",
-            "title": "Goodbye"
-          },
-          {
-            "feedGuid": "21b56205-c6ef-58ee-81d0-7da51890edf1",
-            "feedUrl": "https://feeds.fountain.fm/PNG6BAQYssnqtFOfpkOh",
-            "medium": "music",
-            "title": "Universe"
-          },
-          {
-            "feedGuid": "d8979a85-4c7f-5c9c-a91f-d43dc72ff77f",
-            "feedUrl": "https://feeds.fountain.fm/QqdFjwvXZUJhVxGrmBO6",
-            "medium": "music",
-            "title": "Who you decide to be"
-          },
-          {
-            "feedGuid": "623953f2-cd2c-5113-aab8-9e20925d673a",
-            "feedUrl": "https://feeds.fountain.fm/SFVn69NOEAfhT7otMniC",
-            "medium": "music",
-            "title": "New moon"
-          },
-          {
-            "feedGuid": "893c21c1-79af-582a-b11c-7886abf3a235",
-            "feedUrl": "https://feeds.fountain.fm/T9DRdlluhdwmf3VRtARJ",
-            "medium": "music",
-            "title": "With Open Arms"
-          },
-          {
-            "feedGuid": "ab59ae81-7e96-5c59-af83-9db97d91a4d5",
-            "feedUrl": "https://feeds.fountain.fm/TmOs2XDcLIRqTXm9XfrV",
-            "medium": "music",
-            "title": "Mother Earth"
-          },
-          {
-            "feedGuid": "7ab43f5f-947c-58d6-af06-dad0d6edd4b3",
-            "feedUrl": "https://feeds.fountain.fm/TnpkJyRb6q93gIYXBA9y",
-            "medium": "music",
-            "title": "Brothers and Sisters"
-          },
-          {
-            "feedGuid": "67ae17fe-338b-50dc-a96c-c7fa3413d86a",
-            "feedUrl": "https://feeds.fountain.fm/UjI0F3zwrjcblbFHYAlc",
-            "medium": "music",
-            "title": "A Greater Call"
-          },
-          {
-            "feedGuid": "f2b67f93-802d-5062-bebd-6979839d56bd",
-            "feedUrl": "https://feeds.fountain.fm/coilo1UtrEhh5fVMUpHm",
-            "medium": "music",
-            "title": "See the World in another Light"
-          },
-          {
-            "feedGuid": "0037e6a4-304f-5f8b-a589-d0f93850e267",
-            "feedUrl": "https://feeds.fountain.fm/iRF1LUYJvhuQeaPjEirQ",
-            "medium": "music",
-            "title": "Adi Shakti"
-          },
-          {
-            "feedGuid": "6521e31c-5955-59d7-bb79-3d8bb1a81300",
-            "feedUrl": "https://feeds.fountain.fm/iomyoloMln2XzJ9hSmEn",
-            "medium": "music",
-            "title": "Forgiveness"
-          },
-          {
-            "feedGuid": "c3d3ada8-c7a1-5ef1-9c33-f727f2322df9",
-            "feedUrl": "https://feeds.fountain.fm/j36JuKFhAdETOMC8o6d5",
-            "medium": "music",
-            "title": "Unify"
-          },
-          {
-            "feedGuid": "37ec5601-83f0-595b-ba57-4332a02c40a5",
-            "feedUrl": "https://feeds.fountain.fm/jOkeJZ4Z5pEYnBNPkBR7",
-            "medium": "music",
-            "title": "The Beauty Of Change"
-          },
-          {
-            "feedGuid": "38c26e83-a642-58a6-96d0-0e9dd95cf091",
-            "feedUrl": "https://feeds.fountain.fm/lL6MEcwn09g5qbjWTvH6",
-            "medium": "music",
-            "title": "Consciouseness"
-          },
-          {
-            "feedGuid": "49957d8a-0bc5-595b-8933-38605109bf77",
-            "feedUrl": "https://feeds.fountain.fm/nttUKs0v4LO0obCJVedA",
-            "medium": "music",
-            "title": "We Rise Again"
-          },
-          {
-            "feedGuid": "e2366da8-84e7-5f71-a63a-d724e637f021",
-            "feedUrl": "https://feeds.fountain.fm/oXnhstrNbulFv5d477JI",
-            "medium": "music",
-            "title": "Clarity"
-          },
-          {
-            "feedGuid": "7a847b60-5c5c-5257-8dd2-b062b8df9040",
-            "feedUrl": "https://feeds.fountain.fm/ovW4DibooYs19qzFBQvp",
-            "medium": "music",
-            "title": "In Love and alliance ( Dance free - rewind )"
-          },
-          {
-            "feedGuid": "025221eb-12ca-5f8a-8165-e325bd5c5941",
-            "feedUrl": "https://feeds.fountain.fm/qCJ4CGsGxcpwvQ2Ka1YS",
-            "medium": "music",
-            "title": "Aad Guray"
-          },
-          {
-            "feedGuid": "0c9c34d7-aff2-5730-b750-f6e943d99dea",
-            "feedUrl": "https://feeds.fountain.fm/rcYudrGYSZeq5z0FcSZM",
-            "medium": "music",
-            "title": "Celebrate"
-          },
-          {
-            "feedGuid": "9797bece-64d1-53bb-9eeb-7c3eab4628d1",
-            "feedUrl": "https://feeds.fountain.fm/tH0cyRAvMeWE8KS9aohT",
-            "medium": "music",
-            "title": "Keep Walking"
-          },
-          {
-            "feedGuid": "09b1bf8b-998f-58f3-ac8f-6f9e283dca1b",
-            "feedUrl": "https://feeds.fountain.fm/uGyN3vE3oVoshkInRwKJ",
-            "medium": "music",
-            "title": "Whispers"
-          },
-          {
-            "feedGuid": "626c72df-c2de-5b4e-9594-76a68e8cbedd",
-            "feedUrl": "https://feeds.fountain.fm/vu8OWxdvYHg75EcRi8nm",
-            "medium": "music",
-            "title": "OM Vighnanashaya Namah"
-          },
-          {
-            "feedGuid": "64e5badd-e2e0-5e3b-a8a9-1075cf1b04f9",
-            "feedUrl": "https://feeds.fountain.fm/wCfIBd1BiCQ20cNRw8FX",
-            "medium": "music",
-            "title": "The Silence"
+            "title": "Angels"
           },
           {
             "feedGuid": "6b82e21d-d997-5a0f-928a-35bab0d70d78",
@@ -7807,10 +7585,262 @@
             "title": "The Sacred Temple"
           },
           {
+            "feedGuid": "c3d3ada8-c7a1-5ef1-9c33-f727f2322df9",
+            "feedUrl": "https://feeds.fountain.fm/j36JuKFhAdETOMC8o6d5",
+            "medium": "music",
+            "title": "Unify"
+          },
+          {
+            "feedGuid": "4d2c1113-8f6f-5fd7-9e04-a91a7c51b6e6",
+            "feedUrl": "https://feeds.fountain.fm/7c8E9WRq0nuwG8MgOntw",
+            "medium": "music",
+            "title": "Stories of the Mind"
+          },
+          {
+            "feedGuid": "34e288dc-2799-5c82-b141-c85e18f1323b",
+            "feedUrl": "https://feeds.fountain.fm/LFeB31V2bGZUjOE3QOvm",
+            "medium": "music",
+            "title": "Spinning In Circles"
+          },
+          {
+            "feedGuid": "21b56205-c6ef-58ee-81d0-7da51890edf1",
+            "feedUrl": "https://feeds.fountain.fm/PNG6BAQYssnqtFOfpkOh",
+            "medium": "music",
+            "title": "Universe"
+          },
+          {
+            "feedGuid": "0037e6a4-304f-5f8b-a589-d0f93850e267",
+            "feedUrl": "https://feeds.fountain.fm/iRF1LUYJvhuQeaPjEirQ",
+            "medium": "music",
+            "title": "Adi Shakti"
+          },
+          {
+            "feedGuid": "0c9c34d7-aff2-5730-b750-f6e943d99dea",
+            "feedUrl": "https://feeds.fountain.fm/rcYudrGYSZeq5z0FcSZM",
+            "medium": "music",
+            "title": "Celebrate"
+          },
+          {
+            "feedGuid": "623953f2-cd2c-5113-aab8-9e20925d673a",
+            "feedUrl": "https://feeds.fountain.fm/SFVn69NOEAfhT7otMniC",
+            "medium": "music",
+            "title": "New moon"
+          },
+          {
+            "feedGuid": "676d5eb9-38a7-5ab5-8a54-6b15abb9f934",
+            "feedUrl": "https://feeds.fountain.fm/CWAvsHKgyhGeCl5owxS8",
+            "medium": "music",
+            "title": "In The Now"
+          },
+          {
+            "feedGuid": "7ab43f5f-947c-58d6-af06-dad0d6edd4b3",
+            "feedUrl": "https://feeds.fountain.fm/TnpkJyRb6q93gIYXBA9y",
+            "medium": "music",
+            "title": "Brothers and Sisters"
+          },
+          {
+            "feedGuid": "883c8d23-7ad4-54c5-ac11-898a838b6742",
+            "feedUrl": "https://feeds.fountain.fm/P2VuoihiUAMW648zvI5C",
+            "medium": "music",
+            "title": "Goodbye"
+          },
+          {
+            "feedGuid": "4a31e7f5-ec28-5688-b1ef-490761518007",
+            "feedUrl": "https://feeds.fountain.fm/NPyW9oY7MlCy23JRP4UN",
+            "medium": "music",
+            "title": "Overwhelmed By Beauty"
+          },
+          {
+            "feedGuid": "143cd944-bbc5-52e9-9116-fb9c0157b485",
+            "feedUrl": "https://feeds.fountain.fm/K4CPlG1NvwGSpvEVjNUM",
+            "medium": "music",
+            "title": "The Inner Child"
+          },
+          {
+            "feedGuid": "e2366da8-84e7-5f71-a63a-d724e637f021",
+            "feedUrl": "https://feeds.fountain.fm/oXnhstrNbulFv5d477JI",
+            "medium": "music",
+            "title": "Clarity"
+          },
+          {
+            "feedGuid": "ab59ae81-7e96-5c59-af83-9db97d91a4d5",
+            "feedUrl": "https://feeds.fountain.fm/TmOs2XDcLIRqTXm9XfrV",
+            "medium": "music",
+            "title": "Mother Earth"
+          },
+          {
+            "feedGuid": "6521e31c-5955-59d7-bb79-3d8bb1a81300",
+            "feedUrl": "https://feeds.fountain.fm/iomyoloMln2XzJ9hSmEn",
+            "medium": "music",
+            "title": "Forgiveness"
+          },
+          {
+            "feedGuid": "de4f2850-6a53-5c39-9ece-e710667cf7c8",
+            "feedUrl": "https://feeds.fountain.fm/2cfekOrptasKMAchTzoZ",
+            "medium": "music",
+            "title": "Free Your Mind"
+          },
+          {
+            "feedGuid": "025221eb-12ca-5f8a-8165-e325bd5c5941",
+            "feedUrl": "https://feeds.fountain.fm/qCJ4CGsGxcpwvQ2Ka1YS",
+            "medium": "music",
+            "title": "Aad Guray"
+          },
+          {
+            "feedGuid": "3aaad751-3936-52ed-b779-2008e8d35107",
+            "feedUrl": "https://feeds.fountain.fm/12dleqxJWYa49mEpNTbq",
+            "medium": "music",
+            "title": "Ethereal Realm ( 528hz )"
+          },
+          {
             "feedGuid": "3a87127b-7633-5cc3-832e-39deac7611c2",
             "feedUrl": "https://feeds.fountain.fm/xGlxfh0QHJtms8r2a1OU",
             "medium": "music",
             "title": "Pour the Water"
+          },
+          {
+            "feedGuid": "67ae17fe-338b-50dc-a96c-c7fa3413d86a",
+            "feedUrl": "https://feeds.fountain.fm/UjI0F3zwrjcblbFHYAlc",
+            "medium": "music",
+            "title": "A Greater Call"
+          },
+          {
+            "feedGuid": "37ec5601-83f0-595b-ba57-4332a02c40a5",
+            "feedUrl": "https://feeds.fountain.fm/jOkeJZ4Z5pEYnBNPkBR7",
+            "medium": "music",
+            "title": "The Beauty Of Change"
+          },
+          {
+            "feedGuid": "c00d65ba-e04e-573d-9514-ccdbdf7c6ce8",
+            "feedUrl": "https://feeds.fountain.fm/OrlwMI4CMKyrisRw97nk",
+            "medium": "music",
+            "title": "Ra ma da sa"
+          },
+          {
+            "feedGuid": "d8979a85-4c7f-5c9c-a91f-d43dc72ff77f",
+            "feedUrl": "https://feeds.fountain.fm/QqdFjwvXZUJhVxGrmBO6",
+            "medium": "music",
+            "title": "Who you decide to be"
+          },
+          {
+            "feedGuid": "49957d8a-0bc5-595b-8933-38605109bf77",
+            "feedUrl": "https://feeds.fountain.fm/nttUKs0v4LO0obCJVedA",
+            "medium": "music",
+            "title": "We Rise Again"
+          },
+          {
+            "feedGuid": "513ba1ca-b4ad-570a-a077-7eb0ea355ce4",
+            "feedUrl": "https://feeds.fountain.fm/2WvuguFOOm1gEL4yHedr",
+            "medium": "music",
+            "title": "Tender Wolf (featured by InHale and The Flute Prayer)"
+          },
+          {
+            "feedGuid": "f2b67f93-802d-5062-bebd-6979839d56bd",
+            "feedUrl": "https://feeds.fountain.fm/coilo1UtrEhh5fVMUpHm",
+            "medium": "music",
+            "title": "See the World in another Light"
+          },
+          {
+            "feedGuid": "46a82cad-b9ef-534a-9c72-e6dc4ba8994f",
+            "feedUrl": "https://feeds.fountain.fm/1qybQ9cyDoa0X6ylGH3n",
+            "medium": "music",
+            "title": "Om Namah Shivaya"
+          },
+          {
+            "feedGuid": "38c26e83-a642-58a6-96d0-0e9dd95cf091",
+            "feedUrl": "https://feeds.fountain.fm/lL6MEcwn09g5qbjWTvH6",
+            "medium": "music",
+            "title": "Consciousness"
+          },
+          {
+            "feedGuid": "d76e9783-0b8e-51db-8922-97c917d9f4fc",
+            "feedUrl": "https://feeds.fountain.fm/CHknZYUzFqv6Q0AE5uoy",
+            "medium": "music",
+            "title": "Sing Om"
+          },
+          {
+            "feedGuid": "64e5badd-e2e0-5e3b-a8a9-1075cf1b04f9",
+            "feedUrl": "https://feeds.fountain.fm/wCfIBd1BiCQ20cNRw8FX",
+            "medium": "music",
+            "title": "The Silence"
+          },
+          {
+            "feedGuid": "2d9fcf5d-6bab-57e0-b63e-a0ee19d11e9a",
+            "feedUrl": "https://feeds.fountain.fm/0jTqX1XMHw3P6dNstBRg",
+            "medium": "music",
+            "title": "Love Yourself 528Hz meditation - Haleen"
+          },
+          {
+            "feedGuid": "9797bece-64d1-53bb-9eeb-7c3eab4628d1",
+            "feedUrl": "https://feeds.fountain.fm/tH0cyRAvMeWE8KS9aohT",
+            "medium": "music",
+            "title": "Keep Walking"
+          },
+          {
+            "feedGuid": "9d500597-5fb9-5265-94c0-929686afea6f",
+            "feedUrl": "https://feeds.fountain.fm/Fjg1w0TDSvh62jPwxGCJ",
+            "medium": "music",
+            "title": "Greatness"
+          },
+          {
+            "feedGuid": "d3849a74-91f6-5044-8698-0398fd1042a1",
+            "feedUrl": "https://feeds.fountain.fm/2LAkQVbuWCIhgBKulNNk",
+            "medium": "music",
+            "title": "The God You Are"
+          },
+          {
+            "feedGuid": "71229772-0692-5139-b7f5-a0961b9a074b",
+            "feedUrl": "https://feeds.fountain.fm/LMMkitUpsEICX82elS1R",
+            "medium": "music",
+            "title": "Healing"
+          },
+          {
+            "feedGuid": "09b1bf8b-998f-58f3-ac8f-6f9e283dca1b",
+            "feedUrl": "https://feeds.fountain.fm/uGyN3vE3oVoshkInRwKJ",
+            "medium": "music",
+            "title": "Whispers"
+          },
+          {
+            "feedGuid": "6ff779fa-f4ea-5a48-b45f-658346e64ae1",
+            "feedUrl": "https://feeds.fountain.fm/AgOHjxN1MI6uXK1lZMPm",
+            "medium": "music",
+            "title": "Build on Stone"
+          },
+          {
+            "feedGuid": "93b87051-e176-586a-b45f-dc56c22d304d",
+            "feedUrl": "https://feeds.fountain.fm/GmNPfL20WkoyXsDa5Uuc",
+            "medium": "music",
+            "title": "A Phoenix Rising"
+          },
+          {
+            "feedGuid": "56558e2b-cc2f-5c16-b104-6e3eee500402",
+            "feedUrl": "https://feeds.fountain.fm/3K44iUwcYOQhFdHvTjZn",
+            "medium": "music",
+            "title": "Om Biktaya Namah"
+          },
+          {
+            "feedGuid": "7a847b60-5c5c-5257-8dd2-b062b8df9040",
+            "feedUrl": "https://feeds.fountain.fm/ovW4DibooYs19qzFBQvp",
+            "medium": "music",
+            "title": "In Love and alliance ( Dance free - rewind )"
+          },
+          {
+            "feedGuid": "893c21c1-79af-582a-b11c-7886abf3a235",
+            "feedUrl": "https://feeds.fountain.fm/T9DRdlluhdwmf3VRtARJ",
+            "medium": "music",
+            "title": "With Open Arms"
+          },
+          {
+            "feedGuid": "5d218bd0-3b8f-597b-a58e-c7f38e801a0e",
+            "feedUrl": "https://feeds.fountain.fm/CRBbOcxJL7c1WxT1C7UA",
+            "medium": "music",
+            "title": "OM Ganesha"
+          },
+          {
+            "feedGuid": "626c72df-c2de-5b4e-9594-76a68e8cbedd",
+            "feedUrl": "https://feeds.fountain.fm/vu8OWxdvYHg75EcRi8nm",
+            "medium": "music",
+            "title": "OM Vighnanashaya Namah"
           }
         ]
       }
@@ -7830,7 +7860,7 @@
         "publisherGuid": "97492cd9-13cb-5d4b-82e6-d68bd5cf15fa",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:17.536Z",
+      "lastParsed": "2026-07-11T21:08:30.383Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Artist X",
@@ -7863,7 +7893,7 @@
         "publisherGuid": "807e0873-3dca-564d-8ec2-a9ad371d2c34",
         "albumCount": 2
       },
-      "lastParsed": "2026-03-18T23:43:17.907Z",
+      "lastParsed": "2026-07-11T21:08:30.725Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Suzanne Santo",
@@ -7908,7 +7938,7 @@
         "publisherGuid": "7f918bb0-a80c-5a48-b5df-4d2686f2e843",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:18.261Z",
+      "lastParsed": "2026-07-11T21:08:31.039Z",
       "parsedData": {
         "publisherInfo": {
           "title": "FSHR",
@@ -7947,7 +7977,7 @@
         "publisherGuid": "8b6435be-ad4c-55eb-9470-5df152e7639f",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:18.644Z",
+      "lastParsed": "2026-07-11T21:08:31.329Z",
       "parsedData": {
         "publisherInfo": {
           "title": "PHJ",
@@ -7980,7 +8010,7 @@
         "publisherGuid": "6c5357da-0f8a-5450-b595-6ee8be334fb3",
         "albumCount": 3
       },
-      "lastParsed": "2026-03-18T23:43:19.008Z",
+      "lastParsed": "2026-07-11T21:08:31.630Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Lucas Maddy",
@@ -8031,7 +8061,7 @@
         "publisherGuid": "babc93f7-2eec-568a-8c01-4f60ffff9528",
         "albumCount": 2
       },
-      "lastParsed": "2026-03-18T23:43:19.373Z",
+      "lastParsed": "2026-07-11T21:08:31.941Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Sid Tyler",
@@ -8082,7 +8112,7 @@
         "publisherGuid": "33faf933-4125-5518-9f29-98e088301bca",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:19.717Z",
+      "lastParsed": "2026-07-11T21:08:32.248Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Theo",
@@ -8133,7 +8163,7 @@
         "publisherGuid": "c9d29a1f-08ac-518b-947b-d47f2fbeaac4",
         "albumCount": 2
       },
-      "lastParsed": "2026-03-18T23:43:20.053Z",
+      "lastParsed": "2026-07-11T21:08:32.559Z",
       "parsedData": {
         "publisherInfo": {
           "title": "The Crypto Donkey",
@@ -8190,7 +8220,7 @@
         "publisherGuid": "03ad419a-d854-56bf-9dcc-6b419eee7c3a",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:20.411Z",
+      "lastParsed": "2026-07-11T21:08:32.873Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Gabreal",
@@ -8223,7 +8253,7 @@
         "publisherGuid": "0709a0ae-e835-5129-86d6-7b2ad3c8adf1",
         "albumCount": 3
       },
-      "lastParsed": "2026-03-18T23:43:20.736Z",
+      "lastParsed": "2026-07-11T21:08:33.167Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Justin Lantrip",
@@ -8274,7 +8304,7 @@
         "publisherGuid": "55aab371-a1d8-5883-b463-c743947e66ee",
         "albumCount": 7
       },
-      "lastParsed": "2026-03-18T23:43:21.132Z",
+      "lastParsed": "2026-07-11T21:08:33.471Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Ben Kai",
@@ -8343,7 +8373,7 @@
         "publisherGuid": "39cbef54-7b4b-5049-b5c5-c43c98996c94",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:21.487Z",
+      "lastParsed": "2026-07-11T21:08:33.784Z",
       "parsedData": {
         "publisherInfo": {
           "title": "PJ Statham",
@@ -8394,7 +8424,7 @@
         "publisherGuid": "9a0e2f8c-80d5-581e-a826-1aec566b9a6d",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:21.912Z",
+      "lastParsed": "2026-07-11T21:08:34.058Z",
       "parsedData": {
         "publisherInfo": {
           "title": "The Karamazov Sons",
@@ -8427,7 +8457,7 @@
         "publisherGuid": "b6ea1713-05f0-5e53-88dd-966f13edb219",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:22.280Z",
+      "lastParsed": "2026-07-11T21:08:34.358Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Telforo",
@@ -8460,7 +8490,7 @@
         "publisherGuid": "42ab743d-b2ab-5161-a30d-82e1936b5cc7",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:22.614Z",
+      "lastParsed": "2026-07-11T21:08:34.646Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Hyphen",
@@ -8523,7 +8553,7 @@
         "publisherGuid": "5ee6b931-0591-58e9-83de-da8cfcdab6d3",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:22.963Z",
+      "lastParsed": "2026-07-11T21:08:34.945Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Milzy",
@@ -8574,7 +8604,7 @@
         "publisherGuid": "a300cf10-434c-5ae3-837a-ed0c899694af",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:23.314Z",
+      "lastParsed": "2026-07-11T21:08:35.246Z",
       "parsedData": {
         "publisherInfo": {
           "title": "ADDAX",
@@ -8637,7 +8667,7 @@
         "publisherGuid": "0819da5f-1386-5295-af6d-95d14044045d",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:23.658Z",
+      "lastParsed": "2026-07-11T21:08:35.556Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Juliana Hale",
@@ -8670,7 +8700,7 @@
         "publisherGuid": "5b8ba101-6af2-53b6-a376-414c290665f4",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:24.062Z",
+      "lastParsed": "2026-07-11T21:08:35.885Z",
       "parsedData": {
         "publisherInfo": {
           "title": "TABZ",
@@ -8721,7 +8751,7 @@
         "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
         "albumCount": 1
       },
-      "lastParsed": "2026-03-18T23:43:24.437Z",
+      "lastParsed": "2026-07-11T21:08:36.188Z",
       "parsedData": {
         "publisherInfo": {
           "title": "SKYHIGH",
@@ -8731,16 +8761,16 @@
         },
         "publisherItems": [
           {
-            "feedGuid": "1e6e5b57-e827-571f-8575-848921b647cb",
-            "feedUrl": "https://feeds.fountain.fm/K3lq2cJltR8yJQ7lycGY",
-            "medium": "music",
-            "title": "See This"
-          },
-          {
             "feedGuid": "f79efc89-1629-52c4-af91-1d2440a57782",
             "feedUrl": "https://feeds.fountain.fm/LcgtGqAY1i9hrxAEYvL3",
             "medium": "music",
             "title": "Take Me"
+          },
+          {
+            "feedGuid": "1e6e5b57-e827-571f-8575-848921b647cb",
+            "feedUrl": "https://feeds.fountain.fm/K3lq2cJltR8yJQ7lycGY",
+            "medium": "music",
+            "title": "See This"
           }
         ]
       }
@@ -8766,7 +8796,7 @@
       "author": "Local Zero",
       "podcastGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
       "trackCount": 10,
-      "lastParsed": "2026-03-18T23:43:24.822Z",
+      "lastParsed": "2026-07-11T21:08:36.486Z",
       "parsedData": {
         "album": {
           "title": "Big Day (album)",
@@ -9144,7 +9174,7 @@
       "author": "Artist X",
       "podcastGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:25.208Z",
+      "lastParsed": "2026-07-11T21:08:36.692Z",
       "parsedData": {
         "album": {
           "title": "My test music single",
@@ -9255,7 +9285,7 @@
       "author": "Suzanne Santo",
       "podcastGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:25.566Z",
+      "lastParsed": "2026-07-11T21:08:36.901Z",
       "parsedData": {
         "album": {
           "title": "Worried",
@@ -9351,7 +9381,7 @@
       },
       "author": "PJ Statham",
       "podcastGuid": "22468782-f3d9-5f1f-9e56-a2dc42bf22eb",
-      "lastParsed": "2026-03-18T23:43:25.914Z",
+      "lastParsed": "2026-07-11T21:08:37.113Z",
       "parsedData": {
         "album": {
           "title": "Money Money",
@@ -9417,7 +9447,7 @@
       },
       "author": "Hyphen",
       "podcastGuid": "6ad2a9af-a980-548c-808f-4870e1d5f4c9",
-      "lastParsed": "2026-03-18T23:43:26.274Z",
+      "lastParsed": "2026-07-11T21:08:37.320Z",
       "parsedData": {
         "album": {
           "title": "The Party House",
@@ -9477,7 +9507,7 @@
       },
       "author": "Hyphen",
       "podcastGuid": "8ebc9bd3-b093-56d2-8c13-ace2a11abb56",
-      "lastParsed": "2026-03-18T23:43:26.603Z",
+      "lastParsed": "2026-07-11T21:08:37.521Z",
       "parsedData": {
         "album": {
           "title": "Steezin' EP",
@@ -9543,7 +9573,7 @@
       },
       "author": "Hyphen",
       "podcastGuid": "10d388d4-8d49-5308-9586-f37c1be02892",
-      "lastParsed": "2026-03-18T23:43:27.036Z",
+      "lastParsed": "2026-07-11T21:08:37.727Z",
       "parsedData": {
         "album": {
           "title": "Badu Thick",
@@ -9602,7 +9632,7 @@
       },
       "author": "Hyphen",
       "podcastGuid": "91bca062-3855-5d68-a58f-187900068c95",
-      "lastParsed": "2026-03-18T23:43:27.390Z",
+      "lastParsed": "2026-07-11T21:08:37.928Z",
       "parsedData": {
         "album": {
           "title": "Lemon N Lime",
@@ -9661,7 +9691,7 @@
       },
       "author": "SKYHIGH",
       "podcastGuid": "1e6e5b57-e827-571f-8575-848921b647cb",
-      "lastParsed": "2026-03-18T23:43:27.715Z",
+      "lastParsed": "2026-07-11T21:08:38.139Z",
       "parsedData": {
         "album": {
           "title": "See This",
@@ -9727,7 +9757,7 @@
       "author": "Justin Lantrip",
       "podcastGuid": "808dc647-f945-5096-95d1-e0558a6d68aa",
       "trackCount": 11,
-      "lastParsed": "2026-03-18T23:43:28.109Z",
+      "lastParsed": "2026-07-11T21:08:38.347Z",
       "parsedData": {
         "album": {
           "title": "Paper Bird",
@@ -10113,7 +10143,7 @@
       "author": "Haleen",
       "podcastGuid": "7ab43f5f-947c-58d6-af06-dad0d6edd4b3",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:28.460Z",
+      "lastParsed": "2026-07-11T21:08:38.547Z",
       "parsedData": {
         "album": {
           "title": "Brothers and Sisters",
@@ -10133,7 +10163,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -10159,7 +10189,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -10209,7 +10239,7 @@
       "author": "Haleen",
       "podcastGuid": "883c8d23-7ad4-54c5-ac11-898a838b6742",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:28.867Z",
+      "lastParsed": "2026-07-11T21:08:38.762Z",
       "parsedData": {
         "album": {
           "title": "Goodbye",
@@ -10229,7 +10259,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -10255,7 +10285,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -10305,7 +10335,7 @@
       "author": "Kathryn",
       "podcastGuid": "5fec20ef-0902-5580-b520-6e86dda4dc6f",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:29.207Z",
+      "lastParsed": "2026-07-11T21:08:38.972Z",
       "parsedData": {
         "album": {
           "title": "canvas",
@@ -10415,7 +10445,7 @@
       "author": "Kathryn",
       "podcastGuid": "851597c7-9248-5053-a0f6-066598d1c7f1",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:29.635Z",
+      "lastParsed": "2026-07-11T21:08:39.189Z",
       "parsedData": {
         "album": {
           "title": "body",
@@ -10525,7 +10555,7 @@
       "author": "Kathryn",
       "podcastGuid": "fd7f7e8b-8b7d-5415-b7f5-ceb0ab58e1a9",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:29.967Z",
+      "lastParsed": "2026-07-11T21:08:39.389Z",
       "parsedData": {
         "album": {
           "title": "relevance",
@@ -10635,7 +10665,7 @@
       "author": "Kathryn",
       "podcastGuid": "b2c1f762-1f54-5a71-aeb0-b3a041a85f8d",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:30.362Z",
+      "lastParsed": "2026-07-11T21:08:39.593Z",
       "parsedData": {
         "album": {
           "title": "scoot",
@@ -10745,7 +10775,7 @@
       "author": "Kathryn",
       "podcastGuid": "60815bd3-adbd-5800-a127-3512ccae14a7",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:30.699Z",
+      "lastParsed": "2026-07-11T21:08:39.803Z",
       "parsedData": {
         "album": {
           "title": "socrates",
@@ -10855,7 +10885,7 @@
       "author": "Kathryn",
       "podcastGuid": "23faf0fe-6778-532f-80b9-2278a1fc5727",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:31.010Z",
+      "lastParsed": "2026-07-11T21:08:40.000Z",
       "parsedData": {
         "album": {
           "title": "what comes next?",
@@ -10958,7 +10988,7 @@
       "author": "CHARLEY T",
       "podcastGuid": "db4f967f-4c56-5602-9442-daf318deb3b3",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:31.351Z",
+      "lastParsed": "2026-07-11T21:08:40.201Z",
       "parsedData": {
         "album": {
           "title": "Runnin'",
@@ -11054,7 +11084,7 @@
       "author": "Haleen",
       "podcastGuid": "4a31e7f5-ec28-5688-b1ef-490761518007",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:31.765Z",
+      "lastParsed": "2026-07-11T21:08:40.400Z",
       "parsedData": {
         "album": {
           "title": "Overwhelmed By Beauty",
@@ -11074,7 +11104,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -11100,7 +11130,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -11150,7 +11180,7 @@
       "author": "Suzanne Santo",
       "podcastGuid": "0cdcbc24-6901-5422-aca9-5aa2c91c49e3",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:32.106Z",
+      "lastParsed": "2026-07-11T21:08:40.600Z",
       "parsedData": {
         "album": {
           "title": "KNEW ALL ALONG",
@@ -11246,7 +11276,7 @@
       "author": "Haleen",
       "podcastGuid": "143cd944-bbc5-52e9-9116-fb9c0157b485",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:32.458Z",
+      "lastParsed": "2026-07-11T21:08:40.801Z",
       "parsedData": {
         "album": {
           "title": "The Inner Child",
@@ -11266,7 +11296,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -11292,7 +11322,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -11342,7 +11372,7 @@
       "author": "Haleen",
       "podcastGuid": "e2366da8-84e7-5f71-a63a-d724e637f021",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:32.835Z",
+      "lastParsed": "2026-07-11T21:08:41.020Z",
       "parsedData": {
         "album": {
           "title": "Clarity",
@@ -11362,7 +11392,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -11388,7 +11418,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -11438,7 +11468,7 @@
       "author": "Barbara & The Dirty Shirleys",
       "podcastGuid": "1f578902-16b5-5b5b-bee2-91c6e73ecb2f",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:33.169Z",
+      "lastParsed": "2026-07-11T21:08:41.232Z",
       "parsedData": {
         "album": {
           "title": "A Rolling Stone",
@@ -11534,7 +11564,7 @@
       "author": "Kathryn",
       "podcastGuid": "27bc3c57-6b47-5029-873d-9876c7ba2f1e",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:33.515Z",
+      "lastParsed": "2026-07-11T21:08:41.433Z",
       "parsedData": {
         "album": {
           "title": "lemons",
@@ -11644,7 +11674,7 @@
       "author": "Haleen",
       "podcastGuid": "ab59ae81-7e96-5c59-af83-9db97d91a4d5",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:33.848Z",
+      "lastParsed": "2026-07-11T21:08:41.737Z",
       "parsedData": {
         "album": {
           "title": "Mother Earth",
@@ -11664,7 +11694,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -11690,7 +11720,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -11740,7 +11770,7 @@
       "author": "Lucas Maddy",
       "podcastGuid": "b750168f-c96a-5150-936c-7f3c46b31adb",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:34.204Z",
+      "lastParsed": "2026-07-11T21:08:41.936Z",
       "parsedData": {
         "album": {
           "title": "Freight Train",
@@ -11836,7 +11866,7 @@
       "author": "Haleen",
       "podcastGuid": "6521e31c-5955-59d7-bb79-3d8bb1a81300",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:34.550Z",
+      "lastParsed": "2026-07-11T21:08:42.153Z",
       "parsedData": {
         "album": {
           "title": "Forgiveness",
@@ -11856,7 +11886,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -11882,7 +11912,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -11932,7 +11962,7 @@
       "author": "The Crypto Donkey",
       "podcastGuid": "ac9acacb-2d11-5b01-803c-3a19364ff8f8",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:34.876Z",
+      "lastParsed": "2026-07-11T21:08:42.372Z",
       "parsedData": {
         "album": {
           "title": "Bitcoin Singh",
@@ -12028,7 +12058,7 @@
       "author": "FSHR",
       "podcastGuid": "9a5ba65f-de0f-5635-a49b-06e554bce1a3",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:35.220Z",
+      "lastParsed": "2026-07-11T21:08:42.570Z",
       "parsedData": {
         "album": {
           "title": "Lively",
@@ -12124,7 +12154,7 @@
       "author": "Haleen",
       "podcastGuid": "de4f2850-6a53-5c39-9ece-e710667cf7c8",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:35.560Z",
+      "lastParsed": "2026-07-11T21:08:42.775Z",
       "parsedData": {
         "album": {
           "title": "Free Your Mind",
@@ -12144,7 +12174,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -12170,7 +12200,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -12220,7 +12250,7 @@
       "author": "Haleen",
       "podcastGuid": "025221eb-12ca-5f8a-8165-e325bd5c5941",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:35.876Z",
+      "lastParsed": "2026-07-11T21:08:42.972Z",
       "parsedData": {
         "album": {
           "title": "Aad Guray",
@@ -12240,7 +12270,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -12266,7 +12296,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -12316,7 +12346,7 @@
       "author": "Perceptronik",
       "podcastGuid": "e450e18f-951e-5519-8c09-7175ffca9d64",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:36.243Z",
+      "lastParsed": "2026-07-11T21:08:43.178Z",
       "parsedData": {
         "album": {
           "title": "Guadalajara",
@@ -12410,7 +12440,7 @@
       "author": "Perceptronik",
       "podcastGuid": "198bbb45-3fce-543e-a02f-dcae344f676e",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:36.642Z",
+      "lastParsed": "2026-07-11T21:08:43.377Z",
       "parsedData": {
         "album": {
           "title": "Eve Can",
@@ -12504,7 +12534,7 @@
       "author": "Perceptronik",
       "podcastGuid": "cedf1a6c-8447-5fdf-88ea-32d2e6b91378",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:36.982Z",
+      "lastParsed": "2026-07-11T21:08:43.574Z",
       "parsedData": {
         "album": {
           "title": "Pimped to the Grave",
@@ -12598,7 +12628,7 @@
       "author": "Haleen",
       "podcastGuid": "3aaad751-3936-52ed-b779-2008e8d35107",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:37.322Z",
+      "lastParsed": "2026-07-11T21:08:43.780Z",
       "parsedData": {
         "album": {
           "title": "Ethereal Realm ( 528hz )",
@@ -12618,7 +12648,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -12644,7 +12674,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -12694,7 +12724,7 @@
       "author": "Haleen",
       "podcastGuid": "3a87127b-7633-5cc3-832e-39deac7611c2",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:37.668Z",
+      "lastParsed": "2026-07-11T21:08:43.990Z",
       "parsedData": {
         "album": {
           "title": "Pour the Water",
@@ -12714,7 +12744,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -12740,7 +12770,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -12790,7 +12820,7 @@
       "author": "Milzy",
       "podcastGuid": "096f33e8-c4d5-5a8e-a1b2-6d63d31ac039",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:38.004Z",
+      "lastParsed": "2026-07-11T21:08:44.205Z",
       "parsedData": {
         "album": {
           "title": "U Alright mate?",
@@ -12884,7 +12914,7 @@
       "author": "Haleen",
       "podcastGuid": "67ae17fe-338b-50dc-a96c-c7fa3413d86a",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:38.380Z",
+      "lastParsed": "2026-07-11T21:08:44.411Z",
       "parsedData": {
         "album": {
           "title": "A Greater Call",
@@ -12904,7 +12934,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -12930,7 +12960,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -12980,7 +13010,7 @@
       "author": "ADDAX",
       "podcastGuid": "3eef2716-8a08-5c03-ba78-5ecd2e36a0f4",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:38.732Z",
+      "lastParsed": "2026-07-11T21:08:44.623Z",
       "parsedData": {
         "album": {
           "title": "With U Next 2 Me (FREE SHAG 074)",
@@ -13076,7 +13106,7 @@
       "author": "ADDAX",
       "podcastGuid": "34b00d35-b5db-5591-80d9-46657264454d",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:39.072Z",
+      "lastParsed": "2026-07-11T21:08:44.834Z",
       "parsedData": {
         "album": {
           "title": "Addax - Steppa Flex",
@@ -13172,7 +13202,7 @@
       "author": "Haleen",
       "podcastGuid": "37ec5601-83f0-595b-ba57-4332a02c40a5",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:39.409Z",
+      "lastParsed": "2026-07-11T21:08:45.044Z",
       "parsedData": {
         "album": {
           "title": "The Beauty Of Change",
@@ -13192,7 +13222,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -13218,7 +13248,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -13268,7 +13298,7 @@
       "author": "James Costello",
       "podcastGuid": "ab55e3dd-5ef1-5173-8330-e75911ce714b",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:39.753Z",
+      "lastParsed": "2026-07-11T21:08:45.232Z",
       "parsedData": {
         "album": {
           "title": "Waiting for Snow",
@@ -13378,7 +13408,7 @@
       "author": "Haleen",
       "podcastGuid": "d8979a85-4c7f-5c9c-a91f-d43dc72ff77f",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:40.098Z",
+      "lastParsed": "2026-07-11T21:08:45.476Z",
       "parsedData": {
         "album": {
           "title": "Who you decide to be",
@@ -13398,7 +13428,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -13424,7 +13454,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -13474,7 +13504,7 @@
       "author": "Haleen",
       "podcastGuid": "49957d8a-0bc5-595b-8933-38605109bf77",
       "trackCount": 1,
-      "lastParsed": "2026-03-18T23:43:40.470Z",
+      "lastParsed": "2026-07-11T21:08:45.700Z",
       "parsedData": {
         "album": {
           "title": "We Rise Again",
@@ -13494,7 +13524,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -13520,7 +13550,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -13562,7 +13592,7 @@
       "author": "PN",
       "podcastGuid": "285c2588-1682-5392-b03d-0259e21e4166",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:40.794Z",
+      "lastParsed": "2026-07-11T21:08:45.917Z",
       "parsedData": {
         "album": {
           "title": "Piano",
@@ -13649,7 +13679,7 @@
       "author": "Richard Greaser",
       "podcastGuid": "8ea9f007-c7a1-56c6-a63b-01cc44568f23",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:41.151Z",
+      "lastParsed": "2026-07-11T21:08:46.183Z",
       "parsedData": {
         "album": {
           "title": "Maxi Madness",
@@ -13752,7 +13782,7 @@
       "author": "Steered",
       "podcastGuid": "ecd5d876-f1ce-53f0-b199-87f1e5fc0cb7",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:41.513Z",
+      "lastParsed": "2026-07-11T21:08:46.438Z",
       "parsedData": {
         "album": {
           "title": "Light Years (Remix)",
@@ -13841,7 +13871,7 @@
       "author": "Steered",
       "podcastGuid": "41169152-28b9-5267-b4c3-162481bb7ab3",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:41.876Z",
+      "lastParsed": "2026-07-11T21:08:46.660Z",
       "parsedData": {
         "album": {
           "title": "Tranced",
@@ -13930,7 +13960,7 @@
       "author": "Haleen",
       "podcastGuid": "6b82e21d-d997-5a0f-928a-35bab0d70d78",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:42.243Z",
+      "lastParsed": "2026-07-11T21:08:46.861Z",
       "parsedData": {
         "album": {
           "title": "The Sacred Temple",
@@ -13950,7 +13980,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -13976,7 +14006,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -14019,7 +14049,7 @@
       "author": "Steered",
       "podcastGuid": "086c7347-5065-56da-b0e3-e8e8fc2e8c66",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:42.568Z",
+      "lastParsed": "2026-07-11T21:08:47.082Z",
       "parsedData": {
         "album": {
           "title": "Pulling Me Over",
@@ -14108,7 +14138,7 @@
       "author": "The Crypto Donkey",
       "podcastGuid": "11c35c6c-0d43-5095-a09b-07a9170e7f56",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:42.895Z",
+      "lastParsed": "2026-07-11T21:08:47.288Z",
       "parsedData": {
         "album": {
           "title": "Freedom Singularity Surge",
@@ -14197,7 +14227,7 @@
       "author": "Steered",
       "podcastGuid": "c046b3f9-4486-5057-a177-ea53b5cdadae",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:43.245Z",
+      "lastParsed": "2026-07-11T21:08:47.493Z",
       "parsedData": {
         "album": {
           "title": "Spaced",
@@ -14286,12 +14316,12 @@
       "author": "Haleen",
       "podcastGuid": "c3d3ada8-c7a1-5ef1-9c33-f727f2322df9",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:43.594Z",
+      "lastParsed": "2026-07-11T21:08:47.704Z",
       "parsedData": {
         "album": {
           "title": "Unify",
           "artist": "Haleen",
-          "description": "Hello dear souls, this was a colaboration that we did a few years ago, it is not our usual genre, but the energy, the lyrics and the whole song is really magical….We Haleen did the lyrics and vocal melodies. Hans/Ashna did also the mixing and mastering of the song and ofcourse it is in 432Hz….This is a very uplifting rock song.,\nLyrics:\nBreathe and reshape, be not afraid\\\nUnderneath the pines, breathe and reshape\\\nOceans wide, a sign!\nLike the seasons blazing we paint the sky\\\nOur spirits unify\nUnderneath the pines, breathe and reshape\\\nOceans wide, a sign!\nLike the seasons blazing we paint the sky\\\nOur spirits unify, \na symphony of greens\\\nChase your wildest dreams\\\nWe paint the sky\\\nWe unify\nUnify\nLike the seasons blazing we paint the sky\\\nOur spirits unify a symphony of greens\\\nChase your wildest dreams\\\nWe paint the sky\\\nWe unify\nUnify\nWe Unify!",
+          "description": "Hello dear souls, this was a colaboration that we did a few years ago, it is not our usual genre, but the energy, the lyrics and the whole song is really magical….We Haleen did the lyrics and vocal melodies. Hans/Ashna did also the mixing and mastering of the song and ofcourse it is in 432Hz….This is a very uplifting rock song.,\nLyrics:\nBreathe and reshape, be not afraid   \nUnderneath the pines, breathe and reshape   \nOceans wide, a sign!\nLike the seasons blazing we paint the sky   \nOur spirits unify\nUnderneath the pines, breathe and reshape   \nOceans wide, a sign!\nLike the seasons blazing we paint the sky   \nOur spirits unify, \na symphony of greens   \nChase your wildest dreams   \nWe paint the sky   \nWe unify\nUnify\nLike the seasons blazing we paint the sky   \nOur spirits unify a symphony of greens   \nChase your wildest dreams   \nWe paint the sky   \nWe unify\nUnify\nWe Unify!",
           "coverArt": "https://feeds.fountain.fm/j36JuKFhAdETOMC8o6d5/files/COVER_ART---DEFAULT---55c5e3e5-9a5f-49ca-892d-c3e261c0ff83.jpg",
           "tracks": [
             {
@@ -14306,7 +14336,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -14332,7 +14362,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -14375,7 +14405,7 @@
       "author": "Haleen",
       "podcastGuid": "4d2c1113-8f6f-5fd7-9e04-a91a7c51b6e6",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:43.982Z",
+      "lastParsed": "2026-07-11T21:08:47.921Z",
       "parsedData": {
         "album": {
           "title": "Stories of the Mind",
@@ -14395,7 +14425,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -14421,7 +14451,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -14464,7 +14494,7 @@
       "author": "Chill Your Music",
       "podcastGuid": "03db99b7-401e-52f8-a265-d1409f4ffc44",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:44.305Z",
+      "lastParsed": "2026-07-11T21:08:48.131Z",
       "parsedData": {
         "album": {
           "title": "Light Horizon",
@@ -14551,7 +14581,7 @@
       "author": "Chill Your Music",
       "podcastGuid": "193fa19a-fd50-51c2-84bd-82c8b3fddf90",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:44.683Z",
+      "lastParsed": "2026-07-11T21:08:48.360Z",
       "parsedData": {
         "album": {
           "title": "Sunrise",
@@ -14638,7 +14668,7 @@
       "author": "ADDAX & Bones",
       "podcastGuid": "b0f0a1d4-da6e-50b3-82c6-f491733e0c7a",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:45.009Z",
+      "lastParsed": "2026-07-11T21:08:48.567Z",
       "parsedData": {
         "album": {
           "title": "Enter",
@@ -14727,7 +14757,7 @@
       "author": "Haleen",
       "podcastGuid": "34e288dc-2799-5c82-b141-c85e18f1323b",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:45.358Z",
+      "lastParsed": "2026-07-11T21:08:48.765Z",
       "parsedData": {
         "album": {
           "title": "Spinning In Circles",
@@ -14747,7 +14777,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -14773,7 +14803,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -14816,7 +14846,7 @@
       "author": "tigerstate",
       "podcastGuid": "c9fa5277-09f9-50a0-b7fa-a0af1011b01d",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:45.710Z",
+      "lastParsed": "2026-07-11T21:08:48.974Z",
       "parsedData": {
         "album": {
           "title": "bedtime stories",
@@ -15071,7 +15101,7 @@
       "author": "Prosperous Soul",
       "podcastGuid": "5d6cff48-30d2-5821-8ea3-b936ce9dcf51",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:46.079Z",
+      "lastParsed": "2026-07-11T21:08:49.169Z",
       "parsedData": {
         "album": {
           "title": "Runaway Train",
@@ -15174,7 +15204,7 @@
       "author": "Prosperous Soul",
       "podcastGuid": "5c1615a5-84c5-5032-a5f5-a5f559a32b8f",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:46.428Z",
+      "lastParsed": "2026-07-11T21:08:49.379Z",
       "parsedData": {
         "album": {
           "title": "Dark Matter",
@@ -15277,7 +15307,7 @@
       "author": "Prosperous Soul",
       "podcastGuid": "544c2e6f-c537-5b40-a74a-d3ef622e583d",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:46.801Z",
+      "lastParsed": "2026-07-11T21:08:49.601Z",
       "parsedData": {
         "album": {
           "title": "Golden Ray",
@@ -15380,7 +15410,7 @@
       "author": "Prosperous Soul",
       "podcastGuid": "dee5f723-31f4-544f-bbfa-fdfe6553e678",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:47.161Z",
+      "lastParsed": "2026-07-11T21:08:49.808Z",
       "parsedData": {
         "album": {
           "title": "Valley of Fire",
@@ -15483,7 +15513,7 @@
       "author": "Haleen",
       "podcastGuid": "21b56205-c6ef-58ee-81d0-7da51890edf1",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:47.496Z",
+      "lastParsed": "2026-07-11T21:08:50.006Z",
       "parsedData": {
         "album": {
           "title": "Universe",
@@ -15503,7 +15533,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -15529,7 +15559,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -15572,7 +15602,7 @@
       "author": "Nope",
       "podcastGuid": "8e482a81-1c49-51e1-b7bb-d0b7da3b4165",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:47.838Z",
+      "lastParsed": "2026-07-11T21:08:50.207Z",
       "parsedData": {
         "album": {
           "title": "The Truth of Life (The Bugle)",
@@ -15659,7 +15689,7 @@
       "author": "CHARLEY T",
       "podcastGuid": "9c153e55-c7fb-5412-96b5-69369e1da32a",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:48.238Z",
+      "lastParsed": "2026-07-11T21:08:50.519Z",
       "parsedData": {
         "album": {
           "title": "Waves",
@@ -15748,7 +15778,7 @@
       "author": "BitChamler",
       "podcastGuid": "6c8dfd70-ecdd-5fe5-a61b-faedd0fdc26b",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:48.593Z",
+      "lastParsed": "2026-07-11T21:08:50.731Z",
       "parsedData": {
         "album": {
           "title": "Bitcoin Standard - Sajfedin Amus  - Serbian audio book",
@@ -16031,7 +16061,7 @@
       "author": "Mycelium Electro",
       "podcastGuid": "1efde80c-e93f-5e41-ac75-7f9f20128baf",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:49.056Z",
+      "lastParsed": "2026-07-11T21:08:50.969Z",
       "parsedData": {
         "album": {
           "title": "Electro",
@@ -16398,7 +16428,7 @@
       "author": "Charles Oziouls",
       "podcastGuid": "e93dfb2e-3d0c-51e4-bcf9-07aae150a566",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:49.450Z",
+      "lastParsed": "2026-07-11T21:08:51.234Z",
       "parsedData": {
         "album": {
           "title": "Back In the Days",
@@ -16487,7 +16517,7 @@
       "author": "Forkashi",
       "podcastGuid": "0b39dfcf-73d4-56c3-a065-ac1478d6c1c8",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:49.811Z",
+      "lastParsed": "2026-07-11T21:08:51.450Z",
       "parsedData": {
         "album": {
           "title": "No Es Genética Escultural",
@@ -16574,7 +16604,7 @@
       "author": "Theo",
       "podcastGuid": "5747984f-fc40-58eb-bcda-2f5191b85d11",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:50.331Z",
+      "lastParsed": "2026-07-11T21:08:51.673Z",
       "parsedData": {
         "album": {
           "title": "Eucalyptus (feat. Sarah Victoria)",
@@ -16663,7 +16693,7 @@
       "author": "Haleen",
       "podcastGuid": "c00d65ba-e04e-573d-9514-ccdbdf7c6ce8",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:50.682Z",
+      "lastParsed": "2026-07-11T21:08:51.868Z",
       "parsedData": {
         "album": {
           "title": "Ra ma da sa",
@@ -16683,7 +16713,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -16709,7 +16739,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -16752,7 +16782,7 @@
       "author": "The Crypto Donkey",
       "podcastGuid": "b4447aa8-29a8-5d01-a3fd-256836f6c3d2",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:51.025Z",
+      "lastParsed": "2026-07-11T21:08:52.063Z",
       "parsedData": {
         "album": {
           "title": "No King At The Table",
@@ -17363,7 +17393,7 @@
       "author": "Haleen",
       "podcastGuid": "0037e6a4-304f-5f8b-a589-d0f93850e267",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:51.384Z",
+      "lastParsed": "2026-07-11T21:08:52.272Z",
       "parsedData": {
         "album": {
           "title": "Adi Shakti",
@@ -17383,7 +17413,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -17409,7 +17439,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -17452,7 +17482,7 @@
       "author": "ADDAX",
       "podcastGuid": "9ca5af59-8e45-586c-bb27-f0f27848a1ce",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:51.729Z",
+      "lastParsed": "2026-07-11T21:08:52.475Z",
       "parsedData": {
         "album": {
           "title": "Badboy Morph (Extended Mix)",
@@ -17541,7 +17571,7 @@
       "author": "ADDAX",
       "podcastGuid": "8acbff11-a33b-5492-bf72-fe45cdf22e68",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:52.068Z",
+      "lastParsed": "2026-07-11T21:08:52.675Z",
       "parsedData": {
         "album": {
           "title": "Clap Ya Hands",
@@ -17630,7 +17660,7 @@
       "author": "TABZ",
       "podcastGuid": "7fc78928-4c38-50e1-a995-9653f9e07aed",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:52.408Z",
+      "lastParsed": "2026-07-11T21:08:52.890Z",
       "parsedData": {
         "album": {
           "title": "ELUSIVE",
@@ -17717,7 +17747,7 @@
       "author": "TABZ",
       "podcastGuid": "032cada3-27af-5126-99e6-3e890549f665",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:52.763Z",
+      "lastParsed": "2026-07-11T21:08:53.098Z",
       "parsedData": {
         "album": {
           "title": "TABZ - BREAK IT",
@@ -17804,7 +17834,7 @@
       "author": "TABZ",
       "podcastGuid": "8335e1e1-9efb-5275-ab7b-ef8588935c6e",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:53.142Z",
+      "lastParsed": "2026-07-11T21:08:53.307Z",
       "parsedData": {
         "album": {
           "title": "GOT ME BURNIN",
@@ -17891,7 +17921,7 @@
       "author": "The Holy Hour",
       "podcastGuid": "cc4906ad-7e89-59cc-9519-990944329294",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:53.492Z",
+      "lastParsed": "2026-07-11T21:08:53.505Z",
       "parsedData": {
         "album": {
           "title": "Casanova",
@@ -17980,7 +18010,7 @@
       "author": "Rebekah Abdeen",
       "podcastGuid": "97950d03-fcbb-5150-9f9e-ffa4fb3935e9",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:53.848Z",
+      "lastParsed": "2026-07-11T21:08:53.715Z",
       "parsedData": {
         "album": {
           "title": "Man's World",
@@ -18067,7 +18097,7 @@
       "author": "Lenze & De Buam",
       "podcastGuid": "075021e3-c8e3-5561-947f-b58987718346",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:54.268Z",
+      "lastParsed": "2026-07-11T21:08:53.966Z",
       "parsedData": {
         "album": {
           "title": "Eine Katze Bitte",
@@ -18417,7 +18447,7 @@
       "author": "Charles Oziouls",
       "podcastGuid": "cf935e88-664f-5315-8d88-8526a8695272",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:54.658Z",
+      "lastParsed": "2026-07-11T21:08:54.256Z",
       "parsedData": {
         "album": {
           "title": "Sitting In The Sunshine",
@@ -18535,7 +18565,7 @@
       "author": "Hartlight",
       "podcastGuid": "19ea68de-0073-56b0-af67-686ef74a2900",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:55.011Z",
+      "lastParsed": "2026-07-11T21:08:54.447Z",
       "parsedData": {
         "album": {
           "title": "The Triumph of Metal",
@@ -18827,7 +18857,7 @@
       "author": "Hartlight",
       "podcastGuid": "24f28c2a-0413-58cc-8aa7-87b1c1b14655",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:55.456Z",
+      "lastParsed": "2026-07-11T21:08:54.648Z",
       "parsedData": {
         "album": {
           "title": "As Above, so Below",
@@ -19119,7 +19149,7 @@
       "author": "Hartlight",
       "podcastGuid": "f6d1bb83-6297-5292-a8ed-cd947d1467ae",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:55.817Z",
+      "lastParsed": "2026-07-11T21:08:54.849Z",
       "parsedData": {
         "album": {
           "title": "From Midland and Beyond",
@@ -19295,7 +19325,7 @@
       "author": "darrar211",
       "podcastGuid": "c73f281a-6f21-5721-ae4a-e8136860d5cf",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:56.145Z",
+      "lastParsed": "2026-07-11T21:08:55.049Z",
       "parsedData": {
         "album": {
           "title": "DubzDubzSheSexy",
@@ -19384,7 +19414,7 @@
       "author": "darrar211",
       "podcastGuid": "2abf57b0-b7ef-5a7c-93bd-9c6099c91b82",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:56.556Z",
+      "lastParsed": "2026-07-11T21:08:55.286Z",
       "parsedData": {
         "album": {
           "title": "360Degrees",
@@ -19473,7 +19503,7 @@
       "author": "darrar211",
       "podcastGuid": "94bddbbe-4c33-5888-afb8-d876c1f8aba9",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:56.894Z",
+      "lastParsed": "2026-07-11T21:08:55.620Z",
       "parsedData": {
         "album": {
           "title": "AboutDcream",
@@ -19562,7 +19592,7 @@
       "author": "CHARLEY T",
       "podcastGuid": "8a1f5f5d-bff3-5649-bef7-4d855e262c52",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:57.245Z",
+      "lastParsed": "2026-07-11T21:08:55.844Z",
       "parsedData": {
         "album": {
           "title": "Runnin' (LIVE from Bands at Bitcoin)",
@@ -19651,7 +19681,7 @@
       "author": "CHARLEY T",
       "podcastGuid": "63d0caef-4b57-576e-8b7d-150082b21775",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:57.638Z",
+      "lastParsed": "2026-07-11T21:08:56.046Z",
       "parsedData": {
         "album": {
           "title": "The Dogs Keep Barking",
@@ -19740,7 +19770,7 @@
       "author": "Aza & Avatar",
       "podcastGuid": "41daf57c-4876-5b48-bccb-d079f57ca07d",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:57.973Z",
+      "lastParsed": "2026-07-11T21:08:56.258Z",
       "parsedData": {
         "album": {
           "title": "Hörbuch-Krimi _ Das Echo der Stille und das Rätsel von Glockenkirchen",
@@ -19858,7 +19888,7 @@
       "author": "Aza & Avatar",
       "podcastGuid": "f7d89b02-8366-5963-a05d-4341a09a0094",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:58.389Z",
+      "lastParsed": "2026-07-11T21:08:56.500Z",
       "parsedData": {
         "album": {
           "title": "Test",
@@ -19947,7 +19977,7 @@
       "author": "darrar211",
       "podcastGuid": "fc13a692-d7e2-5532-9f8d-c10d975ed155",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:58.747Z",
+      "lastParsed": "2026-07-11T21:08:56.705Z",
       "parsedData": {
         "album": {
           "title": "BoutLiife Ah ya",
@@ -20034,7 +20064,7 @@
       "author": "darrar211",
       "podcastGuid": "2a423219-9292-5f04-9dc5-04d941e21912",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:59.161Z",
+      "lastParsed": "2026-07-11T21:08:56.918Z",
       "parsedData": {
         "album": {
           "title": "MikeCheck1000",
@@ -20121,7 +20151,7 @@
       "author": "darrar211",
       "podcastGuid": "d9f5f0d5-7fa6-5c5e-ba8c-eed3d1e459ee",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:59.531Z",
+      "lastParsed": "2026-07-11T21:08:57.126Z",
       "parsedData": {
         "album": {
           "title": "_DubzSex21x3)",
@@ -20208,7 +20238,7 @@
       "author": "darrar211",
       "podcastGuid": "e09eb64d-bb5a-5e71-a84b-41304726ab56",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:43:59.870Z",
+      "lastParsed": "2026-07-11T21:08:57.335Z",
       "parsedData": {
         "album": {
           "title": "BreakitDown2",
@@ -20323,7 +20353,7 @@
       "author": "Haleen",
       "podcastGuid": "0c9c34d7-aff2-5730-b750-f6e943d99dea",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:00.248Z",
+      "lastParsed": "2026-07-11T21:08:57.540Z",
       "parsedData": {
         "album": {
           "title": "Celebrate",
@@ -20343,7 +20373,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -20369,7 +20399,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -20412,7 +20442,7 @@
       "author": "Sid Tyler",
       "podcastGuid": "5c2b00ae-b625-5274-98f9-ca92325fb9b9",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:00.650Z",
+      "lastParsed": "2026-07-11T21:08:57.739Z",
       "parsedData": {
         "album": {
           "title": "Hands In The Air",
@@ -20501,7 +20531,7 @@
       "author": "The Holy Hour",
       "podcastGuid": "f3c60a3d-2ca1-5208-811c-f6f478ba1c15",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:01.060Z",
+      "lastParsed": "2026-07-11T21:08:57.937Z",
       "parsedData": {
         "album": {
           "title": "No Way Out",
@@ -20590,7 +20620,7 @@
       "author": "Charles Oziouls",
       "podcastGuid": "b2d7a553-9f8e-52c0-b285-35897152c5c4",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:01.434Z",
+      "lastParsed": "2026-07-11T21:08:58.139Z",
       "parsedData": {
         "album": {
           "title": "Un Mardi Habituel",
@@ -20679,7 +20709,7 @@
       "author": "Charles Oziouls",
       "podcastGuid": "36d16a92-cd56-5009-a487-5db79da5a9f6",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:01.844Z",
+      "lastParsed": "2026-07-11T21:08:58.338Z",
       "parsedData": {
         "album": {
           "title": "Fungi",
@@ -20794,7 +20824,7 @@
       "author": "Haleen",
       "podcastGuid": "623953f2-cd2c-5113-aab8-9e20925d673a",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:02.267Z",
+      "lastParsed": "2026-07-11T21:08:58.546Z",
       "parsedData": {
         "album": {
           "title": "New moon",
@@ -20814,7 +20844,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -20840,7 +20870,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -20883,7 +20913,7 @@
       "author": "The Holy Hour",
       "podcastGuid": "8564fe10-8e2c-5df4-af5b-13aa509cc686",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:02.669Z",
+      "lastParsed": "2026-07-11T21:08:58.754Z",
       "parsedData": {
         "album": {
           "title": "Empty Noise EP",
@@ -21054,7 +21084,7 @@
       "author": "Kathryn",
       "podcastGuid": "348c4c7f-5c8c-508a-a4e8-0fe9efd6843b",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:03.087Z",
+      "lastParsed": "2026-07-11T21:08:58.959Z",
       "parsedData": {
         "album": {
           "title": "lying's easier (L.I.E.)",
@@ -21171,7 +21201,7 @@
       "author": "kathryn",
       "podcastGuid": "1354168a-5304-5a4e-bb84-6460d319a0f6",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:03.438Z",
+      "lastParsed": "2026-07-11T21:08:59.160Z",
       "parsedData": {
         "album": {
           "title": "give me",
@@ -21288,7 +21318,7 @@
       "author": "kathryn",
       "podcastGuid": "e0420800-135b-51b7-96f9-ff7904d7e9f1",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:03.831Z",
+      "lastParsed": "2026-07-11T21:08:59.359Z",
       "parsedData": {
         "album": {
           "title": "getting older",
@@ -21405,7 +21435,7 @@
       "author": "kathryn",
       "podcastGuid": "baff6a30-55ea-5148-b9ce-7cf6d1f910a5",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:04.201Z",
+      "lastParsed": "2026-07-11T21:08:59.556Z",
       "parsedData": {
         "album": {
           "title": "in & out",
@@ -21522,7 +21552,7 @@
       "author": "Kathryn",
       "podcastGuid": "507064dd-0eff-509c-8a27-bd8989178125",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:04.555Z",
+      "lastParsed": "2026-07-11T21:08:59.761Z",
       "parsedData": {
         "album": {
           "title": "reminisce",
@@ -21639,7 +21669,7 @@
       "author": "Haleen",
       "podcastGuid": "676d5eb9-38a7-5ab5-8a54-6b15abb9f934",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:04.954Z",
+      "lastParsed": "2026-07-11T21:08:59.962Z",
       "parsedData": {
         "album": {
           "title": "In The Now",
@@ -21659,7 +21689,7 @@
                 "recipients": [
                   {
                     "type": "lnaddress",
-                    "address": "user38866896@fountain.fm",
+                    "address": "haleen@fountain.fm",
                     "split": 90,
                     "name": "Haleen",
                     "fee": false
@@ -21685,7 +21715,7 @@
             "recipients": [
               {
                 "type": "lnaddress",
-                "address": "user38866896@fountain.fm",
+                "address": "haleen@fountain.fm",
                 "split": 90,
                 "name": "Haleen",
                 "fee": false
@@ -21728,7 +21758,7 @@
       "author": "Roger9000",
       "podcastGuid": "1ec52c90-2760-5b9a-a875-b1761478ee51",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:05.398Z",
+      "lastParsed": "2026-07-11T21:09:00.171Z",
       "parsedData": {
         "album": {
           "title": "MONEY",
@@ -21817,12 +21847,12 @@
       "author": "Matt Finlay",
       "podcastGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:05.824Z",
+      "lastParsed": "2026-07-11T21:09:00.424Z",
       "parsedData": {
         "album": {
           "title": "Kulture Collection",
           "artist": "Matt Finlay",
-          "description": "A collection of songs by Matt Finlay from the \"Covid\" years.\n\nAll songs written, recorded and performed by Matt Finlay",
+          "description": "A collection of songs by Matt Finlay from the \"Covid\" years.\n\nMusic written/recorded/performed by Matt Finlay\nTrack 2 additional vocals by Bernie, Emma D, Jessica and anonymous singers.\nTrack 6 electric guitar by Kyle Robinson\n\n© 2026 by Matt Finlay is licensed under CC BY-NC-SA 4.0",
           "coverArt": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
           "tracks": [
             {
@@ -21830,7 +21860,7 @@
               "duration": "1:53",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/01_Safe_And_Effective.mp3",
               "trackNumber": 1,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/01_Safe_And_Effective.png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -21862,14 +21892,14 @@
               },
               "guid": "cfce0785-7f9d-45a3-87ac-39955f9425d8",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/01_Safe_And_Effective.png"
             },
             {
               "title": "That Anti-Mask Song",
               "duration": "3:40",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/02_That_Anti-Mask_Song.mp3",
               "trackNumber": 2,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/02_That_Anti-Mask_Song.png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -21901,14 +21931,14 @@
               },
               "guid": "9287595a-72b1-40ec-bded-30fe4f0fec1a",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/02_That_Anti-Mask_Song.png"
             },
             {
               "title": "Thin Blue Line",
               "duration": "3:08",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/03_Thin_Blue_Line.mp3",
               "trackNumber": 3,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/03_Thin_Blue_Line.png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -21940,14 +21970,14 @@
               },
               "guid": "a546f7df-2ffe-4ee2-8b31-5275407e1966",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/03_Thin_Blue_Line.png"
             },
             {
               "title": "We Do Not Consent",
               "duration": "3:23",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/04_We_Do_Not_Consent.mp3",
               "trackNumber": 4,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/04_We_Do_Not_Consent.png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -21979,14 +22009,14 @@
               },
               "guid": "af72558e-5042-4820-bac0-d4f79a83a7bc",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/04_We_Do_Not_Consent.png"
             },
             {
               "title": "Victim (Sped up)",
               "duration": "3:44",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/05_Victim_(Sped_Up).mp3",
               "trackNumber": 5,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/05_Victim_(Sped_Up).png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -22018,14 +22048,14 @@
               },
               "guid": "bf698e1f-3908-48b7-ab01-553b66f1dbd0",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/05_Victim_(Sped_Up).png"
             },
             {
               "title": "Copenhagen Time",
               "duration": "4:41",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/06_Copenhagen_Time.mp3",
               "trackNumber": 6,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/06_Copenhagen_Time.png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -22057,14 +22087,14 @@
               },
               "guid": "9f515f93-eda1-4146-8637-7def160879b5",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/06_Copenhagen_Time.png"
             },
             {
               "title": "Don't Be Evil",
               "duration": "3:57",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/07_Don_t_Be_Evil.mp3",
               "trackNumber": 7,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/07_Don_t_Be_Evil.png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -22096,14 +22126,14 @@
               },
               "guid": "b3b11e11-1c2f-4769-98c7-b981f7bc04e8",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/07_Don_t_Be_Evil.png"
             },
             {
               "title": "The Walk (for vaccine injured)",
               "duration": "3:20",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/08_The_Walk.mp3",
               "trackNumber": 8,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/08_The_Walk.png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -22135,14 +22165,14 @@
               },
               "guid": "e3018452-193e-4e96-9b46-fb6347ccbfbd",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/08_The_Walk.png"
             },
             {
               "title": "Kick Your Arse",
               "duration": "2:42",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/09_Kick_Your_Arse.mp3",
               "trackNumber": 9,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/09_Kick_Your_Arse.png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -22174,14 +22204,14 @@
               },
               "guid": "b4e2c9da-b37d-450d-9bcd-63886bbba27e",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/09_Kick_Your_Arse.png"
             },
             {
               "title": "Contrails",
               "duration": "2:58",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/10_Contrails.mp3",
               "trackNumber": 10,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/10_Contrails.png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -22213,14 +22243,14 @@
               },
               "guid": "08b637f9-0b42-424e-b05e-2e52f7673308",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/10_Contrails.png"
             },
             {
               "title": "15 Minute Prison",
               "duration": "3:19",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/11_15_Minute_Prison.mp3",
               "trackNumber": 11,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/11_15_Minute_Prison.png",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -22252,14 +22282,14 @@
               },
               "guid": "4e197141-6cd6-4366-8fe7-aa6c7c5050e3",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
-              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/11_15_Minute_Prison.png"
             },
             {
               "title": "Then They Came For Me",
               "duration": "3:14",
               "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/12_Then_They_Came_For_Me.mp3",
               "trackNumber": 12,
-              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/12_Then_They_Came_For_Me.jpg",
               "explicit": false,
               "value": {
                 "type": "lightning",
@@ -22290,6 +22320,123 @@
                 ]
               },
               "guid": "0fbcf350-913a-479b-8fac-e6ffa5f404b6",
+              "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/12_Then_They_Came_For_Me.jpg"
+            },
+            {
+              "title": "Played! (Song For Melbourne)",
+              "duration": "2:59",
+              "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/13_Played_(Song_For_Melbourne).mp3",
+              "trackNumber": 13,
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/13_Played_(Song_For_Melbourne).png",
+              "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "suggested": "0.000033333",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "mattfinlay@fountain.fm",
+                    "split": 94,
+                    "name": "Matt Finlay",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "chadf@getalby.com",
+                    "split": 5,
+                    "name": "MSP 2.0",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "podcastindex@getalby.com",
+                    "split": 1,
+                    "name": "Podcastindex.org",
+                    "fee": false
+                  }
+                ]
+              },
+              "guid": "32041815-bca8-47fb-84c9-c75263ca3c65",
+              "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/13_Played_(Song_For_Melbourne).png"
+            },
+            {
+              "title": "Jericho",
+              "duration": "2:45",
+              "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/14_Jericho.mp3",
+              "trackNumber": 14,
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/14_Jericho.png",
+              "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "suggested": "0.000033333",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "mattfinlay@fountain.fm",
+                    "split": 94,
+                    "name": "Matt Finlay",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "chadf@getalby.com",
+                    "split": 5,
+                    "name": "MSP 2.0",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "podcastindex@getalby.com",
+                    "split": 1,
+                    "name": "Podcastindex.org",
+                    "fee": false
+                  }
+                ]
+              },
+              "guid": "a4085a5d-0ae6-439a-82b5-4018bd215740",
+              "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/14_Jericho.png"
+            },
+            {
+              "title": "Safe And Effective (Live on Kulture)",
+              "duration": "4:05",
+              "url": "https://op3.dev/e,pg=e88a4a67-877c-5e03-b8fd-a70cebc821af/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/15_Safe_And_Effective_(Live).mp3",
+              "trackNumber": 15,
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg",
+              "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "suggested": "0.000033333",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "mattfinlay@fountain.fm",
+                    "split": 94,
+                    "name": "Matt Finlay",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "chadf@getalby.com",
+                    "split": 5,
+                    "name": "MSP 2.0",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "podcastindex@getalby.com",
+                    "split": 1,
+                    "name": "Podcastindex.org",
+                    "fee": false
+                  }
+                ]
+              },
+              "guid": "d08bb247-8720-48e1-aa65-691f65bfb27a",
               "feedGuid": "e88a4a67-877c-5e03-b8fd-a70cebc821af",
               "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/kulture_collection/KultureCollection.jpg"
             }
@@ -22356,7 +22503,7 @@
           "publisherImage": "https://phafe.com/wp-content/uploads/rssfeed/artist_images/matt_finlay/SE_ProfilePic150.png"
         }
       },
-      "trackCount": 12,
+      "trackCount": 15,
       "hasFunding": true,
       "categories": [
         "Music"
@@ -22379,12 +22526,12 @@
       "author": "Matt Finlay",
       "podcastGuid": "fe17f4f6-074f-4b2c-a450-611faccfaea2",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:07.430Z",
+      "lastParsed": "2026-07-11T21:09:01.558Z",
       "parsedData": {
         "album": {
           "title": "Various & Assorted",
           "artist": "Matt Finlay",
-          "description": "Various and assorted music by Matt Finlay",
+          "description": "Various and assorted music by Matt Finlay\n© 2026 by Matt Finlay is licensed under CC BY-NC-SA 4.0",
           "coverArt": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Various_Assorted.png",
           "tracks": [
             {
@@ -22402,7 +22549,7 @@
                   {
                     "type": "lnaddress",
                     "address": "mattfinlay@fountain.fm",
-                    "split": 94,
+                    "split": 93,
                     "name": "Matt Finlay",
                     "fee": false
                   },
@@ -22418,6 +22565,13 @@
                     "address": "podcastindex@getalby.com",
                     "split": 1,
                     "name": "Podcastindex.org",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 1,
+                    "name": "boostbot@fountain.fm",
                     "fee": false
                   }
                 ]
@@ -22441,7 +22595,7 @@
                   {
                     "type": "lnaddress",
                     "address": "mattfinlay@fountain.fm",
-                    "split": 94,
+                    "split": 93,
                     "name": "Matt Finlay",
                     "fee": false
                   },
@@ -22458,10 +22612,247 @@
                     "split": 1,
                     "name": "Podcastindex.org",
                     "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 1,
+                    "name": "boostbot@fountain.fm",
+                    "fee": false
                   }
                 ]
               },
               "guid": "40537e7c-3125-4eaa-8ab7-ecc2893e6913",
+              "feedGuid": "fe17f4f6-074f-4b2c-a450-611faccfaea2",
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Various_Assorted.png"
+            },
+            {
+              "title": "Hey! (I Wanted Love)",
+              "duration": "4:14",
+              "url": "https://op3.dev/e,pg=fe17f4f6-074f-4b2c-a450-611faccfaea2/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Hey_%28I_Wanted_Love%29_-_Matt_Finlay.mp3",
+              "trackNumber": 3,
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Various_Assorted.png",
+              "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "suggested": "0.000033333",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "mattfinlay@fountain.fm",
+                    "split": 93,
+                    "name": "Matt Finlay",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "chadf@getalby.com",
+                    "split": 5,
+                    "name": "MSP 2.0",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "podcastindex@getalby.com",
+                    "split": 1,
+                    "name": "Podcastindex.org",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 1,
+                    "name": "boostbot@fountain.fm",
+                    "fee": false
+                  }
+                ]
+              },
+              "guid": "866fb15f-546e-44b7-a2dc-801ba0006087",
+              "feedGuid": "fe17f4f6-074f-4b2c-a450-611faccfaea2",
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Various_Assorted.png"
+            },
+            {
+              "title": "Virus (2009)",
+              "duration": "2:29",
+              "url": "https://op3.dev/e,pg=fe17f4f6-074f-4b2c-a450-611faccfaea2/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Virus-Matt-Finlay.mp3",
+              "trackNumber": 4,
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/virus-cover-150.png",
+              "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "suggested": "0.000033333",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "mattfinlay@fountain.fm",
+                    "split": 93,
+                    "name": "Matt Finlay",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "chadf@getalby.com",
+                    "split": 5,
+                    "name": "MSP 2.0",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "podcastindex@getalby.com",
+                    "split": 1,
+                    "name": "Podcastindex.org",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 1,
+                    "name": "boostbot@fountain.fm",
+                    "fee": false
+                  }
+                ]
+              },
+              "guid": "8b44c7bc-73ed-483f-82ef-1a30bbcff977",
+              "feedGuid": "fe17f4f6-074f-4b2c-a450-611faccfaea2",
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/virus-cover-150.png"
+            },
+            {
+              "title": "Slept Til Tuesday (Demo)",
+              "duration": "3:31",
+              "url": "https://op3.dev/e,pg=fe17f4f6-074f-4b2c-a450-611faccfaea2/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Slept_Til_Tuesday_%28Demo%29.mp3",
+              "trackNumber": 5,
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Various_Assorted.png",
+              "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "suggested": "0.000033333",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "mattfinlay@fountain.fm",
+                    "split": 93,
+                    "name": "Matt Finlay",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "chadf@getalby.com",
+                    "split": 5,
+                    "name": "MSP 2.0",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "podcastindex@getalby.com",
+                    "split": 1,
+                    "name": "Podcastindex.org",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 1,
+                    "name": "boostbot@fountain.fm",
+                    "fee": false
+                  }
+                ]
+              },
+              "guid": "a53ee417-c5d7-4346-bf62-27fe4c815206",
+              "feedGuid": "fe17f4f6-074f-4b2c-a450-611faccfaea2",
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Various_Assorted.png"
+            },
+            {
+              "title": "Victim [432Hz]",
+              "duration": "4:45",
+              "url": "https://op3.dev/e,pg=fe17f4f6-074f-4b2c-a450-611faccfaea2/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Victim__432Hz_-Matt_Finlay.mp3",
+              "trackNumber": 6,
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/victim-cover-300.png",
+              "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "suggested": "0.000033333",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "mattfinlay@fountain.fm",
+                    "split": 93,
+                    "name": "Matt Finlay",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "chadf@getalby.com",
+                    "split": 5,
+                    "name": "MSP 2.0",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "podcastindex@getalby.com",
+                    "split": 1,
+                    "name": "Podcastindex.org",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 1,
+                    "name": "boostbot@fountain.fm",
+                    "fee": false
+                  }
+                ]
+              },
+              "guid": "14861ab2-4c27-4477-90ee-a0992663fe51",
+              "feedGuid": "fe17f4f6-074f-4b2c-a450-611faccfaea2",
+              "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/victim-cover-300.png"
+            },
+            {
+              "title": "Bones (Demo)",
+              "duration": "4:56",
+              "url": "https://op3.dev/e,pg=fe17f4f6-074f-4b2c-a450-611faccfaea2/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Bones_demo.mp3",
+              "trackNumber": 7,
+              "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Various_Assorted.png",
+              "explicit": false,
+              "value": {
+                "type": "lightning",
+                "method": "lnaddress",
+                "suggested": "0.000033333",
+                "recipients": [
+                  {
+                    "type": "lnaddress",
+                    "address": "mattfinlay@fountain.fm",
+                    "split": 93,
+                    "name": "Matt Finlay",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "chadf@getalby.com",
+                    "split": 5,
+                    "name": "MSP 2.0",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "podcastindex@getalby.com",
+                    "split": 1,
+                    "name": "Podcastindex.org",
+                    "fee": false
+                  },
+                  {
+                    "type": "lnaddress",
+                    "address": "boostbot@fountain.fm",
+                    "split": 1,
+                    "name": "boostbot@fountain.fm",
+                    "fee": false
+                  }
+                ]
+              },
+              "guid": "a712924f-ec36-445f-951a-4cf2ee533765",
               "feedGuid": "fe17f4f6-074f-4b2c-a450-611faccfaea2",
               "imageUrl": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/various_assorted/Various_Assorted.png"
             }
@@ -22482,7 +22873,7 @@
               {
                 "type": "lnaddress",
                 "address": "mattfinlay@fountain.fm",
-                "split": 94,
+                "split": 93,
                 "name": "Matt Finlay",
                 "fee": false
               },
@@ -22498,6 +22889,13 @@
                 "address": "podcastindex@getalby.com",
                 "split": 1,
                 "name": "Podcastindex.org",
+                "fee": false
+              },
+              {
+                "type": "lnaddress",
+                "address": "boostbot@fountain.fm",
+                "split": 1,
+                "name": "boostbot@fountain.fm",
                 "fee": false
               }
             ]
@@ -22526,7 +22924,7 @@
           "publisherImage": "https://phafe.com/wp-content/uploads/rssfeed/artist_images/matt_finlay/SE_ProfilePic150.png"
         }
       },
-      "trackCount": 2,
+      "trackCount": 7,
       "hasFunding": true,
       "categories": [
         "Music"
@@ -22547,7 +22945,7 @@
       "author": "Matt Finlay",
       "podcastGuid": "de54dc36-3eda-4c19-8749-367cf5aeec76",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:08.219Z",
+      "lastParsed": "2026-07-11T21:09:01.979Z",
       "parsedData": {
         "album": {
           "title": "Victim [432Hz]",
@@ -22695,18 +23093,18 @@
       "author": "Matt Finlay",
       "podcastGuid": "204099cf-bcb0-4b78-99f9-2e64d366a3f1",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:09.006Z",
+      "lastParsed": "2026-07-11T21:09:02.405Z",
       "parsedData": {
         "album": {
           "title": "Government Approved (EP) [432Hz]",
           "artist": "Matt Finlay",
-          "description": "This album was recorded in 432Hz base tuning and each track contains a different embedded solfeggio frequency tone.\n\nAll songs written by Matt Finlay;\nexcept for \"Your Government Is Your Enemy\" written by Angry North (https://linktr.ee/angrynorth).\n\nAll songs recorded and performed by Matt Finlay.\nAdditional vocals on \"Daddy Government\" by Courage Is The Cure.\nMixed by Matt Finlay & Number Six at TNP Productions LLC \nMastered at TNP Productions LLC - https://anartistcollective.com/creatives-directory/media-arts/tnp-productions-llc\n\nISRC AU-OXF-25-00001\nCopyright Matt Finlay 2025. All rights reserved.\n\nAlbum artwork by Shelly Omstead at Anartist Collective - https://anartistcollective.com",
+          "description": "This album was recorded in 432Hz base tuning and each track contains a different embedded solfeggio frequency tone.\n\nAll songs written by Matt Finlay;\nexcept for \"Your Government Is Your Enemy\" written by Angry North (https://linktr.ee/angrynorth).\n\nAll songs recorded and performed by Matt Finlay.\nAdditional vocals on \"Daddy Government\" by Courage Is The Cure.\nMixed by Matt Finlay & Number Six at TNP Productions LLC \nMastered at TNP Productions LLC - https://anartistcollective.com/creatives-directory/media-arts/tnp-productions-llc\n\nISRC AU-OXF-25-00001\n© 2026 by Matt Finlay is licensed under CC BY-NC-SA 4.0\n\nAlbum artwork by Shelly Omstead at Anartist Collective - https://anartistcollective.com",
           "coverArt": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/cover-150.jpg",
           "tracks": [
             {
               "title": "Grow A Pair [606Hz]",
               "duration": "2:23",
-              "url": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/Matt-Finlay-Government-Approved-432Hz-EP-01-Grow-A-Pair-606Hz.mp3",
+              "url": "https://op3.dev/e,pg=204099cf-bcb0-4b78-99f9-2e64d366a3f1/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/Matt-Finlay-Government-Approved-432Hz-EP-01-Grow-A-Pair-606Hz.mp3",
               "trackNumber": 1,
               "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/cover-150.jpg",
               "explicit": false,
@@ -22752,7 +23150,7 @@
             {
               "title": "Daddy Government -ft Courage Is The Cure [432Hz]",
               "duration": "3:22",
-              "url": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/Matt-Finlay-Government-Approved-432Hz-EP-02-Daddy-Government-ft-Courage-Is-The-Cure-432Hz.mp3",
+              "url": "https://op3.dev/e,pg=204099cf-bcb0-4b78-99f9-2e64d366a3f1/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/Matt-Finlay-Government-Approved-432Hz-EP-02-Daddy-Government-ft-Courage-Is-The-Cure-432Hz.mp3",
               "trackNumber": 2,
               "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/cover-150.jpg",
               "explicit": false,
@@ -22798,7 +23196,7 @@
             {
               "title": "Weather Weapons [288Hz]",
               "duration": "4:14",
-              "url": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/Matt-Finlay-Government-Approved-432Hz-EP-03-Weather-Weapons-288Hz.mp3",
+              "url": "https://op3.dev/e,pg=204099cf-bcb0-4b78-99f9-2e64d366a3f1/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/Matt-Finlay-Government-Approved-432Hz-EP-03-Weather-Weapons-288Hz.mp3",
               "trackNumber": 3,
               "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/cover-150.jpg",
               "explicit": false,
@@ -22844,7 +23242,7 @@
             {
               "title": "Your Government Is Your Enemy [456Hz]",
               "duration": "2:35",
-              "url": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/Matt-Finlay-Government-Approved-432Hz-EP-04-Your-Government-Is-Your-Enemy-456Hz.mp3",
+              "url": "https://op3.dev/e,pg=204099cf-bcb0-4b78-99f9-2e64d366a3f1/phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/Matt-Finlay-Government-Approved-432Hz-EP-04-Your-Government-Is-Your-Enemy-456Hz.mp3",
               "trackNumber": 4,
               "image": "https://phafe.com/wp-content/uploads/rssfeed/music/matt_finlay/government_approved_ep/cover-150.jpg",
               "explicit": false,
@@ -22937,6 +23335,9 @@
             "indie",
             "metal"
           ],
+          "categories": [
+            "Music"
+          ],
           "explicit": false,
           "language": "en",
           "owner": {
@@ -22958,6 +23359,9 @@
       },
       "trackCount": 4,
       "hasFunding": true,
+      "categories": [
+        "Music"
+      ],
       "keywords": [
         "punk",
         "rock",
@@ -22977,7 +23381,7 @@
       "author": "Matt Finlay",
       "podcastGuid": "8d8cbf2b-c97d-4689-b6ea-0e85572cdcc5",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:09.813Z",
+      "lastParsed": "2026-07-11T21:09:02.832Z",
       "parsedData": {
         "album": {
           "title": "Virus",
@@ -23129,7 +23533,7 @@
       "author": "Matt Finlay (wavlake)",
       "podcastGuid": "f74f38aa-6203-55d8-9495-efb1b7d5757c",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:10.592Z",
+      "lastParsed": "2026-07-11T21:09:03.251Z",
       "parsedData": {
         "album": {
           "title": "Government Approved",
@@ -23138,7 +23542,7 @@
           "coverArt": "https://d12wklypp119aj.cloudfront.net/image/6d25af55-68dd-4609-b683-0dfac2bff99d.jpg",
           "tracks": [
             {
-              "title": "Daddy Government -ft Courage Is The Cure  [432Hz]",
+              "title": "Daddy Government -ft Courage Is The Cure  [432Hz] (WL)",
               "duration": "3:22",
               "url": "https://op3.dev/e,pg=f74f38aa-6203-55d8-9495-efb1b7d5757c/https://d12wklypp119aj.cloudfront.net/track/e9862be0-f61e-4386-80c3-3d8cfc726f21.mp3",
               "trackNumber": 1,
@@ -23171,7 +23575,7 @@
               "feedGuid": "f74f38aa-6203-55d8-9495-efb1b7d5757c"
             },
             {
-              "title": "Grow A Pair [606Hz]",
+              "title": "Grow A Pair [606Hz] (WL)",
               "duration": "2:23",
               "url": "https://op3.dev/e,pg=f74f38aa-6203-55d8-9495-efb1b7d5757c/https://d12wklypp119aj.cloudfront.net/track/84003229-6cfd-444c-9cc8-22aac6a6cd3d.mp3",
               "trackNumber": 2,
@@ -23204,7 +23608,7 @@
               "feedGuid": "f74f38aa-6203-55d8-9495-efb1b7d5757c"
             },
             {
-              "title": "Your Government Is Your Enemy [456Hz]",
+              "title": "Your Government Is Your Enemy [456Hz] (WL)",
               "duration": "2:35",
               "url": "https://op3.dev/e,pg=f74f38aa-6203-55d8-9495-efb1b7d5757c/https://d12wklypp119aj.cloudfront.net/track/48168b4a-9905-4306-8da1-ea0a704d7994.mp3",
               "trackNumber": 3,
@@ -23237,7 +23641,7 @@
               "feedGuid": "f74f38aa-6203-55d8-9495-efb1b7d5757c"
             },
             {
-              "title": "Weather Weapons [288Hz]",
+              "title": "Weather Weapons [288Hz] (WL)",
               "duration": "4:14",
               "url": "https://op3.dev/e,pg=f74f38aa-6203-55d8-9495-efb1b7d5757c/https://d12wklypp119aj.cloudfront.net/track/cf626824-cedd-444d-8912-81795d737f90.mp3",
               "trackNumber": 4,
@@ -23329,7 +23733,7 @@
       "author": "Matt Finlay",
       "podcastGuid": "1a197bac-95ae-53bd-bf6d-40ba8b551088",
       "parseStatus": "success",
-      "lastParsed": "2026-03-18T23:44:11.080Z",
+      "lastParsed": "2026-07-11T21:09:03.588Z",
       "parsedData": {
         "publisherInfo": {
           "title": "Matt Finlay",
@@ -48760,6 +49164,6 @@
       ]
     }
   ],
-  "lastUpdated": "2026-03-18T23:44:11.886Z",
+  "lastUpdated": "2026-07-11T21:09:04.327Z",
   "version": 1
 }
