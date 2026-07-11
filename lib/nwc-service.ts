@@ -64,7 +64,7 @@ export class NWCService {
         // This doesn't actually fetch anything, just keeps the WebSocket alive
         const sub = this.pool.subscribeMany(
           this.relays,
-          [{ kinds: [1], limit: 0, since: Math.floor(Date.now() / 1000) }],
+          { kinds: [1], limit: 0, since: Math.floor(Date.now() / 1000) },
           {
             onevent() {}, // No-op
             oneose() {
@@ -322,14 +322,12 @@ export class NWCService {
       
       const sub = this.pool.subscribeMany(
         this.relays,
-        [
-          {
-            kinds: [23195], // NWC response kind
-            authors: [this.connection!.walletPubkey],
-            '#e': [requestEvent.id],
-            since: requestEvent.created_at - 60 // Look back 60 seconds in case of timing issues
-          }
-        ],
+        {
+          kinds: [23195], // NWC response kind
+          authors: [this.connection!.walletPubkey],
+          '#e': [requestEvent.id],
+          since: requestEvent.created_at - 60 // Look back 60 seconds in case of timing issues
+        },
         {
           onevent: (event) => {
             if (!responseReceived) {
