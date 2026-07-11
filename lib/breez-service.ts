@@ -493,7 +493,7 @@ class BreezService {
         console.log('💡 Using regular invoice payment flow');
 
         const prepareRequest = {
-          paymentRequest: request.destination,
+          paymentRequest: { type: 'input' as const, input: request.destination },
           amount: BigInt(request.amountSats)
         };
 
@@ -860,7 +860,7 @@ class BreezService {
 
       // 6. Pay the invoice using Breez SDK
       const prepareRequest = {
-        paymentRequest: invoice
+        paymentRequest: { type: 'input' as const, input: invoice }
       };
 
       const prepareResponse = await this.sdk.prepareSendPayment(prepareRequest);
