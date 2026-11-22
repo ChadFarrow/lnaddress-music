@@ -18,6 +18,7 @@ npm run build            # Production build
 npm run build:lightning  # Build Lightning version
 npm run build:basic      # Build basic (no payments) version
 npm run lint             # ESLint
+npm test                 # Unit tests (node --test, Node's built-in TypeScript type stripping; test/*.test.ts)
 npm run test-feeds       # Validate RSS feeds in feeds.json (NOTE: script missing as of 2026-03)
 npm run clear-cache      # Clear RSS feed cache
 npm run deploy           # Auto-version PWA + deploy
@@ -80,7 +81,11 @@ Each path has its own wallet selection logic (`if nwc... else if breez...`). Whe
 
 **React state vs service state**: Payment functions should check wallet connection via the service directly (`getNWCService().isConnected()`) rather than relying on React hook state (`nwc.isConnected`) which can be stale in closures.
 
-After payment, boosts are published to Nostr relays as NIP-57 zaps (`lib/boost-to-nostr-service.ts`).
+After payment, a boost is posted to Nostr as a kind 1 boost note (`lib/boost-to-nostr-service.ts`, format in `lib/boost-note.ts`).
+
+**Boost notes are signed on the server.** When `NEXT_PUBLIC_SITE_NOSTR_NPUB` is set, `hooks/useBoostToNostr.ts` sends the boost data to `POST /api/nostr/boost-note`. The route signs with the server-only `SITE_NOSTR_NSEC` and returns the event. The browser checks the signature and the pubkey, then publishes to the same relays as before. The secret key never reaches the browser. Never give it a `NEXT_PUBLIC_` prefix: Next.js copies `NEXT_PUBLIC_` values into the client bundle (the old `NEXT_PUBLIC_SITE_NOSTR_NSEC` put the key in the live bundle until 2026-11-22). Without the npub, each browser signs with its own random key (template forks).
+
+The route is not an open signer (`lib/boost-note-guard.ts`, tests in `test/boost-note-guard.test.ts`): kind 1 boost-note shape only, built on the server; every GUID must be in the catalog (`data/parsed-feeds.json`, `data/feeds.json`), and at least one item or feed GUID is required; an image outside the catalog is dropped; amount 0–10,000,000 sats, comment ≤ 600 chars, body ≤ 16 KB; a cross-origin `Origin` is refused; 12 notes per minute per IP and 120 per minute per instance (in memory, so per Vercel instance). It cannot prove that a payment happened: anyone can still get a boost note about a catalog item with their own comment, within those limits. Changing the note format? Change `lib/boost-note.ts` and its test, so the server and the browser fallback stay the same.
 
 **BoostBox** (`lib/boostbox-service.ts`) — persistent boost metadata storage via [tardbox.com](https://tardbox.com). Before each payment, boost metadata is POSTed to BoostBox, which returns `{url, desc}`. The URL is embedded in the LUD-12 comment in Fountain-compatible format: `rss::payment::boost <boostbox_url> <user_message>`. Active by default (defaults to `https://tardbox.com`, API key must be set via `NEXT_PUBLIC_BOOSTBOX_API_KEY` env var). Fire-and-forget — failures are logged but never block payments.
 
@@ -128,6 +133,12 @@ BoostBox config (API key required for boost metadata storage):
 ```
 NEXT_PUBLIC_BOOSTBOX_URL=https://tardbox.com       # default
 NEXT_PUBLIC_BOOSTBOX_API_KEY=your-api-key          # required
+```
+
+Site Nostr key for boost notes (`node scripts/generate-nostr-keys.js` makes a pair):
+```
+SITE_NOSTR_NSEC=nsec1...             # server-only; on Vercel a Sensitive variable (Production, Preview)
+NEXT_PUBLIC_SITE_NOSTR_NPUB=npub1... # public; turns on server signing
 ```
 
 See `env.lightning.template` and `env.basic.template` for full variable lists. The dev modes (`dev:lightning`/`dev:basic`) copy the appropriate template to `.env.local`.
