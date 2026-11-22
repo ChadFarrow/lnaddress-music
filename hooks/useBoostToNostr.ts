@@ -4,6 +4,24 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { getBoostToNostrService, type TrackMetadata, type BoostResult } from '@/lib/boost-to-nostr-service';
 import type { Event } from 'nostr-tools';
 import { getPublicKey, nip19 } from 'nostr-tools';
+
+/**
+ * The site's Nostr public key (hex), from NEXT_PUBLIC_SITE_NOSTR_NPUB.
+ * When it is set, the server route /api/nostr/boost-note signs boost notes with
+ * the site's secret key (server-only SITE_NOSTR_NSEC). The secret key never
+ * reaches the browser. When it is not set, the browser signs with its own key.
+ */
+function siteNostrPubkeyHex(): string | null {
+  const siteNpub = process.env.NEXT_PUBLIC_SITE_NOSTR_NPUB;
+  if (!siteNpub) return null;
+  try {
+    const decoded = nip19.decode(siteNpub);
+    return decoded.type === 'npub' ? decoded.data : null;
+  } catch {
+    console.error('NEXT_PUBLIC_SITE_NOSTR_NPUB is not a valid npub');
+    return null;
+  }
+}
 // Minimal subscription interface for type safety
 interface MinimalSubscription {
   close(): void;
@@ -42,24 +60,10 @@ export function useBoostToNostr(options: UseBoostToNostrOptions = {}): UseBoostT
   useEffect(() => {
     serviceRef.current = getBoostToNostrService(options.relays, options.secretKey);
     
-    // Try to get site's permanent Nostr keys from environment
-    const siteNsec = process.env.NEXT_PUBLIC_SITE_NOSTR_NSEC;
+    // The site's permanent Nostr key signs on the server (postBoost below)
     const siteNpub = process.env.NEXT_PUBLIC_SITE_NOSTR_NPUB;
-
-
-    if (siteNsec && siteNpub) {
-      try {
-        // Decode the nsec to get the secret key
-        const { data: secretKey } = nip19.decode(siteNsec);
-        if (secretKey instanceof Uint8Array) {
-          serviceRef.current.setKeys(secretKey);
-          setPublicKey(siteNpub.replace('npub', ''));
-        }
-      } catch (error) {
-        console.error('Failed to decode site Nostr keys:', error);
-        // Fall back to auto-generation or provided keys
-        fallbackToUserKeys();
-      }
+    if (siteNpub && siteNostrPubkeyHex()) {
+      setPublicKey(siteNpub.replace('npub', ''));
     } else {
       // Fall back to user-provided keys or auto-generation
       fallbackToUserKeys();
@@ -134,12 +138,16 @@ export function useBoostToNostr(options: UseBoostToNostrOptions = {}): UseBoostT
     setError(null);
 
     try {
-      const result = await serviceRef.current.postBoost({
+      const boostOptions = {
         amount,
         track,
         comment,
         tags: track.artist ? [`#${track.artist.replace(/\s+/g, '')}`, `#nowplaying`] : [`#nowplaying`]
-      });
+      };
+      const sitePubkey = siteNostrPubkeyHex();
+      const result = sitePubkey
+        ? await serviceRef.current.postBoostViaSite(boostOptions, sitePubkey)
+        : await serviceRef.current.postBoost(boostOptions);
 
       if (result.success) {
         // Add to history

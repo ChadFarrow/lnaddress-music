@@ -19,6 +19,7 @@
     "postbuild": "echo '✅ Build complete with auto-versioned PWA'",
     "start": "next start",
     "lint": "next lint",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test test/*.test.ts",
     "dev-setup": "node scripts/dev-setup.js",
     "seed-db": "node scripts/seed-database.js",
     "test-feeds": "node scripts/test-rss-feeds.js",

@@ -6,8 +6,10 @@ import {
   type Filter,
   generateSecretKey,
   getPublicKey,
-  nip19
+  nip19,
+  verifyEvent
 } from 'nostr-tools';
+import { boostNoteContextFromEnv, boostNoteSiteUrl, buildBoostNoteTemplate } from './boost-note';
 import { getZapReceiptService, type ZapReceipt } from './zap-receipt-service';
 import { LNURLService } from './lnurl-service';
 import { WebLNService } from './webln-service';
@@ -142,55 +144,21 @@ export class BoostToNostrService {
   }
 
   /**
-   * Generate HPM site URL for track/album
+   * The site's values for boost notes. Name each NEXT_PUBLIC_ variable directly:
+   * Next.js inlines only direct reads into the browser bundle.
+   */
+  private boostNoteContext() {
+    return boostNoteContextFromEnv({
+      NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+      NEXT_PUBLIC_SITE_NAME: process.env.NEXT_PUBLIC_SITE_NAME
+    });
+  }
+
+  /**
+   * Generate HPM site URL for track/album (lib/boost-note.ts)
    */
   private generateHPMUrl(track: TrackMetadata): string | null {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lnaddress-music.vercel.app';
-    
-    // Special case for LNURL Testing Podcast - use GitHub repo
-    if (track.album && track.album.toLowerCase().includes('lnurl testing')) {
-      return 'https://github.com/ChadFarrow/lnurl-test-feed';
-    }
-    
-    // For albums, use album title to create album URL with optional track hash
-    if (track.album) {
-      // Create album slug from title
-      const albumSlug = track.album
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-+|-+$/g, '');
-      
-      let url = `${baseUrl}/album/${albumSlug}`;
-      
-      // Only add track identifier as hash if we have a track title that's different from album
-      if (track.title && track.title !== track.album) {
-        const trackSlug = track.title
-          .toLowerCase()
-          .replace(/[^\w\s-]/g, '')
-          .replace(/\s+/g, '-')
-          .replace(/-+/g, '-')
-          .replace(/^-+|-+$/g, '');
-        url += `#${trackSlug}`;
-      }
-      
-      return url;
-    }
-    
-    // For publishers, use artist name
-    if (track.artist) {
-      const publisherSlug = track.artist
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-+|-+$/g, '');
-      
-      return `${baseUrl}/publisher/${publisherSlug}`;
-    }
-    
-    return null;
+    return boostNoteSiteUrl(track, this.boostNoteContext().siteUrl);
   }
 
   /**
@@ -223,7 +191,7 @@ export class BoostToNostrService {
         console.log(`🔗 View your boost: https://primal.net/e/${event.id}`);
         console.log(`🔗 Alternative: https://snort.social/e/${event.id}`);
         console.log(`🔗 Nostr reference: nostr:${nevent}`);
-        console.log(`👤 Your Nostr profile: https://primal.net/p/${getPublicKey(this.secretKey!)}`);
+        console.log(`👤 Your Nostr profile: https://primal.net/p/${event.pubkey}`);
       } else {
         console.error('❌ Failed to publish to any relays');
       }
@@ -231,43 +199,6 @@ export class BoostToNostrService {
       console.warn('⚠️ Failed to publish boost note:', publishError);
       throw publishError;
     }
-  }
-
-  /**
-   * Create a boost post for Nostr with detailed track info
-   * Matches CurioCaster/Fountain format
-   */
-  private createBoostContent(options: BoostOptions, nevent?: string): string {
-    const { amount, comment, track } = options;
-
-    // Get HPM site URL
-    const hpmUrl = this.generateHPMUrl(track);
-
-    let content = '';
-
-    // Add user comment first if provided
-    if (comment) {
-      content = `${comment}\n\n`;
-    }
-
-    // Add boost amount with proper formatting
-    content += `⚡ ${amount} sats\n`;
-
-    // Add app identifier (using site name from environment or generic default)
-    const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Music Platform';
-    content += `📱 via ${siteName}\n`;
-
-    // Add HPM site URL
-    if (hpmUrl) {
-      content += `\n${hpmUrl}`;
-    }
-
-    // Add nevent reference at the end if available (like Fountain does)
-    if (nevent) {
-      content += `\n\nnostr:${nevent}`;
-    }
-
-    return content;
   }
 
   /**
@@ -294,141 +225,10 @@ export class BoostToNostrService {
     }
 
     try {
-      // Create initial content without nevent (we'll create event, get nevent, then recreate with nevent)
-      let content = this.createBoostContent(options);
-
-      // Create event template
-      const eventTemplate: EventTemplate = {
-        kind: 1, // Text note
-        created_at: Math.floor(Date.now() / 1000),
-        tags: [],
-        content
-      };
-
-      // Add hashtag tags at the beginning
-      eventTemplate.tags.push(['t', 'boost']);
-      eventTemplate.tags.push(['t', 'value4value']);
-      eventTemplate.tags.push(['t', 'podcasting20']);
-
-      // Add Fountain-style podcast tags in k/i pairs with HPM URLs
-      const hpmUrl = this.generateHPMUrl(options.track);
-      
-      console.log('🏷️ Debug track metadata for tags:', {
-        guid: options.track.guid,
-        podcastGuid: options.track.podcastGuid,
-        feedGuid: options.track.feedGuid,
-        publisherGuid: options.track.publisherGuid,
-        feedUrl: options.track.feedUrl
-      });
-      
-      if (options.track.guid) {
-        console.log('🏷️ Adding item GUID tags:', options.track.guid);
-        // k tag declares the identifier type
-        eventTemplate.tags.push(['k', 'podcast:item:guid']);
-        // i tag contains the actual identifier with URL hint
-        const itemTag = ['i', `podcast:item:guid:${options.track.guid}`];
-        // Use HPM URL instead of original track URL
-        if (hpmUrl) {
-          itemTag.push(hpmUrl);
-        }
-        eventTemplate.tags.push(itemTag);
-      }
-
-      if (options.track.feedGuid) {
-        console.log('🏷️ Adding podcast GUID tags:', options.track.feedGuid);
-        // k tag declares the identifier type
-        eventTemplate.tags.push(['k', 'podcast:guid']);
-        // i tag contains the actual identifier with URL hint
-        const feedTag = ['i', `podcast:guid:${options.track.feedGuid}`];
-        // Use HPM URL instead of original feed URL
-        if (hpmUrl) {
-          feedTag.push(hpmUrl);
-        }
-        eventTemplate.tags.push(feedTag);
-      }
-
-      if (options.track.publisherGuid) {
-        // k tag declares the identifier type
-        eventTemplate.tags.push(['k', 'podcast:publisher:guid']);
-        // i tag contains the actual identifier with URL hint
-        const publisherTag = ['i', `podcast:publisher:guid:${options.track.publisherGuid}`];
-        // Use HPM URL instead of original publisher URL
-        if (hpmUrl) {
-          publisherTag.push(hpmUrl);
-        }
-        eventTemplate.tags.push(publisherTag);
-      }
-
-      // Add album art image if available
-      if (options.track.imageUrl) {
-        eventTemplate.tags.push(['image', options.track.imageUrl]);
-      }
-
-      // Debug: Log final event template with all tags before signing
-      console.log('🏷️ Final Nostr event template with all tags:', {
-        kind: eventTemplate.kind,
-        tagsCount: eventTemplate.tags.length,
-        tags: eventTemplate.tags,
-        hasGuidTags: eventTemplate.tags.some(tag => tag[0] === 'k' && tag[1] === 'podcast:item:guid'),
-        hasFeedGuidTags: eventTemplate.tags.some(tag => tag[0] === 'k' && tag[1] === 'podcast:guid'),
-        hasPublisherGuidTags: eventTemplate.tags.some(tag => tag[0] === 'k' && tag[1] === 'podcast:publisher:guid')
-      });
-
-      // Sign the event
+      // Same note as the server signs (lib/boost-note.ts)
+      const eventTemplate = buildBoostNoteTemplate(options, this.boostNoteContext());
       const event = finalizeEvent(eventTemplate, this.secretKey);
-      
-      // Debug: Log the signed event's tags
-      console.log('🏷️ Signed Nostr event tags:', {
-        eventId: event.id,
-        finalTagsCount: event.tags.length,
-        finalTags: event.tags
-      });
-      
-      // Create the nevent identifier for this event
-      const neventData = {
-        id: event.id,
-        relays: this.relays.slice(0, 2), // Include first 2 relays as hints  
-        author: event.pubkey,
-        kind: 1
-      };
-      
-      // Encode as nevent
-      const nevent = nip19.neventEncode(neventData);
-      
-      // Verify event is properly formatted
-      console.log('🔍 Event validation:', {
-        hasId: !!event.id,
-        hasValidId: event.id && event.id.length === 64,
-        hasPubkey: !!event.pubkey,
-        hasValidPubkey: event.pubkey && event.pubkey.length === 64,
-        hasSignature: !!event.sig,
-        hasValidSignature: event.sig && event.sig.length === 128,
-        kind: event.kind,
-        tagsCount: event.tags.length
-      });
-
-      // Publish to relays asynchronously to avoid blocking payment flow
-      console.log('📡 Publishing boost note to relays asynchronously:', this.relays);
-      console.log('📝 Event details:', {
-        id: event.id,
-        kind: event.kind,
-        created_at: event.created_at,
-        tags: event.tags,
-        content: event.content.substring(0, 100) + '...',
-        nevent: `nostr:${nevent}`
-      });
-      
-      // Don't await - publish in background to avoid blocking payment response
-      this.publishBoostNoteAsync(event, nevent).catch(error => {
-        console.warn('⚠️ Background Nostr publishing failed:', error);
-      });
-
-      return {
-        event,
-        eventId: event.id,
-        success: true,
-        nevent: `nostr:${nevent}` // Include nevent for sharing
-      };
+      return this.publishSignedBoost(event);
     } catch (error) {
       console.error('Error posting boost to Nostr:', error);
       return {
@@ -438,6 +238,61 @@ export class BoostToNostrService {
         error: error instanceof Error ? error.message : 'Failed to post boost'
       };
     }
+  }
+
+  /**
+   * Post a boost note signed by the site's key. The server route
+   * /api/nostr/boost-note holds the key (SITE_NOSTR_NSEC) and signs; this method
+   * checks the signed event and publishes it to the same relays as before.
+   */
+  async postBoostViaSite(options: BoostOptions, sitePubkeyHex: string): Promise<BoostResult> {
+    const fail = (error: string): BoostResult => ({ event: {} as Event, eventId: '', success: false, error });
+    try {
+      const response = await fetch('/api/nostr/boost-note', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: options.amount, comment: options.comment, track: options.track })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        return fail(data?.error || `Boost note signing failed (HTTP ${response.status})`);
+      }
+      const event = data?.event as Event | undefined;
+      if (!event || event.kind !== 1 || event.pubkey !== sitePubkeyHex || !verifyEvent(event)) {
+        return fail('Signed boost note did not verify');
+      }
+      return this.publishSignedBoost(event);
+    } catch (error) {
+      console.error('Error posting boost to Nostr via site signer:', error);
+      return fail(error instanceof Error ? error.message : 'Failed to post boost');
+    }
+  }
+
+  /**
+   * Publish a signed boost note in the background and return its result.
+   */
+  publishSignedBoost(event: Event): BoostResult {
+    // Create the nevent identifier for this event
+    const nevent = nip19.neventEncode({
+      id: event.id,
+      relays: this.relays.slice(0, 2), // Include first 2 relays as hints
+      author: event.pubkey,
+      kind: 1
+    });
+
+    console.log('📡 Publishing boost note to relays asynchronously:', this.relays, event.id);
+
+    // Don't await - publish in background to avoid blocking payment response
+    this.publishBoostNoteAsync(event, nevent).catch(error => {
+      console.warn('⚠️ Background Nostr publishing failed:', error);
+    });
+
+    return {
+      event,
+      eventId: event.id,
+      success: true,
+      nevent: `nostr:${nevent}` // Include nevent for sharing
+    };
   }
 
   /**
