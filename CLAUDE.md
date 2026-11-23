@@ -24,7 +24,7 @@ npm run clear-cache      # Clear RSS feed cache
 npm run deploy           # Auto-version PWA + deploy
 ```
 
-Node.js >= 22.0.0 required (see `.nvmrc`).
+Node.js 24 required (`engines` is `^24.22.1`; see `.nvmrc`).
 
 ## Architecture
 
@@ -157,4 +157,6 @@ See `env.lightning.template` and `env.basic.template` for full variable lists. T
 - Image optimization via Next.js Image with 20+ allowed domains in `next.config.js`
 - Constants centralized in `lib/constants.ts` (payment amounts, TLV types, storage keys, cache TTLs)
 - Heavy use of `dynamic()` imports with `ssr: false` for wallet/payment components
+- `package.json` `overrides` gives `next` the top-level `postcss`: Next 15.5 pins `postcss` 8.4.31, which has high advisories (fixed in 8.5.23). Remove the override when Next itself depends on `postcss` >= 8.5.23 (Next 16.4.6 does).
+- Since Next 15.5.29 (GHSA-pc58-hwjq-p385), a route-handler response loses its `Content-Length`, `Content-Encoding` and `Transfer-Encoding` headers. Never gzip a body yourself in a route handler: the browser gets gzip bytes with no `Content-Encoding`. The image routes (`/api/proxy-image`, `/api/optimized-images`) now send chunked responses with no `Content-Length`; the bodies are unchanged.
 - Git: Quote paths with brackets in shell commands (e.g., `git add "app/album/[id]/AlbumDetailClient.tsx"`) — zsh treats `[]` as glob patterns
