@@ -16,18 +16,6 @@
       "trackCount": 1
     },
     {
-      "id": "strangetextures-connector",
-      "originalUrl": "https://f.strangetextures.com/@connector/feed.xml",
-      "type": "album",
-      "title": "Connector Feed",
-      "priority": "core",
-      "status": "inactive",
-      "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2026-02-08T23:18:31.294Z",
-      "source": "manual",
-      "parseStatus": "error"
-    },
-    {
       "id": "fountain-7K4mZlg2Zg0mL54IedOk",
       "originalUrl": "https://feeds.fountain.fm/7K4mZlg2Zg0mL54IedOk",
       "type": "album",
@@ -54,51 +42,6 @@
       "source": "manual",
       "author": "Haleen",
       "podcastGuid": "9797bece-64d1-53bb-9eeb-7c3eab4628d1",
-      "parseStatus": "success",
-      "trackCount": 1
-    },
-    {
-      "id": "rssblue-album-with-one-song",
-      "originalUrl": "https://feeds.rssblue.com/album-with-one-song",
-      "type": "album",
-      "title": "Album with One Song",
-      "priority": "core",
-      "status": "active",
-      "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-12-04T02:10:38.407Z",
-      "source": "manual",
-      "author": "Artist X",
-      "podcastGuid": "cea7017f-6d36-520b-abfc-f17ef0fec9f7",
-      "parseStatus": "success",
-      "trackCount": 1
-    },
-    {
-      "id": "rssblue-bigday",
-      "originalUrl": "https://feeds.rssblue.com/bigday",
-      "type": "album",
-      "title": "Big Day",
-      "priority": "core",
-      "status": "active",
-      "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-12-04T02:10:38.654Z",
-      "source": "manual",
-      "author": "Local Zero",
-      "podcastGuid": "b27c1f56-dff1-5fdd-bdee-a00e50c4c3f1",
-      "parseStatus": "success",
-      "trackCount": 10
-    },
-    {
-      "id": "rssblue-worried",
-      "originalUrl": "https://feeds.rssblue.com/worried",
-      "type": "album",
-      "title": "Worried",
-      "priority": "core",
-      "status": "active",
-      "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2025-12-04T02:10:38.894Z",
-      "source": "manual",
-      "author": "Suzanne Santo",
-      "podcastGuid": "7153bbb0-b8c4-521f-80c0-cef62d8ef67b",
       "parseStatus": "success",
       "trackCount": 1
     },
@@ -643,30 +586,6 @@
       "trackCount": 1
     },
     {
-      "id": "strangetextures-hc",
-      "originalUrl": "https://f.strangetextures.com/@hc/feed.xml",
-      "type": "album",
-      "title": "HC Feed",
-      "priority": "core",
-      "status": "inactive",
-      "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2026-02-08T23:18:31.308Z",
-      "source": "manual",
-      "parseStatus": "error"
-    },
-    {
-      "id": "strangetextures-endless",
-      "originalUrl": "https://f.strangetextures.com/@endless/feed.xml",
-      "type": "album",
-      "title": "Endless Feed",
-      "priority": "core",
-      "status": "inactive",
-      "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2026-02-08T23:18:31.309Z",
-      "source": "manual",
-      "parseStatus": "error"
-    },
-    {
       "id": "fountain-LRyCB789ESBpyZvJ00YE",
       "originalUrl": "https://feeds.fountain.fm/LRyCB789ESBpyZvJ00YE",
       "type": "album",
@@ -892,18 +811,6 @@
       "trackCount": 1
     },
     {
-      "id": "strangetextures-aoe",
-      "originalUrl": "https://f.strangetextures.com/@aoe/feed.xml",
-      "type": "album",
-      "title": "AOE Feed",
-      "priority": "core",
-      "status": "inactive",
-      "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2026-02-08T23:18:31.309Z",
-      "source": "manual",
-      "parseStatus": "error"
-    },
-    {
       "id": "fountain-dkL64h6wJWQIWXx9AvSh",
       "originalUrl": "https://feeds.fountain.fm/dkL64h6wJWQIWXx9AvSh",
       "type": "album",
@@ -992,18 +899,6 @@
       "podcastGuid": "fb0aee9c-5c8f-5f7a-ac4d-83af4e4f72c7",
       "parseStatus": "success",
       "trackCount": 1
-    },
-    {
-      "id": "strangetextures-ee",
-      "originalUrl": "https://f.strangetextures.com/@ee/feed.xml",
-      "type": "album",
-      "title": "EE Feed",
-      "priority": "core",
-      "status": "inactive",
-      "addedAt": "2025-10-20T00:00:00.000Z",
-      "lastUpdated": "2026-02-08T23:18:31.309Z",
-      "source": "manual",
-      "parseStatus": "error"
     },
     {
       "id": "fountain-LMMkitUpsEICX82elS1R",
@@ -1441,44 +1336,6 @@
       "trackCount": 10
     },
     {
-      "id": "publisher-item-oU2YfTFLK4er61p1uNAQ",
-      "originalUrl": "https://feeds.fountain.fm/oU2YfTFLK4er61p1uNAQ",
-      "type": "album",
-      "title": "Jim Costello Album",
-      "priority": "extended",
-      "status": "inactive",
-      "addedAt": "2025-10-21T22:47:27.007Z",
-      "lastUpdated": "2026-02-08T23:18:31.309Z",
-      "source": "publisher-discovery",
-      "parseStatus": "error",
-      "metadata": {
-        "discoveredFrom": "publisher",
-        "publisherName": "Jim Costello",
-        "publisherFeedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
-        "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
-        "itemGuid": "d7f37903-1bf3-5e23-a46f-cc6f1f740c4c"
-      }
-    },
-    {
-      "id": "publisher-item-xeHg25lVueiVSCf1yIxE",
-      "originalUrl": "https://feeds.fountain.fm/xeHg25lVueiVSCf1yIxE",
-      "type": "album",
-      "title": "Jim Costello Album",
-      "priority": "extended",
-      "status": "inactive",
-      "addedAt": "2025-10-21T22:47:27.007Z",
-      "lastUpdated": "2026-02-08T23:18:31.309Z",
-      "source": "publisher-discovery",
-      "parseStatus": "error",
-      "metadata": {
-        "discoveredFrom": "publisher",
-        "publisherName": "Jim Costello",
-        "publisherFeedUrl": "https://feeds.fountain.fm/D2lIcE9rg5uggpQgPPqH",
-        "publisherGuid": "bbb64ef4-8eb4-541e-ac4d-631063db3276",
-        "itemGuid": "dbe4a32c-eea1-5824-81e8-6403d0a0146a"
-      }
-    },
-    {
       "id": "publisher-item-MXfzmaDzg11cSw8cOSIo",
       "originalUrl": "https://feeds.fountain.fm/MXfzmaDzg11cSw8cOSIo",
       "type": "album",
@@ -1647,25 +1504,6 @@
       },
       "author": "SKYHIGH",
       "podcastGuid": "1e6e5b57-e827-571f-8575-848921b647cb"
-    },
-    {
-      "id": "publisher-item-XkKpNohr6rl35XLidXYi",
-      "originalUrl": "https://feeds.fountain.fm/XkKpNohr6rl35XLidXYi",
-      "type": "album",
-      "title": "SKYHIGH Album",
-      "priority": "extended",
-      "status": "inactive",
-      "addedAt": "2025-10-21T22:47:27.008Z",
-      "lastUpdated": "2026-02-08T23:18:31.309Z",
-      "source": "publisher-discovery",
-      "parseStatus": "error",
-      "metadata": {
-        "discoveredFrom": "publisher",
-        "publisherName": "SKYHIGH",
-        "publisherFeedUrl": "https://feeds.fountain.fm/0GWoySzOHV9P7a9vpEG8",
-        "publisherGuid": "898081cd-fdf4-529b-9d28-848711c7d692",
-        "itemGuid": "de5b9554-5c0d-5e2a-a3a9-7cfda11b21a9"
-      }
     },
     {
       "id": "fountain-cmzGa1uhxLpUBPdFQLp2",
@@ -3286,18 +3124,6 @@
       "source": "podcast-index-discovery",
       "author": "Matt Finlay",
       "podcastGuid": "8d8cbf2b-c97d-4689-b6ea-0e85572cdcc5"
-    },
-    {
-      "id": "wavlake-matt-finlay-government-approved",
-      "originalUrl": "https://wavlake.com/feed/music/6d25af55-68dd-4609-b683-0dfac2bff99d",
-      "type": "album",
-      "title": "Government Approved",
-      "priority": "extended",
-      "status": "active",
-      "addedAt": "2026-03-18T00:00:00.000Z",
-      "source": "podcast-index-discovery",
-      "author": "Matt Finlay (wavlake)",
-      "podcastGuid": "f74f38aa-6203-55d8-9495-efb1b7d5757c"
     },
     {
       "id": "phafe-matt-finlay-publisher",
