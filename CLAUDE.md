@@ -118,7 +118,11 @@ The route is not an open signer (`lib/boost-note-guard.ts`, tests in `test/boost
 
 `scripts/discover-new-fountain-feeds.ts` queries the Podcast Index API (`/podcasts/bymedium?medium=music` and `/search/music/byterm?q=fountain`) to find fountain.fm music feeds not yet in `feeds.json`. Run with `npx tsx scripts/discover-new-fountain-feeds.ts` (dry run) or `--write` to add directly. Requires `PODCAST_INDEX_API_KEY` and `PODCAST_INDEX_API_SECRET` in `.env.local`.
 
-Feed sources include fountain.fm, phafe.com (self-hosted RSS), and wavlake.com. Feeds use either `lnaddress` recipients (Lightning Address) or `node` recipients (keysend) — some sources like Wavlake are keysend-only.
+Feed sources are fountain.fm and phafe.com (self-hosted RSS). Feeds use either `lnaddress` recipients (Lightning Address) or `node` recipients (keysend) — some sources like Wavlake are keysend-only. On 2026-11-23 the dead feeds were removed (feeds.rssblue.com answers 410 Gone, the last Wavlake feed and several others 404), so `data/feeds.json` has no Wavlake or RSS Blue feed now; `KNOWN_PUBLISHERS` in `lib/url-utils.ts` still maps Wavlake artist feeds (live on 2026-11-23).
+
+### Removing a dead feed
+
+A feed is dead when it answers 404 or 410, or its body is not RSS. A timeout, a DNS failure or a 5xx is not dead by itself. Remove a dead feed from all three files: `data/feeds.json`, `data/parsed-feeds.json` and `public/static-albums.json` (album list and `count`). Before you remove it, look up its `podcastGuid` in Podcast Index: an album often moved to another host with the same GUID, and may already be in the list (the three RSS Blue albums were duplicates of Fountain feeds).
 
 ## Environment Variables
 
