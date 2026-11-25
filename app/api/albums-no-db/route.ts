@@ -11,6 +11,10 @@ import { RSSParser } from '@/lib/rss-parser';
 // 60 s limit and the build failed. Any route that reaches the parser must be
 // force-dynamic.
 export const dynamic = 'force-dynamic';
+// The build used to do the parse (180 feeds in a row, about 23 s locally on
+// 2026-11-25). Now a request after each CDN miss does it, so give it the same
+// limit as /api/cron/refresh-feeds.
+export const maxDuration = 300;
 
 // The browser revalidates every time, as with ISR before; the Vercel CDN keeps
 // the answer for 300 s and serves the old one while it fetches a new one.
