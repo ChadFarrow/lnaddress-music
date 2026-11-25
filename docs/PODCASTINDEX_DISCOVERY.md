@@ -159,13 +159,13 @@ Parameters:
 - `medium`: Filter by medium (e.g., "music")
 - `max`: Maximum results (default: 20)
 
-### Feed via PodcastIndex
+### Feed via PodcastIndex (removed)
 
-```
-GET /api/podcastindex?feedUrl=<url>&endpoint=episodes/byfeedurl
-```
-
-Fetches feed data from PodcastIndex (with RSS XML conversion).
+`GET /api/podcastindex?feedUrl=<url>&endpoint=...` was removed on 2026-11-25. It put the
+caller's `endpoint` into the Podcast Index URL and signed it with the server key, so
+anyone could call any Podcast Index endpoint on the site's quota. Nothing in the app
+called it, and its fallback called `/api/fetch-rss`, a route that never existed. The
+parser reads feeds directly on the server (`lib/feed-fetch.ts`).
 
 ## Example: Finding Music Feeds
 

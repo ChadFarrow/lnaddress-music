@@ -2,8 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import { FeedManager } from '@/lib/feed-manager';
 import { RSSParser } from '@/lib/rss-parser';
 
-// Enable ISR with 5 minute revalidation
-export const revalidate = 300;
+// Dynamic, with a 5 minute CDN cache (Cache-Control below), not ISR.
+// The parser fetches feeds through lib/feed-fetch.ts, and its guard forces
+// `cache: 'no-store'` on every request (so Next's data cache cannot read a body
+// past the size cap). A no-store fetch in an ISR route (`revalidate = 300`)
+// throws Next's dynamic-usage bailout inside the parser. The parser caught it
+// and retried each feed, so the build prerender of this route ran past Next's
+// 60 s limit and the build failed. Any route that reaches the parser must be
+// force-dynamic.
+export const dynamic = 'force-dynamic';
+// The build used to do the parse (180 feeds in a row, about 23 s locally on
+// 2026-11-25). Now a request after each CDN miss does it, so give it the same
+// limit as /api/cron/refresh-feeds.
+export const maxDuration = 300;
+
+// The browser revalidates every time, as with ISR before; the Vercel CDN keeps
+// the answer for 300 s and serves the old one while it fetches a new one.
+const CACHE_CONTROL = 'public, max-age=0, s-maxage=300, stale-while-revalidate=3600';
 
 export async function GET(request: NextRequest) {
   console.log('🔄 Parsing albums without database dependency...');
@@ -64,6 +79,8 @@ export async function GET(request: NextRequest) {
       errors,
       timestamp: new Date().toISOString(),
       source: 'direct-rss-parsing'
+    }, {
+      headers: { 'Cache-Control': CACHE_CONTROL }
     });
     
   } catch (error) {

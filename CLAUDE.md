@@ -18,7 +18,7 @@ npm run build            # Production build
 npm run build:lightning  # Build Lightning version
 npm run build:basic      # Build basic (no payments) version
 npm run lint             # ESLint
-npm test                 # Unit tests (node --test, Node's built-in TypeScript type stripping; test/*.test.ts)
+npm test                 # Unit tests (node --test with --experimental-transform-types; test/*.test.ts)
 npm run test-feeds       # Validate RSS feeds in feeds.json (NOTE: script missing as of 2026-03)
 npm run clear-cache      # Clear RSS feed cache
 npm run deploy           # Auto-version PWA + deploy
@@ -50,6 +50,17 @@ data/feeds.json (feed URLs) → RSS parsing (lib/rss-parser.ts) → data/parsed-
 - **Pre-parsed data**: `data/parsed-feeds.json` (1.7MB) — build uses this for fast startup
 - **RSS cache**: `data/rss-cache/` — individual feed cache files with 30-min TTL
 - On Vercel: filesystem is read-only, so `lib/rss-cache.ts` falls back to in-memory caching
+
+### Feed fetch (server only)
+
+`lib/rss-parser.ts` runs on the server only. Client files import only its types. Every feed read goes through `fetchUntrustedText` in `lib/feed-fetch.ts`, because feed URLs are untrusted: a podroll walk follows other feeds' `<podcast:remoteItem feedUrl>`, an album names its publisher feed, and an admin can add any URL.
+
+- `lib/safe-fetch.ts` and `lib/capped-body.ts` are the PC20-Nostr recipe `safe-feed-fetch` (boostmebitch 815c551f, MIT), byte-identical, and the same bytes as in ITDV-Lightning. Do not edit them here; copy a fix from the recipe. They refuse loopback, RFC 1918, link-local, cloud metadata and the other special-use ranges in every spelling, check every redirect hop and every DNS answer, and allow plain `http:`. Residual risk: DNS rebinding (see the file header).
+- Limits: 10 s per request (redirects and body included), 8 MB per feed, counted while reading. A refused address, an oversized body and a 4xx other than 429 are not retried; a timeout, a 429, a 5xx and a network error are (`withRetry`, 3 tries).
+- `safeFetch` forces `cache: 'no-store'`. **A route that reaches the parser must be `export const dynamic = 'force-dynamic'`.** In an ISR route (`revalidate = N`), Next turns the no-store fetch into a dynamic-usage error inside the parser; the parser retried it for each feed, and the build prerender of `/api/albums-no-db` timed out (2026-11-25). Cache such a route with a `Cache-Control` `s-maxage` header instead.
+- The channel's `podcast:value` and `podcast:guid` come from the channel's own children (`firstChildElement`). `getElementsByTagName` on `<channel>` also finds the tags inside each `<item>`, so a channel with no value block took its first item's split. Tracks keep their own value and inherit the channel's only when they have none.
+- There is no `/api/fetch-rss` and no `/api/podcastindex` (removed 2026-11-25: it signed any caller-chosen Podcast Index endpoint with the server key). `/api/podcastindex/search` and `/api/discover/fountain-music` still sign fixed endpoints with no auth.
+- Tests: `test/feed-fetch.test.ts` and `test/rss-parser-guard.test.ts`. `npm test` loads `test/support/resolve-ts.mjs`, a test-only hook that adds `.ts` to the parser's extensionless relative imports.
 
 ### Provider Hierarchy (app/layout.tsx)
 
@@ -104,7 +115,7 @@ The route is not an open signer (`lib/boost-note-guard.ts`, tests in `test/boost
 ### Important API Routes
 
 - `GET /api/albums-static-cached` — Primary album data endpoint (cached, fast)
-- `GET /api/albums-no-db` — Fresh album data (dynamic, slower)
+- `GET /api/albums-no-db` — Fresh album data (force-dynamic, parses every album feed; the CDN keeps it 300 s)
 - `POST /api/parse-feeds` — Trigger RSS feed re-parsing
 - `GET /api/cron/refresh-feeds` — Daily cron (6 AM UTC, configured in `vercel.json`)
 - `GET /api/publisher/[name]` — Publisher page data
