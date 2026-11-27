@@ -20,6 +20,7 @@ import type { AddressInfo } from 'node:net';
 import { assertSafeFetchUrl, isPrivateIp, safeFetch } from '../lib/safe-fetch.ts';
 import { readCappedText, readBytesUpTo } from '../lib/capped-body.ts';
 import { fetchUntrustedText, FeedFetchError, FEED_MAX_BYTES } from '../lib/feed-fetch.ts';
+import { USER_AGENT } from '../lib/user-agent.js';
 
 function refused(url: string): boolean {
   try {
@@ -335,7 +336,7 @@ test('feed-fetch reads a normal feed', async (t) => {
   const calls = viaLocal();
   assert.equal(await fetchUntrustedText(`${PUBLIC}/ok`), '<rss>ok</rss>');
   const headers = new Headers(calls[0].init?.headers);
-  assert.equal(headers.get('user-agent'), 'Mozilla/5.0 (compatible; RSS Parser/1.0)');
+  assert.equal(headers.get('user-agent'), USER_AGENT);
   assert.ok(calls[0].init?.signal, 'a timeout signal is passed');
 });
 

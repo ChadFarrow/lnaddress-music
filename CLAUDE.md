@@ -62,6 +62,16 @@ data/feeds.json (feed URLs) → RSS parsing (lib/rss-parser.ts) → data/parsed-
 - There is no `/api/fetch-rss` and no `/api/podcastindex` (removed 2026-11-25: it signed any caller-chosen Podcast Index endpoint with the server key). `/api/podcastindex/search` and `/api/discover/fountain-music` still sign fixed endpoints with no auth.
 - Tests: `test/feed-fetch.test.ts` and `test/rss-parser-guard.test.ts`. `npm test` loads `test/support/resolve-ts.mjs`, a test-only hook that adds `.ts` to the parser's extensionless relative imports.
 
+### One User-Agent for every server request (`lib/user-agent.js`)
+
+Every request that server code or a script sends to another host says `lnaddress-music/<package.json version> (+https://lnaddress-music.vercel.app)` (Chad, 2026-11-27): the app's own name, the `package.json` version (today `1.2a587df`, copied from HPM-Lightning and never changed) and the live site. No e-mail, no browser imitation. Before, the parser sent `Mozilla/5.0 (compatible; RSS Parser/1.0)`, the image proxy `Mozilla/5.0 (compatible; PodtardsImageProxy/1.0)`, the video proxy `DoerfelVerse/1.0 (Video Proxy)`, the Podcast Index calls `lnaddress-music-app` or `lnaddress-music-cron`, `build-static-data.js` `HPM-StaticBuilder/1.0`, and the self-calls Node's `node`. Every host they reach answered the same status and type to the old and the new name (probed 2026-11-27; the results are in the PR body).
+
+- The file is CommonJS, so the Next build, `npm test` and the plain-`node` scripts all load it. It reads `package.json`, so keep it out of client code. From `lib/`, import `./user-agent.js` with the extension: the `npm test` resolve hook adds `.ts` only.
+- Browser fetches keep the browser's own header; code cannot set it there.
+- A fork of this template sends this name and link until it edits the file.
+- `/api/proxy-video` keeps `Origin`/`Referer: https://re.podtards.com`. Those are not User-Agent strings and were left as they were.
+- `test/user-agent.test.ts` asserts the form, the version and the link, and fails on any other `'User-Agent': '…'` literal in `app/`, `lib/`, `scripts/`, `utils/` and `hooks/`. `CHECK_LINK=1 npm test` also checks that the link answers 200.
+
 ### Provider Hierarchy (app/layout.tsx)
 
 ```

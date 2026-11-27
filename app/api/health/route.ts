@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import dataService from '@/lib/data-service';
+import { USER_AGENT } from '@/lib/user-agent';
 
 interface HealthCheck {
   service: string;
@@ -54,7 +55,7 @@ async function checkParsedFeeds(): Promise<HealthCheck> {
   const startTime = Date.now();
   
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/parsed-feeds`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/parsed-feeds`, { headers: { 'User-Agent': USER_AGENT } });
     
     if (!response.ok) {
       return {
@@ -112,7 +113,7 @@ async function checkAlbumsAPI(): Promise<HealthCheck> {
   const startTime = Date.now();
   
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/albums`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/albums`, { headers: { 'User-Agent': USER_AGENT } });
     
     if (!response.ok) {
       return {

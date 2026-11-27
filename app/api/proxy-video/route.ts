@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { USER_AGENT } from '@/lib/user-agent';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -26,7 +27,7 @@ export async function GET(request: NextRequest) {
     // Fetch the video/manifest file
     const response = await fetch(videoUrl, {
       headers: {
-        'User-Agent': 'DoerfelVerse/1.0 (Video Proxy)',
+        'User-Agent': USER_AGENT,
         'Accept': 'application/vnd.apple.mpegurl, video/*, */*',
         'Origin': 'https://re.podtards.com',
         'Referer': 'https://re.podtards.com/',

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { USER_AGENT } from '@/lib/user-agent';
 
 const PODCAST_INDEX_API_KEY = process.env.PODCAST_INDEX_API_KEY || '';
 const PODCAST_INDEX_API_SECRET = process.env.PODCAST_INDEX_API_SECRET || '';
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest) {
         'X-Auth-Key': PODCAST_INDEX_API_KEY,
         'X-Auth-Date': apiHeaderTime.toString(),
         'Authorization': hashString,
-        'User-Agent': 'lnaddress-music-app'
+        'User-Agent': USER_AGENT
       }
     });
 

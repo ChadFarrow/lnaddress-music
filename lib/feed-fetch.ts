@@ -29,15 +29,12 @@
  */
 import { safeFetch } from './safe-fetch';
 import { readCappedText } from './capped-body';
+import { USER_AGENT } from './user-agent.js';
 
 /** Per request, redirects and body included. Real feeds answer in well under 2 s. */
 export const FEED_TIMEOUT_MS = 10_000;
 /** Larger than any real RSS feed (the biggest in data/feeds.json is well under 1 MB). */
 export const FEED_MAX_BYTES = 8 * 1024 * 1024;
-
-// The User-Agent the parser sent before this guard. Kept, so no feed host
-// sees a change.
-const USER_AGENT = 'Mozilla/5.0 (compatible; RSS Parser/1.0)';
 
 export type FeedFetchReason = 'refused' | 'timeout' | 'too-large' | 'http' | 'network';
 

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import PublisherDetailClient from './PublisherDetailClient';
+import { USER_AGENT } from '@/lib/user-agent';
 
 // Enable ISR with 5 minute revalidation
 export const revalidate = 300;
@@ -25,12 +26,14 @@ async function getPublisherData(publisherName: string) {
 
     // Use static cached endpoint (primary) with fallback
     let response = await fetch(`${baseUrl}/api/albums-static-cached`, {
+      headers: { 'User-Agent': USER_AGENT },
       next: { revalidate: 300 }, // Cache for 5 minutes
     });
 
     if (!response.ok) {
       console.log('Static cached endpoint failed, trying albums-no-db fallback...');
       response = await fetch(`${baseUrl}/api/albums-no-db`, {
+        headers: { 'User-Agent': USER_AGENT },
         next: { revalidate: 60 }, // Cache for 1 minute
       });
     }
