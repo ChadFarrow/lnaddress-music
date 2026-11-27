@@ -12,6 +12,7 @@
  */
 
 import fetch from 'node-fetch';
+import { USER_AGENT } from '../lib/user-agent.js';
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
@@ -29,7 +30,7 @@ function getAuthHeaders() {
     'X-Auth-Key': PODCAST_INDEX_API_KEY,
     'X-Auth-Date': apiHeaderTime.toString(),
     'Authorization': hashString,
-    'User-Agent': 'lnaddress-music-app',
+    'User-Agent': USER_AGENT,
   };
 }
 

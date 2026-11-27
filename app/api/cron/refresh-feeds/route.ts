@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createHash } from 'crypto';
 import { addFeed, getAllFeeds, DBFeed } from '@/lib/db';
 import { RSSParser } from '@/lib/rss-parser';
+import { USER_AGENT } from '@/lib/user-agent';
 
 const PODCAST_INDEX_API_KEY = process.env.PODCAST_INDEX_API_KEY || '';
 const PODCAST_INDEX_API_SECRET = process.env.PODCAST_INDEX_API_SECRET || '';
@@ -77,7 +78,7 @@ export async function GET(request: NextRequest) {
             'X-Auth-Key': PODCAST_INDEX_API_KEY,
             'X-Auth-Date': apiHeaderTime.toString(),
             'Authorization': hashString,
-            'User-Agent': 'lnaddress-music-cron'
+            'User-Agent': USER_AGENT
           }
         }
       );

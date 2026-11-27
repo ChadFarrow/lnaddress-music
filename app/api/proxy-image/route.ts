@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { USER_AGENT } from '@/lib/user-agent';
 
 export async function GET(request: NextRequest) {
   try {
@@ -34,7 +35,7 @@ export async function GET(request: NextRequest) {
     // Fetch the image
     const response = await fetch(imageUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; PodtardsImageProxy/1.0)',
+        'User-Agent': USER_AGENT,
         'Accept': 'image/*',
         'Accept-Encoding': 'gzip, deflate, br',
       },
